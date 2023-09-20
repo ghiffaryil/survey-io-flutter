@@ -183,7 +183,7 @@ class CarouselItemWidget extends StatelessWidget {
           ),
           Text(
             item.title,
-            style: TextStyles.h1(color: AppColors.secondaryColor),
+            style: TextStyles.h2(color: AppColors.secondaryColor),
           ),
           const SizedBox(
             height: 20,

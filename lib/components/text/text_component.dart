@@ -6,7 +6,7 @@ class TextStyles {
     return TextStyle(
       fontFamily: 'Nunito',
       color: color,
-      fontSize: 32.0,
+      fontSize: 48.0,
       fontWeight: FontWeight.bold,
     );
   }
@@ -16,7 +16,7 @@ class TextStyles {
     return TextStyle(
       fontFamily: 'Nunito',
       color: color,
-      fontSize: 24.0,
+      fontSize: 32.0,
       fontWeight: FontWeight.bold,
     );
   }
@@ -26,7 +26,7 @@ class TextStyles {
     return TextStyle(
       fontFamily: 'Nunito',
       color: color,
-      fontSize: 20.0,
+      fontSize: 24.0,
       fontWeight: FontWeight.bold,
     );
   }
