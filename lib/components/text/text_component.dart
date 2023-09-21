@@ -16,7 +16,7 @@ class TextStyles {
     return TextStyle(
       fontFamily: 'Nunito',
       color: color,
-      fontSize: 32.0,
+      fontSize: 38.0,
       fontWeight: FontWeight.bold,
     );
   }
@@ -58,6 +58,26 @@ class TextStyles {
       color: color,
       fontSize: 14.0,
       fontWeight: FontWeight.bold,
+    );
+  }
+
+  // Gaya teks extraLarge
+  static TextStyle extraLarge({Color? color}) {
+    return TextStyle(
+      fontSize: 20.0,
+      fontFamily: 'Nunito',
+      fontWeight: FontWeight.normal,
+      color: color,
+    );
+  }
+
+  // Gaya teks large
+  static TextStyle large({Color? color}) {
+    return TextStyle(
+      fontSize: 18.0,
+      fontFamily: 'Nunito',
+      fontWeight: FontWeight.normal,
+      color: color,
     );
   }
 

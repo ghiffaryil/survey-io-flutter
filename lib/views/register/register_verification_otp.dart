@@ -8,7 +8,7 @@ import 'package:survey_io/components/button/button_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
-import 'package:survey_io/views/register/complete_profile.dart';
+import 'package:survey_io/views/register/register_complete_profile.dart';
 
 class VerificationOTP extends StatefulWidget {
   const VerificationOTP({super.key});
@@ -73,7 +73,7 @@ class _VerificationOTPState extends State<VerificationOTP> {
             )),
       ),
       body: Container(
-        padding: const EdgeInsets.all(40),
+        padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

@@ -7,17 +7,25 @@ import 'package:survey_io/components/button/button_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
-import 'package:survey_io/views/register/verification_otp.dart';
+import 'package:survey_io/components/input/textInput.dart';
 
-class Register extends StatefulWidget {
-  const Register({super.key});
+// Page
+import 'register_verification_otp.dart';
+
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<Register> createState() => _RegisterState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterState extends State<Register> {
+class _RegisterPageState extends State<RegisterPage> {
   TextEditingController PhoneNumber = TextEditingController();
+  FocusNode phoneNumberFocus = FocusNode();
+
+  void unfocusAll() {
+    phoneNumberFocus.unfocus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,23 +44,16 @@ class _RegisterState extends State<Register> {
         centerTitle: true,
       ),
       body: Container(
-        padding: const EdgeInsets.all(40),
+        padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Text Daftar
             LabelText(),
-            // Input Phone Number
-            InputPhoneNumber(),
-            // Info Phone Number
+            FormInputField(),
             NoticeInformation(),
-            // Divider
             CustomDividers.extraLargeDivider(),
-            // Divider
             CustomDividers.extraLargeDivider(),
-            // Button
-            ButtonDaftar(),
-            // Text
+            ButtonSubmit(),
             TextSignInHere(),
           ],
         ),
@@ -70,7 +71,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Widget InputPhoneNumber() {
+  Widget FormInputField() {
     return Column(
       children: [
         Container(
@@ -81,19 +82,13 @@ class _RegisterState extends State<Register> {
           ),
         ),
         CustomDividers.smallDivider(),
-        TextField(
+        TextInputField(
+          focusNode: phoneNumberFocus,
           keyboardType: TextInputType.phone,
           controller: PhoneNumber,
-          decoration: InputDecoration(
-              hintText: '0812345678910',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                borderSide: const BorderSide(
-                  color: AppColors.secondaryColor,
-                  width: 1.0,
-                ),
-              ),
-              contentPadding: const EdgeInsets.all(20.0)),
+          hintText: '0812345678910',
+          // prefixIcon: Icon(Icons.person), // Set prefix icon
+          // suffixIcon: Icon(Icons.person), // Set suffix icon
         ),
       ],
     );
@@ -128,7 +123,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Widget ButtonDaftar() {
+  Widget ButtonSubmit() {
     return ButtonPrimary(
         text: 'Daftar',
         onPressed: () {

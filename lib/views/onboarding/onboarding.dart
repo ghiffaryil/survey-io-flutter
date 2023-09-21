@@ -10,7 +10,7 @@ import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/text/text_component.dart';
 
 // Get Page
-import '../register/register.dart';
+import '../register/register_phone_number.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -66,7 +66,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.all(35),
+        padding: const EdgeInsets.all(35.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -148,7 +148,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Register()),
+            MaterialPageRoute(builder: (context) => RegisterPage()),
           );
         });
   }
@@ -159,7 +159,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Register()),
+            MaterialPageRoute(builder: (context) => RegisterPage()),
           );
         });
   }
