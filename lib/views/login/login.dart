@@ -8,6 +8,7 @@ import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
 import 'package:survey_io/components/input/labelInput.dart';
 import 'package:survey_io/components/input/textInput.dart';
+import 'package:survey_io/views/home/home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -145,7 +146,8 @@ class _LoginPageState extends State<LoginPage> {
     return ButtonPrimary(
         text: 'Login',
         onPressed: () {
-          print('Login');
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
         });
   }
 
