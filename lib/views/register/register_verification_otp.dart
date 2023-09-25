@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:survey_io/components/button/button_component.dart';
+import 'package:survey_io/components/button/elevatedButton_component.dart';
 
 // Import Component
 import 'package:survey_io/components/color/color_component.dart';
@@ -203,7 +203,7 @@ class _VerificationOTPState extends State<VerificationOTP> {
 
   Widget ButtonVerifikasi() {
     return Container(
-      child: ButtonPrimary(
+      child: ElevatedButtonPrimary(
           text: 'Verifikasi',
           onPressed: () {
             Navigator.push(context,

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Import Component
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/text/text_component.dart';
-import 'package:survey_io/components/button/button_component.dart';
+import 'package:survey_io/components/button/elevatedButton_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
 import 'package:survey_io/components/input/labelInput.dart';
 import 'package:survey_io/components/input/textInput.dart';
@@ -260,7 +260,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
   }
 
   Widget SubmitButton() {
-    return ButtonPrimary(
+    return ElevatedButtonPrimary(
         text: 'Submit',
         onPressed: () {
           Navigator.push(

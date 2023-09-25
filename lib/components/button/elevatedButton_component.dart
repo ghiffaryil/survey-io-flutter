@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:survey_io/components/color/color_component.dart';
 
-class ButtonPrimary extends StatelessWidget {
+class ElevatedButtonPrimary extends StatelessWidget {
   final String text;
   final bool rounded;
   final Color backgroundColor;
@@ -11,7 +11,7 @@ class ButtonPrimary extends StatelessWidget {
   final FontWeight fontWeight; // Dynamic font weight
   final VoidCallback onPressed;
 
-  const ButtonPrimary({
+  const ElevatedButtonPrimary({
     required this.text,
     this.rounded = true,
     this.backgroundColor = AppColors.primaryColor,
@@ -45,7 +45,7 @@ class ButtonPrimary extends StatelessWidget {
   }
 }
 
-class ButtonSecondary extends StatelessWidget {
+class ElevatedButtonSecondary extends StatelessWidget {
   final String text;
   final bool rounded;
   final Color textColor;
@@ -56,7 +56,7 @@ class ButtonSecondary extends StatelessWidget {
   final FontWeight fontWeight; // Dynamic font weight
   final VoidCallback onPressed;
 
-  const ButtonSecondary({
+  const ElevatedButtonSecondary({
     required this.text,
     this.rounded = true,
     this.textColor = Colors.white,
@@ -91,7 +91,7 @@ class ButtonSecondary extends StatelessWidget {
   }
 }
 
-class ButtonInfo extends StatelessWidget {
+class ElevatedButtonInfo extends StatelessWidget {
   final String text;
   final bool rounded;
   final Color backgroundColor;
@@ -101,7 +101,7 @@ class ButtonInfo extends StatelessWidget {
   final FontWeight fontWeight; // Dynamic font weight
   final VoidCallback onPressed;
 
-  const ButtonInfo({
+  const ElevatedButtonInfo({
     required this.text,
     this.rounded = true,
     this.backgroundColor = AppColors.infoColor,
@@ -135,7 +135,7 @@ class ButtonInfo extends StatelessWidget {
   }
 }
 
-class ButtonWarning extends StatelessWidget {
+class ElevatedButtonWarning extends StatelessWidget {
   final String text;
   final bool rounded;
   final Color backgroundColor;
@@ -145,7 +145,7 @@ class ButtonWarning extends StatelessWidget {
   final FontWeight fontWeight; // Dynamic font weight
   final VoidCallback onPressed;
 
-  const ButtonWarning({
+  const ElevatedButtonWarning({
     required this.text,
     this.rounded = true,
     this.backgroundColor = AppColors.warningColor,
@@ -180,7 +180,7 @@ class ButtonWarning extends StatelessWidget {
   }
 }
 
-class ButtonOutlinePrimary extends StatelessWidget {
+class ElevatedButtonOutlinePrimary extends StatelessWidget {
   final String text;
   final bool rounded;
   final Color backgroundColor;
@@ -190,7 +190,7 @@ class ButtonOutlinePrimary extends StatelessWidget {
   final FontWeight fontWeight; // Dynamic font weight
   final VoidCallback onPressed;
 
-  const ButtonOutlinePrimary({
+  const ElevatedButtonOutlinePrimary({
     required this.text,
     this.rounded = true,
     this.backgroundColor = Colors.white,
@@ -225,7 +225,7 @@ class ButtonOutlinePrimary extends StatelessWidget {
   }
 }
 
-class ButtonOutlineSecondary extends StatelessWidget {
+class ElevatedButtonOutlineSecondary extends StatelessWidget {
   final String text;
   final bool rounded;
   final Color backgroundColor;
@@ -235,7 +235,7 @@ class ButtonOutlineSecondary extends StatelessWidget {
   final FontWeight fontWeight; // Dynamic font weight
   final VoidCallback onPressed;
 
-  const ButtonOutlineSecondary({
+  const ElevatedButtonOutlineSecondary({
     required this.text,
     this.rounded = true,
     this.backgroundColor = Colors.white,

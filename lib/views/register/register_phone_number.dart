@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:survey_io/components/button/button_component.dart';
+import 'package:survey_io/components/button/elevatedButton_component.dart';
 
 // Import Component
 import 'package:survey_io/components/color/color_component.dart';
@@ -124,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget ButtonSubmit() {
-    return ButtonPrimary(
+    return ElevatedButtonPrimary(
         text: 'Daftar',
         onPressed: () {
           Navigator.push(context,

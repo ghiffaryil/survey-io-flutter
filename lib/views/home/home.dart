@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/components/button/button_component.dart';
+import 'package:survey_io/components/button/elevatedButton_component.dart';
+import 'package:survey_io/components/button/textButton_component.dart';
 
 // Import Component
 import 'package:survey_io/components/color/color_component.dart';
@@ -31,21 +32,9 @@ class HomePage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Stack(children: [
-          // Other widgets or cards
-          Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height * 1,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(40.0),
-                bottomRight: Radius.circular(40.0),
-              ),
-              // color: AppColors.primaryColor,
-            ),
-          ),
-
+          // MAIN SCREEN
           Positioned(
-            // top: 70,
+            top: null,
             right: null,
             bottom: null,
             left: null,
@@ -55,12 +44,15 @@ class HomePage extends StatelessWidget {
                   ),
               child: Column(
                 children: [
+                  // MARGIN TOP
                   Container(
                     height: MediaQuery.of(context).size.height * 0.15,
                     decoration: const BoxDecoration(
                       color: Colors.white,
                     ),
                   ),
+
+                  // ICON SECTION
                   Container(
                     padding: const EdgeInsets.only(top: 15),
                     height: MediaQuery.of(context).size.height * 0.15,
@@ -130,6 +122,8 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   CustomDividers.verySmallDivider(),
+
+                  // AYO CEK
                   Container(
                       padding: const EdgeInsets.all(20),
                       decoration: const BoxDecoration(
@@ -139,7 +133,7 @@ class HomePage extends StatelessWidget {
                         children: [
                           LabelInput(
                               labelText: 'Ayo Cek',
-                              labelStyle: TextStyles.h3(
+                              labelStyle: TextStyles.h4(
                                   color: AppColors.secondaryColor)),
                           CustomDividers.verySmallDivider(),
                           LabelInput(
@@ -148,88 +142,96 @@ class HomePage extends StatelessWidget {
                                   color: AppColors.secondaryColor)),
                           CustomDividers.verySmallDivider(),
                           Container(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(25.0),
-                              child: Card(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      flex: 3,
-                                      child: Container(
-                                          padding: const EdgeInsets.all(10),
-                                          child: RoundedImageNetwork(
-                                            imageUrl:
-                                                'https://previews.123rf.com/images/stokkete/stokkete2205/stokkete220500293/186151849-woman-scanning-a-qr-code-with-her-phone-and-crowd-of-people-in-the-background-pov-shot.jpg',
-                                            borderRadius: 5.0,
-                                          )),
-                                    ),
-                                    Expanded(
-                                        flex: 7,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey
+                                      .withOpacity(0.1), // Shadow color
+                                  spreadRadius: 3, // Spread radius
+                                  blurRadius: 10, // Blur radius
+                                  offset: const Offset(
+                                      0, 3), // Offset from top-left
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  flex: 3,
+                                  child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: RoundedImageNetwork(
+                                        imageUrl:
+                                            'https://previews.123rf.com/images/stokkete/stokkete2205/stokkete220500293/186151849-woman-scanning-a-qr-code-with-her-phone-and-crowd-of-people-in-the-background-pov-shot.jpg',
+                                        borderRadius: 5.0,
+                                      )),
+                                ),
+                                Expanded(
+                                    flex: 7,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Kenalan Lebih Jauh',
+                                            style: TextStyles.h5(
+                                                color:
+                                                    AppColors.secondaryColor),
+                                          ),
+                                          const Text('10 Pertanyaan'),
+                                          CustomDividers.smallDivider(),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                'Kenalan Lebih Jauh',
-                                                style: TextStyles.h5(
-                                                    color: AppColors
-                                                        .secondaryColor),
-                                              ),
-                                              const Text('10 Pertanyaan'),
-                                              CustomDividers.smallDivider(),
                                               Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
                                                 children: [
-                                                  Row(
-                                                    children: [
-                                                      Image.asset(
-                                                        'assets/images/icons/point_icon.png',
-                                                        width: 25,
-                                                        height: 25,
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Text(
-                                                        '100',
-                                                        style: TextStyles.h6(
-                                                            color: AppColors
-                                                                .secondaryColor),
-                                                      ),
-                                                    ],
+                                                  Image.asset(
+                                                    'assets/images/icons/point_icon.png',
+                                                    width: 25,
+                                                    height: 25,
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 10.0),
-                                                    child: ButtonOutlinePrimary(
-                                                        minWidth: 0.20,
-                                                        height: 30,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        text: 'Ikut Survei',
-                                                        onPressed: () {}),
-                                                  )
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    '100',
+                                                    style: TextStyles.h6(
+                                                        color: AppColors
+                                                            .secondaryColor),
+                                                  ),
                                                 ],
                                               ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10.0),
+                                                child: TextButtonOutlinePrimary(
+                                                    minWidth: 0.20,
+                                                    height: 30,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    text: 'Ikut Survei',
+                                                    onPressed: () {}),
+                                              )
                                             ],
                                           ),
-                                        )),
-                                  ],
-                                ),
-                              ),
+                                        ],
+                                      ),
+                                    )),
+                              ],
                             ),
                           )
                         ],
                       )),
                   CustomDividers.verySmallDivider(),
+
+                  // POLLING HARI INI
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: const BoxDecoration(
@@ -237,13 +239,29 @@ class HomePage extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        LabelInput(
-                            labelText: 'Polling Hari Ini',
-                            labelStyle:
-                                TextStyles.h3(color: AppColors.secondaryColor)),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: LabelInput(
+                                  labelText: 'Polling Hari Ini',
+                                  labelStyle: TextStyles.h4(
+                                      color: AppColors.secondaryColor)),
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: Text(
+                                  '23:59:59',
+                                  textAlign: TextAlign.end,
+                                  style: TextStyles.regular(
+                                      color: AppColors.primaryColor),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                         CustomDividers.verySmallDivider(),
                         Container(
-                          padding: const EdgeInsets.all(25),
+                          padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10.0),
@@ -287,10 +305,14 @@ class HomePage extends StatelessWidget {
                                     ),
                                     Expanded(
                                       flex: 2,
-                                      child: Image.asset(
-                                        'assets/images/icons/polling_check.png',
-                                        width: 25,
-                                        height: 25,
+                                      child: Container(
+                                        padding: EdgeInsets.only(right: 10),
+                                        alignment: Alignment.centerRight,
+                                        child: Image.asset(
+                                          'assets/images/icons/polling_check.png',
+                                          width: 25,
+                                          height: 25,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -331,11 +353,199 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
+
+                  // SURVEI POPULER
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: LabelInput(
+                                  labelText: 'Survei Populer',
+                                  labelStyle: TextStyles.h4(
+                                      color: AppColors.secondaryColor)),
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: Text(
+                                  'Lihat Semua',
+                                  textAlign: TextAlign.end,
+                                  style: TextStyles.regular(
+                                      color: AppColors.infoColor),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        CustomDividers.verySmallDivider(),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey
+                                    .withOpacity(0.1), // Shadow color
+                                spreadRadius: 3, // Spread radius
+                                blurRadius: 10, // Blur radius
+                                offset:
+                                    const Offset(0, 3), // Offset from top-left
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        child: RoundedImageNetwork(
+                                          imageUrl:
+                                              'https://previews.123rf.com/images/stokkete/stokkete2205/stokkete220500293/186151849-woman-scanning-a-qr-code-with-her-phone-and-crowd-of-people-in-the-background-pov-shot.jpg',
+                                          borderRadius: 5.0,
+                                        )),
+                                  ),
+                                  Expanded(
+                                      flex: 7,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Kenalan Lebih Jauh',
+                                              style: TextStyles.h5(
+                                                  color:
+                                                      AppColors.secondaryColor),
+                                            ),
+                                            const Text('10 Pertanyaan'),
+                                            CustomDividers.smallDivider(),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/icons/point_icon.png',
+                                                      width: 25,
+                                                      height: 25,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Text(
+                                                      '100',
+                                                      style: TextStyles.h6(
+                                                          color: AppColors
+                                                              .secondaryColor),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 10.0),
+                                                  child:
+                                                      TextButtonOutlinePrimary(
+                                                          minWidth: 0.20,
+                                                          height: 30,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          text: 'Ikut Survei',
+                                                          onPressed: () {}),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // MAU BUAT SURVEI SENDIRI?
+                  CustomDividers.verySmallDivider(),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.1), // Shadow color
+                          spreadRadius: 3, // Spread radius
+                          blurRadius: 10, // Blur radius
+                          offset: const Offset(0, 3), // Offset from top-left
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              flex: 5,
+                              child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  child: RoundedImageNetwork(
+                                    imageUrl:
+                                        'https://previews.123rf.com/images/stokkete/stokkete2205/stokkete220500293/186151849-woman-scanning-a-qr-code-with-her-phone-and-crowd-of-people-in-the-background-pov-shot.jpg',
+                                    borderRadius: 5.0,
+                                  )),
+                            ),
+                            Expanded(
+                              flex: 5,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Buat survei sesuai kebutuhanmu dengan Survei.io',
+                                      style: TextStyles.h5(
+                                          color: AppColors.secondaryColor),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        TextButtonOutlinePrimary(
+                            minWidth: 1,
+                            height: 40,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            text: 'Buat Survei',
+                            onPressed: () {})
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
 
+          // RED BORDER RADIUS
           Positioned(
             top: null,
             right: null,
@@ -354,6 +564,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
 
+          // PROFILE SECTION
           Positioned(
             top: null,
             right: null,

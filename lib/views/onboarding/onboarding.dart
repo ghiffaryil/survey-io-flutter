@@ -5,7 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Import Component
-import 'package:survey_io/components/button/button_component.dart';
+import 'package:survey_io/components/button/elevatedButton_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/text/text_component.dart';
 
@@ -143,7 +143,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   Widget ButtonIkutiSurvey() {
-    return ButtonPrimary(
+    return ElevatedButtonPrimary(
         text: 'Ikut Survei',
         onPressed: () {
           Navigator.push(
@@ -154,7 +154,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   Widget ButtonBuatSurvey() {
-    return ButtonOutlinePrimary(
+    return ElevatedButtonOutlinePrimary(
         text: 'Buat Survei',
         onPressed: () {
           Navigator.push(

@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
-import 'package:survey_io/components/button/button_component.dart';
+import 'package:survey_io/components/button/elevatedButton_component.dart';
 
 // Import Component
 import 'package:survey_io/components/color/color_component.dart';
@@ -143,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget ButtonLogin() {
-    return ButtonPrimary(
+    return ElevatedButtonPrimary(
         text: 'Login',
         onPressed: () {
           Navigator.push(
