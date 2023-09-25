@@ -3,6 +3,7 @@ import 'package:survey_io/components/button/button_component.dart';
 
 // Import Component
 import 'package:survey_io/components/color/color_component.dart';
+import 'package:survey_io/components/image/image_component.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
 import 'package:survey_io/components/input/labelInput.dart';
@@ -20,9 +21,9 @@ class HomePage extends StatelessWidget {
         elevation: 0,
         automaticallyImplyLeading: false,
         backgroundColor: AppColors.primaryColor,
-        title: const Text(
-          'Survey Io',
-          style: TextStyle(color: Colors.white),
+        title: Image.asset(
+          'assets/images/logo/surveiio_logo.png',
+          width: MediaQuery.of(context).size.width * 0.35,
         ),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))
@@ -61,7 +62,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(top: 15),
+                    padding: const EdgeInsets.only(top: 15),
                     height: MediaQuery.of(context).size.height * 0.15,
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -74,7 +75,7 @@ class HomePage extends StatelessWidget {
                               children: [
                                 // CustomDividers.smallDivider(),
                                 Image.asset(
-                                  'assets/images/home/icon_survey.png',
+                                  'assets/images/icons/icon_survey.png',
                                   width: 45,
                                   height: 45,
                                 ),
@@ -93,7 +94,7 @@ class HomePage extends StatelessWidget {
                               children: [
                                 // CustomDividers.smallDivider(),
                                 Image.asset(
-                                  'assets/images/home/icon_polling.png',
+                                  'assets/images/icons/icon_polling.png',
                                   width: 45,
                                   height: 45,
                                 ),
@@ -112,7 +113,7 @@ class HomePage extends StatelessWidget {
                               children: [
                                 // CustomDividers.smallDivider(),
                                 Image.asset(
-                                  'assets/images/home/icon_invite.png',
+                                  'assets/images/icons/icon_invite.png',
                                   width: 45,
                                   height: 45,
                                 ),
@@ -130,7 +131,7 @@ class HomePage extends StatelessWidget {
                   ),
                   CustomDividers.verySmallDivider(),
                   Container(
-                      padding: const EdgeInsets.all(25),
+                      padding: const EdgeInsets.all(20),
                       decoration: const BoxDecoration(
                         color: Colors.white,
                       ),
@@ -145,28 +146,191 @@ class HomePage extends StatelessWidget {
                               labelText: 'Sebelum memulai, yuk kenalan dulu!',
                               labelStyle: TextStyles.regular(
                                   color: AppColors.secondaryColor)),
+                          CustomDividers.verySmallDivider(),
                           Container(
-                            // width: double.minPositive,
-                            padding: EdgeInsets.all(30),
-                            child: Card(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(25.0),
+                              child: Card(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      flex: 3,
                                       child: Container(
-                                          padding: EdgeInsets.all(20),
-                                          child: Text('AAAA'))),
-                                  Expanded(
-                                      child: Container(
-                                          padding: EdgeInsets.all(20),
-                                          child: Text('BBB'))),
-                                ],
+                                          padding: const EdgeInsets.all(10),
+                                          child: RoundedImageNetwork(
+                                            imageUrl:
+                                                'https://previews.123rf.com/images/stokkete/stokkete2205/stokkete220500293/186151849-woman-scanning-a-qr-code-with-her-phone-and-crowd-of-people-in-the-background-pov-shot.jpg',
+                                            borderRadius: 5.0,
+                                          )),
+                                    ),
+                                    Expanded(
+                                        flex: 7,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Kenalan Lebih Jauh',
+                                                style: TextStyles.h5(
+                                                    color: AppColors
+                                                        .secondaryColor),
+                                              ),
+                                              const Text('10 Pertanyaan'),
+                                              CustomDividers.smallDivider(),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Image.asset(
+                                                        'assets/images/icons/point_icon.png',
+                                                        width: 25,
+                                                        height: 25,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Text(
+                                                        '100',
+                                                        style: TextStyles.h6(
+                                                            color: AppColors
+                                                                .secondaryColor),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10.0),
+                                                    child: ButtonOutlinePrimary(
+                                                        minWidth: 0.20,
+                                                        height: 30,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        text: 'Ikut Survei',
+                                                        onPressed: () {}),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )),
+                                  ],
+                                ),
                               ),
                             ),
                           )
                         ],
-                      ))
+                      )),
+                  CustomDividers.verySmallDivider(),
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        LabelInput(
+                            labelText: 'Polling Hari Ini',
+                            labelStyle:
+                                TextStyles.h3(color: AppColors.secondaryColor)),
+                        CustomDividers.verySmallDivider(),
+                        Container(
+                          padding: const EdgeInsets.all(25),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey
+                                    .withOpacity(0.1), // Shadow color
+                                spreadRadius: 3, // Spread radius
+                                blurRadius: 10, // Blur radius
+                                offset:
+                                    const Offset(0, 3), // Offset from top-left
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppColors.secondaryColor,
+                                      width: 0.5),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Expanded(
+                                      flex: 7,
+                                      child: Text(
+                                        'Apakah kamu sudah mendengar tentang virus Covid-19 Varian Omicron?',
+                                        style: TextStyles.h4(
+                                            color: AppColors.secondaryColor),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Image.asset(
+                                        'assets/images/icons/polling_check.png',
+                                        width: 25,
+                                        height: 25,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              CustomDividers.smallDivider(),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/icons/point_icon.png',
+                                        width: 25,
+                                        height: 25,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        '100',
+                                        style: TextStyles.h6(
+                                            color: AppColors.secondaryColor),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    '24k Votes',
+                                    style: TextStyles.small(
+                                        color: AppColors.secondaryColor),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -197,19 +361,92 @@ class HomePage extends StatelessWidget {
             left: null,
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        15.0), // Adjust the radius as needed
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
                   // margin: const EdgeInsets.only(top: 5),
-                  elevation: 3.0,
-                  child: Container(
+                  elevation: 4,
+                  child: SizedBox(
                     width: double.infinity,
                     height: 100,
-                    child: const Center(
-                      child: Text('Centered Positioned'),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 5,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Image.asset(
+                                  'assets/images/icons/account_icon.png',
+                                  width: 40,
+                                  height: 40,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 6,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Hi, User',
+                                      style: TextStyles.h4(
+                                          color: AppColors.secondaryColor),
+                                    ),
+                                    Text(
+                                      'Profile Saya',
+                                      style: TextStyles.regular(
+                                          color: AppColors.secondaryColor),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15.0),
+                          child: DividerVertical(),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Image.asset(
+                                  'assets/images/icons/point_icon.png',
+                                  width: 40,
+                                  height: 40,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 6,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '0',
+                                      style: TextStyles.h4(
+                                          color: AppColors.secondaryColor),
+                                    ),
+                                    Text(
+                                      'Celengan Saya',
+                                      style: TextStyles.regular(
+                                          color: AppColors.secondaryColor),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -218,6 +455,16 @@ class HomePage extends StatelessWidget {
           ),
         ]),
       ),
+    );
+  }
+
+  Widget DividerVertical() {
+    return Container(
+      height: double.infinity, // Adjust the height as needed
+      width: 1.0, // Width of the vertical divider
+      color: const Color(0xFFb5b5b5), // Color of the divider
+      margin: const EdgeInsets.symmetric(
+          horizontal: 8.0), // Adjust spacing as needed
     );
   }
 }
