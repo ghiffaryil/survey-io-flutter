@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 
-class RoundedImage extends StatelessWidget {
+class RoundedImageAsset extends StatelessWidget {
   final String imageUrl;
   final double borderRadius;
+  final BoxFit fit; // Add this parameter
+  final double width; // Add this parameter
+  final double height; // Add this parameter
 
-  RoundedImage({
+  const RoundedImageAsset({
     required this.imageUrl,
     this.borderRadius = 10.0,
+    this.fit = BoxFit.contain, // Default value for fit
+    this.width = 200, // Default value for fit
+    this.height = 200, // Default value for fit
   });
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
-      child: Image.asset(imageUrl),
+      child: Image.asset(imageUrl, fit: fit, width: width, height: height),
     );
   }
 }
@@ -21,17 +27,23 @@ class RoundedImage extends StatelessWidget {
 class RoundedImageNetwork extends StatelessWidget {
   final String imageUrl;
   final double borderRadius;
+  final BoxFit fit; // Add this parameter
+  final double width; // Add this parameter
+  final double height; // Add this parameter
 
-  RoundedImageNetwork({
+  const RoundedImageNetwork({
     required this.imageUrl,
     this.borderRadius = 10.0,
+    this.fit = BoxFit.contain, // Default value for fit
+    this.width = 200, // Default value for fit
+    this.height = 200, // Default value for fit
   });
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
-      child: Image.network(imageUrl),
+      child: Image.network(imageUrl, fit: fit, width: width, height: height),
     );
   }
 }

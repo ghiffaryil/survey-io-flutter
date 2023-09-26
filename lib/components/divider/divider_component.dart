@@ -16,6 +16,13 @@ class CustomDividers {
   }
 
   // Divider with large height (60)
+  static Widget regularDivider() {
+    return const SizedBox(
+      height: 40,
+    );
+  }
+
+  // Divider with large height (60)
   static Widget mediumDivider() {
     return const SizedBox(
       height: 60,

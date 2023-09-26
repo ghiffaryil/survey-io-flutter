@@ -82,6 +82,16 @@ class TextStyles {
   }
 
   // Gaya teks regular
+  static TextStyle medium({Color? color}) {
+    return TextStyle(
+      fontFamily: 'Nunito',
+      color: color,
+      fontSize: 17.0,
+      fontWeight: FontWeight.normal,
+    );
+  }
+
+  // Gaya teks regular
   static TextStyle regular({Color? color}) {
     return TextStyle(
       fontFamily: 'Nunito',
@@ -95,6 +105,16 @@ class TextStyles {
   static TextStyle small({Color? color}) {
     return TextStyle(
       fontSize: 13.0,
+      fontFamily: 'Nunito',
+      fontWeight: FontWeight.normal,
+      color: color,
+    );
+  }
+
+  // Gaya teks small
+  static TextStyle verySmall({Color? color}) {
+    return TextStyle(
+      fontSize: 9.0,
       fontFamily: 'Nunito',
       fontWeight: FontWeight.normal,
       color: color,
