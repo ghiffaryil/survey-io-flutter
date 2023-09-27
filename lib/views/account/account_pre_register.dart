@@ -11,7 +11,6 @@ import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
 import 'package:survey_io/components/navigation/navigation_bottom_bar.dart';
 import 'package:survey_io/views/account/account_profile.dart';
-import 'package:survey_io/views/home/home.dart';
 
 class PreRegisterAccountPage extends StatefulWidget {
   const PreRegisterAccountPage({super.key});
