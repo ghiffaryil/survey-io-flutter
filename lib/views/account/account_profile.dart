@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 // Import Component
-import 'package:survey_io/components/button/textButton_component.dart';
-import 'package:survey_io/components/input/labelInput.dart';
-import 'package:survey_io/components/menu/horizontal_menu.dart';
-import 'package:survey_io/components/navigationBotomBar/navigation_floating_icon.dart';
+import 'package:survey_io/components/button/text_button_component.dart';
+import 'package:survey_io/components/input/input_label.dart';
+import 'package:survey_io/components/menu/menu_horizontal.dart';
+import 'package:survey_io/components/navigation/navigation_floating_icon.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
-import 'package:survey_io/components/navigationBotomBar/navigation_bottom_bar.dart';
+import 'package:survey_io/components/navigation/navigation_bottom_bar.dart';
 import 'package:survey_io/views/home/home.dart';
 
 class ProfileAccount extends StatefulWidget {
@@ -77,7 +77,7 @@ class _ProfileAccountState extends State<ProfileAccount> {
           children: [
             Image.asset(
               'assets/images/icons/account_icon.png',
-              width: 50,
+              width: 45,
             ),
             const SizedBox(
               width: 20,
@@ -90,11 +90,13 @@ class _ProfileAccountState extends State<ProfileAccount> {
                 children: [
                   Text(
                     'Fahmi Fauzi',
-                    style: TextStyles.h3(color: AppColors.secondaryColor),
+                    style: TextStyles.extraLarge(
+                        color: AppColors.secondaryColor,
+                        fontWeight: FontWeight.bold),
                   ),
                   Text(
                     '0812321312312',
-                    style: TextStyles.medium(color: AppColors.secondaryColor),
+                    style: TextStyles.regular(color: AppColors.secondaryColor),
                   )
                 ],
               ),

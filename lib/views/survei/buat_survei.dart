@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/components/button/elevatedButton_component.dart';
+import 'package:survey_io/components/button/elevated_button_component.dart';
 
 // Import Component
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
-import 'package:survey_io/components/navigationBotomBar/navigation_bottom_bar.dart';
-import 'package:survey_io/components/navigationBotomBar/navigation_floating_icon.dart';
+import 'package:survey_io/components/navigation/navigation_bottom_bar.dart';
+import 'package:survey_io/components/navigation/navigation_floating_icon.dart';
 import 'package:survey_io/views/home/home.dart';
 
 class BuatSurvei extends StatefulWidget {

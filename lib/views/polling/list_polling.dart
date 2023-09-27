@@ -3,16 +3,16 @@
 import 'package:flutter/material.dart';
 
 // Import Component
-import 'package:survey_io/components/input/labelInput.dart';
-import 'package:survey_io/components/padding/paddingHorizontal.dart';
-import 'package:survey_io/components/padding/paddingVertical.dart';
+import 'package:survey_io/components/input/input_label.dart';
+import 'package:survey_io/components/padding/padding_horizontal.dart';
+import 'package:survey_io/components/padding/padding_vertical.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/image/image_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
-import 'package:survey_io/components/button/textButton_component.dart';
-import 'package:survey_io/components/navigationBotomBar/navigation_bottom_bar.dart';
-import 'package:survey_io/components/navigationBotomBar/navigation_floating_icon.dart';
+import 'package:survey_io/components/button/text_button_component.dart';
+import 'package:survey_io/components/navigation/navigation_bottom_bar.dart';
+import 'package:survey_io/components/navigation/navigation_floating_icon.dart';
 
 class ListPollingPage extends StatefulWidget {
   const ListPollingPage({super.key});
@@ -148,8 +148,8 @@ class _ListPollingPageState extends State<ListPollingPage> {
                     Expanded(
                       child: TabBarView(
                         children: [
-                          PollingBaru(), // Widget for the Project page
-                          PollingSelesai(), // Widget for the Event page
+                          PollingBaru(), // Widget for the Event page
+                          PollingSelesai(), // Widget for the Project page
                         ],
                       ),
                     ),
@@ -163,7 +163,7 @@ class _ListPollingPageState extends State<ListPollingPage> {
     );
   }
 
-  Widget PollingSelesai() {
+  Widget PollingBaru() {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: ListView.builder(
@@ -314,7 +314,7 @@ class _ListPollingPageState extends State<ListPollingPage> {
     );
   }
 
-  Widget PollingBaru() {
+  Widget PollingSelesai() {
     return Container(
       padding: const EdgeInsets.all(15),
     );

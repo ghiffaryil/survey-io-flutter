@@ -5,7 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Import Component
-import 'package:survey_io/components/button/elevatedButton_component.dart';
+import 'package:survey_io/components/button/elevated_button_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/text/text_component.dart';
 

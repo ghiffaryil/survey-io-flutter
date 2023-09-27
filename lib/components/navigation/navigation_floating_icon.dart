@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:survey_io/views/account/account_profile.dart';
-import 'package:survey_io/views/survei/buatSurvei.dart';
+import 'package:survey_io/views/survei/buat_survei.dart';
 
 class NavigationFloatingIcon extends StatelessWidget {
   final bool isActive;

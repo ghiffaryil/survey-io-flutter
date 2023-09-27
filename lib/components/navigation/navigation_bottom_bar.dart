@@ -3,7 +3,7 @@ import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/views/account/account_pre_register.dart';
 
 import 'package:survey_io/views/home/home.dart';
-import 'package:survey_io/views/survei/buatSurvei.dart';
+import 'package:survey_io/views/survei/buat_survei.dart';
 
 class BottomMenu extends StatefulWidget {
   final selectedIndex;
@@ -36,7 +36,7 @@ class _BottomMenuState extends State<BottomMenu> {
   final List<Widget> halamanTujuan = [
     const HomePage(),
     const BuatSurvei(),
-    const PreRegisterAccount()
+    const PreRegisterAccountPage()
   ];
 
   @override

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:survey_io/components/button/elevatedButton_component.dart';
+import 'package:survey_io/components/button/elevated_button_component.dart';
 
 // Import Component
 import 'package:survey_io/components/color/color_component.dart';

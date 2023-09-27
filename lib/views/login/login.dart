@@ -1,13 +1,13 @@
 import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
-import 'package:survey_io/components/button/elevatedButton_component.dart';
+import 'package:survey_io/components/button/elevated_button_component.dart';
 
 // Import Component
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
-import 'package:survey_io/components/input/labelInput.dart';
-import 'package:survey_io/components/input/textInput.dart';
+import 'package:survey_io/components/input/input_label.dart';
+import 'package:survey_io/components/input/input_text.dart';
 import 'package:survey_io/views/home/home.dart';
 
 class LoginPage extends StatefulWidget {
