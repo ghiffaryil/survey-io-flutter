@@ -4,7 +4,7 @@ class TextStyles {
   // Gaya teks H1
   static TextStyle h1({Color? color}) {
     return TextStyle(
-      fontFamily: 'Nunito',
+      fontFamily: 'Nunito-Bold',
       color: color,
       fontSize: 48.0,
       fontWeight: FontWeight.bold,
@@ -14,7 +14,7 @@ class TextStyles {
   // Gaya teks H2
   static TextStyle h2({Color? color}) {
     return TextStyle(
-      fontFamily: 'Nunito',
+      fontFamily: 'Nunito-Bold',
       color: color,
       fontSize: 38.0,
       fontWeight: FontWeight.bold,
@@ -24,7 +24,7 @@ class TextStyles {
   // Gaya teks H3
   static TextStyle h3({Color? color}) {
     return TextStyle(
-      fontFamily: 'Nunito',
+      fontFamily: 'Nunito-Bold',
       color: color,
       fontSize: 24.0,
       fontWeight: FontWeight.bold,
@@ -34,7 +34,7 @@ class TextStyles {
   // Gaya teks H4
   static TextStyle h4({Color? color}) {
     return TextStyle(
-      fontFamily: 'Nunito',
+      fontFamily: 'Nunito-Bold',
       color: color,
       fontSize: 18.0,
       fontWeight: FontWeight.bold,
@@ -44,7 +44,7 @@ class TextStyles {
   // Gaya teks H5
   static TextStyle h5({Color? color}) {
     return TextStyle(
-      fontFamily: 'Nunito',
+      fontFamily: 'Nunito-Bold',
       color: color,
       fontSize: 16.0,
       fontWeight: FontWeight.bold,
@@ -54,7 +54,67 @@ class TextStyles {
   // Gaya teks H6
   static TextStyle h6({Color? color}) {
     return TextStyle(
-      fontFamily: 'Nunito',
+      fontFamily: 'Nunito-Bold',
+      color: color,
+      fontSize: 14.0,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
+  // EXTRA BOLD
+  static TextStyle h1ExtraBold({Color? color}) {
+    return TextStyle(
+      fontFamily: 'Nunito-ExtraBold',
+      color: color,
+      fontSize: 48.0,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
+  // Gaya teks H2
+  static TextStyle h2ExtraBold({Color? color}) {
+    return TextStyle(
+      fontFamily: 'Nunito-ExtraBold',
+      color: color,
+      fontSize: 38.0,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
+  // Gaya teks H3
+  static TextStyle h3ExtraBold({Color? color}) {
+    return TextStyle(
+      fontFamily: 'Nunito-ExtraBold',
+      color: color,
+      fontSize: 24.0,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
+  // Gaya teks H4
+  static TextStyle h4ExtraBold({Color? color}) {
+    return TextStyle(
+      fontFamily: 'Nunito-ExtraBold',
+      color: color,
+      fontSize: 18.0,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
+  // Gaya teks H5
+  static TextStyle h5ExtraBold({Color? color}) {
+    return TextStyle(
+      fontFamily: 'Nunito-ExtraBold',
+      color: color,
+      fontSize: 16.0,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
+  // Gaya teks H6
+  static TextStyle h6ExtraBold({Color? color}) {
+    return TextStyle(
+      fontFamily: 'Nunito-ExtraBold',
       color: color,
       fontSize: 14.0,
       fontWeight: FontWeight.bold,
@@ -62,71 +122,91 @@ class TextStyles {
   }
 
   // Gaya teks extraLarge
-  static TextStyle extraLarge({Color? color}) {
+  static TextStyle extraLarge({
+    Color? color,
+    FontWeight? fontWeight,
+  }) {
     return TextStyle(
       fontSize: 20.0,
       fontFamily: 'Nunito',
-      fontWeight: FontWeight.normal,
+      fontWeight: fontWeight ?? FontWeight.normal,
       color: color,
     );
   }
 
   // Gaya teks large
-  static TextStyle large({Color? color}) {
+  static TextStyle large({
+    Color? color,
+    FontWeight? fontWeight,
+  }) {
     return TextStyle(
       fontSize: 18.0,
       fontFamily: 'Nunito',
-      fontWeight: FontWeight.normal,
+      fontWeight: fontWeight ?? FontWeight.normal,
       color: color,
     );
   }
 
   // Gaya teks regular
-  static TextStyle medium({Color? color}) {
+  static TextStyle medium({
+    Color? color,
+    FontWeight? fontWeight,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito',
       color: color,
       fontSize: 17.0,
-      fontWeight: FontWeight.normal,
+      fontWeight: fontWeight ?? FontWeight.normal,
     );
   }
 
   // Gaya teks regular
-  static TextStyle regular({Color? color}) {
+  static TextStyle regular({
+    Color? color,
+    FontWeight? fontWeight,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito',
       color: color,
       fontSize: 16.0,
-      fontWeight: FontWeight.normal,
+      fontWeight: fontWeight ?? FontWeight.normal,
     );
   }
 
   // Gaya teks small
-  static TextStyle small({Color? color}) {
+  static TextStyle small({
+    Color? color,
+    FontWeight? fontWeight,
+  }) {
     return TextStyle(
       fontSize: 13.0,
       fontFamily: 'Nunito',
-      fontWeight: FontWeight.normal,
+      fontWeight: fontWeight ?? FontWeight.normal,
       color: color,
     );
   }
 
   // Gaya teks small
-  static TextStyle verySmall({Color? color}) {
+  static TextStyle verySmall({
+    Color? color,
+    FontWeight? fontWeight,
+  }) {
     return TextStyle(
       fontSize: 9.0,
       fontFamily: 'Nunito',
-      fontWeight: FontWeight.normal,
+      fontWeight: fontWeight ?? FontWeight.normal,
       color: color,
     );
   }
 
   // Gaya teks muted (seperti teks yang terlihat lebih pucat)
-  static TextStyle muted({Color? color}) {
+  static TextStyle muted({
+    Color? color,
+    FontWeight? fontWeight,
+  }) {
     return const TextStyle(
       fontSize: 16.0,
       fontFamily: 'Nunito',
-      fontWeight: FontWeight.normal,
       color: Colors.grey,
     );
   }

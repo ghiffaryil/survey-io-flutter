@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:survey_io/components/button/elevatedButton_component.dart';
 
 // Import Component
-import 'package:survey_io/components/input/labelInput.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
-import 'package:survey_io/components/image/image_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
-import 'package:survey_io/components/button/textButton_component.dart';
 import 'package:survey_io/components/navigationBotomBar/navigation_bottom_bar.dart';
 import 'package:survey_io/components/navigationBotomBar/navigation_floating_icon.dart';
+import 'package:survey_io/views/home/home.dart';
 
 class BuatSurvei extends StatefulWidget {
   const BuatSurvei({super.key});
@@ -29,9 +28,9 @@ class _BuatSurveiState extends State<BuatSurvei> {
         elevation: 0,
         automaticallyImplyLeading: false,
         backgroundColor: AppColors.primaryColor,
-        title: Image.asset(
-          'assets/images/logo/surveiio_logo.png',
-          width: MediaQuery.of(context).size.width * 0.35,
+        title: Text(
+          'Buat Survei',
+          style: TextStyles.h2ExtraBold(color: Colors.white),
         ),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))
@@ -43,7 +42,6 @@ class _BuatSurveiState extends State<BuatSurvei> {
           PositionedMainSection(),
           // RED BORDER RADIUS Section
           PositionedRedShapeSection(),
-
           // PROFILE SECTION
           PositionedProfileSection(),
         ]),
@@ -53,7 +51,7 @@ class _BuatSurveiState extends State<BuatSurvei> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: NavigationFloatingIcon(
-        isActive: false,
+        isActive: true,
       ),
     );
   }
@@ -65,20 +63,28 @@ class _BuatSurveiState extends State<BuatSurvei> {
       bottom: null,
       left: null,
       child: Container(
-        decoration: const BoxDecoration(
-            // color: AppColors.secondaryColor,
-            ),
+        padding: EdgeInsets.all(30),
         child: Column(children: [
           // MARGIN TOP
+          Container(height: MediaQuery.of(context).size.height * 0.15),
+          CustomDividers.smallDivider(),
           Container(
-            height: MediaQuery.of(context).size.height * 0.15,
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            child: Image.asset(
+              'assets/images/icons/empty_buatsurvei_image.png',
+              width: MediaQuery.of(context).size.width * 0.5,
             ),
           ),
-
-          // ICON SECTION
-          SectionIcon(),
+          CustomDividers.smallDivider(),
+          Container(
+            child: Text(
+              'Ups, kamu belum punya survei nih \n Yuk buat survei kamu sekarang!',
+              textAlign: TextAlign.center,
+              style: TextStyles.extraLarge(color: AppColors.secondaryColor),
+            ),
+          ),
+          CustomDividers.smallDivider(),
+          ButtonSubmit(),
+          CustomDividers.smallDivider(),
         ]),
       ),
     );
@@ -243,7 +249,7 @@ class _BuatSurveiState extends State<BuatSurvei> {
                         Expanded(
                           flex: 4,
                           child: Image.asset(
-                            'assets/images/icons/point_icon.png',
+                            'assets/images/icons/totalsurvei_icon.png',
                             width: 40,
                             height: 40,
                           ),
@@ -260,7 +266,7 @@ class _BuatSurveiState extends State<BuatSurvei> {
                                     color: AppColors.secondaryColor),
                               ),
                               Text(
-                                'Celengan Saya',
+                                'Jumlah Survei',
                                 style: TextStyles.regular(
                                     color: AppColors.secondaryColor),
                               ),
@@ -277,5 +283,14 @@ class _BuatSurveiState extends State<BuatSurvei> {
         ),
       ),
     );
+  }
+
+  Widget ButtonSubmit() {
+    return ElevatedButtonPrimary(
+        text: 'Buat Survei',
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const HomePage()));
+        });
   }
 }

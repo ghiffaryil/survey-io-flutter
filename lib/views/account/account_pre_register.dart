@@ -8,6 +8,7 @@ import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
 import 'package:survey_io/components/navigationBotomBar/navigation_bottom_bar.dart';
+import 'package:survey_io/views/account/account_profile.dart';
 import 'package:survey_io/views/home/home.dart';
 
 class PreRegisterAccount extends StatefulWidget {
@@ -44,7 +45,7 @@ class _PreRegisterAccountState extends State<PreRegisterAccount> {
             Container(
               child: Image.asset(
                 'assets/images/icons/empty_akun_image.png',
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.6,
               ),
             ),
             CustomDividers.smallDivider(),
@@ -78,7 +79,7 @@ class _PreRegisterAccountState extends State<PreRegisterAccount> {
         text: 'Daftar',
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const HomePage()));
+              MaterialPageRoute(builder: (context) => const ProfileAccount()));
         });
   }
 

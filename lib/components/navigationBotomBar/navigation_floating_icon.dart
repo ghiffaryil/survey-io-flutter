@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:survey_io/views/account/account_profile.dart';
+import 'package:survey_io/views/survei/buatSurvei.dart';
 
 class NavigationFloatingIcon extends StatelessWidget {
   final bool isActive;
@@ -24,7 +25,7 @@ class NavigationFloatingIcon extends StatelessWidget {
         backgroundColor: Colors.white,
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ProfileAccount()));
+              MaterialPageRoute(builder: (context) => BuatSurvei()));
         },
         tooltip: 'Buat Survei',
         shape: RoundedRectangleBorder(

@@ -6,4 +6,6 @@ class AppColors {
   static const infoColor = Color(0XFF1695e9);
   static const warningColor = Color(0XFFFFcc00);
   static const menuColor = Color(0XFF3f3d56);
+  static const secondaryLightColor = Color(0xFF8a8a8a);
+  static const bgDefault = Color(0xFFf8fbff);
 }
