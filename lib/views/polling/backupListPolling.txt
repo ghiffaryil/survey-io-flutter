@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 // Import Component
 import 'package:survey_io/components/input/input_label.dart';
+import 'package:survey_io/components/padding/padding_horizontal.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
@@ -43,24 +44,6 @@ class _PollingPageState extends State<PollingPage> {
       "jumlahPilihan": 3,
       "direction": "Vertical",
       "arrayPilihan": ["Satisfied", "Normal", "Disatisfied"],
-    },
-    {
-      "judulPolling": "Favorite Color Poll",
-      "jumlahPilihan": 4,
-      "direction": "Horizontal",
-      "arrayPilihan": ["Red", "Blue", "Green", "Yellow"],
-    },
-    {
-      "judulPolling": "Coffee vs. Tea",
-      "jumlahPilihan": 2,
-      "direction": "Vertical",
-      "arrayPilihan": ["Coffee", "Tea"],
-    },
-    {
-      "judulPolling": "Best Smartphone Brand",
-      "jumlahPilihan": 5,
-      "direction": "Horizontal",
-      "arrayPilihan": ["Apple", "Samsung"],
     },
   ];
 
@@ -102,91 +85,100 @@ class _PollingPageState extends State<PollingPage> {
               Icons.arrow_back_ios,
               color: AppColors.secondaryColor,
             )),
-        // toolbarHeight: 70.0,
+        toolbarHeight: 70.0,
         elevation: 0,
         automaticallyImplyLeading: false,
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: LabelInput(
-                  labelText: 'Polling',
-                  labelStyle:
-                      TextStyles.h2ExtraBold(color: AppColors.secondaryColor)),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              color: Colors.white,
+              child: Padding(
+                padding: PaddingHorizontal.px2,
+                child: LabelInput(
+                    labelText: 'Polling',
+                    labelStyle: TextStyles.h2ExtraBold(
+                        color: AppColors.secondaryColor)),
+              ),
             ),
-          ),
-          Container(
-            height: 10,
-            color: Colors.white,
-          ),
-          Expanded(
-              // height: MediaQuery.of(context).size.height,
+            Container(
+              height: 10,
+              color: Colors.white,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 1,
               child: DefaultTabController(
-            length: 2, // Number of tabs
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey.withOpacity(0.5),
-                        width: 1.0,
-                      ),
-                    ),
-                  ),
-                  child: TabBar(
-                    unselectedLabelColor:
-                        AppColors.secondaryLightColor.withOpacity(0.5),
-                    labelColor: AppColors.primaryColor,
-                    indicatorColor: AppColors.primaryColor,
-                    indicator: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: AppColors.primaryColor,
-                          width: 2.0,
-                        ),
-                      ),
-                    ),
-                    tabs: [
-                      Tab(
-                        child: Text(
-                          'Polling Baru',
-                          style: TextStyles.medium(
-                            fontWeight: FontWeight.bold,
+                length: 2,
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          bottom: BorderSide(
+                            color:
+                                AppColors.secondaryLightColor.withOpacity(0.2),
+                            width: 1.0,
                           ),
                         ),
                       ),
-                      Tab(
-                        child: Text(
-                          'Selesai',
-                          style: TextStyles.medium(
-                            fontWeight: FontWeight.bold,
+                      child: TabBar(
+                        unselectedLabelColor:
+                            AppColors.secondaryLightColor.withOpacity(0.5),
+                        labelColor: AppColors.primaryColor,
+                        indicatorColor: AppColors.primaryColor,
+                        indicator: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: AppColors.primaryColor,
+                              width: 2.0,
+                            ),
                           ),
                         ),
+                        tabs: [
+                          Tab(
+                            child: Text(
+                              'Polling Baru',
+                              style: TextStyles.medium(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Tab(
+                            child: Text(
+                              'Selesai',
+                              style: TextStyles.medium(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                        onTap: (index) {
+                          _handleTabChange(index);
+                        },
+                        unselectedLabelStyle: TextStyle(
+                          color: AppColors.secondaryLightColor.withOpacity(0.5),
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          PollingBaru(), // Widget for the Event page
+                          PollingSelesai(), // Widget for the Project page
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      // Content for Tab 1
-                      PollingBaru(),
-                      // Content for Tab 2
-                      PollingSelesai()
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
-          )),
-        ],
+            CustomDividers.largeDivider(),
+          ],
+        ),
       ),
     );
   }
@@ -195,6 +187,8 @@ class _PollingPageState extends State<PollingPage> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: listPollingBaru.length,
         itemBuilder: (context, index) {
           // Declaration Polling variabel
@@ -330,9 +324,11 @@ class _PollingPageState extends State<PollingPage> {
   }
 
   Widget PollingSelesai() {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
+    return Container(
+      padding: const EdgeInsets.all(15),
       child: ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: listPollingSelesai.length,
           itemBuilder: (context, index) {
             // Declaration Polling variabel
