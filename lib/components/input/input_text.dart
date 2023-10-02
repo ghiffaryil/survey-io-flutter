@@ -1,6 +1,10 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:survey_io/components/color/color_component.dart';
+import 'package:survey_io/components/text/text_component.dart';
 
 // TEXT INPUT
 class TextInputField extends StatelessWidget {
@@ -10,6 +14,8 @@ class TextInputField extends StatelessWidget {
   final TextInputType keyboardType;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final String? suffixIconSVG;
+  final String? suffixIconPNG;
 
   TextInputField({
     required this.controller,
@@ -18,10 +24,21 @@ class TextInputField extends StatelessWidget {
     required this.keyboardType,
     this.prefixIcon, // Added parameter for prefix icon
     this.suffixIcon, // Added parameter for suffix icon
+    this.suffixIconSVG,
+    this.suffixIconPNG,
   });
 
   @override
   Widget build(BuildContext context) {
+    Widget? suffixWidget;
+    if (suffixIconSVG != null) {
+      suffixWidget = buildSvgSuffixIcon(suffixIconSVG!);
+    } else if (suffixIconPNG != null) {
+      suffixWidget = buildPngSuffixIcon(suffixIconPNG!);
+    } else {
+      suffixWidget = suffixIcon;
+    }
+
     return TextField(
       focusNode: focusNode,
       keyboardType: keyboardType,
@@ -35,13 +52,29 @@ class TextInputField extends StatelessWidget {
             width: 1.0,
           ),
         ),
-        prefixIcon: prefixIcon, // Set prefix icon
+        prefixIcon: prefixIcon,
         suffixIcon: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: suffixIcon,
+          padding: const EdgeInsets.all(12.0),
+          child: suffixWidget,
         ),
-        contentPadding: const EdgeInsets.all(20.0),
+        contentPadding: const EdgeInsets.all(18.0),
       ),
+    );
+  }
+
+  Widget buildSvgSuffixIcon(String svgAssetPath) {
+    return SvgPicture.asset(
+      svgAssetPath,
+      width: 4,
+      height: 4,
+    );
+  }
+
+  Widget buildPngSuffixIcon(String pngAssetPath) {
+    return Image.asset(
+      pngAssetPath,
+      width: 4,
+      height: 4,
     );
   }
 }
@@ -88,7 +121,7 @@ class _DateInputFieldState extends State<DateInputField> {
             width: 1.0,
           ),
         ),
-        contentPadding: const EdgeInsets.all(20),
+        contentPadding: const EdgeInsets.all(18.0),
         prefixIcon: widget.showPrefixIcon
             ? const Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
@@ -122,7 +155,7 @@ class _DateInputFieldState extends State<DateInputField> {
   }
 }
 
-// PASSWORD TEXT INPUA
+// PASSWORD TEXT INPUT
 class PasswordTextInput extends StatefulWidget {
   final FocusNode focusNode;
   final TextEditingController controller;
@@ -160,21 +193,71 @@ class _PasswordTextInputState extends State<PasswordTextInput> {
             width: 1.0,
           ),
         ),
-        contentPadding: const EdgeInsets.all(20.0),
-        suffixIcon: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-          child: GestureDetector(
-            onTap: () {
-              widget.onPasswordVisibilityToggle;
-            },
-            child: Icon(
-              widget.hidePassword
-                  ? Icons.visibility_off_rounded
-                  : Icons.visibility_rounded,
-              size: 20,
-            ),
+        contentPadding: const EdgeInsets.all(18.0),
+        suffixIcon: IconButton(
+          onPressed: () {
+            widget.onPasswordVisibilityToggle(); // Call the callback here
+          },
+          icon: Icon(
+            widget.hidePassword ? Icons.visibility_off : Icons.visibility,
+            color: Colors.grey, // Adjust the color as needed
           ),
         ),
+      ),
+    );
+  }
+}
+
+class RadioTextInput extends StatefulWidget {
+  String parameter;
+  final String value;
+
+  RadioTextInput({
+    required this.parameter,
+    required this.value,
+  });
+
+  @override
+  State<RadioTextInput> createState() => _RadioTextInputState();
+}
+
+class _RadioTextInputState extends State<RadioTextInput> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(
+          color: widget.parameter == widget.value
+              ? AppColors.secondaryColor
+              : AppColors.secondaryColor.withOpacity(0.4),
+          width: 1.0,
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                widget.value,
+                style: TextStyles.extraLarge(
+                    color: widget.parameter == widget.value
+                        ? AppColors.secondaryColor
+                        : AppColors.secondaryColor.withOpacity(0.4)),
+              )),
+          Radio(
+            value: widget.value,
+            groupValue: widget.parameter,
+            onChanged: (value) {
+              setState(() {
+                print('${widget.parameter} => ${value}');
+                widget.parameter = value.toString();
+              });
+            },
+          ),
+        ],
       ),
     );
   }

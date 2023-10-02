@@ -33,7 +33,7 @@ class CarouselItem {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   int _currentIndex = 0;
-  CarouselController _carouselController = CarouselController();
+  final CarouselController _carouselController = CarouselController();
 
   final List<CarouselItem> carouselItems = [
     CarouselItem(

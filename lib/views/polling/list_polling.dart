@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:survey_io/components/header/leading.dart';
 
 // Import Component
 import 'package:survey_io/components/input/input_label.dart';
@@ -33,103 +34,103 @@ class _PollingPageState extends State<PollingPage> {
     }
   }
 
-  final List<Map<String, dynamic>> listPollingBaru = [
+  final List<Map<String, dynamic>> listPollingNew = [
     {
       "pollingId": "1",
-      "judulPolling": "Survei.io is easy to use",
-      "jumlahPilihan": 2,
+      "pollingTitle": "Survei.io is easy to use",
       "direction": "Horizontal",
-      "arrayPilihan": ["Agree", "Disagree"],
+      "optionNumber": 2,
+      "arrayOption": ["Agree", "Disagree"],
     },
     {
       "pollingId": "2",
-      "judulPolling": "How satisfied are you with Survei.io?",
-      "jumlahPilihan": 3,
+      "pollingTitle": "How satisfied are you with Survei.io?",
       "direction": "Vertical",
-      "arrayPilihan": ["Satisfied", "Normal", "Disatisfied"],
+      "optionNumber": 3,
+      "arrayOption": ["Satisfied", "Normal", "Disatisfied"],
     },
     {
       "pollingId": "3",
-      "judulPolling": "Favorite Color Poll",
-      "jumlahPilihan": 4,
+      "pollingTitle": "Favorite Color Poll",
       "direction": "Horizontal",
-      "arrayPilihan": ["Red", "Blue", "Green", "Yellow"],
+      "optionNumber": 4,
+      "arrayOption": ["Red", "Blue", "Green", "Yellow"],
     },
     {
       "pollingId": "4",
-      "judulPolling": "Coffee vs. Tea",
-      "jumlahPilihan": 2,
+      "pollingTitle": "Coffee vs. Tea",
       "direction": "Vertical",
-      "arrayPilihan": ["Coffee", "Tea"],
+      "optionNumber": 2,
+      "arrayOption": ["Coffee", "Tea"],
     },
     {
       "pollingId": "5",
-      "judulPolling": "Best Smartphone Brand",
-      "jumlahPilihan": 5,
+      "pollingTitle": "Best Smartphone Brand",
       "direction": "Horizontal",
-      "arrayPilihan": ["Apple", "Samsung"],
+      "optionNumber": 5,
+      "arrayOption": ["Apple", "Samsung"],
     },
   ];
 
-  final List<Map<String, dynamic>> listPollingSelesai = [
+  final List<Map<String, dynamic>> listPollingCompleted = [
     {
       "pollingId": "1",
-      "judulPolling": "Survei.io is easy to use",
-      "jumlahPilihan": 2,
+      "pollingTitle": "Survei.io is easy to use",
+      "optionNumber": 2,
       "direction": "Horizontal",
-      "arrayPilihan": ["Agree", "Disagree"],
-      "arrayJawaban": "Agree"
+      "arrayOption": ["Agree", "Disagree"],
+      "arrayAnswer": "Agree"
     },
     {
       "pollingId": "2",
-      "judulPolling": "How satisfied are you with Survei.io?",
-      "jumlahPilihan": 3,
+      "pollingTitle": "How satisfied are you with Survei.io?",
+      "optionNumber": 3,
       "direction": "Vertical",
-      "arrayPilihan": ["Satisfied", "Normal", "Disatisfied"],
-      "arrayJawaban": "Satisfied"
+      "arrayOption": ["Satisfied", "Normal", "Disatisfied"],
+      "arrayAnswer": "Satisfied"
     },
     {
       "pollingId": "3",
-      "judulPolling": "Apakah Profesi Anda?",
-      "jumlahPilihan": 2,
+      "pollingTitle": "Apakah Profesi Anda?",
+      "optionNumber": 2,
       "direction": "Horizontal",
-      "arrayPilihan": ["Pegawai", "Pengusaha"],
-      "arrayJawaban": "Pengusaha"
+      "arrayOption": ["Pegawai", "Pengusaha"],
+      "arrayAnswer": "Pengusaha"
     },
   ];
 
   final List<Map<String, dynamic>> hasilPolling = [
     {
       "pollingId": "1",
-      "judulPolling": "Survei.io is easy to use",
-      "arrayPilihan": ["Agree", "Disagree"],
+      "pollingTitle": "Survei.io is easy to use",
+      "arrayOption": ["Agree", "Disagree"],
       "voter": "4000",
-      "arrayJumlahPemilihPercent": ["80", "20"],
-      "arrayJumlahPemilihValue": ["3200", "800"],
-      "arrayWarna": ["blue", "red"],
+      "arrayVotersPercent": ["80", "20"],
+      "arrayVoterCount": ["3200", "800"],
+      "arrayPollingColor": ["blue", "red"],
       "mode": "pie",
     },
     {
       "pollingId": "2",
-      "judulPolling": "How satisfied are you with Survei.io?",
+      "pollingTitle": "How satisfied are you with Survei.io?",
       "votes": 3234,
-      "arrayPilihan": ["Satisfied", "Normal", "Disatisfied"],
+      "arrayOption": ["Satisfied", "Normal", "Disatisfied"],
       "voter": "2.000",
-      "arrayJumlahPemilihPercent": ["35", "15", "50"],
-      "arrayJumlahPemilihValue": ["700", "300", "1000"],
-      "arrayWarna": ["blue", "green", "red"],
+      "arrayVotersPercent": ["35", "15", "50"],
+      "arrayVoterCount": ["700", "300", "1000"],
+      "arrayPollingColor": ["blue", "green", "red"],
       "mode": "bar",
     },
     {
       "pollingId": "3",
-      "judulPolling": "Apakah Profesi Anda?",
-      "jumlahPilihan": 2,
+      "pollingTitle": "Apakah Profesi Anda?",
+      "optionNumber": 2,
       "direction": "Horizontal",
-      "arrayPilihan": ["Pegawai", "Pengusaha"],
+      "arrayOption": ["Pegawai", "Pengusaha"],
       "voter": "1.212",
-      "arrayJumlahPemilihPercent": ["75", "25"],
-      "arrayJumlahPemilihValue": ["812", "400"],
-      "arrayWarna": ["blue", "red"],
+      "arrayVotersPercent": ["75", "25"],
+      "arrayVoterCount": ["812", "400"],
+      "arrayPollingColor": ["blue", "red"],
       "mode": "pie",
     },
   ];
@@ -151,15 +152,15 @@ class _PollingPageState extends State<PollingPage> {
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: AppColors.secondaryColor,
-            )),
-        // toolbarHeight: 70.0,
+        leading: LeadingHeader(
+          iconSize: 30.0,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          textColor: AppColors.secondaryColor,
+          leadingIcon: Icons.arrow_back_ios, // Pass the icon data here
+        ),
         elevation: 0,
-        automaticallyImplyLeading: false,
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
       body: Column(
@@ -250,10 +251,10 @@ class _PollingPageState extends State<PollingPage> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: ListView.builder(
-        itemCount: listPollingBaru.length,
+        itemCount: listPollingNew.length,
         itemBuilder: (context, index) {
           // Declaration Polling variabel
-          final dataPollingBaru = listPollingBaru[index];
+          final dataPollingBaru = listPollingNew[index];
 
           // Declaration SelectselectedIndexPollingBarued Values
           var selectedIndexPollingBaru = pollingBaruSelectedValues[index] ?? '';
@@ -281,7 +282,7 @@ class _PollingPageState extends State<PollingPage> {
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Text(dataPollingBaru["judulPolling"],
+                  child: Text(dataPollingBaru["pollingTitle"],
                       style: TextStyles.h3(color: AppColors.secondaryColor)),
                 ),
                 const SizedBox(height: 10),
@@ -289,19 +290,19 @@ class _PollingPageState extends State<PollingPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // for (String pilihan in dataPollingBaru["arrayPilihan"])
+                      // for (String pilihan in dataPollingBaru["arrayOption"])
                       for (int i = 0;
-                          i < dataPollingBaru["arrayPilihan"].length;
+                          i < dataPollingBaru["arrayOption"].length;
                           i++)
                         Expanded(
                             child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: GestureDetector(
                             onTap: () {
-                              print(dataPollingBaru["arrayPilihan"][i]);
+                              print(dataPollingBaru["arrayOption"][i]);
                               setState(() {
                                 pollingBaruSelectedValues[index] =
-                                    dataPollingBaru["arrayPilihan"][i];
+                                    dataPollingBaru["arrayOption"][i];
                               });
                             },
                             child: Container(
@@ -310,23 +311,23 @@ class _PollingPageState extends State<PollingPage> {
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: selectedIndexPollingBaru ==
-                                            dataPollingBaru["arrayPilihan"][i]
+                                            dataPollingBaru["arrayOption"][i]
                                         ? AppColors.primaryColor
                                         : AppColors.infoColor,
                                     width: 1,
                                   ),
                                   borderRadius: BorderRadius.circular(50),
                                   color: selectedIndexPollingBaru ==
-                                          dataPollingBaru["arrayPilihan"][i]
+                                          dataPollingBaru["arrayOption"][i]
                                       ? AppColors.primaryColor
                                       : Colors.transparent,
                                 ),
                                 child: SelectOptionContainer(
                                   isActive: selectedIndexPollingBaru ==
-                                          dataPollingBaru["arrayPilihan"][i]
+                                          dataPollingBaru["arrayOption"][i]
                                       ? true
                                       : false,
-                                  pilihan: dataPollingBaru["arrayPilihan"][i],
+                                  pilihan: dataPollingBaru["arrayOption"][i],
                                 )),
                           ),
                         )),
@@ -338,14 +339,14 @@ class _PollingPageState extends State<PollingPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       for (int i = 0;
-                          i < dataPollingBaru["arrayPilihan"].length;
+                          i < dataPollingBaru["arrayOption"].length;
                           i++)
                         GestureDetector(
                           onTap: () {
-                            print(dataPollingBaru["arrayPilihan"][i]);
+                            print(dataPollingBaru["arrayOption"][i]);
                             setState(() {
                               pollingBaruSelectedValues[index] =
-                                  dataPollingBaru["arrayPilihan"][i];
+                                  dataPollingBaru["arrayOption"][i];
                             });
                           },
                           child: Container(
@@ -353,14 +354,14 @@ class _PollingPageState extends State<PollingPage> {
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: selectedIndexPollingBaru ==
-                                          dataPollingBaru["arrayPilihan"][i]
+                                          dataPollingBaru["arrayOption"][i]
                                       ? AppColors.primaryColor
                                       : AppColors.infoColor,
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(50),
                                 color: selectedIndexPollingBaru ==
-                                        dataPollingBaru["arrayPilihan"][i]
+                                        dataPollingBaru["arrayOption"][i]
                                     ? AppColors.primaryColor
                                     : Colors.transparent,
                               ),
@@ -369,10 +370,10 @@ class _PollingPageState extends State<PollingPage> {
                               width: double.infinity,
                               child: SelectOptionContainer(
                                   isActive: selectedIndexPollingBaru ==
-                                          dataPollingBaru["arrayPilihan"][i]
+                                          dataPollingBaru["arrayOption"][i]
                                       ? true
                                       : false,
-                                  pilihan: dataPollingBaru["arrayPilihan"][i])),
+                                  pilihan: dataPollingBaru["arrayOption"][i])),
                         ),
                     ],
                   ),
@@ -388,9 +389,9 @@ class _PollingPageState extends State<PollingPage> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: ListView.builder(
-          itemCount: listPollingSelesai.length,
+          itemCount: listPollingCompleted.length,
           itemBuilder: (context, index) {
-            final dataPollingSelesai = listPollingSelesai[index];
+            final dataPollingSelesai = listPollingCompleted[index];
 
             return Container(
               decoration: BoxDecoration(
@@ -415,7 +416,7 @@ class _PollingPageState extends State<PollingPage> {
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 10),
-                    child: Text(dataPollingSelesai["judulPolling"],
+                    child: Text(dataPollingSelesai["pollingTitle"],
                         style: TextStyles.h3(color: AppColors.secondaryColor)),
                   ),
                   const SizedBox(height: 10),
@@ -423,7 +424,7 @@ class _PollingPageState extends State<PollingPage> {
                     Row(
                       children: [
                         for (int i = 0;
-                            i < dataPollingSelesai["arrayPilihan"].length;
+                            i < dataPollingSelesai["arrayOption"].length;
                             i++)
                           Expanded(
                               child: Padding(
@@ -434,28 +435,24 @@ class _PollingPageState extends State<PollingPage> {
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: dataPollingSelesai["arrayJawaban"] ==
-                                            dataPollingSelesai["arrayPilihan"]
-                                                [i]
+                                    color: dataPollingSelesai["arrayAnswer"] ==
+                                            dataPollingSelesai["arrayOption"][i]
                                         ? AppColors.primaryColor
                                         : AppColors.infoColor,
                                     width: 1,
                                   ),
                                   borderRadius: BorderRadius.circular(50),
-                                  color: dataPollingSelesai["arrayJawaban"] ==
-                                          dataPollingSelesai["arrayPilihan"][i]
+                                  color: dataPollingSelesai["arrayAnswer"] ==
+                                          dataPollingSelesai["arrayOption"][i]
                                       ? AppColors.primaryColor
                                       : Colors.transparent,
                                 ),
                                 child: SelectOptionContainer(
-                                  isActive:
-                                      dataPollingSelesai["arrayJawaban"] ==
-                                              dataPollingSelesai["arrayPilihan"]
-                                                  [i]
-                                          ? true
-                                          : false,
-                                  pilihan: dataPollingSelesai["arrayPilihan"]
-                                      [i],
+                                  isActive: dataPollingSelesai["arrayAnswer"] ==
+                                          dataPollingSelesai["arrayOption"][i]
+                                      ? true
+                                      : false,
+                                  pilihan: dataPollingSelesai["arrayOption"][i],
                                 )),
                           )),
                       ],
@@ -466,21 +463,21 @@ class _PollingPageState extends State<PollingPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         for (int i = 0;
-                            i < dataPollingSelesai["arrayPilihan"].length;
+                            i < dataPollingSelesai["arrayOption"].length;
                             i++)
                           Container(
                               margin: const EdgeInsets.only(bottom: 10),
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: dataPollingSelesai["arrayJawaban"] ==
-                                          dataPollingSelesai["arrayPilihan"][i]
+                                  color: dataPollingSelesai["arrayAnswer"] ==
+                                          dataPollingSelesai["arrayOption"][i]
                                       ? AppColors.primaryColor
                                       : AppColors.infoColor,
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(50),
-                                color: dataPollingSelesai["arrayJawaban"] ==
-                                        dataPollingSelesai["arrayPilihan"][i]
+                                color: dataPollingSelesai["arrayAnswer"] ==
+                                        dataPollingSelesai["arrayOption"][i]
                                     ? AppColors.primaryColor
                                     : Colors.transparent,
                               ),
@@ -488,13 +485,11 @@ class _PollingPageState extends State<PollingPage> {
                                   horizontal: 10, vertical: 15),
                               width: double.infinity,
                               child: SelectOptionContainer(
-                                  isActive:
-                                      dataPollingSelesai["arrayJawaban"] ==
-                                              dataPollingSelesai["arrayPilihan"]
-                                                  [i]
-                                          ? true
-                                          : false,
-                                  pilihan: dataPollingSelesai["arrayPilihan"]
+                                  isActive: dataPollingSelesai["arrayAnswer"] ==
+                                          dataPollingSelesai["arrayOption"][i]
+                                      ? true
+                                      : false,
+                                  pilihan: dataPollingSelesai["arrayOption"]
                                       [i])),
                       ],
                     ),
@@ -552,11 +547,11 @@ class _PollingPageState extends State<PollingPage> {
         List<BarChartGroupData> barChartData = [];
 
         // Create PieChartSectionData for each option
-        for (int i = 0; i < selectedPolling["arrayPilihan"].length; i++) {
+        for (int i = 0; i < selectedPolling["arrayOption"].length; i++) {
           double dataValue =
-              double.parse(selectedPolling["arrayJumlahPemilihValue"][i]);
+              double.parse(selectedPolling["arrayVoterCount"][i]);
           double percentage =
-              double.parse(selectedPolling["arrayJumlahPemilihPercent"][i]);
+              double.parse(selectedPolling["arrayVotersPercent"][i]);
 
           // Format the value and percentage as strings
           String formattedValue = dataValue.toStringAsFixed(0);
@@ -564,7 +559,7 @@ class _PollingPageState extends State<PollingPage> {
           String title = '$formattedPercentage% \n ($formattedValue)';
 
           // Use the color mapping to get the corresponding color
-          String colorName = selectedPolling["arrayWarna"][i];
+          String colorName = selectedPolling["arrayPollingColor"][i];
           Color sectionColor = colorMap[colorName] ?? Colors.black;
 
           barChartData.add(
@@ -610,7 +605,7 @@ class _PollingPageState extends State<PollingPage> {
             children: [
               Center(
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.1,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     color: AppColors.indicatorColor, // Indicator color
@@ -638,7 +633,7 @@ class _PollingPageState extends State<PollingPage> {
               ),
               const SizedBox(height: 20),
               Text(
-                "${selectedPolling["judulPolling"]}",
+                "${selectedPolling["pollingTitle"]}",
                 textAlign: TextAlign.left,
                 style: TextStyles.h4(color: AppColors.secondaryColor),
               ),
@@ -694,8 +689,8 @@ class _PollingPageState extends State<PollingPage> {
                                 showTitles: true,
                                 getTitlesWidget: (value, meta) {
                                   String text = '';
-                                  List<String> percentArray = selectedPolling[
-                                      "arrayJumlahPemilihPercent"];
+                                  List<String> percentArray =
+                                      selectedPolling["arrayVotersPercent"];
                                   switch (value.toInt()) {
                                     case 0:
                                       text = '${percentArray[0]}%';
@@ -724,14 +719,15 @@ class _PollingPageState extends State<PollingPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: List.generate(
-                      selectedPolling["arrayPilihan"].length,
+                      selectedPolling["arrayOption"].length,
                       (index) {
-                        String colorName = selectedPolling["arrayWarna"][index];
+                        String colorName =
+                            selectedPolling["arrayPollingColor"][index];
                         Color indicatorColor =
                             colorMap[colorName] ?? Colors.black;
 
                         String indicatorText =
-                            selectedPolling["arrayPilihan"][index];
+                            selectedPolling["arrayOption"][index];
 
                         return Indicator(
                           color: indicatorColor,

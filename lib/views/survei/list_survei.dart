@@ -1,18 +1,16 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:survey_io/components/header/leading.dart';
 
 // Import Component
 import 'package:survey_io/components/input/input_label.dart';
-import 'package:survey_io/components/padding/padding_horizontal.dart';
-import 'package:survey_io/components/padding/padding_vertical.dart';
+import 'package:survey_io/components/padding/padding.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/image/image_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
 import 'package:survey_io/components/button/text_button_component.dart';
-import 'package:survey_io/components/navigation/navigation_bottom_bar.dart';
-import 'package:survey_io/components/navigation/navigation_floating_icon.dart';
 
 class ListSurveiPage extends StatefulWidget {
   const ListSurveiPage({super.key});
@@ -51,12 +49,14 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: AppColors.secondaryColor,
-            )),
+        leading: LeadingHeader(
+          iconSize: 30.0,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          textColor: AppColors.secondaryColor,
+          leadingIcon: Icons.arrow_back_ios, // Pass the icon data here
+        ),
         toolbarHeight: 70.0,
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -64,7 +64,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: PaddingHorizontal.px2,
+          padding: PaddingHorizontalOnly.px2,
           child: Column(
             children: [
               LabelInput(

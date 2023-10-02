@@ -1,29 +1,26 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Import Component
 import 'package:survey_io/components/button/elevated_button_component.dart';
 import 'package:survey_io/components/button/text_button_component.dart';
+import 'package:survey_io/components/header/leading.dart';
 import 'package:survey_io/components/input/input_label.dart';
-import 'package:survey_io/components/navigation/navigation_floating_icon.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
-import 'package:survey_io/components/navigation/navigation_bottom_bar.dart';
-import 'package:survey_io/views/account/account_profile.dart';
-import 'package:survey_io/views/home/home.dart';
+import 'package:survey_io/views/profile/profile.dart';
 
-class InviteFriendPage extends StatefulWidget {
-  const InviteFriendPage({super.key});
+class InviteFriend extends StatefulWidget {
+  const InviteFriend({super.key});
 
   @override
-  State<InviteFriendPage> createState() => _InviteFriendPageState();
+  State<InviteFriend> createState() => _InviteFriendState();
 }
 
-class _InviteFriendPageState extends State<InviteFriendPage> {
+class _InviteFriendState extends State<InviteFriend> {
   int selectedIndex = 2;
   final String textToCopy = 'FAHM2345';
 
@@ -68,14 +65,14 @@ class _InviteFriendPageState extends State<InviteFriendPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: AppColors.secondaryColor,
-          ),
-          onPressed: () => Navigator.pop(context),
+        leading: LeadingHeader(
+          iconSize: 30.0,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          textColor: AppColors.secondaryColor,
+          leadingIcon: Icons.arrow_back_ios, // Pass the icon data here
         ),
-        // toolbarHeight: 100.0,
         elevation: 0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
@@ -190,7 +187,7 @@ class _InviteFriendPageState extends State<InviteFriendPage> {
         text: 'Undang Teman',
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const ProfileAccount()));
+              MaterialPageRoute(builder: (context) => const Profile()));
         });
   }
 }

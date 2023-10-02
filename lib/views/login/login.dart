@@ -4,6 +4,7 @@ import 'package:survey_io/components/button/elevated_button_component.dart';
 
 // Import Component
 import 'package:survey_io/components/color/color_component.dart';
+import 'package:survey_io/components/header/leading.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
 import 'package:survey_io/components/input/input_label.dart';
@@ -43,14 +44,14 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: AppColors.secondaryColor,
-            )),
+        leading: LeadingHeader(
+          iconSize: 30.0,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          textColor: AppColors.secondaryColor,
+          leadingIcon: Icons.arrow_back_ios, // Pass the icon data here
+        ),
         centerTitle: true,
       ),
       body: Container(

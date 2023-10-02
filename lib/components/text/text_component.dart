@@ -16,7 +16,7 @@ class TextStyles {
     return TextStyle(
       fontFamily: 'Nunito-Bold',
       color: color,
-      fontSize: 38.0,
+      fontSize: 35.0,
       fontWeight: FontWeight.bold,
     );
   }
@@ -76,7 +76,7 @@ class TextStyles {
     return TextStyle(
       fontFamily: 'Nunito-ExtraBold',
       color: color,
-      fontSize: 38.0,
+      fontSize: 35.0,
       fontWeight: FontWeight.bold,
     );
   }

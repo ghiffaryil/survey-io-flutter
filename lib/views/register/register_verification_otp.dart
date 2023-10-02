@@ -6,6 +6,7 @@ import 'package:survey_io/components/button/elevated_button_component.dart';
 
 // Import Component
 import 'package:survey_io/components/color/color_component.dart';
+import 'package:survey_io/components/header/leading.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
 import 'package:survey_io/views/register/register_complete_profile.dart';
@@ -61,17 +62,16 @@ class _VerificationOTPState extends State<VerificationOTP> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: LeadingHeader(
+            iconSize: 30.0,
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: AppColors.secondaryColor,
-            )),
-      ),
+            textColor: AppColors.secondaryColor,
+            leadingIcon: Icons.arrow_back_ios, // Pass the icon data here
+          )),
       body: Container(
         padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
         child: Column(

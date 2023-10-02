@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/views/account/account_profile.dart';
+import 'package:survey_io/views/profile/profile.dart';
 import 'package:survey_io/views/survei/buat_survei.dart';
 
 class NavigationFloatingIcon extends StatelessWidget {

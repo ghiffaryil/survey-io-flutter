@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 // Import Component
 import 'package:survey_io/components/color/color_component.dart';
+import 'package:survey_io/components/header/leading.dart';
+import 'package:survey_io/components/padding/padding.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/button/elevated_button_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
@@ -10,23 +12,23 @@ import 'package:survey_io/components/input/input_label.dart';
 import 'package:survey_io/components/input/input_text.dart';
 import 'package:survey_io/views/login/login.dart';
 
-class CompleteProfile extends StatefulWidget {
-  const CompleteProfile({super.key});
+class EditProfile extends StatefulWidget {
+  const EditProfile({super.key});
 
   @override
-  State<CompleteProfile> createState() => _CompleteProfileState();
+  State<EditProfile> createState() => _EditProfileState();
 }
 
-class _CompleteProfileState extends State<CompleteProfile> {
+class _EditProfileState extends State<EditProfile> {
   TextEditingController NamaLengkap = TextEditingController();
   TextEditingController TanggalLahir = TextEditingController();
-  TextEditingController Password = TextEditingController();
-  TextEditingController KodeReferal = TextEditingController();
+  TextEditingController Email = TextEditingController();
+  TextEditingController NomorTelepon = TextEditingController();
 
   FocusNode namaLengkapFocus = FocusNode();
   FocusNode tanggalLahirFocus = FocusNode();
-  FocusNode passwordFocus = FocusNode();
-  FocusNode kodeReferalFocus = FocusNode();
+  FocusNode emailFocus = FocusNode();
+  FocusNode noTeleponFocus = FocusNode();
 
   String JenisKelamin = '';
   bool _hidePassword = true;
@@ -40,8 +42,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
   void unfocusAll() {
     namaLengkapFocus.unfocus();
     tanggalLahirFocus.unfocus();
-    passwordFocus.unfocus();
-    kodeReferalFocus.unfocus();
+    emailFocus.unfocus();
+    noTeleponFocus.unfocus();
   }
 
   @override
@@ -51,47 +53,46 @@ class _CompleteProfileState extends State<CompleteProfile> {
         unfocusAll();
       },
       child: Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: LeadingHeader(
+              iconSize: 35.0,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              textColor: AppColors.secondaryColor,
+              leadingIcon: Icons.close, // Pass the icon data here
+            )),
+        backgroundColor: AppColors.bgDefault,
         body: SingleChildScrollView(
-          child: Container(
-            margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
-            padding: const EdgeInsets.all(30),
-            child: Column(
-              children: [
-                LabelText(),
-                FormInputField(),
-                CustomDividers.smallDivider(),
-                labelTermAndCondition(),
-                CustomDividers.smallDivider(),
-                submitButton(),
-              ],
-            ),
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                color: Colors.white,
+                child: Text(
+                  'Edit Profil',
+                  style:
+                      TextStyles.h2ExtraBold(color: AppColors.secondaryColor),
+                ),
+              ),
+              Container(
+                padding: PaddingAll.p3,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FormInputField(),
+                    CustomDividers.largeDivider(),
+                    SubmitButton(),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget LabelText() {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Sedikit Lagi....',
-            style: TextStyles.h2(color: AppColors.secondaryColor),
-          ),
-        ),
-        CustomDividers.smallDivider(),
-        Container(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            '3. Lengkapi Profil Kamu',
-            style: TextStyles.h4(color: AppColors.secondaryColor),
-          ),
-        ),
-        CustomDividers.smallDivider(),
-      ],
     );
   }
 
@@ -108,8 +109,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
           keyboardType: TextInputType.text,
           controller: NamaLengkap,
           hintText: 'Nama Lengkap',
-          // prefixIcon: Icon(Icons.person), // Set prefix icon
-          // suffixIcon: Icon(Icons.person), // Set suffix icon
         ),
         CustomDividers.smallDivider(),
         LabelInput(
@@ -150,68 +149,39 @@ class _CompleteProfileState extends State<CompleteProfile> {
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'Password',
-          labelStyle: TextStyles.h4(color: AppColors.secondaryColor),
-        ),
-        CustomDividers.verySmallDivider(),
-        PasswordTextInput(
-          focusNode: passwordFocus,
-          controller: Password,
-          hintText: 'Password',
-          hidePassword: _hidePassword,
-          onPasswordVisibilityToggle: _showHidePasswordTogle,
-        ),
-        CustomDividers.smallDivider(),
-        LabelInput(
-          labelText: 'Kode Referal',
+          labelText: 'No. Telepon',
           labelStyle: TextStyles.h4(color: AppColors.secondaryColor),
         ),
         CustomDividers.verySmallDivider(),
         TextInputField(
-          focusNode: kodeReferalFocus,
+          focusNode: noTeleponFocus,
           keyboardType: TextInputType.text,
-          controller: KodeReferal,
-          hintText: 'Masukkan Kode (Jika Ada)',
-          // prefixIcon: Icon(Icons.person), // Set prefix icon
-          // suffixIcon: Icon(Icons.person), // Set suffix icon
+          controller: NomorTelepon,
+          hintText: '081234567890',
+          suffixIconPNG: 'assets/images/icons/polling_check_info.png',
+        ),
+        CustomDividers.smallDivider(),
+        LabelInput(
+          labelText: 'Email',
+          labelStyle: TextStyles.h4(color: AppColors.secondaryColor),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          focusNode: emailFocus,
+          keyboardType: TextInputType.text,
+          controller: Email,
+          hintText: 'Masukkan Email Kamu',
         ),
       ],
     );
   }
 
-  Widget submitButton() {
+  Widget SubmitButton() {
     return ElevatedButtonPrimary(
         text: 'Submit',
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => LoginPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const LoginPage()));
         });
-  }
-
-  Widget labelTermAndCondition() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-      child: RichText(
-        textAlign: TextAlign.center,
-        text: TextSpan(
-          children: [
-            TextSpan(
-                text: 'Dengan menekan “Submit”, kamu menyutujui',
-                style: TextStyles.regular(color: AppColors.secondaryColor)),
-            TextSpan(
-              text: ' Ketentuan Layanan',
-              style: TextStyles.regular(color: AppColors.primaryColor),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  print('OK');
-                },
-            ),
-            TextSpan(
-                text: ' Survei.io',
-                style: TextStyles.regular(color: AppColors.secondaryColor)),
-          ],
-        ),
-      ),
-    );
   }
 }

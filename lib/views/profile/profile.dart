@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // Import Component
 import 'package:survey_io/components/button/text_button_component.dart';
+import 'package:survey_io/components/header/title.dart';
 import 'package:survey_io/components/input/input_label.dart';
 import 'package:survey_io/components/menu/menu_horizontal.dart';
 import 'package:survey_io/components/navigation/navigation_floating_icon.dart';
@@ -10,15 +11,16 @@ import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
 import 'package:survey_io/components/navigation/navigation_bottom_bar.dart';
 import 'package:survey_io/views/home/home.dart';
+import 'package:survey_io/views/profile/edit_profile.dart';
 
-class ProfileAccount extends StatefulWidget {
-  const ProfileAccount({super.key});
+class Profile extends StatefulWidget {
+  const Profile({super.key});
 
   @override
-  State<ProfileAccount> createState() => _ProfileAccountState();
+  State<Profile> createState() => _ProfileState();
 }
 
-class _ProfileAccountState extends State<ProfileAccount> {
+class _ProfileState extends State<Profile> {
   int selectedIndex = 2;
 
   @override
@@ -26,15 +28,13 @@ class _ProfileAccountState extends State<ProfileAccount> {
     return Scaffold(
       backgroundColor: const Color(0xFFf8fbff),
       appBar: AppBar(
-        toolbarHeight: 70.0,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.primaryColor,
-        title: Text(
-          'Akun',
-          style: TextStyles.h2ExtraBold(color: Colors.white),
-        ),
-      ),
+          toolbarHeight: 70.0,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          backgroundColor: AppColors.primaryColor,
+          title: TitleHeader(
+              textHeader: 'Akun',
+              labelStyle: TextStyles.h2ExtraBold(color: Colors.white))),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -141,8 +141,8 @@ class _ProfileAccountState extends State<ProfileAccount> {
             text: 'Edit Profile',
             icon: Icons.arrow_forward_ios,
             onPressed: () {
-              // Your onPressed logic here
-              print('Edit Profile');
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => EditProfile()));
             },
             iconColor: AppColors.secondaryLightColor,
             textColor: AppColors.secondaryLightColor,

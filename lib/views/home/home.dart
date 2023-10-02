@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 
 // Import Component
 import 'package:survey_io/components/input/input_label.dart';
-import 'package:survey_io/components/padding/padding_horizontal.dart';
-import 'package:survey_io/components/padding/padding_vertical.dart';
+import 'package:survey_io/components/padding/padding.dart';
 import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/image/image_component.dart';
@@ -13,6 +12,7 @@ import 'package:survey_io/components/divider/divider_component.dart';
 import 'package:survey_io/components/button/text_button_component.dart';
 import 'package:survey_io/components/navigation/navigation_bottom_bar.dart';
 import 'package:survey_io/components/navigation/navigation_floating_icon.dart';
+import 'package:survey_io/views/home/notification.dart';
 import 'package:survey_io/views/polling/list_polling.dart';
 import 'package:survey_io/views/referal/invite_friend.dart';
 import 'package:survey_io/views/survei/list_survei.dart';
@@ -66,7 +66,14 @@ class _HomePageState extends State<HomePage> {
           width: MediaQuery.of(context).size.width * 0.35,
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const NotificationPage()));
+              },
+              icon: const Icon(Icons.notifications))
         ],
       ),
       body: SingleChildScrollView(
@@ -165,7 +172,7 @@ class _HomePageState extends State<HomePage> {
       left: null,
       child: Center(
         child: Padding(
-          padding: PaddingHorizontal.px1,
+          padding: PaddingHorizontalOnly.px1,
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
@@ -331,7 +338,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const InviteFriendPage()));
+                        builder: (context) => const InviteFriend()));
               },
               child: Container(
                 child: Column(

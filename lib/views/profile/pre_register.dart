@@ -10,16 +10,16 @@ import 'package:survey_io/components/text/text_component.dart';
 import 'package:survey_io/components/color/color_component.dart';
 import 'package:survey_io/components/divider/divider_component.dart';
 import 'package:survey_io/components/navigation/navigation_bottom_bar.dart';
-import 'package:survey_io/views/account/account_profile.dart';
+import 'package:survey_io/views/profile/profile.dart';
 
-class PreRegisterAccountPage extends StatefulWidget {
-  const PreRegisterAccountPage({super.key});
+class PreRegister extends StatefulWidget {
+  const PreRegister({super.key});
 
   @override
-  State<PreRegisterAccountPage> createState() => _PreRegisterAccountPageState();
+  State<PreRegister> createState() => _PreRegisterState();
 }
 
-class _PreRegisterAccountPageState extends State<PreRegisterAccountPage> {
+class _PreRegisterState extends State<PreRegister> {
   int selectedIndex = 2;
 
   @override
@@ -80,7 +80,7 @@ class _PreRegisterAccountPageState extends State<PreRegisterAccountPage> {
         text: 'Daftar',
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const ProfileAccount()));
+              MaterialPageRoute(builder: (context) => const Profile()));
         });
   }
 
