@@ -162,9 +162,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         final notification = notifications[innerIndex];
 
                         final notificationId = notification['id'];
-                        final date = notification["date"];
                         final title = notification["title"];
-                        final status = notification["status"];
 
                         return Dismissible(
                           key: Key(notificationId.toString()),
