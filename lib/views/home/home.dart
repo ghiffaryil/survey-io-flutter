@@ -12,7 +12,7 @@ import 'package:survey_io/components/divider/divider_component.dart';
 import 'package:survey_io/components/button/text_button_component.dart';
 import 'package:survey_io/components/navigation/navigation_bottom_bar.dart';
 import 'package:survey_io/components/navigation/navigation_floating_icon.dart';
-import 'package:survey_io/views/home/notification.dart';
+import 'package:survey_io/views/notification/notification.dart';
 import 'package:survey_io/views/polling/list_polling.dart';
 import 'package:survey_io/views/referal/invite_friend.dart';
 import 'package:survey_io/views/survei/list_survei.dart';
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const NotificationPage()));
+                        builder: (context) => NotificationListPage()));
               },
               icon: const Icon(Icons.notifications))
         ],
