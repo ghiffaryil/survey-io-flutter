@@ -1,18 +1,12 @@
-// ignore_for_file: prefer_typing_uninitialized_variables, non_constant_identifier_names
-
 import 'package:flutter/material.dart';
-import 'package:survey_io/pages/others/profile/pre_register.dart';
-import 'package:survey_io/pages/others/survei/buat_survei.dart';
-import 'package:survey_io/utils/color/color_component.dart';
-import 'package:survey_io/pages/home.dart';
+import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/pages/home/presentation/home.dart';
+import 'package:survey_io/pages/profile/presentation/pre_register.dart';
+import 'package:survey_io/pages/survey/presentation/create_survey.dart';
 
 class BottomMenu extends StatefulWidget {
-  final selectedIndex;
-  final jumlah_notifikasi_yang_belum_terbaca;
-  const BottomMenu(
-      {super.key,
-      this.selectedIndex,
-      this.jumlah_notifikasi_yang_belum_terbaca});
+  final int selectedIndex;
+  const BottomMenu({super.key, this.selectedIndex = 0});
   @override
   State<BottomMenu> createState() => _BottomMenuState();
 }
@@ -24,9 +18,6 @@ class _BottomMenuState extends State<BottomMenu> {
   }
 
   void onClicked(int index) {
-    // print('selectedIndex => ${widget.selectedIndex}');
-    // print('Index yang di klik => $index');
-
     if (widget.selectedIndex == index) {
       return;
     } else {
@@ -60,8 +51,8 @@ class _BottomMenuState extends State<BottomMenu> {
       ),
       child: ClipRRect(
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(35), // Adjust the radius as needed
-          topRight: Radius.circular(35), // Adjust the radius as needed
+          topLeft: Radius.circular(35),
+          topRight: Radius.circular(35),
         ),
         child: BottomNavigationBar(
           items: [

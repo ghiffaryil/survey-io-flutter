@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/auth/splashscreen/splashscreen.dart';
+import 'package:survey_io/pages/splashscreen/splashscreen.dart';
 
 void main() {
   runApp(const MyApp());
