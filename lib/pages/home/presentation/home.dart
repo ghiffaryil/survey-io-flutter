@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:survey_io/common/components/label_input.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/padding.dart';
@@ -14,7 +15,7 @@ import 'package:survey_io/pages/survey/models/survey_model.dart';
 import 'package:survey_io/pages/survey/presentation/list_survey.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/pages/tabs/navigation_floating_icon.dart';
-import 'package:survey_io/widgets/global/custom_divider.dart';
+import 'package:survey_io/common/components/custom_divider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/pages/notification/data/models/model_notification.dart';
+import 'package:survey_io/pages/notification/models/model_notification.dart';
 import 'package:flutter/material.dart';
 
 class NotificationCard extends StatelessWidget {

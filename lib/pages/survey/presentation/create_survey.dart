@@ -7,7 +7,7 @@ import 'package:survey_io/common/components/custom_elevated_button.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/pages/tabs/navigation_floating_icon.dart';
 import 'package:survey_io/pages/home/presentation/home.dart';
-import 'package:survey_io/widgets/global/custom_divider.dart';
+import 'package:survey_io/common/components/custom_divider.dart';
 
 class BuatSurvei extends StatefulWidget {
   const BuatSurvei({super.key});

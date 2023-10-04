@@ -4,9 +4,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:survey_io/common/components/custom_indicator.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/widgets/global/appbar_leading.dart';
-import 'package:survey_io/widgets/global/custom_divider.dart';
-import 'package:survey_io/widgets/global/label_input.dart';
+import 'package:survey_io/common/components/appbar_leading.dart';
+import 'package:survey_io/common/components/custom_divider.dart';
+import 'package:survey_io/common/components/label_input.dart';
 
 class PollingPage extends StatefulWidget {
   const PollingPage({super.key});

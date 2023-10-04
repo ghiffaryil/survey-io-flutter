@@ -6,9 +6,9 @@ import 'package:survey_io/common/components/image_network_rounded.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/widgets/global/appbar_leading.dart';
-import 'package:survey_io/widgets/global/custom_divider.dart';
-import 'package:survey_io/widgets/global/label_input.dart';
+import 'package:survey_io/common/components/appbar_leading.dart';
+import 'package:survey_io/common/components/custom_divider.dart';
+import 'package:survey_io/common/components/label_input.dart';
 
 class ListSurveiPage extends StatefulWidget {
   const ListSurveiPage({super.key});

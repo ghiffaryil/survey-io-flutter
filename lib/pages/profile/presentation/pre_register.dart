@@ -9,7 +9,7 @@ import 'package:survey_io/pages/tabs/navigation_floating_icon.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
-import 'package:survey_io/widgets/global/custom_divider.dart';
+import 'package:survey_io/common/components/custom_divider.dart';
 import 'profile.dart';
 
 class PreRegister extends StatefulWidget {

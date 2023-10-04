@@ -9,9 +9,9 @@ import 'package:survey_io/common/components/custom_text_button.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/pages/profile/presentation/profile.dart';
-import 'package:survey_io/widgets/global/appbar_leading.dart';
-import 'package:survey_io/widgets/global/custom_divider.dart';
-import 'package:survey_io/widgets/global/label_input.dart';
+import 'package:survey_io/common/components/appbar_leading.dart';
+import 'package:survey_io/common/components/custom_divider.dart';
+import 'package:survey_io/common/components/label_input.dart';
 
 class InviteFriend extends StatefulWidget {
   const InviteFriend({super.key});

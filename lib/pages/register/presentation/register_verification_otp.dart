@@ -7,8 +7,8 @@ import 'package:survey_io/common/components/custom_elevated_button.dart';
 // Import Component
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/widgets/global/appbar_leading.dart';
-import 'package:survey_io/widgets/global/custom_divider.dart';
+import 'package:survey_io/common/components/appbar_leading.dart';
+import 'package:survey_io/common/components/custom_divider.dart';
 
 import 'register_complete_profile.dart';
 
