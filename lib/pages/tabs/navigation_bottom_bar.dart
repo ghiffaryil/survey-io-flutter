@@ -59,11 +59,11 @@ class _BottomMenuState extends State<BottomMenu> {
             BottomNavigationBarItem(
               icon: widget.selectedIndex == 0
                   ? Image.asset(
-                      'assets/images/icons/ikutsurvei_icon_focused.png',
+                      'assets/icons/ikutsurvei_icon_focused.png',
                       width: 30,
                     )
                   : Image.asset(
-                      'assets/images/icons/polling_check_focused.png',
+                      'assets/icons/polling_check_focused.png',
                       width: 30,
                     ),
               label: 'Ikut Survei',
@@ -77,11 +77,11 @@ class _BottomMenuState extends State<BottomMenu> {
             BottomNavigationBarItem(
               icon: widget.selectedIndex == 2
                   ? Image.asset(
-                      'assets/images/icons/akun_icon_focused.png',
+                      'assets/icons/akun_icon_focused.png',
                       width: 30,
                     )
                   : Image.asset(
-                      'assets/images/icons/akun_icon.png',
+                      'assets/icons/akun_icon.png',
                       width: 30,
                     ),
               label: 'Akun',

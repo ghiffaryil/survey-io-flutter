@@ -69,7 +69,7 @@ class _BuatSurveiState extends State<BuatSurvei> {
           Container(height: MediaQuery.of(context).size.height * 0.15),
           CustomDividers.smallDivider(),
           Image.asset(
-            'assets/images/icons/empty_buatsurvei_image.png',
+            'assets/icons/empty_buatsurvei_image.png',
             width: MediaQuery.of(context).size.width * 0.5,
           ),
           CustomDividers.smallDivider(),
@@ -100,7 +100,7 @@ class _BuatSurveiState extends State<BuatSurvei> {
               children: [
                 // CustomDividers.smallDivider(),
                 Image.asset(
-                  'assets/images/icons/icon_survey.png',
+                  'assets/icons/icon_survey.png',
                   width: 45,
                   height: 45,
                 ),
@@ -116,7 +116,7 @@ class _BuatSurveiState extends State<BuatSurvei> {
               children: [
                 // CustomDividers.smallDivider(),
                 Image.asset(
-                  'assets/images/icons/icon_polling.png',
+                  'assets/icons/icon_polling.png',
                   width: 45,
                   height: 45,
                 ),
@@ -132,7 +132,7 @@ class _BuatSurveiState extends State<BuatSurvei> {
               children: [
                 // CustomDividers.smallDivider(),
                 Image.asset(
-                  'assets/images/icons/icon_invite.png',
+                  'assets/icons/icon_invite.png',
                   width: 45,
                   height: 45,
                 ),
@@ -196,7 +196,7 @@ class _BuatSurveiState extends State<BuatSurvei> {
                         Expanded(
                           flex: 4,
                           child: Image.asset(
-                            'assets/images/icons/account_icon.png',
+                            'assets/icons/account_icon.png',
                             width: 40,
                             height: 40,
                           ),
@@ -239,7 +239,7 @@ class _BuatSurveiState extends State<BuatSurvei> {
                         Expanded(
                           flex: 4,
                           child: Image.asset(
-                            'assets/images/icons/totalsurvei_icon.png',
+                            'assets/icons/totalsurvei_icon.png',
                             width: 40,
                             height: 40,
                           ),

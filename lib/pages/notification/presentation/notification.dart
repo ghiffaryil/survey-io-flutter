@@ -57,8 +57,7 @@ class _NotificationPageState extends State<NotificationPage> {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20.0),
         color: AppColors.infoColor,
-        child:
-            Image.asset('assets/images/icons/not_delete_icon.png', width: 25),
+        child: Image.asset('assets/icons/not_delete_icon.png', width: 25),
       ),
       key: UniqueKey(),
       direction: DismissDirection.endToStart,

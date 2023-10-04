@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
       automaticallyImplyLeading: false,
       backgroundColor: AppColors.primaryColor,
       title: Image.asset(
-        'assets/images/logo/surveiio_logo.png',
+        'assets/images/logo/logo_survey_io_white.png',
         width: MediaQuery.of(context).size.width * 0.35,
       ),
       actions: [
@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                         Expanded(
                           flex: 4,
                           child: Image.asset(
-                            'assets/images/icons/account_icon.png',
+                            'assets/icons/account_icon.png',
                             width: 40,
                             height: 40,
                           ),
@@ -206,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                         Expanded(
                           flex: 4,
                           child: Image.asset(
-                            'assets/images/icons/point_icon.png',
+                            'assets/icons/point_icon.png',
                             width: 40,
                             height: 40,
                           ),
@@ -265,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   // CustomDividers.smallDivider(),
                   Image.asset(
-                    'assets/images/icons/icon_survey.png',
+                    'assets/icons/icon_survey.png',
                     width: 45,
                     height: 45,
                   ),
@@ -289,7 +289,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   // CustomDividers.smallDivider(),
                   Image.asset(
-                    'assets/images/icons/icon_polling.png',
+                    'assets/icons/icon_polling.png',
                     width: 45,
                     height: 45,
                   ),
@@ -313,7 +313,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   // CustomDividers.smallDivider(),
                   Image.asset(
-                    'assets/images/icons/icon_invite.png',
+                    'assets/icons/icon_invite.png',
                     width: 45,
                     height: 45,
                   ),
@@ -395,7 +395,7 @@ class _HomePageState extends State<HomePage> {
                                 Row(
                                   children: [
                                     Image.asset(
-                                      'assets/images/icons/point_icon.png',
+                                      'assets/icons/point_icon.png',
                                       width: 25,
                                       height: 25,
                                     ),
@@ -500,7 +500,7 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.only(right: 10),
                           alignment: Alignment.centerRight,
                           child: Image.asset(
-                            'assets/images/icons/polling_check.png',
+                            'assets/icons/polling_check.png',
                             width: 25,
                             height: 25,
                           ),
@@ -516,7 +516,7 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       children: [
                         Image.asset(
-                          'assets/images/icons/point_icon.png',
+                          'assets/icons/point_icon.png',
                           width: 25,
                           height: 25,
                         ),
@@ -640,7 +640,7 @@ class _HomePageState extends State<HomePage> {
                                       Row(
                                         children: [
                                           Image.asset(
-                                            'assets/images/icons/point_icon.png',
+                                            'assets/icons/point_icon.png',
                                             width: 25,
                                             height: 25,
                                           ),
@@ -724,7 +724,7 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                           padding: const EdgeInsets.all(10),
                           child: Image.asset(
-                              'assets/images/icons/undraw_to_do_list_re_9_nt_7_1.png')),
+                              'assets/icons/undraw_to_do_list_re_9_nt_7_1.png')),
                     ),
                     Expanded(
                       flex: 5,

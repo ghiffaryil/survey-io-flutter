@@ -109,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
               flex: 2,
               child: Center(
                   child: SvgPicture.asset(
-                      'assets/images/information/warning-info.svg'))),
+                      'assets/images/information/warning_info.svg'))),
           Expanded(
             flex: 8,
             child: Text(

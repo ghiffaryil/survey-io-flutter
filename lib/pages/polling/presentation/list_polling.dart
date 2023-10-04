@@ -606,7 +606,7 @@ class _PollingPageState extends State<PollingPage> {
                     children: [
                       Expanded(flex: 8, child: Container()),
                       Image.asset(
-                        'assets/images/icons/undraw_pie_chart_re_bgs_8_1.png',
+                        'assets/icons/undraw_pie_chart_re_bgs_8_1.png',
                         width: 60,
                       ),
                     ],

@@ -128,7 +128,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                         Row(
                           children: [
                             Image.asset(
-                              'assets/images/icons/point_icon.png',
+                              'assets/icons/point_icon.png',
                               width: 25,
                               height: 25,
                             ),

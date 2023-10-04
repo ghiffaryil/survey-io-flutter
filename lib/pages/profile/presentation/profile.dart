@@ -77,7 +77,7 @@ class _ProfileState extends State<Profile> {
         child: Row(
           children: [
             Image.asset(
-              'assets/images/icons/account_icon.png',
+              'assets/icons/account_icon.png',
               width: 45,
             ),
             const SizedBox(
@@ -121,7 +121,7 @@ class _ProfileState extends State<Profile> {
                           'Verified',
                           style: TextStyles.h5(color: Colors.white),
                         ),
-                        Image.asset('assets/images/icons/check_verified.png')
+                        Image.asset('assets/icons/check_verified.png')
                       ],
                     )),
                   ),
@@ -137,7 +137,7 @@ class _ProfileState extends State<Profile> {
       children: [
         CustomDividers.verySmallDivider(),
         HorizontalMenu(
-          imageAsset: 'assets/images/icons/editprofile_icon.png',
+          imageAsset: 'assets/icons/editprofile_icon.png',
           text: 'Edit Profile',
           icon: Icons.arrow_forward_ios,
           onPressed: () {
@@ -148,7 +148,7 @@ class _ProfileState extends State<Profile> {
           textColor: AppColors.secondaryLightColor,
         ),
         HorizontalMenu(
-          imageAsset: 'assets/images/icons/invitefriend_icon.png',
+          imageAsset: 'assets/icons/invitefriend_icon.png',
           text: 'Invite Friend',
           icon: Icons.arrow_forward_ios,
           onPressed: () {
@@ -166,7 +166,7 @@ class _ProfileState extends State<Profile> {
               labelStyle: TextStyles.h4(color: AppColors.secondaryColor)),
         ),
         HorizontalMenu(
-          imageAsset: 'assets/images/icons/helpcenter_icon.png',
+          imageAsset: 'assets/icons/helpcenter_icon.png',
           text: 'Pusat Bantuan',
           icon: Icons.arrow_forward_ios,
           onPressed: () {
@@ -176,7 +176,7 @@ class _ProfileState extends State<Profile> {
           textColor: AppColors.secondaryLightColor,
         ),
         HorizontalMenu(
-          imageAsset: 'assets/images/icons/privacypolicy_icon.png',
+          imageAsset: 'assets/icons/privacypolicy_icon.png',
           text: 'Kebijakan Privasi',
           icon: Icons.arrow_forward_ios,
           onPressed: () {
@@ -186,7 +186,7 @@ class _ProfileState extends State<Profile> {
           textColor: AppColors.secondaryLightColor,
         ),
         HorizontalMenu(
-          imageAsset: 'assets/images/icons/tnc_icon.png',
+          imageAsset: 'assets/icons/tnc_icon.png',
           text: 'Ketentuan Layanan',
           icon: Icons.arrow_forward_ios,
           onPressed: () {
@@ -197,7 +197,7 @@ class _ProfileState extends State<Profile> {
           textColor: AppColors.secondaryLightColor,
         ),
         HorizontalMenu(
-          imageAsset: 'assets/images/icons/rating_icon.png',
+          imageAsset: 'assets/icons/rating_icon.png',
           text: 'Beri Rating',
           icon: Icons.arrow_forward_ios,
           onPressed: () {

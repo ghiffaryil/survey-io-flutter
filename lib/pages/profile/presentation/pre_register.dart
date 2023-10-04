@@ -44,7 +44,7 @@ class _PreRegisterState extends State<PreRegister> {
           children: [
             CustomDividers.smallDivider(),
             Image.asset(
-              'assets/images/icons/empty_akun_image.png',
+              'assets/icons/empty_akun_image.png',
               width: MediaQuery.of(context).size.width * 0.6,
             ),
             CustomDividers.smallDivider(),

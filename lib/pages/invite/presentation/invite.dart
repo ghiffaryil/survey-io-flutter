@@ -104,7 +104,7 @@ class _InviteFriendState extends State<InviteFriend> {
 
   Widget ImageInvitation() {
     return Image.asset(
-      'assets/images/icons/invitefriends_icon.png',
+      'assets/icons/invitefriends_icon.png',
       width: MediaQuery.of(context).size.width * 0.4,
     );
   }
@@ -141,7 +141,7 @@ class _InviteFriendState extends State<InviteFriend> {
               child: Row(
                 children: [
                   Image.asset(
-                    'assets/images/icons/content_copy_icon.png',
+                    'assets/icons/content_copy_icon.png',
                     width: 20,
                   ),
                   const SizedBox(

@@ -35,19 +35,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   final List<CarouselItem> carouselItems = [
     CarouselItem(
-      imagePath: 'assets/images/onboarding/img-onboarding-slide-1.svg',
+      imagePath: 'assets/images/onboarding/img_onboarding_slide_1.svg',
       title: 'Selamat Datang',
       description:
           'Dengan Survei.io, kamu bisa berbagi opini sekaligus membuat survei sendiri',
     ),
     CarouselItem(
-      imagePath: 'assets/images/onboarding/img-onboarding-slide-2.svg',
+      imagePath: 'assets/images/onboarding/img_onboarding_slide_2.svg',
       title: 'Ikut Survei',
       description:
           'Bagikan opini kamu sambil mengumpulkan uang jajan dari Survei.io',
     ),
     CarouselItem(
-      imagePath: 'assets/images/onboarding/img-onboarding-slide-3.svg',
+      imagePath: 'assets/images/onboarding/img_onboarding_slide_3.svg',
       title: 'Buat Survei',
       description:
           'Rencanakan survei kamu kapanpun dan di manapun dengan Survei.io',
@@ -86,7 +86,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         margin: const EdgeInsets.only(top: 25),
         alignment: Alignment.center,
         child: Image.asset(
-          'assets/images/logo/logo-survey-io-horizontal.png',
+          'assets/images/logo/logo_survey_io_horizontal.png',
           width: MediaQuery.of(context).size.width * 0.6,
         ));
   }
@@ -169,28 +169,26 @@ class CarouselItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            item.imagePath,
-          ),
-          const SizedBox(
-            height: 40,
-          ),
-          Text(
-            item.title,
-            style: TextStyles.h2(color: AppColors.secondaryColor),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(item.description,
-              textAlign: TextAlign.center,
-              style: TextStyles.regular(color: AppColors.secondaryColor)),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset(
+          item.imagePath,
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        Text(
+          item.title,
+          style: TextStyles.h2(color: AppColors.secondaryColor),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Text(item.description,
+            textAlign: TextAlign.center,
+            style: TextStyles.regular(color: AppColors.secondaryColor)),
+      ],
     );
   }
 }

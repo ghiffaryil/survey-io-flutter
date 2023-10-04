@@ -11,10 +11,10 @@ class NavigationFloatingIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imageAsset = 'assets/images/icons/rewards_icon.png';
+    String imageAsset = 'assets/icons/rewards_icon.png';
 
     if (isActive == true) {
-      imageAsset = 'assets/images/icons/rewards_icon_focused.png';
+      imageAsset = 'assets/icons/rewards_icon_focused.png';
     }
 
     return SizedBox(

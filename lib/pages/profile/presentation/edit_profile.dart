@@ -157,7 +157,7 @@ class _EditProfileState extends State<EditProfile> {
           keyboardType: TextInputType.text,
           controller: NomorTelepon,
           hintText: '081234567890',
-          suffixIconPNG: 'assets/images/icons/polling_check_info.png',
+          suffixIconPNG: 'assets/icons/polling_check_info.png',
         ),
         CustomDividers.smallDivider(),
         LabelInput(

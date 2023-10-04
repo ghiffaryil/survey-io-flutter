@@ -35,7 +35,7 @@ class SplashScreenPageState extends State<SplashScreenPage> {
       backgroundColor: Colors.white,
       body: Center(
         child: Image.asset(
-          "assets/images/logo/logo-survey-io.png",
+          "assets/images/logo/logo_survey_io_square.png",
           width: MediaQuery.of(context).size.width * 0.65,
           // height: 88,
         ),
