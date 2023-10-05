@@ -63,6 +63,7 @@ flutter:
     - assets/images/logo/
     - assets/images/onboarding/
     - assets/images/information/
+    - assets/images/global/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -107,15 +108,15 @@ flutter_icons:
   min_sdk_android: 21 # android min sdk min:16, default 21
   web:
     generate: true
-    image_path: "assets/images/logo/logo_survey_io_hd.png"
+    image_path: "assets/images/logo/logo_survey_io_square.png"
     background_color: "#hexcode"
     theme_color: "#hexcode"
   windows:
     generate: true
-    image_path: "assets/images/logo/logo_survey_io_hd.png"
+    image_path: "assets/images/logo/logo_survey_io_square.png"
     icon_size: 48 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "assets/images/logo/logo_survey_io_hd.png"
+    image_path: "assets/images/logo/logo_survey_io_square.png"
   ios: true
-  image_path: "assets/images/logo/logo_survey_io_hd.png"
+  image_path: "assets/images/logo/logo_survey_io_square.png"

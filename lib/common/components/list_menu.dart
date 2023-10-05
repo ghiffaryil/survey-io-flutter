@@ -26,7 +26,7 @@ class HorizontalMenu extends StatelessWidget {
       color: Colors.white,
       child: InkWell(
         onTap: onPressed,
-        splashColor: AppColors.secondaryLightColor.withOpacity(0.3),
+        splashColor: AppColors.light.withOpacity(0.3),
         child: Container(
           height: MediaQuery.of(context).size.height * 0.08,
           padding: const EdgeInsets.only(left: 20, bottom: 0),
@@ -53,7 +53,7 @@ class HorizontalMenu extends StatelessWidget {
                     border: Border(
                       bottom: BorderSide(
                         color: AppColors
-                            .menuColor, // Set your desired border color
+                            .secondary, // Set your desired border color
                         width: 0.2, // Set your desired border width
                       ),
                     ),
@@ -73,8 +73,7 @@ class HorizontalMenu extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: AppColors
-                            .secondaryLightColor, // Set your desired border color
+                        color: AppColors.light, // Set your desired border color
                         width: 0.2, // Set your desired border width
                       ),
                     ),

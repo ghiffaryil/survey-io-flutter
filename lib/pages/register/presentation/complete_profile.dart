@@ -1,14 +1,17 @@
 import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/custom_elevated_button.dart';
-import 'package:survey_io/common/components/form_input_text.dart';
+import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/common/components/input_field_date.dart';
+import 'package:survey_io/common/components/input_field_password.dart';
+import 'package:survey_io/common/components/input_field_radio.dart';
+import 'package:survey_io/common/components/input_field_text.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/pages/login/presentation/login.dart';
-import 'package:survey_io/common/components/custom_divider.dart';
-import 'package:survey_io/common/components/label_input.dart';
+import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/common/components/label.dart';
 
 class CompleteProfile extends StatefulWidget {
   const CompleteProfile({super.key});
@@ -18,30 +21,31 @@ class CompleteProfile extends StatefulWidget {
 }
 
 class _CompleteProfileState extends State<CompleteProfile> {
-  TextEditingController NamaLengkap = TextEditingController();
-  TextEditingController TanggalLahir = TextEditingController();
-  TextEditingController Password = TextEditingController();
-  TextEditingController KodeReferal = TextEditingController();
+  TextEditingController fullName = TextEditingController();
+  TextEditingController placeOfBirth = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController referalCode = TextEditingController();
 
-  FocusNode namaLengkapFocus = FocusNode();
-  FocusNode tanggalLahirFocus = FocusNode();
+  FocusNode fullNameFocus = FocusNode();
+  FocusNode placeOfBirthFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
-  FocusNode kodeReferalFocus = FocusNode();
+  FocusNode referalCodeFocus = FocusNode();
 
-  String JenisKelamin = '';
-  bool _hidePassword = true;
+  String gender = '';
+  String selectedGender = '';
+  bool _hidepassword = true;
 
-  void _showHidePasswordTogle() {
+  void _showHidepasswordTogle() {
     setState(() {
-      _hidePassword = !_hidePassword;
+      _hidepassword = !_hidepassword;
     });
   }
 
   void unfocusAll() {
-    namaLengkapFocus.unfocus();
-    tanggalLahirFocus.unfocus();
+    fullNameFocus.unfocus();
+    placeOfBirthFocus.unfocus();
     passwordFocus.unfocus();
-    kodeReferalFocus.unfocus();
+    referalCodeFocus.unfocus();
   }
 
   @override
@@ -58,8 +62,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
             padding: const EdgeInsets.all(30),
             child: Column(
               children: [
-                LabelText(),
-                FormInputField(),
+                labelText(),
+                formInputField(),
                 CustomDividers.smallDivider(),
                 labelTermAndCondition(),
                 CustomDividers.smallDivider(),
@@ -72,14 +76,14 @@ class _CompleteProfileState extends State<CompleteProfile> {
     );
   }
 
-  Widget LabelText() {
+  Widget labelText() {
     return Column(
       children: [
         Container(
           alignment: Alignment.centerLeft,
           child: Text(
             'Sedikit Lagi....',
-            style: TextStyles.h2(color: AppColors.secondaryColor),
+            style: TextStyles.h2(color: AppColors.secondary),
           ),
         ),
         CustomDividers.smallDivider(),
@@ -87,7 +91,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
           alignment: Alignment.centerLeft,
           child: Text(
             '3. Lengkapi Profil Kamu',
-            style: TextStyles.h4(color: AppColors.secondaryColor),
+            style: TextStyles.h4(color: AppColors.secondary),
           ),
         ),
         CustomDividers.smallDivider(),
@@ -95,26 +99,24 @@ class _CompleteProfileState extends State<CompleteProfile> {
     );
   }
 
-  Widget FormInputField() {
+  Widget formInputField() {
     return Column(
       children: [
         LabelInput(
           labelText: 'Nama Lengkap',
-          labelStyle: TextStyles.h4(color: AppColors.secondaryColor),
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
         TextInputField(
-          focusNode: namaLengkapFocus,
+          focusNode: fullNameFocus,
           keyboardType: TextInputType.text,
-          controller: NamaLengkap,
+          controller: fullName,
           hintText: 'Nama Lengkap',
-          // prefixIcon: Icon(Icons.person), // Set prefix icon
-          // suffixIcon: Icon(Icons.person), // Set suffix icon
         ),
         CustomDividers.smallDivider(),
         LabelInput(
           labelText: 'Jenis Kelamin',
-          labelStyle: TextStyles.h4(color: AppColors.secondaryColor),
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
         Row(
@@ -123,25 +125,39 @@ class _CompleteProfileState extends State<CompleteProfile> {
             Expanded(
                 flex: 5,
                 child: RadioTextInput(
-                    parameter: 'JenisKelamin', value: 'Laki-laki')),
+                  value: 'Laki-laki',
+                  selectedOption: selectedGender,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedGender = value;
+                    });
+                  },
+                )),
             Container(
               width: 15,
             ),
             Expanded(
                 flex: 5,
                 child: RadioTextInput(
-                    parameter: 'JenisKelamin', value: 'Perempuan')),
+                  value: 'Perempuan',
+                  selectedOption: selectedGender,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedGender = value;
+                    });
+                  },
+                )),
           ],
         ),
         CustomDividers.smallDivider(),
         LabelInput(
           labelText: 'Tanggal Lahir',
-          labelStyle: TextStyles.h4(color: AppColors.secondaryColor),
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
         DateInputField(
-          focusNode: tanggalLahirFocus,
-          controller: TanggalLahir,
+          focusNode: placeOfBirthFocus,
+          controller: placeOfBirth,
           hintText: '01-01-1991',
           firstDate: DateTime(1980),
           lastDate: DateTime.now(),
@@ -151,26 +167,26 @@ class _CompleteProfileState extends State<CompleteProfile> {
         CustomDividers.smallDivider(),
         LabelInput(
           labelText: 'Password',
-          labelStyle: TextStyles.h4(color: AppColors.secondaryColor),
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
         PasswordTextInput(
           focusNode: passwordFocus,
-          controller: Password,
+          controller: password,
           hintText: 'Password',
-          hidePassword: _hidePassword,
-          onPasswordVisibilityToggle: _showHidePasswordTogle,
+          hidePassword: _hidepassword,
+          onPasswordVisibilityToggle: _showHidepasswordTogle,
         ),
         CustomDividers.smallDivider(),
         LabelInput(
           labelText: 'Kode Referal',
-          labelStyle: TextStyles.h4(color: AppColors.secondaryColor),
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
         TextInputField(
-          focusNode: kodeReferalFocus,
+          focusNode: referalCodeFocus,
           keyboardType: TextInputType.text,
-          controller: KodeReferal,
+          controller: referalCode,
           hintText: 'Masukkan Kode (Jika Ada)',
           // prefixIcon: Icon(Icons.person), // Set prefix icon
           // suffixIcon: Icon(Icons.person), // Set suffix icon
@@ -180,7 +196,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
   }
 
   Widget submitButton() {
-    return ElevatedButtonPrimary(
+    return ButtonFilled.primary(
         text: 'Submit',
         onPressed: () {
           Navigator.push(context,
@@ -197,15 +213,15 @@ class _CompleteProfileState extends State<CompleteProfile> {
           children: [
             TextSpan(
                 text: 'Dengan menekan “Submit”, kamu menyutujui',
-                style: TextStyles.regular(color: AppColors.secondaryColor)),
+                style: TextStyles.regular(color: AppColors.secondary)),
             TextSpan(
               text: ' Ketentuan Layanan',
-              style: TextStyles.regular(color: AppColors.primaryColor),
+              style: TextStyles.regular(color: AppColors.primary),
               recognizer: TapGestureRecognizer()..onTap = () {},
             ),
             TextSpan(
                 text: ' Survei.io',
-                style: TextStyles.regular(color: AppColors.secondaryColor)),
+                style: TextStyles.regular(color: AppColors.secondary)),
           ],
         ),
       ),
