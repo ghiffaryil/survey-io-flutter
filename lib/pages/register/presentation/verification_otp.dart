@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/custom_elevated_button.dart';
+import 'package:survey_io/common/components/elevated_button.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/common/components/appbar_leading.dart';
-import 'package:survey_io/common/components/custom_divider.dart';
+import 'package:survey_io/common/components/divider.dart';
 
-import 'register_complete_profile.dart';
+import '../../../common/components/appbar_plain.dart';
+import 'complete_profile.dart';
 
 class VerificationOTP extends StatefulWidget {
   const VerificationOTP({super.key});
@@ -62,52 +62,57 @@ class _VerificationOTPState extends State<VerificationOTP> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: LeadingHeader(
-            iconSize: 30.0,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            textColor: AppColors.secondaryColor,
-            leadingIcon: Icons.arrow_back_ios, // Pass the icon data here
-          )),
-      body: Container(
-        padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            LabelText(),
-            FormInputOTP(),
-            ResendOTP(),
-            CustomDividers.extraLargeDivider(),
-            CustomDividers.extraLargeDivider(),
-            ButtonVerifikasi(),
-          ],
+      appBar: PlainAppBar(
+        height: 70.0,
+        leadingIcon: Icons.arrow_back_ios,
+        iconSize: 35.0,
+        textColor: AppColors.secondary,
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Container(
+          padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildLabelText(),
+              CustomDividers.smallDivider(),
+              buildFormInputOTP(),
+              CustomDividers.smallDivider(),
+              buildFormResetOTP(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.48,
+              ),
+              buildButtonVerification(),
+              CustomDividers.smallDivider(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget LabelText() {
+  Widget buildLabelText() {
     return Container(
       alignment: Alignment.centerLeft,
       child: Text(
         'Verifikasi',
-        style: TextStyles.h2(color: AppColors.secondaryColor),
+        style: TextStyles.h2(color: AppColors.secondary),
       ),
     );
   }
 
-  Widget FormInputOTP() {
+  Widget buildFormInputOTP() {
     return Column(
       children: [
         Container(
           alignment: Alignment.centerLeft,
           child: Text(
             '2. Masukkan 4 digit WhatsApp OTP',
-            style: TextStyles.h4(color: AppColors.secondaryColor),
+            style: TextStyles.h4(color: AppColors.secondary),
           ),
         ),
         CustomDividers.smallDivider(),
@@ -121,7 +126,7 @@ class _VerificationOTPState extends State<VerificationOTP> {
                 width: 60.0,
                 height: 60.0,
                 child: TextFormField(
-                  style: TextStyles.h4(color: AppColors.secondaryColor),
+                  style: TextStyles.h4(color: AppColors.secondary),
                   controller: _otpInputControllers[index],
                   focusNode: _focusNodes[index],
                   keyboardType: TextInputType.number,
@@ -152,7 +157,7 @@ class _VerificationOTPState extends State<VerificationOTP> {
     );
   }
 
-  Widget ResendOTP() {
+  Widget buildFormResetOTP() {
     String timerText =
         _timerActive ? '(${_secondsRemaining.toString().padLeft(2, '0')})' : '';
 
@@ -161,7 +166,7 @@ class _VerificationOTPState extends State<VerificationOTP> {
       children: [
         Text(
           'Tidak menerima kode OTP?',
-          style: TextStyles.h4(color: AppColors.secondaryColor),
+          style: TextStyles.h4(color: AppColors.secondary),
         ),
         const SizedBox(
           height: 10,
@@ -180,17 +185,13 @@ class _VerificationOTPState extends State<VerificationOTP> {
                   },
                 text: 'Kirim Lagi ',
                 style: TextStyles.h4(
-                  color: _timerActive
-                      ? AppColors.secondaryColor
-                      : AppColors.primaryColor,
+                  color: _timerActive ? AppColors.secondary : AppColors.primary,
                 ),
               ),
               TextSpan(
                 text: timerText,
                 style: TextStyles.h4(
-                  color: _timerActive
-                      ? AppColors.secondaryColor
-                      : AppColors.primaryColor,
+                  color: _timerActive ? AppColors.secondary : AppColors.primary,
                 ),
               ),
             ],
@@ -200,8 +201,8 @@ class _VerificationOTPState extends State<VerificationOTP> {
     );
   }
 
-  Widget ButtonVerifikasi() {
-    return ElevatedButtonPrimary(
+  Widget buildButtonVerification() {
+    return ButtonFilled.primary(
         text: 'Verifikasi',
         onPressed: () {
           Navigator.push(context,

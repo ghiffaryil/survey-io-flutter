@@ -2,14 +2,16 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/custom_elevated_button.dart';
+import 'package:survey_io/common/components/elevated_button.dart';
 
 // Import Component
 import 'package:survey_io/pages/tabs/navigation_floating_icon.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
-import 'package:survey_io/common/components/custom_divider.dart';
+import 'package:survey_io/common/components/divider.dart';
+import '../../../common/components/appbar.dart';
+import '../../../common/constants/images.dart';
 import 'profile.dart';
 
 class PreRegister extends StatefulWidget {
@@ -26,15 +28,16 @@ class _PreRegisterState extends State<PreRegister> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFf8fbff),
-      appBar: AppBar(
-        toolbarHeight: 100.0,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.primaryColor,
+      appBar: MainAppBar(
         title: Text(
           'Akun',
-          style: TextStyles.h2(color: Colors.white),
+          style: TextStyles.h2ExtraBold(
+            color: AppColors.white,
+          ),
         ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       body: Container(
         padding: const EdgeInsets.all(30),
@@ -44,19 +47,19 @@ class _PreRegisterState extends State<PreRegister> {
           children: [
             CustomDividers.smallDivider(),
             Image.asset(
-              'assets/icons/empty_akun_image.png',
+              Images.emptyAccount,
               width: MediaQuery.of(context).size.width * 0.6,
             ),
             CustomDividers.smallDivider(),
             Text(
               'Ups, akun tidak ditemukan \n Yuk buat akun kamu sekarang!',
               textAlign: TextAlign.center,
-              style: TextStyles.extraLarge(color: AppColors.secondaryColor),
+              style: TextStyles.extraLarge(color: AppColors.secondary),
             ),
             CustomDividers.largeDivider(),
-            ButtonSubmit(),
+            buttonSubmit(),
             CustomDividers.smallDivider(),
-            TextSignInHere(),
+            textSignInHere(),
             CustomDividers.smallDivider(),
           ],
         ),
@@ -71,8 +74,8 @@ class _PreRegisterState extends State<PreRegister> {
     );
   }
 
-  Widget ButtonSubmit() {
-    return ElevatedButtonPrimary(
+  Widget buttonSubmit() {
+    return ButtonFilled.primary(
         text: 'Daftar',
         onPressed: () {
           Navigator.push(context,
@@ -80,16 +83,16 @@ class _PreRegisterState extends State<PreRegister> {
         });
   }
 
-  Widget TextSignInHere() {
+  Widget textSignInHere() {
     return RichText(
       text: TextSpan(
         children: [
           TextSpan(
               text: 'Sudah Punya Akun ?',
-              style: TextStyles.h5(color: AppColors.secondaryColor)),
+              style: TextStyles.h5(color: AppColors.secondary)),
           TextSpan(
             text: ' Login di sini',
-            style: TextStyles.h5(color: AppColors.primaryColor),
+            style: TextStyles.h5(color: AppColors.primary),
             recognizer: TapGestureRecognizer()..onTap = () {},
           ),
         ],

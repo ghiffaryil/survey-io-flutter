@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
 // Import Component
-import 'package:survey_io/common/components/appbar_title.dart';
-import 'package:survey_io/common/components/custom_text_button.dart';
+import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/components/list_menu.dart';
+import 'package:survey_io/common/constants/icons.dart';
 import 'package:survey_io/pages/invite/presentation/invite.dart';
-import 'package:survey_io/common/components/custom_divider.dart';
-import 'package:survey_io/common/components/label_input.dart';
+import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/pages/tabs/navigation_floating_icon.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/pages/home/presentation/home.dart';
+import '../../../common/components/appbar.dart';
 import 'edit_profile.dart';
 
 class Profile extends StatefulWidget {
@@ -28,23 +29,28 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFf8fbff),
-      appBar: AppBar(
-          toolbarHeight: 70.0,
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          backgroundColor: AppColors.primaryColor,
-          title: TitleHeader(
-              textHeader: 'Akun',
-              labelStyle: TextStyles.h2ExtraBold(color: Colors.white))),
+      appBar: MainAppBar(
+        height: 70.0,
+        toolbarHeight: 70.0,
+        title: Text(
+          'Akun',
+          style: TextStyles.h2ExtraBold(
+            color: AppColors.white,
+          ),
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            AccountInformation(),
-            ListMenu(),
+            userInformation(),
+            listMenu(),
             CustomDividers.smallDivider(),
-            TextVersionInfo(),
+            versionInformation(),
             CustomDividers.smallDivider(),
-            ButtonLogout(),
+            buttonLogout(),
             CustomDividers.mediumDivider(),
           ],
         ),
@@ -59,13 +65,13 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget AccountInformation() {
+  Widget userInformation() {
     return Container(
       padding: const EdgeInsets.only(left: 25, right: 25, top: 5, bottom: 20),
       width: double.infinity,
       // height: MediaQuery.of(context).size.height * 0.15,
       decoration: const BoxDecoration(
-        color: AppColors.primaryColor,
+        color: AppColors.primary,
       ),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.09,
@@ -77,7 +83,7 @@ class _ProfileState extends State<Profile> {
         child: Row(
           children: [
             Image.asset(
-              'assets/icons/account_icon.png',
+              IconName.account,
               width: 45,
             ),
             const SizedBox(
@@ -92,12 +98,12 @@ class _ProfileState extends State<Profile> {
                   Text(
                     'Fahmi Fauzi',
                     style: TextStyles.extraLarge(
-                        color: AppColors.secondaryColor,
+                        color: AppColors.secondary,
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
                     '0812321312312',
-                    style: TextStyles.regular(color: AppColors.secondaryColor),
+                    style: TextStyles.regular(color: AppColors.secondary),
                   )
                 ],
               ),
@@ -110,7 +116,7 @@ class _ProfileState extends State<Profile> {
                   child: Container(
                     height: 40,
                     decoration: const BoxDecoration(
-                      color: AppColors.primaryColor,
+                      color: AppColors.primary,
                       borderRadius: BorderRadius.all(Radius.circular(50)),
                     ),
                     child: Center(
@@ -121,7 +127,7 @@ class _ProfileState extends State<Profile> {
                           'Verified',
                           style: TextStyles.h5(color: Colors.white),
                         ),
-                        Image.asset('assets/icons/check_verified.png')
+                        Image.asset('assets/icons/icon_check_verified.png')
                       ],
                     )),
                   ),
@@ -132,86 +138,84 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget ListMenu() {
+  Widget listMenu() {
     return Column(
       children: [
         CustomDividers.verySmallDivider(),
         HorizontalMenu(
-          imageAsset: 'assets/icons/editprofile_icon.png',
+          imageAsset: IconName.editProfile,
           text: 'Edit Profile',
           icon: Icons.arrow_forward_ios,
           onPressed: () {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const EditProfile()));
           },
-          iconColor: AppColors.secondaryLightColor,
-          textColor: AppColors.secondaryLightColor,
+          iconColor: AppColors.light,
+          textColor: AppColors.light,
         ),
         HorizontalMenu(
-          imageAsset: 'assets/icons/invitefriend_icon.png',
+          imageAsset: IconName.inviteFriend,
           text: 'Invite Friend',
           icon: Icons.arrow_forward_ios,
           onPressed: () {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const InviteFriend()));
           },
-          iconColor: AppColors.secondaryLightColor,
-          textColor: AppColors.secondaryLightColor,
+          iconColor: AppColors.light,
+          textColor: AppColors.light,
         ),
         CustomDividers.verySmallDivider(),
         Padding(
           padding: const EdgeInsets.all(15.0),
           child: LabelInput(
               labelText: 'Other Info',
-              labelStyle: TextStyles.h4(color: AppColors.secondaryColor)),
+              labelStyle: TextStyles.h4(color: AppColors.secondary)),
         ),
         HorizontalMenu(
-          imageAsset: 'assets/icons/helpcenter_icon.png',
+          imageAsset: IconName.helper,
           text: 'Pusat Bantuan',
           icon: Icons.arrow_forward_ios,
           onPressed: () {
             // Your onPressed logic here
           },
-          iconColor: AppColors.secondaryLightColor,
-          textColor: AppColors.secondaryLightColor,
+          iconColor: AppColors.light,
+          textColor: AppColors.light,
         ),
         HorizontalMenu(
-          imageAsset: 'assets/icons/privacypolicy_icon.png',
+          imageAsset: IconName.privacypolicy,
           text: 'Kebijakan Privasi',
           icon: Icons.arrow_forward_ios,
           onPressed: () {
             // Your onPressed logic here
           },
-          iconColor: AppColors.secondaryLightColor,
-          textColor: AppColors.secondaryLightColor,
+          iconColor: AppColors.light,
+          textColor: AppColors.light,
         ),
         HorizontalMenu(
-          imageAsset: 'assets/icons/tnc_icon.png',
+          imageAsset: IconName.tnc,
           text: 'Ketentuan Layanan',
           icon: Icons.arrow_forward_ios,
           onPressed: () {
             // Your onPressed logic here
-            print('Ketentuan');
           },
-          iconColor: AppColors.secondaryLightColor,
-          textColor: AppColors.secondaryLightColor,
+          iconColor: AppColors.light,
+          textColor: AppColors.light,
         ),
         HorizontalMenu(
-          imageAsset: 'assets/icons/rating_icon.png',
+          imageAsset: IconName.rating,
           text: 'Beri Rating',
           icon: Icons.arrow_forward_ios,
           onPressed: () {
             // Your onPressed logic here
-            print('Beri Rating');
           },
-          iconColor: AppColors.secondaryLightColor,
-          textColor: AppColors.secondaryLightColor,
+          iconColor: AppColors.light,
+          textColor: AppColors.light,
         ),
       ],
     );
   }
 
-  Widget TextVersionInfo() {
+  Widget versionInformation() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Container(
@@ -219,17 +223,16 @@ class _ProfileState extends State<Profile> {
         child: Text(
           'Ver.1.0.0',
           textAlign: TextAlign.right,
-          style: TextStyles.muted(
-              color: AppColors.secondaryColor.withOpacity(0.3)),
+          style: TextStyles.muted(color: AppColors.secondary.withOpacity(0.3)),
         ),
       ),
     );
   }
 
-  Widget ButtonLogout() {
+  Widget buttonLogout() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: TextButtonOutlineSecondary(
+      child: TextButtonOutlined.secondary(
           text: 'Logout',
           onPressed: () {
             Navigator.push(context,

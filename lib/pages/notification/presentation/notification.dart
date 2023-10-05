@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/appbar_leading.dart';
-import 'package:survey_io/common/components/label_input.dart';
-
+import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/styles.dart';
@@ -9,6 +7,8 @@ import 'package:survey_io/common/extension/helper/date_helper.dart';
 import 'package:survey_io/pages/notification/models/model_notification.dart';
 import 'package:survey_io/pages/notification/data/list_notification.dart';
 import 'package:survey_io/pages/notification/presentation/widgets/notification_card.dart';
+import '../../../common/components/appbar_plain.dart';
+import '../../../common/constants/icons.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -56,8 +56,11 @@ class _NotificationPageState extends State<NotificationPage> {
       background: Container(
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20.0),
-        color: AppColors.infoColor,
-        child: Image.asset('assets/icons/not_delete_icon.png', width: 25),
+        color: AppColors.info,
+        child: Image.asset(
+          IconName.trash,
+          width: 25,
+        ),
       ),
       key: UniqueKey(),
       direction: DismissDirection.endToStart,
@@ -75,17 +78,14 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.bgDefault,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: LeadingHeader(
-              iconSize: 30,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              textColor: AppColors.secondaryColor,
-              leadingIcon: Icons.arrow_back_ios),
+        backgroundColor: AppColors.bg,
+        appBar: PlainAppBar(
+          leadingIcon: Icons.arrow_back_ios,
+          iconSize: 35.0,
+          textColor: AppColors.secondary,
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -97,8 +97,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         padding: PaddingAll.p2,
                         child: LabelInput(
                           labelText: 'Notifikasi',
-                          labelStyle:
-                              TextStyles.h2(color: AppColors.secondaryColor),
+                          labelStyle: TextStyles.h2(color: AppColors.secondary),
                         ),
                       ),
                       ListView.builder(

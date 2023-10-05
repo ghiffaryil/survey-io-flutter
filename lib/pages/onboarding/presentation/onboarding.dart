@@ -7,8 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 // Import Component
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/common/components/custom_elevated_button.dart';
-import 'package:survey_io/pages/register/presentation/register_phone_number.dart';
+import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/pages/register/presentation/register.dart';
+
+import '../../../common/constants/images.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -35,19 +37,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   final List<CarouselItem> carouselItems = [
     CarouselItem(
-      imagePath: 'assets/images/onboarding/img_onboarding_slide_1.svg',
+      imagePath: Images.onboardingSlide1,
       title: 'Selamat Datang',
       description:
           'Dengan Survei.io, kamu bisa berbagi opini sekaligus membuat survei sendiri',
     ),
     CarouselItem(
-      imagePath: 'assets/images/onboarding/img_onboarding_slide_2.svg',
+      imagePath: Images.onboardingSlide2,
       title: 'Ikut Survei',
       description:
           'Bagikan opini kamu sambil mengumpulkan uang jajan dari Survei.io',
     ),
     CarouselItem(
-      imagePath: 'assets/images/onboarding/img_onboarding_slide_3.svg',
+      imagePath: Images.onboardingSlide3,
       title: 'Buat Survei',
       description:
           'Rencanakan survei kamu kapanpun dan di manapun dengan Survei.io',
@@ -68,30 +70,30 @@ class _OnboardingPageState extends State<OnboardingPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            HeaderLogo(),
-            OnboardingSlider(),
+            headerLogo(),
+            onboardingSlider(),
             const SizedBox(
               height: 20,
             ),
-            ButtonIkutiSurvey(),
-            ButtonBuatSurvey()
+            buttonFollowSurvey(),
+            buttonCreateSurvey()
           ],
         ),
       ),
     );
   }
 
-  Widget HeaderLogo() {
+  Widget headerLogo() {
     return Container(
         margin: const EdgeInsets.only(top: 25),
         alignment: Alignment.center,
         child: Image.asset(
-          'assets/images/logo/logo_survey_io_horizontal.png',
+          Images.logoHorizontal,
           width: MediaQuery.of(context).size.width * 0.6,
         ));
   }
 
-  Widget OnboardingSlider() {
+  Widget onboardingSlider() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Column(children: [
@@ -130,8 +132,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: _currentIndex == entry.key
-                        ? AppColors.primaryColor
-                        : AppColors.secondaryColor),
+                        ? AppColors.primary
+                        : AppColors.secondary),
               ),
             );
           }).toList(),
@@ -140,8 +142,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
     );
   }
 
-  Widget ButtonIkutiSurvey() {
-    return ElevatedButtonPrimary(
+  Widget buttonFollowSurvey() {
+    return ButtonFilled.primary(
         text: 'Ikut Survei',
         onPressed: () {
           Navigator.push(
@@ -151,8 +153,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
         });
   }
 
-  Widget ButtonBuatSurvey() {
-    return ElevatedButtonOutlinePrimary(
+  Widget buttonCreateSurvey() {
+    return ButtonOutlined.primary(
         text: 'Buat Survei',
         onPressed: () {
           Navigator.push(
@@ -180,14 +182,14 @@ class CarouselItemWidget extends StatelessWidget {
         ),
         Text(
           item.title,
-          style: TextStyles.h2(color: AppColors.secondaryColor),
+          style: TextStyles.h2(color: AppColors.secondary),
         ),
         const SizedBox(
           height: 20,
         ),
         Text(item.description,
             textAlign: TextAlign.center,
-            style: TextStyles.regular(color: AppColors.secondaryColor)),
+            style: TextStyles.regular(color: AppColors.secondary)),
       ],
     );
   }

@@ -1,12 +1,13 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:survey_io/common/components/custom_indicator.dart';
+import 'package:survey_io/common/components/modal_indicator.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/components/appbar_leading.dart';
-import 'package:survey_io/common/components/custom_divider.dart';
-import 'package:survey_io/common/components/label_input.dart';
+import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/common/components/label.dart';
+
+import '../../../common/components/appbar_plain.dart';
 
 class PollingPage extends StatefulWidget {
   const PollingPage({super.key});
@@ -123,10 +124,10 @@ class _PollingPageState extends State<PollingPage> {
 
   // Define a mapping of color names to colors
   Map<String, Color> colorMap = {
-    "blue": AppColors.infoColor,
-    "red": AppColors.primaryColor,
-    "yellow": AppColors.warningColor,
-    "green": AppColors.successColor,
+    "blue": AppColors.info,
+    "red": AppColors.primary,
+    "yellow": AppColors.warning,
+    "green": AppColors.success,
     // Add more color mappings as needed
   };
 
@@ -136,18 +137,15 @@ class _PollingPageState extends State<PollingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgDefault,
-      appBar: AppBar(
-        leading: LeadingHeader(
-          iconSize: 30.0,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          textColor: AppColors.secondaryColor,
-          leadingIcon: Icons.arrow_back_ios, // Pass the icon data here
-        ),
-        elevation: 0,
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: AppColors.bg,
+      appBar: PlainAppBar(
+        height: 70.0,
+        leadingIcon: Icons.arrow_back_ios,
+        iconSize: 35.0,
+        textColor: AppColors.secondary,
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -159,7 +157,7 @@ class _PollingPageState extends State<PollingPage> {
               child: LabelInput(
                   labelText: 'Polling',
                   labelStyle:
-                      TextStyles.h2ExtraBold(color: AppColors.secondaryColor)),
+                      TextStyles.h2ExtraBold(color: AppColors.secondary)),
             ),
           ),
           Container(
@@ -183,14 +181,12 @@ class _PollingPageState extends State<PollingPage> {
                     ),
                   ),
                   child: TabBar(
-                    unselectedLabelColor:
-                        AppColors.secondaryLightColor.withOpacity(0.5),
-                    labelColor: AppColors.primaryColor,
-                    indicatorColor: AppColors.primaryColor,
+                    unselectedLabelColor: AppColors.light.withOpacity(0.5),
+                    labelColor: AppColors.primary,
                     indicator: const BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: AppColors.primaryColor,
+                          color: AppColors.primary,
                           width: 2.0,
                         ),
                       ),
@@ -248,8 +244,7 @@ class _PollingPageState extends State<PollingPage> {
           return Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              border:
-                  Border.all(width: 0.5, color: AppColors.secondaryLightColor),
+              border: Border.all(width: 0.5, color: AppColors.light),
               borderRadius: BorderRadius.circular(20.0),
               boxShadow: [
                 BoxShadow(
@@ -269,7 +264,7 @@ class _PollingPageState extends State<PollingPage> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Text(dataPollingBaru["pollingTitle"],
-                      style: TextStyles.h3(color: AppColors.secondaryColor)),
+                      style: TextStyles.h3(color: AppColors.secondary)),
                 ),
                 const SizedBox(height: 10),
                 if (dataPollingBaru["direction"] == "Horizontal")
@@ -298,14 +293,14 @@ class _PollingPageState extends State<PollingPage> {
                                   border: Border.all(
                                     color: selectedIndexPollingBaru ==
                                             dataPollingBaru["arrayOption"][i]
-                                        ? AppColors.primaryColor
-                                        : AppColors.infoColor,
+                                        ? AppColors.primary
+                                        : AppColors.info,
                                     width: 1,
                                   ),
                                   borderRadius: BorderRadius.circular(50),
                                   color: selectedIndexPollingBaru ==
                                           dataPollingBaru["arrayOption"][i]
-                                      ? AppColors.primaryColor
+                                      ? AppColors.primary
                                       : Colors.transparent,
                                 ),
                                 child: SelectOptionContainer(
@@ -341,14 +336,14 @@ class _PollingPageState extends State<PollingPage> {
                                 border: Border.all(
                                   color: selectedIndexPollingBaru ==
                                           dataPollingBaru["arrayOption"][i]
-                                      ? AppColors.primaryColor
-                                      : AppColors.infoColor,
+                                      ? AppColors.primary
+                                      : AppColors.info,
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(50),
                                 color: selectedIndexPollingBaru ==
                                         dataPollingBaru["arrayOption"][i]
-                                    ? AppColors.primaryColor
+                                    ? AppColors.primary
                                     : Colors.transparent,
                               ),
                               padding: const EdgeInsets.symmetric(
@@ -382,8 +377,7 @@ class _PollingPageState extends State<PollingPage> {
             return Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(
-                    width: 0.5, color: AppColors.secondaryLightColor),
+                border: Border.all(width: 0.5, color: AppColors.light),
                 borderRadius: BorderRadius.circular(20.0),
                 boxShadow: [
                   BoxShadow(
@@ -403,7 +397,7 @@ class _PollingPageState extends State<PollingPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 10),
                     child: Text(dataPollingSelesai["pollingTitle"],
-                        style: TextStyles.h3(color: AppColors.secondaryColor)),
+                        style: TextStyles.h3(color: AppColors.secondary)),
                   ),
                   const SizedBox(height: 10),
                   if (dataPollingSelesai["direction"] == "Horizontal")
@@ -423,14 +417,14 @@ class _PollingPageState extends State<PollingPage> {
                                   border: Border.all(
                                     color: dataPollingSelesai["arrayAnswer"] ==
                                             dataPollingSelesai["arrayOption"][i]
-                                        ? AppColors.primaryColor
-                                        : AppColors.infoColor,
+                                        ? AppColors.primary
+                                        : AppColors.info,
                                     width: 1,
                                   ),
                                   borderRadius: BorderRadius.circular(50),
                                   color: dataPollingSelesai["arrayAnswer"] ==
                                           dataPollingSelesai["arrayOption"][i]
-                                      ? AppColors.primaryColor
+                                      ? AppColors.primary
                                       : Colors.transparent,
                                 ),
                                 child: SelectOptionContainer(
@@ -457,14 +451,14 @@ class _PollingPageState extends State<PollingPage> {
                                 border: Border.all(
                                   color: dataPollingSelesai["arrayAnswer"] ==
                                           dataPollingSelesai["arrayOption"][i]
-                                      ? AppColors.primaryColor
-                                      : AppColors.infoColor,
+                                      ? AppColors.primary
+                                      : AppColors.info,
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(50),
                                 color: dataPollingSelesai["arrayAnswer"] ==
                                         dataPollingSelesai["arrayOption"][i]
-                                    ? AppColors.primaryColor
+                                    ? AppColors.primary
                                     : Colors.transparent,
                               ),
                               padding: const EdgeInsets.symmetric(
@@ -491,10 +485,10 @@ class _PollingPageState extends State<PollingPage> {
                         'Lihat Hasil',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
-                            decorationColor: AppColors.infoColor,
+                            decorationColor: AppColors.info,
                             decorationStyle: TextDecorationStyle.solid,
                             decorationThickness: 1.0,
-                            color: AppColors.infoColor,
+                            color: AppColors.info,
                             fontWeight: FontWeight.w500,
                             fontSize: 16),
                       ),
@@ -594,7 +588,7 @@ class _PollingPageState extends State<PollingPage> {
                   width: MediaQuery.of(context).size.width * 0.1,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: AppColors.indicatorColor, // Indicator color
+                    color: AppColors.indicator, // Indicator color
                   ),
                   height: 5, // Indicator height
                 ),
@@ -606,22 +600,21 @@ class _PollingPageState extends State<PollingPage> {
                     children: [
                       Expanded(flex: 8, child: Container()),
                       Image.asset(
-                        'assets/icons/undraw_pie_chart_re_bgs_8_1.png',
+                        'assets/icons/icon_pie_chart',
                         width: 60,
                       ),
                     ],
                   ),
                   LabelInput(
                       labelText: 'Hasil Polling',
-                      labelStyle:
-                          TextStyles.h2(color: AppColors.secondaryColor))
+                      labelStyle: TextStyles.h2(color: AppColors.secondary))
                 ],
               ),
               const SizedBox(height: 20),
               Text(
                 "${selectedPolling["pollingTitle"]}",
                 textAlign: TextAlign.left,
-                style: TextStyles.h4(color: AppColors.secondaryColor),
+                style: TextStyles.h4(color: AppColors.secondary),
               ),
               const SizedBox(
                 height: 10,
@@ -629,7 +622,7 @@ class _PollingPageState extends State<PollingPage> {
               Text(
                 "${selectedPolling["voter"]} Votes",
                 textAlign: TextAlign.left,
-                style: TextStyles.medium(color: AppColors.secondaryColor),
+                style: TextStyles.medium(color: AppColors.secondary),
               ),
               CustomDividers.smallDivider(),
               Center(
@@ -653,7 +646,7 @@ class _PollingPageState extends State<PollingPage> {
                                 border: const Border(
                               bottom: BorderSide(
                                 color: AppColors
-                                    .secondaryColor, // Specify the border color
+                                    .secondary, // Specify the border color
                                 width: 2.0, // Specify the border width
                               ),
                             )),
@@ -709,20 +702,19 @@ class _PollingPageState extends State<PollingPage> {
                       (index) {
                         String colorName =
                             selectedPolling["arrayPollingColor"][index];
-                        Color indicatorColor =
-                            colorMap[colorName] ?? Colors.black;
+                        Color indicator = colorMap[colorName] ?? Colors.black;
 
                         String indicatorText =
                             selectedPolling["arrayOption"][index];
 
                         return Indicator(
-                          color: indicatorColor,
+                          color: indicator,
                           text: indicatorText,
                           isSquare: false,
                           size: 14,
                           textColor: touchedIndex == index
-                              ? indicatorColor // Use the same color as the indicator when touched
-                              : AppColors.secondaryColor,
+                              ? indicator // Use the same color as the indicator when touched
+                              : AppColors.secondary,
                         );
                       },
                     ),
@@ -753,7 +745,7 @@ class SelectOptionContainer extends StatelessWidget {
       pilihan,
       textAlign: TextAlign.center,
       style: TextStyles.regular(
-          color: isActive ? Colors.white : AppColors.secondaryColor,
+          color: isActive ? Colors.white : AppColors.secondary,
           fontWeight: FontWeight.w700),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:survey_io/pages/survey/presentation/create_survey.dart';
 
+import '../../common/constants/icons.dart';
+
 class NavigationFloatingIcon extends StatelessWidget {
   final bool isActive;
 
@@ -11,10 +13,10 @@ class NavigationFloatingIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imageAsset = 'assets/icons/rewards_icon.png';
+    String imageAsset = IconName.reward;
 
     if (isActive == true) {
-      imageAsset = 'assets/icons/rewards_icon_focused.png';
+      imageAsset = IconName.rewardFocused;
     }
 
     return SizedBox(

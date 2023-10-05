@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/custom_elevated_button.dart';
-import 'package:survey_io/common/components/form_input_text.dart';
+import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/common/components/input_field_date.dart';
+import 'package:survey_io/common/components/input_field_radio.dart';
+import 'package:survey_io/common/components/input_field_text.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/pages/login/presentation/login.dart';
-import 'package:survey_io/common/components/appbar_leading.dart';
-import 'package:survey_io/common/components/custom_divider.dart';
-import 'package:survey_io/common/components/label_input.dart';
+import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/common/components/label.dart';
+
+import '../../../common/components/appbar_plain.dart';
+import '../../../common/constants/icons.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -19,30 +23,23 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  TextEditingController NamaLengkap = TextEditingController();
-  TextEditingController TanggalLahir = TextEditingController();
-  TextEditingController Email = TextEditingController();
-  TextEditingController NomorTelepon = TextEditingController();
+  TextEditingController fullName = TextEditingController();
+  TextEditingController dateOfBirth = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController phoneNumber = TextEditingController();
 
-  FocusNode namaLengkapFocus = FocusNode();
-  FocusNode tanggalLahirFocus = FocusNode();
+  FocusNode fullNameFocus = FocusNode();
+  FocusNode dateOfBirthFocus = FocusNode();
   FocusNode emailFocus = FocusNode();
-  FocusNode noTeleponFocus = FocusNode();
+  FocusNode phoneNumberFocus = FocusNode();
 
-  String JenisKelamin = '';
-  bool _hidePassword = true;
-
-  void _showHidePasswordTogle() {
-    setState(() {
-      _hidePassword = !_hidePassword;
-    });
-  }
+  String selectedGender = '';
 
   void unfocusAll() {
-    namaLengkapFocus.unfocus();
-    tanggalLahirFocus.unfocus();
+    fullNameFocus.unfocus();
+    dateOfBirthFocus.unfocus();
     emailFocus.unfocus();
-    noTeleponFocus.unfocus();
+    phoneNumberFocus.unfocus();
   }
 
   @override
@@ -52,18 +49,15 @@ class _EditProfileState extends State<EditProfile> {
         unfocusAll();
       },
       child: Scaffold(
-        appBar: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            leading: LeadingHeader(
-              iconSize: 35.0,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              textColor: AppColors.secondaryColor,
-              leadingIcon: Icons.close, // Pass the icon data here
-            )),
-        backgroundColor: AppColors.bgDefault,
+        appBar: PlainAppBar(
+          leadingIcon: Icons.close,
+          iconSize: 35.0,
+          textColor: AppColors.secondary,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: AppColors.bg,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -73,8 +67,7 @@ class _EditProfileState extends State<EditProfile> {
                 color: Colors.white,
                 child: Text(
                   'Edit Profil',
-                  style:
-                      TextStyles.h2ExtraBold(color: AppColors.secondaryColor),
+                  style: TextStyles.h2ExtraBold(color: AppColors.secondary),
                 ),
               ),
               Container(
@@ -82,9 +75,9 @@ class _EditProfileState extends State<EditProfile> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    FormInputField(),
-                    CustomDividers.largeDivider(),
-                    SubmitButton(),
+                    formInputField(),
+                    CustomDividers.mediumDivider(),
+                    submitButton(),
                   ],
                 ),
               ),
@@ -95,24 +88,24 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Widget FormInputField() {
+  Widget formInputField() {
     return Column(
       children: [
         LabelInput(
           labelText: 'Nama Lengkap',
-          labelStyle: TextStyles.h4(color: AppColors.secondaryColor),
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
         TextInputField(
-          focusNode: namaLengkapFocus,
+          focusNode: fullNameFocus,
           keyboardType: TextInputType.text,
-          controller: NamaLengkap,
+          controller: fullName,
           hintText: 'Nama Lengkap',
         ),
         CustomDividers.smallDivider(),
         LabelInput(
           labelText: 'Jenis Kelamin',
-          labelStyle: TextStyles.h4(color: AppColors.secondaryColor),
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
         Row(
@@ -121,25 +114,40 @@ class _EditProfileState extends State<EditProfile> {
             Expanded(
                 flex: 5,
                 child: RadioTextInput(
-                    parameter: 'JenisKelamin', value: 'Laki-laki')),
+                  value: 'Laki-laki',
+                  selectedOption: selectedGender,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedGender =
+                          value; // Update the selected selectedGender
+                    });
+                  },
+                )),
             Container(
               width: 15,
             ),
             Expanded(
                 flex: 5,
                 child: RadioTextInput(
-                    parameter: 'JenisKelamin', value: 'Perempuan')),
+                  value: 'Perempuan',
+                  selectedOption: selectedGender,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedGender = value; // Update the selected gender
+                    });
+                  },
+                )),
           ],
         ),
         CustomDividers.smallDivider(),
         LabelInput(
           labelText: 'Tanggal Lahir',
-          labelStyle: TextStyles.h4(color: AppColors.secondaryColor),
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
         DateInputField(
-          focusNode: tanggalLahirFocus,
-          controller: TanggalLahir,
+          focusNode: dateOfBirthFocus,
+          controller: dateOfBirth,
           hintText: '01-01-1991',
           firstDate: DateTime(1980),
           lastDate: DateTime.now(),
@@ -149,34 +157,34 @@ class _EditProfileState extends State<EditProfile> {
         CustomDividers.smallDivider(),
         LabelInput(
           labelText: 'No. Telepon',
-          labelStyle: TextStyles.h4(color: AppColors.secondaryColor),
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
         TextInputField(
-          focusNode: noTeleponFocus,
-          keyboardType: TextInputType.text,
-          controller: NomorTelepon,
+          focusNode: phoneNumberFocus,
+          keyboardType: TextInputType.phone,
+          controller: phoneNumber,
           hintText: '081234567890',
-          suffixIconPNG: 'assets/icons/polling_check_info.png',
+          suffixIconPNG: IconName.pollingCheckInfo,
         ),
         CustomDividers.smallDivider(),
         LabelInput(
           labelText: 'Email',
-          labelStyle: TextStyles.h4(color: AppColors.secondaryColor),
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
         TextInputField(
           focusNode: emailFocus,
-          keyboardType: TextInputType.text,
-          controller: Email,
+          keyboardType: TextInputType.emailAddress,
+          controller: email,
           hintText: 'Masukkan Email Kamu',
         ),
       ],
     );
   }
 
-  Widget SubmitButton() {
-    return ElevatedButtonPrimary(
+  Widget submitButton() {
+    return ButtonFilled.primary(
         text: 'Submit',
         onPressed: () {
           Navigator.push(context,

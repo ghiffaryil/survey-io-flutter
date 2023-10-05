@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 // Import Component
-import 'package:survey_io/common/components/custom_text_button.dart';
-import 'package:survey_io/common/components/image_network_rounded.dart';
+import 'package:survey_io/common/components/text_button.dart';
+import 'package:survey_io/common/components/image_rounded.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/components/appbar_leading.dart';
-import 'package:survey_io/common/components/custom_divider.dart';
-import 'package:survey_io/common/components/label_input.dart';
+import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/common/components/label.dart';
+
+import '../../../common/components/appbar_plain.dart';
+import '../../../common/constants/icons.dart';
 
 class ListSurveiPage extends StatefulWidget {
   const ListSurveiPage({super.key});
@@ -46,19 +48,14 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: LeadingHeader(
-          iconSize: 30.0,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          textColor: AppColors.secondaryColor,
-          leadingIcon: Icons.arrow_back_ios, // Pass the icon data here
-        ),
-        toolbarHeight: 70.0,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      appBar: PlainAppBar(
+        height: 70.0,
+        leadingIcon: Icons.arrow_back_ios,
+        iconSize: 35.0,
+        textColor: AppColors.secondary,
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -68,9 +65,9 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
               LabelInput(
                   labelText: 'Survei',
                   labelStyle:
-                      TextStyles.h2ExtraBold(color: AppColors.secondaryColor)),
+                      TextStyles.h2ExtraBold(color: AppColors.secondary)),
               CustomDividers.verySmallDivider(),
-              SectionListSurvei(),
+              sectionListSurvey(),
             ],
           ),
         ),
@@ -78,7 +75,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
     );
   }
 
-  Widget SectionListSurvei() {
+  Widget sectionListSurvey() {
     return ListView.separated(
       shrinkWrap:
           true, // Important to allow the ListView to scroll inside SingleChildScrollView
@@ -102,7 +99,8 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
               SizedBox(
                 height: 150,
                 width: double.infinity,
-                child: RoundedImageNetwork(
+                child: RoundedImage(
+                  imageType: 'network',
                   imageUrl: imageUrlSurvei,
                   borderRadius: 8.0,
                   fit: BoxFit.fitWidth,
@@ -117,7 +115,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                     CustomDividers.verySmallDivider(),
                     Text(
                       judulSurvei,
-                      style: TextStyles.h5(color: AppColors.secondaryColor),
+                      style: TextStyles.h5(color: AppColors.secondary),
                     ),
                     const SizedBox(height: 5),
                     Text('$jumlahPertanyaanSurvei Pertanyaan'),
@@ -128,7 +126,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                         Row(
                           children: [
                             Image.asset(
-                              'assets/icons/point_icon.png',
+                              IconName.point,
                               width: 25,
                               height: 25,
                             ),
@@ -139,7 +137,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                               '$hadiahSurvei',
                               style: TextStyles.large(
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.secondaryColor),
+                                  color: AppColors.secondary),
                             ),
                           ],
                         ),
@@ -149,14 +147,14 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                         const Icon(
                           Icons.share,
                           size: 20,
-                          color: AppColors.infoColor,
+                          color: AppColors.info,
                         ),
                         const SizedBox(
                           width: 20,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(right: 10.0),
-                          child: TextButtonPrimary(
+                          child: TextButtonFilled.primary(
                               minWidth: 0.20,
                               height: 30,
                               fontSize: 14,

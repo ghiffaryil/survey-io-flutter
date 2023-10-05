@@ -4,6 +4,8 @@ import 'package:survey_io/pages/home/presentation/home.dart';
 import 'package:survey_io/pages/profile/presentation/pre_register.dart';
 import 'package:survey_io/pages/survey/presentation/create_survey.dart';
 
+import '../../common/constants/icons.dart';
+
 class BottomMenu extends StatefulWidget {
   final int selectedIndex;
   const BottomMenu({super.key, this.selectedIndex = 0});
@@ -44,7 +46,7 @@ class _BottomMenuState extends State<BottomMenu> {
             topRight: Radius.circular(30), topLeft: Radius.circular(30)),
         boxShadow: [
           BoxShadow(
-              color: AppColors.secondaryColor.withOpacity(0.3),
+              color: AppColors.secondary.withOpacity(0.3),
               spreadRadius: 0,
               blurRadius: 10),
         ],
@@ -59,11 +61,11 @@ class _BottomMenuState extends State<BottomMenu> {
             BottomNavigationBarItem(
               icon: widget.selectedIndex == 0
                   ? Image.asset(
-                      'assets/icons/ikutsurvei_icon_focused.png',
+                      IconName.followSurveyFocused,
                       width: 30,
                     )
                   : Image.asset(
-                      'assets/icons/polling_check_focused.png',
+                      IconName.pollingCheckFocused,
                       width: 30,
                     ),
               label: 'Ikut Survei',
@@ -77,11 +79,11 @@ class _BottomMenuState extends State<BottomMenu> {
             BottomNavigationBarItem(
               icon: widget.selectedIndex == 2
                   ? Image.asset(
-                      'assets/icons/akun_icon_focused.png',
+                      IconName.accountFocused,
                       width: 30,
                     )
                   : Image.asset(
-                      'assets/icons/akun_icon.png',
+                      IconName.accountOutlined,
                       width: 30,
                     ),
               label: 'Akun',
@@ -89,7 +91,7 @@ class _BottomMenuState extends State<BottomMenu> {
           ],
           currentIndex: widget.selectedIndex,
           onTap: onClicked,
-          selectedItemColor: AppColors.menuColor,
+          selectedItemColor: AppColors.secondary,
           showSelectedLabels: true,
           showUnselectedLabels: true,
           unselectedItemColor: const Color.fromARGB(255, 0, 0, 0),
