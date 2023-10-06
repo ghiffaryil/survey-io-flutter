@@ -10,6 +10,7 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/divider.dart';
 
 import '../../../common/components/appbar_plain.dart';
+import '../../../common/constants/padding.dart';
 import 'complete_profile.dart';
 
 class VerificationOTP extends StatefulWidget {
@@ -63,9 +64,7 @@ class _VerificationOTPState extends State<VerificationOTP> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PlainAppBar(
-        height: 70.0,
         leadingIcon: Icons.arrow_back_ios,
-        iconSize: 35.0,
         textColor: AppColors.secondary,
         onPressed: () {
           Navigator.pop(context);
@@ -74,7 +73,7 @@ class _VerificationOTPState extends State<VerificationOTP> {
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Container(
-          padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
+          padding: CustomPadding.pdefault,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -185,13 +184,13 @@ class _VerificationOTPState extends State<VerificationOTP> {
                   },
                 text: 'Kirim Lagi ',
                 style: TextStyles.h4(
-                  color: _timerActive ? AppColors.secondary : AppColors.primary,
+                  color: AppColors.primary,
                 ),
               ),
               TextSpan(
                 text: timerText,
                 style: TextStyles.h4(
-                  color: _timerActive ? AppColors.secondary : AppColors.primary,
+                  color: AppColors.primary,
                 ),
               ),
             ],

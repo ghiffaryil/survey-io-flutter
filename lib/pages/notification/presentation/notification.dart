@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/label.dart';
-import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/constants/padding.dart';
-import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/common/extension/helper/date_helper.dart';
-import 'package:survey_io/pages/notification/models/model_notification.dart';
-import 'package:survey_io/pages/notification/data/list_notification.dart';
-import 'package:survey_io/pages/notification/presentation/widgets/notification_card.dart';
+import '../../../common/components/label.dart';
+import '../../../common/constants/colors.dart';
+import '../../../common/constants/padding.dart';
+import '../../../common/constants/styles.dart';
+import '../../../common/extension/helper/date_helper.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/constants/icons.dart';
+
+import '../models/model_notification.dart';
+import '../data/list_notification.dart';
+import 'widgets/notification_card.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -94,7 +95,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     children: [
                       Container(
                         color: Colors.white,
-                        padding: PaddingAll.p2,
+                        padding: CustomPadding.p2,
                         child: LabelInput(
                           labelText: 'Notifikasi',
                           labelStyle: TextStyles.h2(color: AppColors.secondary),

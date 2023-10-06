@@ -11,6 +11,7 @@ import 'package:survey_io/common/components/label.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/constants/icons.dart';
 import '../../../common/constants/images.dart';
+import '../../../common/constants/padding.dart';
 
 class InviteFriend extends StatefulWidget {
   const InviteFriend({super.key});
@@ -49,7 +50,7 @@ class _InviteFriendState extends State<InviteFriend> {
         },
       ),
       body: Container(
-        padding: const EdgeInsets.all(30),
+        padding: CustomPadding.pdefault,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

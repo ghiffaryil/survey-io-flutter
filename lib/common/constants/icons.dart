@@ -27,6 +27,8 @@ class IconName {
       'assets/icons/icon_account_outlined.png';
   static const String accountFocused = 'assets/icons/icon_account_focused.png';
 
+  static const String pieChart = 'assets/icons/icon_pie_chart.png';
+
   static const String point = 'assets/icons/icon_point.png';
   static const String reward = 'assets/icons/icon_reward.png';
   static const String rewardFocused = 'assets/icons/icon_reward_focused.png';

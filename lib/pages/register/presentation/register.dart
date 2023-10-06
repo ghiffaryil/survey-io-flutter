@@ -7,6 +7,7 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/divider.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/components/information_card.dart';
+import '../../../common/constants/padding.dart';
 import 'verification_otp.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -28,9 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PlainAppBar(
-        height: 70.0,
         leadingIcon: Icons.arrow_back_ios,
-        iconSize: 35.0,
         textColor: AppColors.secondary,
         onPressed: () {
           Navigator.pop(context);
@@ -39,7 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Container(
-          padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
+          padding: CustomPadding.pdefault,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

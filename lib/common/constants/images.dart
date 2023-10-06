@@ -24,4 +24,6 @@ class Images {
 
   static const String emptyCreateSurvey =
       'assets/images/global/image_empty_create_survey.png';
+
+  static const String iconCheck = 'assets/icons/icon_check_verified.png';
 }

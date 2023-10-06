@@ -8,6 +8,8 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
+import 'package:survey_io/pages/survey/data/survey.dart';
+import 'package:survey_io/pages/survey/models/survey_model.dart';
 
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/constants/icons.dart';
@@ -20,30 +22,7 @@ class ListSurveiPage extends StatefulWidget {
 }
 
 class _ListSurveiPageState extends State<ListSurveiPage> {
-  List<Map<String, dynamic>> listDataSurvey = [
-    {
-      "judulSurvei": "Digital Payment Survey",
-      "jumlahPertanyaanSurvei": "20",
-      "hadiahSurvei": "500",
-      "image":
-          "https://nunganjuk.or.id/wp-content/uploads/2021/09/5ddf45a34ee64.jpg",
-    },
-    {
-      "judulSurvei": "FMCG Survey",
-      "jumlahPertanyaanSurvei": "34",
-      "hadiahSurvei": "750",
-      "image":
-          "https://www.bizhare.id/media/wp-content/uploads/2023/05/Thumbnail_Artikel-Media_15-Perusahaan-FMCG-Terbesar-di-Indonesia.jpg",
-    },
-    {
-      "judulSurvei": "Teeth Aligner Survey",
-      "jumlahPertanyaanSurvei": "50",
-      "hadiahSurvei": "1500",
-      "image":
-          "https://i0.wp.com/post.healthline.com/wp-content/uploads/2021/01/Woman-Holding-Invisalign-1296x728-header.jpg?w=1155&h=1528",
-    },
-    // Add more data as needed
-  ];
+  List<SurveyModel> listSurvey = ListSurvey.getSurvey();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +38,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: PaddingHorizontalOnly.px2,
+          padding: CustomPadding.px2,
           child: Column(
             children: [
               LabelInput(
@@ -80,13 +59,13 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
       shrinkWrap:
           true, // Important to allow the ListView to scroll inside SingleChildScrollView
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: listDataSurvey.length,
+      itemCount: listSurvey.length,
       itemBuilder: (BuildContext context, int index) {
-        final survey = listDataSurvey[index];
-        final judulSurvei = survey['judulSurvei'];
-        final jumlahPertanyaanSurvei = survey['jumlahPertanyaanSurvei'];
-        final hadiahSurvei = survey['hadiahSurvei'];
-        final imageUrlSurvei = survey['image'];
+        final survey = listSurvey[index];
+        final surveyTitle = survey.title;
+        final surveyQuestions = survey.questions;
+        final surveyReward = survey.reward;
+        final surveyImage = survey.image;
 
         return Container(
           padding: const EdgeInsets.all(7),
@@ -101,7 +80,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                 width: double.infinity,
                 child: RoundedImage(
                   imageType: 'network',
-                  imageUrl: imageUrlSurvei,
+                  imageUrl: surveyImage,
                   borderRadius: 8.0,
                   fit: BoxFit.fitWidth,
                 ),
@@ -114,11 +93,11 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                   children: [
                     CustomDividers.verySmallDivider(),
                     Text(
-                      judulSurvei,
+                      surveyTitle,
                       style: TextStyles.h5(color: AppColors.secondary),
                     ),
                     const SizedBox(height: 5),
-                    Text('$jumlahPertanyaanSurvei Pertanyaan'),
+                    Text('$surveyQuestions Pertanyaan'),
                     CustomDividers.smallDivider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -134,7 +113,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                               width: 10,
                             ),
                             Text(
-                              '$hadiahSurvei',
+                              '$surveyReward',
                               style: TextStyles.large(
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.secondary),

@@ -5,12 +5,12 @@ import 'package:survey_io/common/components/input_field_password.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 
 // Import Component
-import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/pages/home/presentation/home.dart';
-import 'package:survey_io/common/components/appbar_leading.dart';
-import 'package:survey_io/common/components/divider.dart';
-import 'package:survey_io/common/components/label.dart';
+import '../../../common/constants/colors.dart';
+import '../../../common/constants/styles.dart';
+import '../../../common/components/divider.dart';
+import '../../../common/components/label.dart';
+import '../../../common/components/appbar_plain.dart';
+import '../../home/presentation/home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -42,18 +42,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: LeadingHeader(
-          iconSize: 30.0,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          textColor: AppColors.secondary,
-          leadingIcon: Icons.arrow_back_ios, // Pass the icon data here
-        ),
-        centerTitle: true,
+      appBar: PlainAppBar(
+        leadingIcon: Icons.arrow_back_ios,
+        textColor: AppColors.secondary,
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
@@ -123,8 +117,6 @@ class _LoginPageState extends State<LoginPage> {
           keyboardType: TextInputType.phone,
           controller: phoneNumber,
           hintText: '0812345678910',
-          // prefixIcon: Icon(Icons.person), // Set prefix icon
-          // suffixIcon: Icon(Icons.person), // Set suffix icon
         ),
         CustomDividers.smallDivider(),
         LabelInput(
