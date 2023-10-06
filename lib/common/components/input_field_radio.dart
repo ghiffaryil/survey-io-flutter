@@ -42,6 +42,7 @@ class RadioTextInput extends StatelessWidget {
             ),
           ),
           Radio(
+            activeColor: AppColors.primary,
             value: value,
             groupValue:
                 selectedOption, // Use the selected gender as group value

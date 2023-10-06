@@ -1,7 +1,7 @@
 import 'package:survey_io/pages/survey/models/survey_model.dart';
 
 class ListSurvey {
-  List<SurveyModel> listSurvey() {
+  static List<SurveyModel> getSurvey() {
     return [
       SurveyModel(
           id: 1,

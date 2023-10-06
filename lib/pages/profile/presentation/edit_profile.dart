@@ -71,7 +71,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               Container(
-                padding: PaddingAll.p3,
+                padding: CustomPadding.p3,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

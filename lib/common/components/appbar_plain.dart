@@ -11,11 +11,11 @@ class PlainAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   const PlainAppBar({
     required this.onPressed,
-    this.height = 56,
-    this.toolbarHeight = 56,
     required this.leadingIcon,
-    required this.iconSize,
     required this.textColor,
+    this.height = 70,
+    this.toolbarHeight = 70,
+    this.iconSize = 30,
     Key? key,
   }) : super(key: key);
 

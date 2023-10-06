@@ -13,6 +13,8 @@ import 'package:survey_io/pages/login/presentation/login.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
 
+import '../../../common/constants/padding.dart';
+
 class CompleteProfile extends StatefulWidget {
   const CompleteProfile({super.key});
 
@@ -58,13 +60,13 @@ class _CompleteProfileState extends State<CompleteProfile> {
         body: SingleChildScrollView(
           child: Container(
             margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
-            padding: const EdgeInsets.all(30),
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
+            padding: CustomPadding.pdefault,
             child: Column(
               children: [
                 labelText(),
                 formInputField(),
-                CustomDividers.smallDivider(),
+                CustomDividers.regularDivider(),
                 labelTermAndCondition(),
                 CustomDividers.smallDivider(),
                 submitButton(),

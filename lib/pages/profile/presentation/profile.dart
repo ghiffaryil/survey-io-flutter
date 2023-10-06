@@ -13,6 +13,7 @@ import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/pages/home/presentation/home.dart';
 import '../../../common/components/appbar.dart';
+import '../../../common/constants/images.dart';
 import 'edit_profile.dart';
 
 class Profile extends StatefulWidget {
@@ -127,7 +128,7 @@ class _ProfileState extends State<Profile> {
                           'Verified',
                           style: TextStyles.h5(color: Colors.white),
                         ),
-                        Image.asset('assets/icons/icon_check_verified.png')
+                        Image.asset(Images.iconCheck)
                       ],
                     )),
                   ),
