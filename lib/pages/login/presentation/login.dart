@@ -5,14 +5,12 @@ import 'package:survey_io/common/components/input_field_password.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 
 // Import Component
-import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/pages/home/presentation/home.dart';
-import 'package:survey_io/common/components/appbar_leading.dart';
-import 'package:survey_io/common/components/divider.dart';
-import 'package:survey_io/common/components/label.dart';
-
+import '../../../common/constants/colors.dart';
+import '../../../common/constants/styles.dart';
+import '../../../common/components/divider.dart';
+import '../../../common/components/label.dart';
 import '../../../common/components/appbar_plain.dart';
+import '../../home/presentation/home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -119,8 +117,6 @@ class _LoginPageState extends State<LoginPage> {
           keyboardType: TextInputType.phone,
           controller: phoneNumber,
           hintText: '0812345678910',
-          // prefixIcon: Icon(Icons.person), // Set prefix icon
-          // suffixIcon: Icon(Icons.person), // Set suffix icon
         ),
         CustomDividers.smallDivider(),
         LabelInput(
