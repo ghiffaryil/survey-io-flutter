@@ -172,52 +172,10 @@ class ListProductPrepaid {
                     "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/dana-500px.jpg")
           ]),
       ProductPrepaidCategory(
-          product_name: "GoPay",
-          category_name: "E-Wallet",
-          category_image:
-              "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-500px.jpg",
-          image:
-              "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
-          listProducts: [
-            Product(
-                id: 23,
-                product_code: "go20",
-                product_name: "GoPay",
-                amount: 20000,
-                price: 23000,
-                category: "E-Wallet",
-                image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
-                category_image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-500px.jpg"),
-            Product(
-                id: 24,
-                product_code: "go50",
-                product_name: "GoPay",
-                amount: 50000,
-                price: 53000,
-                category: "E-Wallet",
-                image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
-                category_image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-500px.jpg"),
-            Product(
-                id: 25,
-                product_code: "go100",
-                product_name: "GoPay",
-                amount: 100000,
-                price: 103000,
-                category: "E-Wallet",
-                image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
-                category_image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-500px.jpg")
-          ]),
-      ProductPrepaidCategory(
           product_name: "Pulsa Provider",
           category_name: "Prabayar",
           category_image:
-              "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-500px.jpg",
+              "https://down-id.img.susercontent.com/file/aa28c5089ecac515a877abd71a0e2fa3",
           image:
               "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
           listProducts: [
@@ -229,9 +187,9 @@ class ListProductPrepaid {
                 price: 23000,
                 category: "Prabayar",
                 image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
+                    "https://down-id.img.susercontent.com/file/aa28c5089ecac515a877abd71a0e2fa3",
                 category_image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-500px.jpg"),
+                    "https://down-id.img.susercontent.com/file/aa28c5089ecac515a877abd71a0e2fa3"),
             Product(
                 id: 24,
                 product_code: "go50",
@@ -240,9 +198,9 @@ class ListProductPrepaid {
                 price: 53000,
                 category: "Prabayar",
                 image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
+                    "https://down-id.img.susercontent.com/file/aa28c5089ecac515a877abd71a0e2fa3",
                 category_image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-500px.jpg"),
+                    "https://down-id.img.susercontent.com/file/aa28c5089ecac515a877abd71a0e2fa3"),
             Product(
                 id: 25,
                 product_code: "go100",
@@ -251,51 +209,51 @@ class ListProductPrepaid {
                 price: 103000,
                 category: "Prabayar",
                 image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
+                    "https://down-id.img.susercontent.com/file/aa28c5089ecac515a877abd71a0e2fa3",
                 category_image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-500px.jpg")
+                    "https://down-id.img.susercontent.com/file/aa28c5089ecac515a877abd71a0e2fa3")
           ]),
       ProductPrepaidCategory(
-          product_name: "Pulsa Provider",
+          product_name: "Token Listrik",
           category_name: "Prabayar",
           category_image:
-              "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-500px.jpg",
+              "https://web.pln.co.id/statics/uploads/2021/10/fitur-makin-lengkap-sekarang-bisa-beli-token-rp-5000-di-pln-mobile-1.jpg",
           image:
               "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
           listProducts: [
             Product(
                 id: 23,
                 product_code: "go20",
-                product_name: "Pulsa Provider",
+                product_name: "Token Listrik",
                 amount: 20000,
                 price: 23000,
                 category: "Prabayar",
                 image:
                     "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
                 category_image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-500px.jpg"),
+                    "https://web.pln.co.id/statics/uploads/2021/10/fitur-makin-lengkap-sekarang-bisa-beli-token-rp-5000-di-pln-mobile-1.jpg"),
             Product(
                 id: 24,
                 product_code: "go50",
-                product_name: "Pulsa Provider",
+                product_name: "Token Listrik",
                 amount: 50000,
                 price: 53000,
                 category: "Prabayar",
                 image:
                     "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
                 category_image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-500px.jpg"),
+                    "https://web.pln.co.id/statics/uploads/2021/10/fitur-makin-lengkap-sekarang-bisa-beli-token-rp-5000-di-pln-mobile-1.jpg"),
             Product(
                 id: 25,
                 product_code: "go100",
-                product_name: "Pulsa Provider",
+                product_name: "Token Listrik",
                 amount: 100000,
                 price: 103000,
                 category: "Prabayar",
                 image:
                     "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
                 category_image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-500px.jpg")
+                    "https://web.pln.co.id/statics/uploads/2021/10/fitur-makin-lengkap-sekarang-bisa-beli-token-rp-5000-di-pln-mobile-1.jpg")
           ])
     ];
   }

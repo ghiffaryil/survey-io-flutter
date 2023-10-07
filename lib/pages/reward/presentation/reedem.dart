@@ -11,14 +11,14 @@ import '../../../common/constants/padding.dart';
 import '../data/list_product_prepaid.dart';
 import 'widgets/item_card.dart';
 
-class RewardPage extends StatefulWidget {
-  const RewardPage({super.key});
+class ReedemPage extends StatefulWidget {
+  const ReedemPage({super.key});
 
   @override
-  State<RewardPage> createState() => _RewardPageState();
+  State<ReedemPage> createState() => _ReedemPageState();
 }
 
-class _RewardPageState extends State<RewardPage> {
+class _ReedemPageState extends State<ReedemPage> {
   List<ProductPrepaidCategory> listProductPrepaidCategory =
       ListProductPrepaid.getProductPrepaid();
 
@@ -61,47 +61,47 @@ class _RewardPageState extends State<RewardPage> {
           Expanded(
             child: Padding(
               padding: CustomPadding.p1,
-              child: ListView.separated(
-                itemCount: groupedProducts.length,
-                separatorBuilder: (context, index) =>
-                    const Divider(), // Add a divider between groups
+              child: ListView.builder(
+                itemCount: listProductPrepaidCategory.length,
                 itemBuilder: (context, index) {
-                  final categoryNames = groupedProducts.keys.toList();
-                  final categoryName = categoryNames[index];
-                  final products = groupedProducts[categoryName]!;
+                  final merchant = listProductPrepaidCategory[index];
+                  final isFirstChild = index == 0;
+                  final isDifferentCategory = isFirstChild ||
+                      merchant.category_name !=
+                          listProductPrepaidCategory[index - 1].category_name;
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Container(
-                        width: double.infinity,
-                        padding: CustomPadding.p2,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              categoryName,
-                              style: TextStyles.large(
-                                color: AppColors.secondary,
-                                fontWeight: FontWeight.bold,
+                      if (isDifferentCategory)
+                        Container(
+                          width: double.infinity,
+                          padding: CustomPadding.p2,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                merchant.category_name,
+                                style: TextStyles.large(
+                                  color: AppColors.secondary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            Text(
-                              'Lihat Semua',
-                              style: TextStyles.large(
-                                color: AppColors.info,
+                              Text(
+                                'Lihat Semua',
+                                style: TextStyles.large(
+                                  color: AppColors.info,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      // List of rewards for this category
                       ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: products.length,
+                        itemCount: 1,
                         itemBuilder: (context, indexProduct) {
-                          final product = products[indexProduct];
+                          final product = merchant.listProducts[indexProduct];
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [

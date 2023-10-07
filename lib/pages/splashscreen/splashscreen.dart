@@ -23,7 +23,7 @@ class SplashScreenPageState extends State<SplashScreenPage> {
 
     return Timer(durasiSplash, () {
       //pindah ke halaman home
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
         return const OnboardingPage();
       }));
     });
