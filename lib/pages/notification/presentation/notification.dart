@@ -21,7 +21,7 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  List<NotificationModel> notifications = NotificationList.getNotification();
+  List<NotificationModel> notifications = ListNotification.getNotification();
 
   void markNotificationAsRead(int notificationId) {
     setState(() {
@@ -43,7 +43,7 @@ class _NotificationPageState extends State<NotificationPage> {
     });
   }
 
-  Widget buildDismissibleNotification(int index) {
+  Widget dismissibleNotification(int index) {
     final dataNotification = notifications[index];
     final notificationId = dataNotification.id;
 
@@ -83,7 +83,7 @@ class _NotificationPageState extends State<NotificationPage> {
       appBar: PlainAppBar(
         leadingIcon: Icons.arrow_back_ios,
         iconSize: 35.0,
-        textColor: AppColors.secondary,
+        iconColor: AppColors.secondary,
         onPressed: () {
           Navigator.pop(context);
         },
@@ -124,10 +124,10 @@ class _NotificationPageState extends State<NotificationPage> {
                           date.formatDate(),
                           style: TextStyles.h6ExtraBold(),
                         )),
-                    buildDismissibleNotification(index),
+                    dismissibleNotification(index),
                   ]);
                 } else {
-                  return buildDismissibleNotification(index);
+                  return dismissibleNotification(index);
                 }
               },
             ),

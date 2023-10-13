@@ -31,7 +31,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
         height: 70.0,
         leadingIcon: Icons.arrow_back_ios,
         iconSize: 35.0,
-        textColor: AppColors.secondary,
+        iconColor: AppColors.secondary,
         onPressed: () {
           Navigator.pop(context);
         },

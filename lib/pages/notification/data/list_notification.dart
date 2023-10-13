@@ -1,7 +1,7 @@
 import 'package:survey_io/pages/notification/models/model_notification.dart';
 
 // GET DATA FROM API
-class NotificationList {
+class ListNotification {
   static List<NotificationModel> getNotification() {
     return [
       NotificationModel(

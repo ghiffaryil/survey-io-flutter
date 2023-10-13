@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/pages/reward/presentation/reedem_history.dart';
+import 'package:survey_io/pages/reedem/presentation/reedem_history.dart';
 
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';

@@ -54,7 +54,7 @@ class _PollingPageState extends State<PollingPage> {
         height: 70.0,
         leadingIcon: Icons.arrow_back_ios,
         iconSize: 35.0,
-        textColor: AppColors.secondary,
+        iconColor: AppColors.secondary,
         onPressed: () {
           Navigator.pop(context);
         },
@@ -77,71 +77,72 @@ class _PollingPageState extends State<PollingPage> {
             color: Colors.white,
           ),
           Expanded(
-              // height: MediaQuery.of(context).size.height,
-              child: DefaultTabController(
-            length: 2, // Number of tabs
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey.withOpacity(0.5),
-                        width: 1.0,
-                      ),
-                    ),
-                  ),
-                  child: TabBar(
-                    unselectedLabelColor: AppColors.light.withOpacity(0.5),
-                    labelColor: AppColors.primary,
-                    indicator: const BoxDecoration(
+            // height: MediaQuery.of(context).size.height,
+            child: DefaultTabController(
+              length: 2,
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
                       border: Border(
                         bottom: BorderSide(
-                          color: AppColors.primary,
-                          width: 2.0,
+                          color: Colors.grey.withOpacity(0.5),
+                          width: 1.0,
                         ),
                       ),
                     ),
-                    tabs: [
-                      Tab(
-                        child: Text(
-                          'Polling Baru',
-                          style: TextStyles.medium(
-                            fontWeight: FontWeight.bold,
+                    child: TabBar(
+                      unselectedLabelColor: AppColors.light.withOpacity(0.5),
+                      labelColor: AppColors.primary,
+                      indicator: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: AppColors.primary,
+                            width: 2.0,
                           ),
                         ),
                       ),
-                      Tab(
-                        child: Text(
-                          'Selesai',
-                          style: TextStyles.medium(
-                            fontWeight: FontWeight.bold,
+                      tabs: [
+                        Tab(
+                          child: Text(
+                            'Polling Baru',
+                            style: TextStyles.medium(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        Tab(
+                          child: Text(
+                            'Selesai',
+                            style: TextStyles.medium(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      // Content for Tab 1
-                      PollingBaru(),
-                      // Content for Tab 2
-                      PollingSelesai()
-                    ],
+                  Expanded(
+                    child: TabBarView(
+                      children: [
+                        // Content for Tab 1
+                        NewPolling(),
+                        // Content for Tab 2
+                        CompletedPolling()
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          )),
+          ),
         ],
       ),
     );
   }
 
-  Widget PollingBaru() {
+  Widget NewPolling() {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: ListView.builder(
@@ -149,7 +150,7 @@ class _PollingPageState extends State<PollingPage> {
         itemBuilder: (context, index) {
           // Declaration Polling variabel
           final pollingNewData = listPollingNew[index];
-          var selectedIndexPollingBaru = newPollingSelectedValues[index] ?? '';
+          var selectedIndexNewPolling = newPollingSelectedValues[index] ?? '';
 
           return Container(
             decoration: BoxDecoration(
@@ -201,20 +202,20 @@ class _PollingPageState extends State<PollingPage> {
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: selectedIndexPollingBaru ==
+                                    color: selectedIndexNewPolling ==
                                             pollingNewData.arrayOption[i]
                                         ? AppColors.primary
                                         : AppColors.info,
                                     width: 1,
                                   ),
                                   borderRadius: BorderRadius.circular(50),
-                                  color: selectedIndexPollingBaru ==
+                                  color: selectedIndexNewPolling ==
                                           pollingNewData.arrayOption[i]
                                       ? AppColors.primary
                                       : Colors.transparent,
                                 ),
                                 child: SelectOptionContainer(
-                                  isActive: selectedIndexPollingBaru ==
+                                  isActive: selectedIndexNewPolling ==
                                           pollingNewData.arrayOption[i]
                                       ? true
                                       : false,
@@ -244,14 +245,14 @@ class _PollingPageState extends State<PollingPage> {
                               margin: const EdgeInsets.only(bottom: 10),
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: selectedIndexPollingBaru ==
+                                  color: selectedIndexNewPolling ==
                                           pollingNewData.arrayOption[i]
                                       ? AppColors.primary
                                       : AppColors.info,
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(50),
-                                color: selectedIndexPollingBaru ==
+                                color: selectedIndexNewPolling ==
                                         pollingNewData.arrayOption[i]
                                     ? AppColors.primary
                                     : Colors.transparent,
@@ -260,7 +261,7 @@ class _PollingPageState extends State<PollingPage> {
                                   horizontal: 10, vertical: 15),
                               width: double.infinity,
                               child: SelectOptionContainer(
-                                  isActive: selectedIndexPollingBaru ==
+                                  isActive: selectedIndexNewPolling ==
                                           pollingNewData.arrayOption[i]
                                       ? true
                                       : false,
@@ -276,7 +277,7 @@ class _PollingPageState extends State<PollingPage> {
     );
   }
 
-  Widget PollingSelesai() {
+  Widget CompletedPolling() {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: ListView.builder(

@@ -5,20 +5,24 @@ import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import '../../../../common/constants/colors.dart';
 import '../../models/product_prepaid_model.dart';
+import 'reedem_top_up_wrapper.dart';
 
 class ProductItemWidget extends StatelessWidget {
   final Product productData;
+  final List listProductmerchant;
 
-  const ProductItemWidget({
-    Key? key,
-    required this.productData,
-  }) : super(key: key);
+  const ProductItemWidget(
+      {Key? key, required this.productData, required this.listProductmerchant})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final productName = productData.product_name;
+    final productId = productData.id;
     final amount = productData.amount;
+    final productImage = productData.image;
     final categoryImage = productData.category_image;
+    final int koinNeeded = (productData.amount / 1000).toInt();
 
     return Card(
       elevation: 4,
@@ -46,7 +50,7 @@ class ProductItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Top Up $productName',
+                      'Top Up $amount',
                       style: TextStyles.h4(),
                     ),
                     CustomDividers.verySmallDivider(),
@@ -54,18 +58,30 @@ class ProductItemWidget extends StatelessWidget {
                     CustomDividers.smallDivider(),
                     Container(
                         width: double.infinity,
-                        // padding: CustomPadding.px1,
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           style: TextButton.styleFrom(
-                            minimumSize: Size(20, 20),
+                            minimumSize: const Size(20, 20),
                             backgroundColor: AppColors.white,
                             side: const BorderSide(color: AppColors.primary),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RedeemTopUpPageWrapper(
+                                  productId: productId,
+                                  productName: productName,
+                                  productImage: productImage,
+                                  listProducts: listProductmerchant,
+                                  koin: koinNeeded,
+                                ),
+                              ),
+                            );
+                          },
                           child: const Padding(
                             padding: CustomPadding.px1,
                             child: Text(

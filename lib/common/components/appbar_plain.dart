@@ -6,13 +6,13 @@ class PlainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
   final double toolbarHeight;
   final IconData? leadingIcon;
-  final Color textColor;
+  final Color iconColor;
   final double iconSize;
 
   const PlainAppBar({
     required this.onPressed,
     required this.leadingIcon,
-    required this.textColor,
+    required this.iconColor,
     this.height = 70,
     this.toolbarHeight = 70,
     this.iconSize = 30,
@@ -30,7 +30,7 @@ class PlainAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: onPressed,
           icon: Icon(
             leadingIcon ?? Icons.arrow_back_ios,
-            color: textColor,
+            color: iconColor,
             size: iconSize,
           )),
       toolbarHeight: height,

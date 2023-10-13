@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:survey_io/pages/inbox/presentation/inbox.dart';
 import 'package:survey_io/pages/profile/presentation/profile.dart';
-import 'package:survey_io/pages/reward/presentation/reedem.dart';
+import 'package:survey_io/pages/reedem/presentation/reedem.dart';
 
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';
@@ -48,9 +49,10 @@ class FloatingProfileCard extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Profile()));
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Profile()),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -101,10 +103,10 @@ class FloatingProfileCard extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ReedemPage()));
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ReedemPage()),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,

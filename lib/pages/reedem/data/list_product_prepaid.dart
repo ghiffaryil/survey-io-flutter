@@ -75,17 +75,6 @@ class ListProductPrepaid {
                     "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/linkaja-landscape.jpg",
                 category_image:
                     "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/linkaja-500px.jpg"),
-            Product(
-                id: 10,
-                product_code: "linkaja100",
-                product_name: "LinkAja",
-                amount: 100000,
-                price: 101000,
-                category: "E-Wallet",
-                image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/linkaja-landscape.jpg",
-                category_image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/linkaja-500px.jpg")
           ]),
       ProductPrepaidCategory(
           product_name: "ShopeePay",
@@ -117,17 +106,6 @@ class ListProductPrepaid {
                     "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/shopeepay-landscape.jpg",
                 category_image:
                     "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/shopeepay-500px.jpg"),
-            Product(
-                id: 16,
-                product_code: "shopeepay100",
-                product_name: "ShopeePay",
-                amount: 100000,
-                price: 101500,
-                category: "E-Wallet",
-                image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/shopeepay-landscape.jpg",
-                category_image:
-                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/shopeepay-500px.jpg")
           ]),
       ProductPrepaidCategory(
           product_name: "DANA",
@@ -165,6 +143,17 @@ class ListProductPrepaid {
                 product_name: "DANA",
                 amount: 100000,
                 price: 101750,
+                category: "E-Wallet",
+                image:
+                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/dana-landscape.jpg",
+                category_image:
+                    "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/dana-500px.jpg"),
+            Product(
+                id: 20,
+                product_code: "dana100",
+                product_name: "DANA",
+                amount: 200000,
+                price: 202750,
                 category: "E-Wallet",
                 image:
                     "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/dana-landscape.jpg",
@@ -225,8 +214,8 @@ class ListProductPrepaid {
                 id: 23,
                 product_code: "go20",
                 product_name: "Token Listrik",
-                amount: 20000,
-                price: 23000,
+                amount: 50000,
+                price: 53000,
                 category: "Prabayar",
                 image:
                     "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
@@ -236,8 +225,8 @@ class ListProductPrepaid {
                 id: 24,
                 product_code: "go50",
                 product_name: "Token Listrik",
-                amount: 50000,
-                price: 53000,
+                amount: 100000,
+                price: 103000,
                 category: "Prabayar",
                 image:
                     "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",
@@ -247,8 +236,8 @@ class ListProductPrepaid {
                 id: 25,
                 product_code: "go100",
                 product_name: "Token Listrik",
-                amount: 100000,
-                price: 103000,
+                amount: 200000,
+                price: 203000,
                 category: "Prabayar",
                 image:
                     "https://surveiio-assets.sgp1.cdn.digitaloceanspaces.com/products/gopay-landscape.jpg",

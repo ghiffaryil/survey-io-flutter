@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // Import Component
 import 'package:survey_io/common/components/appbar.dart';
 import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/pages/inbox/presentation/inbox.dart';
 import 'package:survey_io/pages/polling/data/polling_today.dart';
 import 'package:survey_io/pages/polling/models/polling_model.dart';
 import 'package:survey_io/pages/survey/data/survey_popular.dart';
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const NotificationPage(),
+              builder: (context) => const InboxPage(),
             ),
           );
         },

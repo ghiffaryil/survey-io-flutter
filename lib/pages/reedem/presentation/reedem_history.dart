@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/pages/reward/models/reedem_history_mdel.dart';
+import 'package:survey_io/pages/reedem/models/reedem_history_mdel.dart';
 import '../../../common/components/label.dart';
 import '../../../common/constants/colors.dart';
 import '../../../common/constants/padding.dart';
@@ -83,7 +83,7 @@ class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
       appBar: PlainAppBar(
         leadingIcon: Icons.arrow_back_ios,
         iconSize: 35.0,
-        textColor: AppColors.secondary,
+        iconColor: AppColors.secondary,
         onPressed: () {
           Navigator.pop(context);
         },
