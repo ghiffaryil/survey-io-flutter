@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:survey_io/pages/reedem/presentation/reedem_history.dart';
 
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';
@@ -62,22 +63,30 @@ class UserInformation extends StatelessWidget {
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5),
-                  child: Container(
-                    height: 40,
-                    decoration: const BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ReedemHistoryPage()));
+                    },
+                    child: Container(
+                      height: 40,
+                      decoration: const BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                      ),
+                      child: Center(
+                          child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            'Riwayat',
+                            style: TextStyles.h5(color: Colors.white),
+                          ),
+                        ],
+                      )),
                     ),
-                    child: Center(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          'Riwayat',
-                          style: TextStyles.h5(color: Colors.white),
-                        ),
-                      ],
-                    )),
                   ),
                 )),
           ],

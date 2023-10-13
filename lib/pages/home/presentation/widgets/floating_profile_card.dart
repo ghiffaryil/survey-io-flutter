@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:survey_io/pages/inbox/presentation/inbox.dart';
 import 'package:survey_io/pages/profile/presentation/profile.dart';
+import 'package:survey_io/pages/reedem/presentation/reedem.dart';
 
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';
 import '../../../../common/constants/padding.dart';
 import '../../../../common/constants/styles.dart';
-import '../../../reward/presentation/reward.dart';
 
 class FloatingProfileCard extends StatelessWidget {
   const FloatingProfileCard({super.key});
@@ -47,10 +48,11 @@ class FloatingProfileCard extends StatelessWidget {
                           flex: 6,
                           child: InkWell(
                             onTap: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Profile()));
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Profile()),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -100,11 +102,11 @@ class FloatingProfileCard extends StatelessWidget {
                           flex: 6,
                           child: InkWell(
                             onTap: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RewardPage()));
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ReedemPage()),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,

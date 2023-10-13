@@ -148,7 +148,7 @@ class _ProfileState extends State<Profile> {
           text: 'Edit Profile',
           icon: Icons.arrow_forward_ios,
           onPressed: () {
-            Navigator.pushReplacement(context,
+            Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const EditProfile()));
           },
           iconColor: AppColors.light,
@@ -159,7 +159,7 @@ class _ProfileState extends State<Profile> {
           text: 'Invite Friend',
           icon: Icons.arrow_forward_ios,
           onPressed: () {
-            Navigator.pushReplacement(context,
+            Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const InviteFriend()));
           },
           iconColor: AppColors.light,

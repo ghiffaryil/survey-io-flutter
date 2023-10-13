@@ -35,13 +35,3 @@ class Product {
     required this.category_image,
   });
 }
-
-class Merchant {
-  final List<ProductPrepaidCategory> data;
-  final int status;
-
-  Merchant({
-    required this.data,
-    required this.status,
-  });
-}

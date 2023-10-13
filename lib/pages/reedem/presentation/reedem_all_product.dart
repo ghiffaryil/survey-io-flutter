@@ -3,22 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/divider.dart';
-import 'package:survey_io/common/components/label.dart';
-import 'package:survey_io/pages/reward/models/product_prepaid_model.dart';
-import 'package:survey_io/pages/reward/presentation/widgets/user_information_card.dart';
+import 'package:survey_io/pages/reedem/models/product_prepaid_model.dart';
 import '../../../common/components/appbar_plain.dart';
+import '../../../common/components/label.dart';
 import '../../../common/constants/padding.dart';
 import '../data/list_product_prepaid.dart';
-import 'widgets/item_card.dart';
+import 'widgets/item_reedem_product_card.dart';
 
-class RewardPage extends StatefulWidget {
-  const RewardPage({super.key});
+class ReedemPageAllProducts extends StatefulWidget {
+  const ReedemPageAllProducts({super.key});
 
   @override
-  State<RewardPage> createState() => _RewardPageState();
+  State<ReedemPageAllProducts> createState() => _ReedemPageAllProductsState();
 }
 
-class _RewardPageState extends State<RewardPage> {
+class _ReedemPageAllProductsState extends State<ReedemPageAllProducts> {
   List<ProductPrepaidCategory> listProductPrepaidCategory =
       ListProductPrepaid.getProductPrepaid();
 
@@ -40,72 +39,67 @@ class _RewardPageState extends State<RewardPage> {
       backgroundColor: AppColors.bg,
       appBar: PlainAppBar(
         leadingIcon: Icons.arrow_back_ios,
-        textColor: AppColors.secondary,
+        iconColor: AppColors.secondary,
         onPressed: () {
           Navigator.pop(context);
         },
+        height: 56,
+        toolbarHeight: 56,
       ),
       body: Column(
         children: [
           Container(
             color: AppColors.white,
             child: Padding(
-              padding: CustomPadding.px3,
+              padding: CustomPadding.p2,
               child: LabelInput(
-                labelText: 'Hadiah',
-                labelStyle: TextStyles.h2(color: AppColors.secondary),
+                labelText: 'Semua Produk',
+                labelStyle: TextStyles.h3(color: AppColors.secondary),
               ),
             ),
           ),
-          const UserInformation(),
           Expanded(
-            child: Padding(
-              padding: CustomPadding.p1,
+            child: Container(
+              padding: CustomPadding.p2,
               child: ListView.separated(
-                itemCount: groupedProducts.length,
-                separatorBuilder: (context, index) =>
-                    const Divider(), // Add a divider between groups
+                separatorBuilder: (context, index) {
+                  return const Divider();
+                },
+                itemCount: listProductPrepaidCategory.length,
                 itemBuilder: (context, index) {
-                  final categoryNames = groupedProducts.keys.toList();
-                  final categoryName = categoryNames[index];
-                  final products = groupedProducts[categoryName]!;
-
+                  final merchant = listProductPrepaidCategory[index];
+                  final isFirstChild = index == 0;
+                  final isDifferentCategory = isFirstChild ||
+                      merchant.product_name !=
+                          listProductPrepaidCategory[index - 1].product_name;
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Container(
-                        width: double.infinity,
-                        padding: CustomPadding.p2,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              categoryName,
-                              style: TextStyles.large(
-                                color: AppColors.secondary,
-                                fontWeight: FontWeight.bold,
-                              ),
+                      if (isDifferentCategory)
+                        Container(
+                          width: double.infinity,
+                          padding: CustomPadding.p1,
+                          child: Text(
+                            merchant.product_name,
+                            style: TextStyles.large(
+                              color: AppColors.secondary,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Text(
-                              'Lihat Semua',
-                              style: TextStyles.large(
-                                color: AppColors.info,
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                      // List of rewards for this category
                       ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: products.length,
+                        itemCount: merchant.listProducts.length,
                         itemBuilder: (context, indexProduct) {
-                          final product = products[indexProduct];
+                          final product = merchant.listProducts[indexProduct];
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              ProductItemWidget(productData: product),
+                              ProductItemWidget(
+                                productData: product,
+                                listProductmerchant: merchant.listProducts,
+                              ),
                               CustomDividers.verySmallDivider(),
                             ],
                           );

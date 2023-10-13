@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:survey_io/pages/reedem/models/reedem_history_mdel.dart';
 import '../../../common/components/label.dart';
 import '../../../common/constants/colors.dart';
 import '../../../common/constants/padding.dart';
@@ -6,53 +7,52 @@ import '../../../common/constants/styles.dart';
 import '../../../common/extension/helper/date_helper.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/constants/icons.dart';
+import '../data/list_reedem_history.dart';
+import 'widgets/item_reedem_history_card.dart';
 
-import '../models/model_notification.dart';
-import '../data/list_notification.dart';
-import 'widgets/notification_card.dart';
-
-class NotificationPage extends StatefulWidget {
-  const NotificationPage({super.key});
+class ReedemHistoryPage extends StatefulWidget {
+  const ReedemHistoryPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _NotificationPageState();
+    return _ReedemHistoryPageState();
   }
 }
 
-class _NotificationPageState extends State<NotificationPage> {
-  List<NotificationModel> notifications = ListNotification.getNotification();
+class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
+  List<ReedemHistoryModel> reedemHistoryData =
+      ListReedemHistory.getReedemHistory();
 
-  void markNotificationAsRead(int notificationId) {
+  void markNotificationAsRead(int reedemHistoryId) {
     setState(() {
-      for (var dataNotification in notifications) {
-        if (dataNotification.id == notificationId) {
-          dataNotification.status = 'read';
+      for (var data in reedemHistoryData) {
+        if (data.id == reedemHistoryId) {
+          data.status = 'read';
         }
       }
     });
   }
 
-  void markNotificationAsClick(int notificationId) {
+  void markNotificationAsClick(int reedemHistoryId) {
     setState(() {
-      for (var dataNotification in notifications) {
-        if (dataNotification.id == notificationId) {
-          dataNotification.clicked = true;
+      for (var data in reedemHistoryData) {
+        if (data.id == reedemHistoryId) {
+          data.clicked = true;
         }
       }
     });
   }
 
-  Widget dismissibleNotification(int index) {
-    final dataNotification = notifications[index];
-    final notificationId = dataNotification.id;
+  Widget buildDismissibleNotification(int index) {
+    final data = reedemHistoryData[index];
+    final reedemHistoryId = data.id;
 
     return Dismissible(
       onDismissed: (DismissDirection direction) {
         setState(() {
-          markNotificationAsRead(notificationId);
+          markNotificationAsRead(reedemHistoryId);
         });
-        notifications.removeAt(index);
+        reedemHistoryData.removeAt(index);
       },
       background: Container(
         alignment: Alignment.centerRight,
@@ -67,10 +67,10 @@ class _NotificationPageState extends State<NotificationPage> {
       direction: DismissDirection.endToStart,
       child: InkWell(
         onTap: () {
-          markNotificationAsClick(notificationId);
+          markNotificationAsClick(reedemHistoryId);
         },
-        child: NotificationCard(
-          notification: notifications[index],
+        child: ReedemHistoryCard(
+          data: reedemHistoryData[index],
         ),
       ),
     );
@@ -94,7 +94,7 @@ class _NotificationPageState extends State<NotificationPage> {
             color: Colors.white,
             padding: CustomPadding.p2,
             child: LabelInput(
-              labelText: 'Notifikasi',
+              labelText: 'Riwayat',
               labelStyle: TextStyles.h2(color: AppColors.secondary),
             ),
           ),
@@ -102,15 +102,17 @@ class _NotificationPageState extends State<NotificationPage> {
             child: ListView.builder(
               // shrinkWrap: true,
               // physics: const NeverScrollableScrollPhysics(),
-              itemCount: notifications.length,
+              itemCount: reedemHistoryData.length,
               itemBuilder: (BuildContext context, int index) {
                 bool isSameDate = true;
-                final String dateString = notifications[index].date;
+                final String dateString =
+                    reedemHistoryData[index].datetime_created;
                 final DateTime date = DateTime.parse(dateString);
 
                 if (index == 0) {
                 } else {
-                  final String prevDateString = notifications[index - 1].date;
+                  final String prevDateString =
+                      reedemHistoryData[index - 1].datetime_created;
                   final DateTime prevDate = DateTime.parse(prevDateString);
                   isSameDate = date.isSameDate(prevDate);
                 }
@@ -124,10 +126,10 @@ class _NotificationPageState extends State<NotificationPage> {
                           date.formatDate(),
                           style: TextStyles.h6ExtraBold(),
                         )),
-                    dismissibleNotification(index),
+                    buildDismissibleNotification(index),
                   ]);
                 } else {
-                  return dismissibleNotification(index);
+                  return buildDismissibleNotification(index);
                 }
               },
             ),

@@ -52,7 +52,7 @@ class _EditProfileState extends State<EditProfile> {
         appBar: PlainAppBar(
           leadingIcon: Icons.close,
           iconSize: 35.0,
-          textColor: AppColors.secondary,
+          iconColor: AppColors.secondary,
           onPressed: () {
             Navigator.pop(context);
           },

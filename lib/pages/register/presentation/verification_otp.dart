@@ -65,7 +65,7 @@ class _VerificationOTPState extends State<VerificationOTP> {
     return Scaffold(
       appBar: PlainAppBar(
         leadingIcon: Icons.arrow_back_ios,
-        textColor: AppColors.secondary,
+        iconColor: AppColors.secondary,
         onPressed: () {
           Navigator.pop(context);
         },
