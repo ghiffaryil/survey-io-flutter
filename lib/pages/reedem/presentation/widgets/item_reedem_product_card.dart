@@ -5,7 +5,7 @@ import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import '../../../../common/constants/colors.dart';
 import '../../models/product_prepaid_model.dart';
-import 'reedem_top_up_wrapper.dart';
+import 'item_reedem_wrapper.dart';
 
 class ProductItemWidget extends StatelessWidget {
   final Product productData;

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/appbar_plain.dart';
 import 'package:survey_io/common/components/divider.dart';
@@ -7,7 +9,7 @@ import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import '../../../common/constants/styles.dart';
-import 'widgets/reedem_top_up_modal_bottom_sheet.dart';
+import 'widgets/botoom_container.dart';
 
 class ReedemTopUpPage extends StatefulWidget {
   final int productId;
@@ -34,6 +36,7 @@ class ReedemTopUpPage extends StatefulWidget {
 class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
   bool isGrid = true;
   bool isBottomContainerVisible = false;
+  String selectedProductName = '';
   int selectedProductId = 0;
   int selectedAmount = 0;
   double _koin = 0.0;
@@ -41,6 +44,7 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
   @override
   void initState() {
     selectedProductId = widget.productId;
+    selectedProductName = widget.productName;
     isBottomContainerVisible = true;
     _koin = widget.koin.toDouble();
     super.initState();
@@ -134,7 +138,6 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
                                     isBottomContainerVisible = false;
                                   });
                                   widget.onSelectedProductChanged(0);
-                                  // If clicked => Show Modal Botom Sheet
                                 },
                               )
                             : TextButtonOutlined.primary(
@@ -163,6 +166,7 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
             Visibility(
               visible: MediaQuery.of(context).viewInsets.bottom < 1,
               child: BottomContainer(
+                productName: selectedProductName,
                 productId: selectedProductId,
                 amount: selectedAmount,
                 koin: _koin.toInt(),

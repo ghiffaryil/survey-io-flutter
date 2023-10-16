@@ -14,16 +14,22 @@ class Images {
       'assets/images/logo/logo_survey_io_white.png';
 
   static const String createOwnSurvey =
-      'assets/images/global/image_create_own_survey.png';
+      'assets/images/global/img_create_own_survey.png';
 
   static const String emptyAccount =
-      'assets/images/global/image_empty_account.png';
+      'assets/images/global/img_empty_account.png';
 
   static const String inviteFriend =
-      'assets/images/global/image_invite_friend.png';
+      'assets/images/global/img_invite_friend.png';
 
   static const String emptyCreateSurvey =
-      'assets/images/global/image_empty_create_survey.png';
+      'assets/images/global/img_empty_create_survey.png';
 
-  static const String iconCheck = 'assets/icons/icon_check_verified.png';
+  static const String giftCard = 'assets/images/global/img_gift_card.png';
+
+  static const String reedemSuccess =
+      'assets/images/global/img_reedem_success.png';
+
+  static const String reedemFailed =
+      'assets/images/global/img_reedem_failed.png';
 }

@@ -17,6 +17,8 @@ import '../models/polling_completed.dart';
 import '../models/polling_model.dart';
 import '../models/polling_result.dart';
 
+import '../../reedem/presentation/reedem_gift_card.dart';
+
 class PollingPage extends StatefulWidget {
   const PollingPage({super.key});
 
@@ -66,10 +68,18 @@ class _PollingPageState extends State<PollingPage> {
             color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(15),
-              child: LabelInput(
-                  labelText: 'Polling',
-                  labelStyle:
-                      TextStyles.h2ExtraBold(color: AppColors.secondary)),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ReedemGiftCard()));
+                },
+                child: LabelInput(
+                    labelText: 'Polling',
+                    labelStyle:
+                        TextStyles.h2ExtraBold(color: AppColors.secondary)),
+              ),
             ),
           ),
           Container(
@@ -521,7 +531,7 @@ class _PollingPageState extends State<PollingPage> {
               ),
               const SizedBox(height: 20),
               Text(
-                "${selectedPolling.pollingTitle}",
+                selectedPolling.pollingTitle,
                 textAlign: TextAlign.left,
                 style: TextStyles.h4(color: AppColors.secondary),
               ),

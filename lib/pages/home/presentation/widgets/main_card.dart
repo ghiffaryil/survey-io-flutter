@@ -277,44 +277,53 @@ class MainCard extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: Column(
                               children: [
-                                Container(
-                                  width: double.infinity,
-                                  padding: const EdgeInsets.all(7.0),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: AppColors.secondary, width: 0.5),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Expanded(
-                                        flex: 7,
-                                        child: Text(
-                                          pollingText,
-                                          style: TextStyles.h4(
-                                              color: AppColors.secondary),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(),
-                                      ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: Container(
-                                          padding:
-                                              const EdgeInsets.only(right: 10),
-                                          alignment: Alignment.centerRight,
-                                          child: Image.asset(
-                                            IconName.pollingCheck,
-                                            width: 25,
-                                            height: 25,
+                                InkWell(
+                                  onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const PollingPage(),
+                                      )),
+                                  child: Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.all(7.0),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: AppColors.secondary,
+                                          width: 0.5),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Expanded(
+                                          flex: 7,
+                                          child: Text(
+                                            pollingText,
+                                            style: TextStyles.h4(
+                                                color: AppColors.secondary),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        Expanded(
+                                          flex: 1,
+                                          child: Container(),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Container(
+                                            padding: const EdgeInsets.only(
+                                                right: 10),
+                                            alignment: Alignment.centerRight,
+                                            child: Image.asset(
+                                              IconName.pollingCheck,
+                                              width: 25,
+                                              height: 25,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 CustomDividers.smallDivider(),
