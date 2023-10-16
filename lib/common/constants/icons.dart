@@ -32,4 +32,6 @@ class IconName {
   static const String point = 'assets/icons/icon_point.png';
   static const String reward = 'assets/icons/icon_reward.png';
   static const String rewardFocused = 'assets/icons/icon_reward_focused.png';
+
+  static const String iconCheck = 'assets/icons/icon_check_verified.png';
 }

@@ -128,7 +128,7 @@ class _ProfileState extends State<Profile> {
                           'Verified',
                           style: TextStyles.h5(color: Colors.white),
                         ),
-                        Image.asset(Images.iconCheck)
+                        Image.asset(IconName.iconCheck)
                       ],
                     )),
                   ),
