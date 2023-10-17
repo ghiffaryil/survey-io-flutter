@@ -1,16 +1,5 @@
-class SurveyModelData {
-  final bool allowed;
-  final int total_question;
-  final List listSurvey;
 
-  SurveyModelData({
-    required this.allowed,
-    required this.total_question,
-    required this.listSurvey,
-  });
-}
-
-class SurveyModelList {
+class SurveyModel2 {
   final int id;
   final String title;
   final int audience_id;
@@ -34,8 +23,9 @@ class SurveyModelList {
   final String datetime_created;
   final String datetime_updated;
   final dynamic survey_question;
+  final int total_questions;
 
-  SurveyModelList({
+  SurveyModel2({
     required this.id,
     required this.title,
     required this.audience_id,
@@ -59,5 +49,6 @@ class SurveyModelList {
     required this.datetime_created,
     required this.datetime_updated,
     required this.survey_question,
+    required this.total_questions,
   });
 }

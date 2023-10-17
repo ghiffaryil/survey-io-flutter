@@ -27,11 +27,7 @@ class MainCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: null,
-      right: null,
-      bottom: null,
-      left: null,
+    return SingleChildScrollView(
       child: Container(
         decoration: const BoxDecoration(),
         child: Column(
@@ -396,11 +392,19 @@ class MainCard extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: popularSurvey.length,
                       itemBuilder: (BuildContext context, int index) {
-                        final survey = popularSurvey[index];
-                        final surveyTitle = survey.title;
-                        final surveyQuestions = survey.questions;
-                        final surveyReward = survey.reward;
-                        final surveyImage = survey.image;
+                        final surveyData = popularSurvey[index];
+                        final surveyList = surveyData.listSurvey;
+
+                        final survey =
+                            popularSurvey[index]; // Retrieve the correct survey
+                        final surveyTitle = survey.listSurvey[0]
+                            .title; // Use the first item in the listSurvey
+                        final totalSurveyQuestions =
+                            survey.total_question.toString();
+                        final surveyReward = survey.listSurvey[0].energy
+                            .toString(); // Use the first item in the listSurvey
+                        final surveyImage = survey.listSurvey[0]
+                            .image_homescreen; // Use the first item in the listSurvey
 
                         return Container(
                           padding: const EdgeInsets.all(7),
@@ -408,104 +412,134 @@ class MainCard extends StatelessWidget {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          child: Column(children: [
-                            Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.1),
-                                    spreadRadius: 3,
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 3),
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(7),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Column(children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.1),
+                                          spreadRadius: 3,
+                                          blurRadius: 10,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 3,
+                                          child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: surveyImage == ''
+                                                  ? const RoundedImage(
+                                                      imageType: 'asset',
+                                                      imageUrl:
+                                                          'assets/images/global/img_empty_create_survey.png',
+                                                      borderRadius: 8.0,
+                                                      fit: BoxFit.cover,
+                                                      width: 100,
+                                                      height: 100,
+                                                    )
+                                                  : RoundedImage(
+                                                      imageType: 'network',
+                                                      imageUrl: surveyImage,
+                                                      borderRadius: 8.0,
+                                                      fit: BoxFit.cover,
+                                                      width: 100,
+                                                      height: 100,
+                                                    )),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                            flex: 7,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                CustomDividers
+                                                    .verySmallDivider(),
+                                                Text(
+                                                  surveyTitle,
+                                                  style: TextStyles.h5(
+                                                      color:
+                                                          AppColors.secondary),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                    '$totalSurveyQuestions Pertanyaan'),
+                                                CustomDividers.smallDivider(),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Image.asset(
+                                                          IconName.point,
+                                                          width: 25,
+                                                          height: 25,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        Text(
+                                                          surveyReward,
+                                                          style: TextStyles.h6(
+                                                              color: AppColors
+                                                                  .secondary),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const Icon(
+                                                      Icons.share,
+                                                      size: 15,
+                                                      color: AppColors.info,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              right: 10.0),
+                                                      child: TextButtonOutlined
+                                                          .primary(
+                                                              minWidth: 0.20,
+                                                              height: 30,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              text:
+                                                                  'Ikut Survei',
+                                                              onPressed: () {}),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            )),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: RoundedImage(
-                                            imageType: 'network',
-                                            imageUrl: surveyImage,
-                                            borderRadius: 8.0,
-                                            fit: BoxFit.cover,
-                                            width: 100,
-                                            height: 100)),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                      flex: 7,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          CustomDividers.verySmallDivider(),
-                                          Text(
-                                            surveyTitle,
-                                            style: TextStyles.h5(
-                                                color: AppColors.secondary),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          Text('$surveyQuestions Pertanyaan'),
-                                          CustomDividers.smallDivider(),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Image.asset(
-                                                    IconName.point,
-                                                    width: 25,
-                                                    height: 25,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text(
-                                                    surveyReward,
-                                                    style: TextStyles.h6(
-                                                        color: AppColors
-                                                            .secondary),
-                                                  ),
-                                                ],
-                                              ),
-                                              const Icon(
-                                                Icons.share,
-                                                size: 15,
-                                                color: AppColors.info,
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 10.0),
-                                                child:
-                                                    TextButtonOutlined.primary(
-                                                        minWidth: 0.20,
-                                                        height: 30,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        text: 'Ikut Survei',
-                                                        onPressed: () {}),
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ]),
+                                ]),
+                              )
+                            ],
+                          ),
                         );
                       },
                     ),

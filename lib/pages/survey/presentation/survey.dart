@@ -8,7 +8,7 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
-import 'package:survey_io/pages/survey/data/survey.dart';
+import 'package:survey_io/pages/survey/data/list_survey.dart';
 import 'package:survey_io/pages/survey/models/survey_model.dart';
 
 import '../../../common/components/appbar_plain.dart';
@@ -22,7 +22,7 @@ class ListSurveiPage extends StatefulWidget {
 }
 
 class _ListSurveiPageState extends State<ListSurveiPage> {
-  List<SurveyModel> listSurvey = ListSurvey.getSurvey();
+  List<SurveyModelData> listSurvey = ListSurvey.getSurvey();
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +61,14 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: listSurvey.length,
       itemBuilder: (BuildContext context, int index) {
-        final survey = listSurvey[index];
-        final surveyTitle = survey.title;
-        final surveyQuestions = survey.questions;
-        final surveyReward = survey.reward;
-        final surveyImage = survey.image;
+        final survey = listSurvey[index]; // Retrieve the correct survey
+        final surveyTitle =
+            survey.listSurvey[0].title; // Use the first item in the listSurvey
+        final surveyQuestions = survey.total_question.toString();
+        final surveyReward = survey.listSurvey[0].energy
+            .toString(); // Use the first item in the listSurvey
+        final surveyImage = survey.listSurvey[0]
+            .image_homescreen; // Use the first item in the listSurvey
 
         return Container(
           padding: const EdgeInsets.all(7),
@@ -78,12 +81,20 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
               SizedBox(
                 height: 150,
                 width: double.infinity,
-                child: RoundedImage(
-                  imageType: 'network',
-                  imageUrl: surveyImage,
-                  borderRadius: 8.0,
-                  fit: BoxFit.fitWidth,
-                ),
+                child: surveyImage.isEmpty
+                    ? const RoundedImage(
+                        imageType: 'asset',
+                        imageUrl:
+                            'assets/images/global/img_empty_create_survey.png',
+                        borderRadius: 8.0,
+                        fit: BoxFit.fitWidth,
+                      )
+                    : RoundedImage(
+                        imageType: 'network',
+                        imageUrl: surveyImage,
+                        borderRadius: 8.0,
+                        fit: BoxFit.fitWidth,
+                      ),
               ),
               Container(
                 padding: const EdgeInsets.all(5.0),
