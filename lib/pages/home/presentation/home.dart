@@ -3,19 +3,20 @@ import 'package:flutter/material.dart';
 // Import Component
 import 'package:survey_io/common/components/appbar.dart';
 import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/icons.dart';
 import 'package:survey_io/pages/inbox/presentation/inbox.dart';
 import 'package:survey_io/pages/polling/data/polling_today.dart';
 import 'package:survey_io/pages/polling/models/polling_model.dart';
 import 'package:survey_io/pages/survey/data/survey_popular.dart';
-import 'package:survey_io/pages/survey/models/survey_model.dart';
+import 'package:survey_io/pages/survey/presentation/survey.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/pages/tabs/navigation_floating_icon.dart';
 import 'package:survey_io/pages/home/presentation/widgets/main_card.dart';
-import 'package:survey_io/pages/notification/presentation/notification.dart';
-import 'package:survey_io/pages/home/presentation/widgets/red_shape_circular_card.dart';
 
+import '../../../common/constants/floating_profile_card.dart';
 import '../../../common/constants/images.dart';
-import 'widgets/floating_profile_card.dart';
+import '../../../common/constants/red_shape_circular_card.dart';
+import '../../survey/models/survey_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,8 +27,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
-  List<SurveyModel> listDataPopularSurvey =
-      ListSurveyPopular.getSurveyPopular();
+  List<SurveyModelData> listDataPopularSurvey = ListSurveyPopular.getSurveyPopular();
   List<PollingModel> listPollingToday = ListPollingToday.getPollingToday();
 
   @override
@@ -49,17 +49,28 @@ class _HomePageState extends State<HomePage> {
         },
         icon: const Icon(Icons.notifications),
       ),
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            MainCard(
-              popularSurvey: listDataPopularSurvey,
-              pollingToday: listPollingToday,
+      body: Stack(
+        children: [
+          MainCard(
+            popularSurvey: listDataPopularSurvey,
+            pollingToday: listPollingToday,
+          ),
+          const RedShapeCircular(),
+          FloatingProfileCard(
+            userFrontName: 'User',
+            iconImage: Image.asset(
+              IconName.totalSurvey,
+              width: 40,
+              height: 40,
             ),
-            const RedShapeCircular(),
-            const FloatingProfileCard(),
-          ],
-        ),
+            label: 'Jumlah Survey',
+            labelValue: 0,
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ListSurveiPage()));
+            },
+          ),
+        ],
       ),
       bottomNavigationBar: BottomMenu(
         selectedIndex: selectedIndex,

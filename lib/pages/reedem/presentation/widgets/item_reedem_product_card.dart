@@ -17,12 +17,13 @@ class ProductItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     final productName = productData.product_name;
     final productId = productData.id;
     final amount = productData.amount;
     final productImage = productData.image;
     final categoryImage = productData.category_image;
-    final int koinNeeded = (productData.amount / 1000).toInt();
+    final int koinNeeded = productData.amount ~/ 1000;
 
     return Card(
       elevation: 4,

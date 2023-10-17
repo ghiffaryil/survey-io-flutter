@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/pages/home/presentation/home.dart';
 import 'package:survey_io/pages/profile/presentation/pre_register.dart';
-import 'package:survey_io/pages/survey/presentation/create_survey.dart';
+import 'package:survey_io/pages/survey_design/presentation/list_survey_design.dart';
 
 import '../../common/constants/icons.dart';
 

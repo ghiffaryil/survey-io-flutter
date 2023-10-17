@@ -13,7 +13,6 @@ import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/pages/home/presentation/home.dart';
 import '../../../common/components/appbar.dart';
-import '../../../common/constants/images.dart';
 import 'edit_profile.dart';
 
 class Profile extends StatefulWidget {
@@ -43,18 +42,14 @@ class _ProfileState extends State<Profile> {
           Navigator.pop(context);
         },
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            userInformation(),
-            listMenu(),
-            CustomDividers.smallDivider(),
-            versionInformation(),
-            CustomDividers.smallDivider(),
-            buttonLogout(),
-            CustomDividers.mediumDivider(),
-          ],
-        ),
+      body: Column(
+        children: [
+          userInformation(),
+          Expanded(
+              child: SingleChildScrollView(
+            child: listMenu(),
+          )),
+        ],
       ),
       bottomNavigationBar: BottomMenu(
         selectedIndex: selectedIndex,
@@ -70,7 +65,6 @@ class _ProfileState extends State<Profile> {
     return Container(
       padding: const EdgeInsets.only(left: 25, right: 25, top: 5, bottom: 20),
       width: double.infinity,
-      // height: MediaQuery.of(context).size.height * 0.15,
       decoration: const BoxDecoration(
         color: AppColors.primary,
       ),
@@ -212,6 +206,11 @@ class _ProfileState extends State<Profile> {
           iconColor: AppColors.light,
           textColor: AppColors.light,
         ),
+        CustomDividers.smallDivider(),
+        versionInformation(),
+        CustomDividers.smallDivider(),
+        buttonLogout(),
+        CustomDividers.mediumDivider(),
       ],
     );
   }
