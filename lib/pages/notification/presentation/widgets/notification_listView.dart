@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../common/components/label.dart';
 import '../../../../common/constants/colors.dart';
-import '../../../../common/constants/padding.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/extension/helper/date_helper.dart';
-import '../../../../common/components/appbar_plain.dart';
 import '../../../../common/constants/icons.dart';
 
 import '../../models/model_notification.dart';

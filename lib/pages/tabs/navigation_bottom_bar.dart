@@ -32,7 +32,7 @@ class _BottomMenuState extends State<BottomMenu> {
 
   final List<Widget> halamanTujuan = [
     const HomePage(),
-    const BuatSurvei(),
+    const SurveyDesign(),
     const PreRegister()
   ];
 

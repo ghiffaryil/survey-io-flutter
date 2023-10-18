@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/pages/register/presentation/register.dart';
+import 'package:survey_io/pages/register/presentation/register_phone_number.dart';
 
 import '../../../common/constants/images.dart';
 

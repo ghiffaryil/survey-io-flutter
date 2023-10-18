@@ -27,7 +27,7 @@ class NavigationFloatingIcon extends StatelessWidget {
         backgroundColor: Colors.white,
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const BuatSurvei()));
+              MaterialPageRoute(builder: (context) => const SurveyDesign()));
         },
         tooltip: 'Buat Survei',
         shape: RoundedRectangleBorder(

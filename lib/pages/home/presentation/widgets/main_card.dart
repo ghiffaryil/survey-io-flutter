@@ -13,7 +13,8 @@ import '../../../../common/constants/styles.dart';
 
 import '../../../invite/presentation/invite.dart';
 import '../../../polling/presentation/list_polling.dart';
-import '../../../survey/presentation/survey.dart';
+import '../../../survey/presentation/list_survey.dart';
+import '../../../survey_design/presentation/list_survey_design.dart';
 
 class MainCard extends StatelessWidget {
   final List popularSurvey;
@@ -609,7 +610,13 @@ class MainCard extends StatelessWidget {
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             text: 'Buat Survei',
-                            onPressed: () {})
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SurveyDesign()));
+                            })
                       ],
                     ),
                   ),

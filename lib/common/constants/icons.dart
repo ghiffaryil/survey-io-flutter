@@ -34,4 +34,7 @@ class IconName {
   static const String rewardFocused = 'assets/icons/icon_reward_focused.png';
 
   static const String iconCheck = 'assets/icons/icon_check_verified.png';
+  
+  static const String iconEmptyList = 'assets/icons/icon_empty_list.png';
+  static const String iconReedemGiftCardSuccess = 'assets/icons/icon_reedem_gift_card_success.png';
 }

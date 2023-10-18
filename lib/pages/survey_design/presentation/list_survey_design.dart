@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/constants/padding.dart';
 
 // Import Component
@@ -9,6 +10,7 @@ import 'package:survey_io/pages/notification/presentation/notification.dart';
 import 'package:survey_io/pages/reedem/presentation/reedem.dart';
 import 'package:survey_io/pages/survey_design/data/list_survey_design.dart';
 import 'package:survey_io/pages/survey_design/models/survey_design_model.dart';
+import 'package:survey_io/pages/survey_design/presentation/auth_survey_design.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/pages/tabs/navigation_floating_icon.dart';
 import 'package:survey_io/pages/home/presentation/home.dart';
@@ -20,25 +22,22 @@ import '../../../common/constants/icons.dart';
 import '../../../common/constants/images.dart';
 import '../../../common/constants/red_shape_circular_card.dart';
 
-class BuatSurvei extends StatefulWidget {
-  const BuatSurvei({super.key});
+class SurveyDesign extends StatefulWidget {
+  const SurveyDesign({super.key});
 
   @override
-  State<BuatSurvei> createState() => _BuatSurveiState();
+  State<SurveyDesign> createState() => _SurveyDesignState();
 }
 
-class _BuatSurveiState extends State<BuatSurvei> {
+class _SurveyDesignState extends State<SurveyDesign> {
   int selectedIndex = 1;
 
-  List<SurveyDesignModel> listSurveyDesign = ListSurveyDesign.getSurveyDesign();
+  List<SurveyDesignModel> listSurveyDesign = SurveyDesignList.getSurveyDesign();
 
   @override
   void initState() {
     super.initState();
-    loadSurveyData();
   }
-
-  Future<void> loadSurveyData() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -301,14 +300,20 @@ class _BuatSurveiState extends State<BuatSurvei> {
         ? ButtonFilled.primary(
             text: 'Buat Survei',
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomePage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AuthSurveyDesign()));
             })
-        : ButtonOutlined.primary(
+        : TextButtonOutlined.transparent(
+            borderColor: AppColors.primary,
+            textColor: AppColors.primary,
             text: 'Buat Survei',
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomePage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AuthSurveyDesign()));
             });
   }
 }

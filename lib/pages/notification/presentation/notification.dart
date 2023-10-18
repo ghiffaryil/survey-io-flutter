@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/common/constants/images.dart';
 import '../../../common/components/label.dart';
 import '../../../common/constants/colors.dart';
 import '../../../common/constants/padding.dart';
@@ -98,40 +100,59 @@ class _NotificationPageState extends State<NotificationPage> {
               labelStyle: TextStyles.h2(color: AppColors.secondary),
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              // shrinkWrap: true,
-              // physics: const NeverScrollableScrollPhysics(),
-              itemCount: notifications.length,
-              itemBuilder: (BuildContext context, int index) {
-                bool isSameDate = true;
-                final String dateString = notifications[index].date;
-                final DateTime date = DateTime.parse(dateString);
+          notifications.isEmpty
+              ? Container(
+                  padding: CustomPadding.p3,
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        IconName.iconEmptyList,
+                        width: MediaQuery.of(context).size.height * 0.4,
+                      ),
+                      CustomDividers.regularDivider(),
+                      Text(
+                        'Ups, notifikasi masih kosong! Coba isi survei pertama kamu di menu Survei.',
+                        textAlign: TextAlign.center,
+                        style:
+                            TextStyles.extraLarge(color: AppColors.secondary),
+                      )
+                    ],
+                  ),
+                )
+              : Expanded(
+                  child: ListView.builder(
+                    itemCount: notifications.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      bool isSameDate = true;
+                      final String dateString = notifications[index].date;
+                      final DateTime date = DateTime.parse(dateString);
 
-                if (index == 0) {
-                } else {
-                  final String prevDateString = notifications[index - 1].date;
-                  final DateTime prevDate = DateTime.parse(prevDateString);
-                  isSameDate = date.isSameDate(prevDate);
-                }
+                      if (index == 0) {
+                      } else {
+                        final String prevDateString =
+                            notifications[index - 1].date;
+                        final DateTime prevDate =
+                            DateTime.parse(prevDateString);
+                        isSameDate = date.isSameDate(prevDate);
+                      }
 
-                if (index == 0 || !(isSameDate)) {
-                  return Column(children: [
-                    Container(
-                        padding: const EdgeInsets.all(20.0),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          date.formatDate(),
-                          style: TextStyles.h6ExtraBold(),
-                        )),
-                    dismissibleNotification(index),
-                  ]);
-                } else {
-                  return dismissibleNotification(index);
-                }
-              },
-            ),
-          ),
+                      if (index == 0 || !(isSameDate)) {
+                        return Column(children: [
+                          Container(
+                              padding: const EdgeInsets.all(20.0),
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                date.formatDate(),
+                                style: TextStyles.h6ExtraBold(),
+                              )),
+                          dismissibleNotification(index),
+                        ]);
+                      } else {
+                        return dismissibleNotification(index);
+                      }
+                    },
+                  ),
+                ),
         ],
       ),
     );

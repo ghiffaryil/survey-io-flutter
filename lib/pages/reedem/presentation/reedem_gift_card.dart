@@ -12,6 +12,7 @@ import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/pages/polling/presentation/list_polling.dart';
+import 'package:survey_io/pages/reedem/presentation/reedem_gift_card_success.dart';
 
 import '../../../common/constants/images.dart';
 import '../../../common/constants/styles.dart';
@@ -105,7 +106,8 @@ class _ReedemGiftCardState extends State<ReedemGiftCard> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => PollingPage(),
+                                    builder: (context) =>
+                                        const ReedemGiftCardSuccess(),
                                   ));
                             },
                           ),

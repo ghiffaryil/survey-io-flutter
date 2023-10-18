@@ -16,14 +16,14 @@ import 'package:survey_io/common/components/label.dart';
 import '../../../common/components/input_field_passcode.dart';
 import '../../../common/constants/padding.dart';
 
-class CompleteProfile extends StatefulWidget {
-  const CompleteProfile({super.key});
+class CompleteProfileKtpNPWP extends StatefulWidget {
+  const CompleteProfileKtpNPWP({super.key});
 
   @override
-  State<CompleteProfile> createState() => _CompleteProfileState();
+  State<CompleteProfileKtpNPWP> createState() => _CompleteProfileKtpNPWPState();
 }
 
-class _CompleteProfileState extends State<CompleteProfile> {
+class _CompleteProfileKtpNPWPState extends State<CompleteProfileKtpNPWP> {
   TextEditingController fullName = TextEditingController();
   TextEditingController placeOfBirth = TextEditingController();
   TextEditingController passcode = TextEditingController();
@@ -68,7 +68,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
                 labelText(),
                 formInputField(),
                 CustomDividers.regularDivider(),
-                labelTermAndCondition(),
                 CustomDividers.smallDivider(),
                 submitButton(),
               ],
@@ -166,6 +165,34 @@ class _CompleteProfileState extends State<CompleteProfile> {
           lastDate: DateTime.now(),
           showPrefixIcon: false,
           showSuffixIcon: true,
+        ),
+        CustomDividers.smallDivider(),
+        LabelInput(
+          labelText: 'No. KTP',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          focusNode: referalCodeFocus,
+          keyboardType: TextInputType.number,
+          controller: referalCode,
+          hintText: 'Masukkan No. KTP',
+          // prefixIcon: Icon(Icons.person), // Set prefix icon
+          // suffixIcon: Icon(Icons.person), // Set suffix icon
+        ),
+        CustomDividers.smallDivider(),
+        LabelInput(
+          labelText: 'No. NPWP',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          focusNode: referalCodeFocus,
+          keyboardType: TextInputType.number,
+          controller: referalCode,
+          hintText: 'Masukkan No. NPWP (Jika Ada)',
+          // prefixIcon: Icon(Icons.person), // Set prefix icon
+          // suffixIcon: Icon(Icons.person), // Set suffix icon
         ),
         CustomDividers.smallDivider(),
         LabelInput(
