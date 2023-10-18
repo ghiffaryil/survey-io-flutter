@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/divider.dart';
-import 'package:survey_io/common/constants/images.dart';
+
+import '../../../common/components/divider.dart';
 import '../../../common/components/label.dart';
 import '../../../common/constants/colors.dart';
+import '../../../common/constants/imageSize.dart';
 import '../../../common/constants/padding.dart';
 import '../../../common/constants/styles.dart';
 import '../../../common/extension/helper/date_helper.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/constants/icons.dart';
-
 import '../models/model_notification.dart';
 import '../data/list_notification.dart';
 import 'widgets/notification_card.dart';
@@ -107,7 +107,8 @@ class _NotificationPageState extends State<NotificationPage> {
                     children: [
                       Image.asset(
                         IconName.iconEmptyList,
-                        width: MediaQuery.of(context).size.height * 0.4,
+                        width:
+                            AppSizeWidth.imageSize(context, AppSizeWidth.large),
                       ),
                       CustomDividers.regularDivider(),
                       Text(

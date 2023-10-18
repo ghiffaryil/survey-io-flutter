@@ -10,6 +10,7 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/pages/register/presentation/register_phone_number.dart';
 
+import '../../../common/constants/imageSize.dart';
 import '../../../common/constants/images.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -89,7 +90,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         alignment: Alignment.center,
         child: Image.asset(
           Images.logoHorizontal,
-          width: MediaQuery.of(context).size.width * 0.6,
+          width: AppSizeWidth.imageSize(context, AppSizeWidth.large),
         ));
   }
 

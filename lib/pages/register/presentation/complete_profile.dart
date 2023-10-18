@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_date.dart';
-import 'package:survey_io/common/components/input_field_password.dart';
 import 'package:survey_io/common/components/input_field_radio.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 

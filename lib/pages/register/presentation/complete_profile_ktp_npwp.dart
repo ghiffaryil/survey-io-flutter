@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_date.dart';
-import 'package:survey_io/common/components/input_field_password.dart';
 import 'package:survey_io/common/components/input_field_radio.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 
@@ -27,11 +26,15 @@ class _CompleteProfileKtpNPWPState extends State<CompleteProfileKtpNPWP> {
   TextEditingController fullName = TextEditingController();
   TextEditingController placeOfBirth = TextEditingController();
   TextEditingController passcode = TextEditingController();
+  TextEditingController ktpNumber = TextEditingController();
+  TextEditingController npwpNumber = TextEditingController();
   TextEditingController referalCode = TextEditingController();
 
   FocusNode fullNameFocus = FocusNode();
   FocusNode placeOfBirthFocus = FocusNode();
   FocusNode passcodeFocus = FocusNode();
+  FocusNode ktpNumberFocus = FocusNode();
+  FocusNode npwpNumberFocus = FocusNode();
   FocusNode referalCodeFocus = FocusNode();
 
   String gender = '';
@@ -48,6 +51,8 @@ class _CompleteProfileKtpNPWPState extends State<CompleteProfileKtpNPWP> {
     fullNameFocus.unfocus();
     placeOfBirthFocus.unfocus();
     passcodeFocus.unfocus();
+    ktpNumberFocus.unfocus();
+    npwpNumberFocus.unfocus();
     referalCodeFocus.unfocus();
   }
 
@@ -173,12 +178,10 @@ class _CompleteProfileKtpNPWPState extends State<CompleteProfileKtpNPWP> {
         ),
         CustomDividers.verySmallDivider(),
         TextInputField(
-          focusNode: referalCodeFocus,
+          focusNode: ktpNumberFocus,
           keyboardType: TextInputType.number,
           controller: referalCode,
           hintText: 'Masukkan No. KTP',
-          // prefixIcon: Icon(Icons.person), // Set prefix icon
-          // suffixIcon: Icon(Icons.person), // Set suffix icon
         ),
         CustomDividers.smallDivider(),
         LabelInput(
@@ -187,12 +190,10 @@ class _CompleteProfileKtpNPWPState extends State<CompleteProfileKtpNPWP> {
         ),
         CustomDividers.verySmallDivider(),
         TextInputField(
-          focusNode: referalCodeFocus,
+          focusNode: npwpNumberFocus,
           keyboardType: TextInputType.number,
           controller: referalCode,
           hintText: 'Masukkan No. NPWP (Jika Ada)',
-          // prefixIcon: Icon(Icons.person), // Set prefix icon
-          // suffixIcon: Icon(Icons.person), // Set suffix icon
         ),
         CustomDividers.smallDivider(),
         LabelInput(

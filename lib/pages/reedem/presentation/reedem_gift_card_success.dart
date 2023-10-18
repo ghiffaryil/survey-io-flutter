@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/appbar_plain.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/constants/images.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/pages/home/presentation/home.dart';
-import 'package:survey_io/pages/reedem/presentation/reedem.dart';
 
 import '../../../common/constants/icons.dart';
+import '../../../common/constants/imageSize.dart';
 import '../../../common/constants/styles.dart';
+import 'reedem.dart';
 
 class ReedemGiftCardSuccess extends StatefulWidget {
   const ReedemGiftCardSuccess({super.key});
@@ -26,8 +25,8 @@ class _ReedemGiftCardSuccessState extends State<ReedemGiftCardSuccess> {
         backgroundColor: AppColors.primary,
         leading: IconButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const HomePage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomePage()));
             },
             icon: const Icon(
               Icons.close,
@@ -45,7 +44,7 @@ class _ReedemGiftCardSuccessState extends State<ReedemGiftCardSuccess> {
             CustomDividers.largeDivider(),
             Image.asset(
               IconName.iconReedemGiftCardSuccess,
-              width: MediaQuery.of(context).size.width * 0.7,
+              width: AppSizeWidth.imageSize(context, AppSizeWidth.large),
             ),
             CustomDividers.verySmallDivider(),
             Text(
@@ -58,14 +57,26 @@ class _ReedemGiftCardSuccessState extends State<ReedemGiftCardSuccess> {
               backgroundColor: AppColors.white,
               textColor: AppColors.primary,
               text: 'Tukar Dengan Hadiah',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ReedemPage(),
+                    ));
+              },
             ),
             TextButtonOutlined.custom(
               text: 'Nanti Saja',
               backgroundColor: Colors.transparent,
               borderColor: AppColors.white,
               textColor: AppColors.white,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomePage(),
+                    ));
+              },
             ),
           ],
         ),

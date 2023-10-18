@@ -3,7 +3,7 @@ import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/pages/reedem/models/reedem_history_mdel.dart';
 import '../../../common/components/label.dart';
 import '../../../common/constants/colors.dart';
-import '../../../common/constants/images.dart';
+import '../../../common/constants/imageSize.dart';
 import '../../../common/constants/padding.dart';
 import '../../../common/constants/styles.dart';
 import '../../../common/extension/helper/date_helper.dart';
@@ -107,9 +107,10 @@ class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
                     children: [
                       Image.asset(
                         IconName.iconEmptyList,
-                        width: MediaQuery.of(context).size.height * 0.4,
+                        width:
+                            AppSizeWidth.imageSize(context, AppSizeWidth.large),
                       ),
-                      CustomDividers.smallDivider(),
+                      CustomDividers.regularDivider(),
                       Text(
                         'Ups, riwayat hadiah masih kosong! Coba tukar koin kamu dengan Hadiah.',
                         textAlign: TextAlign.center,

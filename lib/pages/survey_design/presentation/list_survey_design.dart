@@ -3,36 +3,34 @@ import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/constants/padding.dart';
 
 // Import Component
-import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/pages/notification/presentation/notification.dart';
-import 'package:survey_io/pages/reedem/presentation/reedem.dart';
-import 'package:survey_io/pages/survey_design/data/list_survey_design.dart';
-import 'package:survey_io/pages/survey_design/models/survey_design_model.dart';
-import 'package:survey_io/pages/survey_design/presentation/auth_survey_design.dart';
-import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
-import 'package:survey_io/pages/tabs/navigation_floating_icon.dart';
-import 'package:survey_io/pages/home/presentation/home.dart';
-import 'package:survey_io/common/components/divider.dart';
-
+import '../../../common/constants/styles.dart';
+import '../../../common/constants/colors.dart';
+import '../../../common/components/elevated_button.dart';
+import '../../../common/components/divider.dart';
 import '../../../common/components/appbar.dart';
 import '../../../common/constants/floating_profile_card.dart';
 import '../../../common/constants/icons.dart';
 import '../../../common/constants/images.dart';
 import '../../../common/constants/red_shape_circular_card.dart';
+import '../../notification/presentation/notification.dart';
+import '../../reedem/presentation/reedem.dart';
+import '../../tabs/navigation_bottom_bar.dart';
+import '../../tabs/floating_icon.dart';
+import '../data/list_survey_design.dart';
+import '../models/survey_design_model.dart';
+import "auth_survey_design.dart";
 
-class SurveyDesign extends StatefulWidget {
-  const SurveyDesign({super.key});
+class SurveyDesignList extends StatefulWidget {
+  const SurveyDesignList({super.key});
 
   @override
-  State<SurveyDesign> createState() => _SurveyDesignState();
+  State<SurveyDesignList> createState() => _SurveyDesignListState();
 }
 
-class _SurveyDesignState extends State<SurveyDesign> {
+class _SurveyDesignListState extends State<SurveyDesignList> {
   int selectedIndex = 1;
 
-  List<SurveyDesignModel> listSurveyDesign = SurveyDesignList.getSurveyDesign();
+  List<SurveyDesignModel> listSurveyDesign = MySurveyDesign.getSurveyDesign();
 
   @override
   void initState() {
@@ -226,23 +224,25 @@ class _SurveyDesignState extends State<SurveyDesign> {
                               child: Row(
                                 children: [
                                   Expanded(
-                                    flex: 5,
+                                    flex: 4,
                                     child: Container(),
                                   ),
                                   Expanded(
-                                    flex: 5,
+                                    flex: 6,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Expanded(
-                                          child: TextButton(
-                                            onPressed: () {},
-                                            child: const Text(
-                                              'Edit',
-                                              style: TextStyle(
-                                                  fontSize: 17,
-                                                  color: AppColors.secondary),
+                                          child: GestureDetector(
+                                            onTap: () {},
+                                            child: Container(
+                                              padding: CustomPadding.px1,
+                                              child: Text(
+                                                'Edit',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyles.h4(),
+                                              ),
                                             ),
                                           ),
                                         ),

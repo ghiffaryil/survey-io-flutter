@@ -1,13 +1,15 @@
 import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/common/components/input_field_text.dart';
-import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/common/components/divider.dart';
+
+import '../../../common/components/elevated_button.dart';
+import '../../../common/components/input_field_text.dart';
+import '../../../common/constants/colors.dart';
+import '../../../common/constants/styles.dart';
+import '../../../common/components/divider.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/components/information_card.dart';
 import '../../../common/constants/padding.dart';
+import '../../login/presentation/login.dart';
 import 'verification_otp.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -120,7 +122,11 @@ class _RegisterPageState extends State<RegisterPage> {
           TextSpan(
             text: ' Login di sini',
             style: TextStyles.h5(color: AppColors.primary),
-            recognizer: TapGestureRecognizer()..onTap = () {},
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
+              },
           ),
         ],
       ),

@@ -1,15 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/divider.dart';
-import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/images.dart';
 import 'package:survey_io/common/constants/padding.dart';
-import 'package:survey_io/pages/login/presentation/login.dart';
-import 'package:survey_io/pages/register/presentation/complete_profile_ktp_npwp.dart';
-import 'package:survey_io/pages/register/presentation/register_phone_number.dart';
 
+import '../../../common/constants/imageSize.dart';
+import '../../login/presentation/login.dart';
+import '../../register/presentation/complete_profile_ktp_npwp.dart';
 import '../../../common/constants/styles.dart';
 
 class AuthSurveyDesign extends StatefulWidget {
@@ -31,7 +30,7 @@ class _AuthSurveyDesignState extends State<AuthSurveyDesign> {
             CustomDividers.smallDivider(),
             Image.asset(
               Images.logoHorizontal,
-              width: MediaQuery.of(context).size.width * 0.6,
+              width: AppSizeWidth.imageSize(context, AppSizeWidth.large),
             ),
             Text(
               'Buat akun terlebih dahulu sebelum melanjutkan pembayaran dan pembuatan survei kamu',
