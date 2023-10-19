@@ -1,19 +1,18 @@
 import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/common/components/input_field_date.dart';
-import 'package:survey_io/common/components/input_field_radio.dart';
-import 'package:survey_io/common/components/input_field_text.dart';
 
 // Import Component
-import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/pages/login/presentation/login.dart';
-import 'package:survey_io/common/components/divider.dart';
-import 'package:survey_io/common/components/label.dart';
-
+import '../../../common/components/elevated_button.dart';
+import '../../../common/components/input_field_date.dart';
+import '../../../common/components/input_field_radio.dart';
+import '../../../common/components/input_field_text.dart';
+import '../../../common/constants/colors.dart';
+import '../../../common/constants/styles.dart';
+import '../../../common/components/divider.dart';
+import '../../../common/components/label.dart';
 import '../../../common/components/input_field_passcode.dart';
 import '../../../common/constants/padding.dart';
+import '../../survey_design/presentation/survey_design.dart';
 
 class CompleteProfileKtpNPWP extends StatefulWidget {
   const CompleteProfileKtpNPWP({super.key});
@@ -219,8 +218,6 @@ class _CompleteProfileKtpNPWPState extends State<CompleteProfileKtpNPWP> {
           keyboardType: TextInputType.text,
           controller: referalCode,
           hintText: 'Masukkan Kode (Jika Ada)',
-          // prefixIcon: Icon(Icons.person), // Set prefix icon
-          // suffixIcon: Icon(Icons.person), // Set suffix icon
         ),
       ],
     );
@@ -230,8 +227,8 @@ class _CompleteProfileKtpNPWPState extends State<CompleteProfileKtpNPWP> {
     return ButtonFilled.primary(
         text: 'Submit',
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const LoginPage()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => SurveyDesign()));
         });
   }
 
