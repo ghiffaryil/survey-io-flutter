@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/appbar.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/icons.dart';
-import 'package:survey_io/pages/inbox/presentation/inbox.dart';
 import 'package:survey_io/pages/polling/data/polling_today.dart';
 import 'package:survey_io/pages/polling/models/polling_model.dart';
 import 'package:survey_io/pages/survey/data/list_survey_popular.dart';
@@ -13,6 +12,7 @@ import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/pages/tabs/floating_icon.dart';
 import 'package:survey_io/pages/home/presentation/widgets/main_card.dart';
 
+import '../../notification/presentation/notification.dart';
 import '../../../common/constants/floating_profile_card.dart';
 import '../../../common/constants/imageSize.dart';
 import '../../../common/constants/images.dart';
@@ -68,8 +68,10 @@ class _HomePageState extends State<HomePage> {
             label: 'Jumlah Survey',
             labelValue: 0,
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const ListSurveiPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ListSurveiPage()));
             },
           ),
         ],
