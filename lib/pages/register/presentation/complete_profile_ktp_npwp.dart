@@ -15,22 +15,26 @@ import 'package:survey_io/common/components/label.dart';
 import '../../../common/components/input_field_passcode.dart';
 import '../../../common/constants/padding.dart';
 
-class CompleteProfile extends StatefulWidget {
-  const CompleteProfile({super.key});
+class CompleteProfileKtpNPWP extends StatefulWidget {
+  const CompleteProfileKtpNPWP({super.key});
 
   @override
-  State<CompleteProfile> createState() => _CompleteProfileState();
+  State<CompleteProfileKtpNPWP> createState() => _CompleteProfileKtpNPWPState();
 }
 
-class _CompleteProfileState extends State<CompleteProfile> {
+class _CompleteProfileKtpNPWPState extends State<CompleteProfileKtpNPWP> {
   TextEditingController fullName = TextEditingController();
   TextEditingController placeOfBirth = TextEditingController();
   TextEditingController passcode = TextEditingController();
+  TextEditingController ktpNumber = TextEditingController();
+  TextEditingController npwpNumber = TextEditingController();
   TextEditingController referalCode = TextEditingController();
 
   FocusNode fullNameFocus = FocusNode();
   FocusNode placeOfBirthFocus = FocusNode();
   FocusNode passcodeFocus = FocusNode();
+  FocusNode ktpNumberFocus = FocusNode();
+  FocusNode npwpNumberFocus = FocusNode();
   FocusNode referalCodeFocus = FocusNode();
 
   String gender = '';
@@ -47,6 +51,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
     fullNameFocus.unfocus();
     placeOfBirthFocus.unfocus();
     passcodeFocus.unfocus();
+    ktpNumberFocus.unfocus();
+    npwpNumberFocus.unfocus();
     referalCodeFocus.unfocus();
   }
 
@@ -67,7 +73,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
                 labelText(),
                 formInputField(),
                 CustomDividers.regularDivider(),
-                labelTermAndCondition(),
                 CustomDividers.smallDivider(),
                 submitButton(),
               ],
@@ -165,6 +170,30 @@ class _CompleteProfileState extends State<CompleteProfile> {
           lastDate: DateTime.now(),
           showPrefixIcon: false,
           showSuffixIcon: true,
+        ),
+        CustomDividers.smallDivider(),
+        LabelInput(
+          labelText: 'No. KTP',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          focusNode: ktpNumberFocus,
+          keyboardType: TextInputType.number,
+          controller: referalCode,
+          hintText: 'Masukkan No. KTP',
+        ),
+        CustomDividers.smallDivider(),
+        LabelInput(
+          labelText: 'No. NPWP',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          focusNode: npwpNumberFocus,
+          keyboardType: TextInputType.number,
+          controller: referalCode,
+          hintText: 'Masukkan No. NPWP (Jika Ada)',
         ),
         CustomDividers.smallDivider(),
         LabelInput(

@@ -22,11 +22,13 @@ class NotificationCard extends StatelessWidget {
           ),
         ),
       ),
-      child: Text(notification.title,
-          style: notification.clicked
-              ? TextStyles.regular(color: AppColors.light)
-              : TextStyles.regular(
-                  fontWeight: FontWeight.bold, color: AppColors.secondary)),
+      child: Text(
+        notification.title,
+        style: notification.clicked
+            ? TextStyles.regular(color: AppColors.light)
+            : TextStyles.regular(
+                fontWeight: FontWeight.bold, color: AppColors.secondary),
+      ),
     );
   }
 }

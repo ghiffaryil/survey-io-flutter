@@ -3,42 +3,31 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/pages/login/presentation/login.dart';
+import 'package:survey_io/pages/onboarding/presentation/onboarding.dart';
 
 // Import Component
-import 'package:survey_io/pages/tabs/navigation_floating_icon.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/common/components/divider.dart';
-import '../../../common/components/appbar.dart';
-import '../../../common/constants/images.dart';
-import 'profile.dart';
 
-class PreRegister extends StatefulWidget {
-  const PreRegister({super.key});
+import '../../../../common/constants/imageSize.dart';
+import '../../../../common/constants/images.dart';
+
+class ProfileNotFound extends StatefulWidget {
+  const ProfileNotFound({super.key});
 
   @override
-  State<PreRegister> createState() => _PreRegisterState();
+  State<ProfileNotFound> createState() => _ProfileNotFoundState();
 }
 
-class _PreRegisterState extends State<PreRegister> {
+class _ProfileNotFoundState extends State<ProfileNotFound> {
   int selectedIndex = 2;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFf8fbff),
-      appBar: MainAppBar(
-        title: Text(
-          'Akun',
-          style: TextStyles.h2ExtraBold(
-            color: AppColors.white,
-          ),
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
       body: Container(
         padding: const EdgeInsets.all(30),
         alignment: Alignment.center,
@@ -46,10 +35,8 @@ class _PreRegisterState extends State<PreRegister> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             CustomDividers.smallDivider(),
-            Image.asset(
-              Images.emptyAccount,
-              width: MediaQuery.of(context).size.width * 0.6,
-            ),
+            Image.asset(Images.emptyAccount,
+                width: AppSizeHeight.imageSize(context, AppSizeHeight.medium)),
             CustomDividers.smallDivider(),
             Text(
               'Ups, akun tidak ditemukan \n Yuk buat akun kamu sekarang!',
@@ -64,13 +51,6 @@ class _PreRegisterState extends State<PreRegister> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomMenu(
-        selectedIndex: selectedIndex,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: const NavigationFloatingIcon(
-        isActive: false,
-      ),
     );
   }
 
@@ -79,7 +59,7 @@ class _PreRegisterState extends State<PreRegister> {
         text: 'Daftar',
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const Profile()));
+              MaterialPageRoute(builder: (context) => const OnboardingPage()));
         });
   }
 
@@ -93,7 +73,11 @@ class _PreRegisterState extends State<PreRegister> {
           TextSpan(
             text: ' Login di sini',
             style: TextStyles.h5(color: AppColors.primary),
-            recognizer: TapGestureRecognizer()..onTap = () {},
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
+              },
           ),
         ],
       ),

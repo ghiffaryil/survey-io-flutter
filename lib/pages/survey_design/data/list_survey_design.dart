@@ -1,6 +1,6 @@
 import '../models/survey_design_model.dart';
 
-class ListSurveyDesign {
+class MySurveyDesign {
   static List<SurveyDesignModel> getSurveyDesign() {
     return [
       SurveyDesignModel(

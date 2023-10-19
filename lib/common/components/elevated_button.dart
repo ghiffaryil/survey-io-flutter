@@ -5,6 +5,7 @@ class ButtonFilled extends StatelessWidget {
   final String text;
   final bool rounded;
   final Color backgroundColor;
+  final Color textColor;
   final double minWidth;
   final double height;
   final double fontSize;
@@ -16,6 +17,7 @@ class ButtonFilled extends StatelessWidget {
     required this.text,
     this.rounded = true,
     this.backgroundColor = AppColors.primary,
+    this.textColor = AppColors.primary,
     this.minWidth = 30,
     this.height = 60,
     this.fontSize = 17,
@@ -28,6 +30,7 @@ class ButtonFilled extends StatelessWidget {
     required this.text,
     this.rounded = true,
     this.backgroundColor = AppColors.secondary,
+    this.textColor = AppColors.secondary,
     this.minWidth = 30,
     this.height = 60,
     this.fontSize = 17,
@@ -40,6 +43,7 @@ class ButtonFilled extends StatelessWidget {
     required this.text,
     this.rounded = true,
     this.backgroundColor = AppColors.success,
+    this.textColor = AppColors.success,
     this.minWidth = 30,
     this.height = 60,
     this.fontSize = 17,
@@ -52,6 +56,7 @@ class ButtonFilled extends StatelessWidget {
     required this.text,
     this.rounded = true,
     this.backgroundColor = AppColors.info,
+    this.textColor = AppColors.info,
     this.minWidth = 30,
     this.height = 60,
     this.fontSize = 17,
@@ -64,6 +69,7 @@ class ButtonFilled extends StatelessWidget {
     required this.text,
     this.rounded = true,
     this.backgroundColor = AppColors.warning,
+    this.textColor = AppColors.warning,
     this.minWidth = 30,
     this.height = 60,
     this.fontSize = 17,
@@ -76,6 +82,33 @@ class ButtonFilled extends StatelessWidget {
     required this.text,
     this.rounded = true,
     this.backgroundColor = AppColors.light,
+    this.textColor = AppColors.light,
+    this.minWidth = 30,
+    this.height = 60,
+    this.fontSize = 17,
+    this.fontWeight = FontWeight.bold,
+    required this.onPressed,
+  });
+
+  const ButtonFilled.white({
+    super.key,
+    required this.text,
+    this.rounded = true,
+    this.backgroundColor = AppColors.white,
+    this.textColor = AppColors.primary,
+    this.minWidth = 30,
+    this.height = 60,
+    this.fontSize = 17,
+    this.fontWeight = FontWeight.bold,
+    required this.onPressed,
+  });
+
+  const ButtonFilled.custom({
+    super.key,
+    required this.text,
+    this.rounded = true,
+    required this.backgroundColor,
+    required this.textColor,
     this.minWidth = 30,
     this.height = 60,
     this.fontSize = 17,
@@ -116,6 +149,7 @@ class ButtonOutlined extends StatelessWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final VoidCallback onPressed;
+  final Color backgroundColor;
 
   const ButtonOutlined.primary({
     super.key,
@@ -128,6 +162,7 @@ class ButtonOutlined extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.backgroundColor = AppColors.white,
   });
 
   const ButtonOutlined.secondary({
@@ -141,6 +176,7 @@ class ButtonOutlined extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.backgroundColor = AppColors.white,
   });
 
   const ButtonOutlined.warning({
@@ -154,6 +190,7 @@ class ButtonOutlined extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.backgroundColor = AppColors.white,
   });
 
   const ButtonOutlined.info({
@@ -167,6 +204,7 @@ class ButtonOutlined extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.backgroundColor = AppColors.white,
   });
 
   const ButtonOutlined.success({
@@ -180,6 +218,7 @@ class ButtonOutlined extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.backgroundColor = AppColors.white,
   });
 
   const ButtonOutlined.light({
@@ -193,13 +232,28 @@ class ButtonOutlined extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.backgroundColor = AppColors.white,
+  });
+
+  const ButtonOutlined.white({
+    super.key,
+    required this.text,
+    this.rounded = true,
+    this.borderColor = AppColors.primary,
+    this.textColor = AppColors.primary,
+    this.minWidth = 30,
+    this.height = 60,
+    this.fontSize = 17,
+    this.fontWeight = FontWeight.bold,
+    required this.onPressed,
+    this.backgroundColor = AppColors.bg,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.white,
+        backgroundColor: backgroundColor,
         minimumSize: Size(MediaQuery.of(context).size.width * minWidth, height),
         side: BorderSide(color: borderColor),
         shape: RoundedRectangleBorder(

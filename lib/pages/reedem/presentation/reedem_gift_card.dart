@@ -8,10 +8,11 @@ import 'package:slide_action/slide_action.dart';
 import 'package:survey_io/common/components/appbar_plain.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
-import 'package:survey_io/common/components/text_button.dart';
+// import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/common/constants/padding.dart';
-import 'package:survey_io/pages/polling/presentation/list_polling.dart';
+import 'package:survey_io/pages/reedem/presentation/reedem_gift_card_success.dart';
 
 import '../../../common/constants/images.dart';
 import '../../../common/constants/styles.dart';
@@ -68,10 +69,8 @@ class _ReedemGiftCardState extends State<ReedemGiftCard> {
               ),
             ),
             CustomDividers.verySmallDivider(),
-            Image.asset(
-              Images.giftCard,
-              width: MediaQuery.of(context).size.width * 0.7,
-            ),
+            Image.asset(Images.giftCard,
+                width: AppSizeHeight.imageSize(context, AppSizeHeight.medium)),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -86,34 +85,11 @@ class _ReedemGiftCardState extends State<ReedemGiftCard> {
             SlideToReedem(
               callback: () async {
                 await Future.delayed(const Duration(seconds: 2));
-                await showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text("Selamat!"),
-                      content:
-                          const Text("Anda telah memasukkan koin ke Celengan!"),
-                      actions: [
-                        Container(
-                          padding: CustomPadding.p1,
-                          child: TextButtonFilled.primary(
-                            text: 'OK',
-                            onPressed: () {
-                              // Close the dialog
-                              // Navigator.of(context).pop();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PollingPage(),
-                                  ));
-                            },
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
+                await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ReedemGiftCardSuccess(),
+                    ));
               },
             ),
           ],

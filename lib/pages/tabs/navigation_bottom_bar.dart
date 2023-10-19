@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/pages/home/presentation/home.dart';
-import 'package:survey_io/pages/profile/presentation/pre_register.dart';
+import 'package:survey_io/pages/profile/presentation/profile.dart';
 import 'package:survey_io/pages/survey_design/presentation/list_survey_design.dart';
 
 import '../../common/constants/icons.dart';
@@ -32,8 +32,8 @@ class _BottomMenuState extends State<BottomMenu> {
 
   final List<Widget> halamanTujuan = [
     const HomePage(),
-    const BuatSurvei(),
-    const PreRegister()
+    const SurveyDesignList(),
+    const Profile()
   ];
 
   @override
