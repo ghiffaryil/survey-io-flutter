@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_password.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
+import 'package:survey_io/pages/register/presentation/register_phone_number.dart';
 
 // Import Component
 import '../../../common/constants/colors.dart';
@@ -154,7 +155,13 @@ class _LoginPageState extends State<LoginPage> {
           TextSpan(
             text: ' Daftar di sini',
             style: TextStyles.h4(color: AppColors.primary),
-            recognizer: TapGestureRecognizer()..onTap = () {},
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterPage()));
+              },
           ),
         ],
       ),

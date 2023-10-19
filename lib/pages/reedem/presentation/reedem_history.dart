@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/pages/reedem/models/reedem_history_mdel.dart';
 import '../../../common/components/label.dart';
 import '../../../common/constants/colors.dart';
+import '../../../common/constants/imageSize.dart';
 import '../../../common/constants/padding.dart';
 import '../../../common/constants/styles.dart';
 import '../../../common/extension/helper/date_helper.dart';
@@ -98,42 +100,63 @@ class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
               labelStyle: TextStyles.h2(color: AppColors.secondary),
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              // shrinkWrap: true,
-              // physics: const NeverScrollableScrollPhysics(),
-              itemCount: reedemHistoryData.length,
-              itemBuilder: (BuildContext context, int index) {
-                bool isSameDate = true;
-                final String dateString =
-                    reedemHistoryData[index].datetime_created;
-                final DateTime date = DateTime.parse(dateString);
+          reedemHistoryData.isEmpty
+              ? Container(
+                  padding: CustomPadding.p3,
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        IconName.iconEmptyList,
+                        width:
+                            AppSizeWidth.imageSize(context, AppSizeWidth.large),
+                      ),
+                      CustomDividers.regularDivider(),
+                      Text(
+                        'Ups, riwayat hadiah masih kosong! Coba tukar koin kamu dengan Hadiah.',
+                        textAlign: TextAlign.center,
+                        style:
+                            TextStyles.extraLarge(color: AppColors.secondary),
+                      )
+                    ],
+                  ),
+                )
+              : Expanded(
+                  child: ListView.builder(
+                    // shrinkWrap: true,
+                    // physics: const NeverScrollableScrollPhysics(),
+                    itemCount: reedemHistoryData.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      bool isSameDate = true;
+                      final String dateString =
+                          reedemHistoryData[index].datetime_created;
+                      final DateTime date = DateTime.parse(dateString);
 
-                if (index == 0) {
-                } else {
-                  final String prevDateString =
-                      reedemHistoryData[index - 1].datetime_created;
-                  final DateTime prevDate = DateTime.parse(prevDateString);
-                  isSameDate = date.isSameDate(prevDate);
-                }
+                      if (index == 0) {
+                      } else {
+                        final String prevDateString =
+                            reedemHistoryData[index - 1].datetime_created;
+                        final DateTime prevDate =
+                            DateTime.parse(prevDateString);
+                        isSameDate = date.isSameDate(prevDate);
+                      }
 
-                if (index == 0 || !(isSameDate)) {
-                  return Column(children: [
-                    Container(
-                        padding: const EdgeInsets.all(20.0),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          date.formatDate(),
-                          style: TextStyles.h6ExtraBold(),
-                        )),
-                    buildDismissibleNotification(index),
-                  ]);
-                } else {
-                  return buildDismissibleNotification(index);
-                }
-              },
-            ),
-          ),
+                      if (index == 0 || !(isSameDate)) {
+                        return Column(children: [
+                          Container(
+                              padding: const EdgeInsets.all(20.0),
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                date.formatDate(),
+                                style: TextStyles.h6ExtraBold(),
+                              )),
+                          buildDismissibleNotification(index),
+                        ]);
+                      } else {
+                        return buildDismissibleNotification(index);
+                      }
+                    },
+                  ),
+                ),
         ],
       ),
     );

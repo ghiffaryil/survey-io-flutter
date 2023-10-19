@@ -1,7 +1,6 @@
 import 'package:survey_io/common/components/image_rounded.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/padding.dart';
-import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/extension/helper/date_helper.dart';
 import 'package:survey_io/pages/messages/models/messages_model.dart';
 import 'package:flutter/material.dart';

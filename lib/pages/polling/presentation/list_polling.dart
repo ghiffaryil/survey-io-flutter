@@ -9,6 +9,7 @@ import '../../../common/components/label.dart';
 import '../../../common/components/modal_indicator.dart';
 import '../../../common/components/appbar_plain.dart';
 
+import '../../home/presentation/home.dart';
 import '../data/polling_result.dart';
 import '../data/polling_completed.dart';
 import '../data/polling_new.dart';
@@ -58,7 +59,8 @@ class _PollingPageState extends State<PollingPage> {
         iconSize: 35.0,
         iconColor: AppColors.secondary,
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (contect) => const HomePage()));
         },
       ),
       body: Column(

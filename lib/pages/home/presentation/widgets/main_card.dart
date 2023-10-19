@@ -13,7 +13,8 @@ import '../../../../common/constants/styles.dart';
 
 import '../../../invite/presentation/invite.dart';
 import '../../../polling/presentation/list_polling.dart';
-import '../../../survey/presentation/survey.dart';
+import '../../../survey/presentation/list_survey.dart';
+import '../../../survey_design/presentation/list_survey_design.dart';
 
 class MainCard extends StatelessWidget {
   final List popularSurvey;
@@ -392,19 +393,14 @@ class MainCard extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: popularSurvey.length,
                       itemBuilder: (BuildContext context, int index) {
-                        final surveyData = popularSurvey[index];
-                        final surveyList = surveyData.listSurvey;
-
-                        final survey =
-                            popularSurvey[index]; // Retrieve the correct survey
-                        final surveyTitle = survey.listSurvey[0]
-                            .title; // Use the first item in the listSurvey
+                        final survey = popularSurvey[index];
+                        final surveyTitle = survey.listSurvey[0].title;
                         final totalSurveyQuestions =
                             survey.total_question.toString();
-                        final surveyReward = survey.listSurvey[0].energy
-                            .toString(); // Use the first item in the listSurvey
-                        final surveyImage = survey.listSurvey[0]
-                            .image_homescreen; // Use the first item in the listSurvey
+                        final surveyReward =
+                            survey.listSurvey[0].energy.toString();
+                        final surveyImage =
+                            survey.listSurvey[0].image_homescreen;
 
                         return Container(
                           padding: const EdgeInsets.all(7),
@@ -609,7 +605,13 @@ class MainCard extends StatelessWidget {
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             text: 'Buat Survei',
-                            onPressed: () {})
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SurveyDesignList()));
+                            })
                       ],
                     ),
                   ),

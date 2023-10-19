@@ -2,122 +2,170 @@ import 'package:flutter/material.dart';
 
 class TextStyles {
   // Gaya teks H1
-  static TextStyle h1({Color? color}) {
+  static TextStyle h1({
+    Color? color,
+    TextDecoration? textDecoration,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito-Bold',
       color: color,
       fontSize: 48.0,
       fontWeight: FontWeight.bold,
+      decoration: textDecoration,
     );
   }
 
   // Gaya teks H2
-  static TextStyle h2({Color? color}) {
+  static TextStyle h2({
+    Color? color,
+    TextDecoration? textDecoration,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito-Bold',
       color: color,
       fontSize: 35.0,
       fontWeight: FontWeight.bold,
+      decoration: textDecoration,
     );
   }
 
   // Gaya teks H3
-  static TextStyle h3({Color? color}) {
+  static TextStyle h3({
+    Color? color,
+    TextDecoration? textDecoration,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito-Bold',
       color: color,
       fontSize: 24.0,
       fontWeight: FontWeight.bold,
+      decoration: textDecoration,
     );
   }
 
   // Gaya teks H4
-  static TextStyle h4({Color? color}) {
+  static TextStyle h4({
+    Color? color,
+    TextDecoration? textDecoration,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito-Bold',
       color: color,
       fontSize: 18.0,
       fontWeight: FontWeight.bold,
+      decoration: textDecoration,
     );
   }
 
   // Gaya teks H5
-  static TextStyle h5({Color? color}) {
+  static TextStyle h5({
+    Color? color,
+    TextDecoration? textDecoration,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito-Bold',
       color: color,
       fontSize: 16.0,
       fontWeight: FontWeight.bold,
+      decoration: textDecoration,
     );
   }
 
   // Gaya teks H6
-  static TextStyle h6({Color? color}) {
+  static TextStyle h6({
+    Color? color,
+    TextDecoration? textDecoration,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito-Bold',
       color: color,
       fontSize: 14.0,
       fontWeight: FontWeight.bold,
+      decoration: textDecoration,
     );
   }
 
   // EXTRA BOLD
-  static TextStyle h1ExtraBold({Color? color}) {
+  static TextStyle h1ExtraBold({
+    Color? color,
+    TextDecoration? textDecoration,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito-ExtraBold',
       color: color,
       fontSize: 48.0,
       fontWeight: FontWeight.bold,
+      decoration: textDecoration,
     );
   }
 
   // Gaya teks H2
-  static TextStyle h2ExtraBold({Color? color}) {
+  static TextStyle h2ExtraBold({
+    Color? color,
+    TextDecoration? textDecoration,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito-ExtraBold',
       color: color,
       fontSize: 35.0,
       fontWeight: FontWeight.bold,
+      decoration: textDecoration,
     );
   }
 
   // Gaya teks H3
-  static TextStyle h3ExtraBold({Color? color}) {
+  static TextStyle h3ExtraBold({
+    Color? color,
+    TextDecoration? textDecoration,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito-ExtraBold',
       color: color,
       fontSize: 24.0,
       fontWeight: FontWeight.bold,
+      decoration: textDecoration,
     );
   }
 
   // Gaya teks H4
-  static TextStyle h4ExtraBold({Color? color}) {
+  static TextStyle h4ExtraBold({
+    Color? color,
+    TextDecoration? textDecoration,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito-ExtraBold',
       color: color,
       fontSize: 18.0,
       fontWeight: FontWeight.bold,
+      decoration: textDecoration,
     );
   }
 
   // Gaya teks H5
-  static TextStyle h5ExtraBold({Color? color}) {
+  static TextStyle h5ExtraBold({
+    Color? color,
+    TextDecoration? textDecoration,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito-ExtraBold',
       color: color,
       fontSize: 16.0,
       fontWeight: FontWeight.bold,
+      decoration: textDecoration,
     );
   }
 
   // Gaya teks H6
-  static TextStyle h6ExtraBold({Color? color}) {
+  static TextStyle h6ExtraBold({
+    Color? color,
+    TextDecoration? textDecoration,
+  }) {
     return TextStyle(
       fontFamily: 'Nunito-ExtraBold',
       color: color,
       fontSize: 14.0,
       fontWeight: FontWeight.bold,
+      decoration: textDecoration,
     );
   }
 

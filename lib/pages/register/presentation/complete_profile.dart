@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_date.dart';
-import 'package:survey_io/common/components/input_field_password.dart';
 import 'package:survey_io/common/components/input_field_radio.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 
@@ -13,6 +12,7 @@ import 'package:survey_io/pages/login/presentation/login.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
 
+import '../../../common/components/input_field_passcode.dart';
 import '../../../common/constants/padding.dart';
 
 class CompleteProfile extends StatefulWidget {
@@ -25,28 +25,28 @@ class CompleteProfile extends StatefulWidget {
 class _CompleteProfileState extends State<CompleteProfile> {
   TextEditingController fullName = TextEditingController();
   TextEditingController placeOfBirth = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController passcode = TextEditingController();
   TextEditingController referalCode = TextEditingController();
 
   FocusNode fullNameFocus = FocusNode();
   FocusNode placeOfBirthFocus = FocusNode();
-  FocusNode passwordFocus = FocusNode();
+  FocusNode passcodeFocus = FocusNode();
   FocusNode referalCodeFocus = FocusNode();
 
   String gender = '';
   String selectedGender = '';
-  bool _hidepassword = true;
+  bool _hidePasscode = true;
 
-  void _showHidepasswordTogle() {
+  void _showHidePasscodeTogle() {
     setState(() {
-      _hidepassword = !_hidepassword;
+      _hidePasscode = !_hidePasscode;
     });
   }
 
   void unfocusAll() {
     fullNameFocus.unfocus();
     placeOfBirthFocus.unfocus();
-    passwordFocus.unfocus();
+    passcodeFocus.unfocus();
     referalCodeFocus.unfocus();
   }
 
@@ -168,16 +168,16 @@ class _CompleteProfileState extends State<CompleteProfile> {
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'Password',
+          labelText: 'Passcode',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
-        PasswordTextInput(
-          focusNode: passwordFocus,
-          controller: password,
-          hintText: 'Password',
-          hidePassword: _hidepassword,
-          onPasswordVisibilityToggle: _showHidepasswordTogle,
+        PasscodeTextInput(
+          focusNode: passcodeFocus,
+          controller: passcode,
+          hintText: 'Passcode',
+          hidePassword: _hidePasscode,
+          onPasswordVisibilityToggle: _showHidePasscodeTogle,
         ),
         CustomDividers.smallDivider(),
         LabelInput(
