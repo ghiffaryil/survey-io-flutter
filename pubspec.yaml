@@ -43,7 +43,7 @@ dependencies:
   intl: ^0.18.1
   slidable_button: ^3.0.0+1
   slide_action: ^0.0.2
-  shared_preferences: ^2.0.6
+    shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

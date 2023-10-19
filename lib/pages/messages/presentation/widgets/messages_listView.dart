@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/extension/helper/date_helper.dart';
 import 'package:survey_io/pages/messages/data/list_messages.dart';
 
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';
-import '../../../../common/constants/styles.dart';
 import '../../models/messages_model.dart';
 import 'messages_card.dart';
 
