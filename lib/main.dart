@@ -13,7 +13,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Survey Io',
-      theme: ThemeData(scaffoldBackgroundColor: const Color(0xFFFFFFFF)),
+      theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xFFFFFFFF),
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+      ),
       home: const SplashScreenPage(),
     );
   }

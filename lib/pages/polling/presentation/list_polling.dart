@@ -59,8 +59,7 @@ class _PollingPageState extends State<PollingPage> {
         iconSize: 35.0,
         iconColor: AppColors.secondary,
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (contect) => const HomePage()));
+          Navigator.pop(context);
         },
       ),
       body: Column(

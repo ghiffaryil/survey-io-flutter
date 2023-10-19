@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/appbar.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/icons.dart';
-import 'package:survey_io/pages/notification/presentation/notification.dart';
+import 'package:survey_io/pages/inbox/presentation/inbox.dart';
 import 'package:survey_io/pages/polling/data/polling_today.dart';
 import 'package:survey_io/pages/polling/models/polling_model.dart';
 import 'package:survey_io/pages/survey/data/list_survey_popular.dart';
