@@ -14,7 +14,7 @@ import '../../../../common/constants/styles.dart';
 import '../../../invite/presentation/invite.dart';
 import '../../../polling/presentation/list_polling.dart';
 import '../../../survey/presentation/list_survey.dart';
-import '../../../survey_design/presentation/list_survey_design.dart';
+import '../../../survey_design/presentation/survey_design_list.dart';
 
 class MainCard extends StatelessWidget {
   final List popularSurvey;

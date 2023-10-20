@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/text_button.dart';
+import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/common/constants/padding.dart';
 
 // Import Component
@@ -18,7 +21,7 @@ import '../../tabs/navigation_bottom_bar.dart';
 import '../../tabs/floating_icon.dart';
 import '../data/list_survey_design.dart';
 import '../models/survey_design_model.dart';
-import "auth_survey_design.dart";
+import 'survey_design_auth.dart';
 
 class SurveyDesignList extends StatefulWidget {
   const SurveyDesignList({super.key});
@@ -59,7 +62,7 @@ class _SurveyDesignListState extends State<SurveyDesignList> {
         icon: const Icon(Icons.notifications),
       ),
       body: Stack(children: [
-        MainSection(),
+        mainSection(),
         const RedShapeCircular(),
         FloatingProfileCard(
           userFrontName: 'User',
@@ -71,8 +74,8 @@ class _SurveyDesignListState extends State<SurveyDesignList> {
           label: 'Celengan Saya',
           labelValue: 0,
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ReedemPage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ReedemPage()));
           },
         ),
       ]),
@@ -86,7 +89,7 @@ class _SurveyDesignListState extends State<SurveyDesignList> {
     );
   }
 
-  Widget MainSection() {
+  Widget mainSection() {
     return SingleChildScrollView(
       child: Container(
         child: listSurveyDesign.isNotEmpty
@@ -250,7 +253,10 @@ class _SurveyDesignListState extends State<SurveyDesignList> {
                                           child: ButtonFilled.info(
                                               height: 40,
                                               text: 'Submit',
-                                              onPressed: () {}),
+                                              onPressed: () {
+                                                showModalSubmitConfirmation(
+                                                    context);
+                                              }),
                                         ),
                                       ],
                                     ),
@@ -315,5 +321,72 @@ class _SurveyDesignListState extends State<SurveyDesignList> {
                   MaterialPageRoute(
                       builder: (context) => const AuthSurveyDesign()));
             });
+  }
+
+  void showModalSubmitConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Container(
+            alignment: Alignment.topRight,
+            child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.close,
+                  size: 25,
+                )),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                  padding: CustomPadding.p1,
+                  child: Image.asset(
+                    Images.confirmSubmitSurvey,
+                    width: AppSizeWidth.imageSize(context, AppSizeWidth.medium),
+                  )),
+              CustomDividers.smallDivider(),
+              Text(
+                'Submit Survei',
+                textAlign: TextAlign.center,
+                style: TextStyles.h3(color: AppColors.secondary),
+              ),
+              CustomDividers.smallDivider(),
+              Text(
+                'Dengan mengetuk tombol “Submit”, maka survei kamu akan dikirimkan ke Admin untuk diperiksa.',
+                textAlign: TextAlign.center,
+                style: TextStyles.large(),
+              ),
+            ],
+          ),
+          actions: [
+            Padding(
+              padding: CustomPadding.p1,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextButtonOutlined.primary(
+                        height: 45,
+                        text: 'Cek Lagi',
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                      child: TextButtonFilled.primary(
+                          height: 45, text: 'Submit', onPressed: () {})),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

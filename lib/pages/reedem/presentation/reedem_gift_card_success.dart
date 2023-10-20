@@ -5,8 +5,8 @@ import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/pages/home/presentation/home.dart';
 
-import '../../../common/constants/icons.dart';
 import '../../../common/constants/imageSize.dart';
+import '../../../common/constants/images.dart';
 import '../../../common/constants/styles.dart';
 import 'reedem.dart';
 
@@ -43,7 +43,7 @@ class _ReedemGiftCardSuccessState extends State<ReedemGiftCardSuccess> {
           children: [
             CustomDividers.largeDivider(),
             Image.asset(
-              IconName.iconReedemGiftCardSuccess,
+              Images.reedemGiftCardSuccess,
               width: AppSizeWidth.imageSize(context, AppSizeWidth.large),
             ),
             CustomDividers.verySmallDivider(),

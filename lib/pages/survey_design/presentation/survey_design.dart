@@ -4,12 +4,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/pages/payment/presentation/payment_method.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/components/divider.dart';
 import '../../../common/components/input_field_radio.dart';
 import '../../../common/components/label.dart';
 import '../../../common/constants/colors.dart';
-import '../../../common/constants/icons.dart';
 import '../../../common/constants/imageSize.dart';
 import '../../../common/constants/images.dart';
 import '../../../common/constants/padding.dart';
@@ -26,7 +26,7 @@ import '../data/repository/local/localRepositoryReportTime.dart';
 import '../data/repository/local/localRepositoryRespondent.dart';
 import '../data/repository/local/localRepositoryScreener.dart';
 
-import 'list_survey_design.dart';
+import 'survey_design_list.dart';
 
 class SurveyDesign extends StatefulWidget {
   const SurveyDesign({super.key});
@@ -540,7 +540,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Image.asset(
-                  IconName.iconProccedToPay,
+                  Images.proccedToPay,
                   width: AppSizeWidth.imageSize(context, AppSizeWidth.medium),
                 ),
                 CustomDividers.smallDivider(),
@@ -563,7 +563,13 @@ class _SurveyDesignState extends State<SurveyDesign> {
               padding: CustomPadding.p2,
               child: Center(
                   child: ButtonFilled.primary(
-                      text: 'Bayar Sekarang', onPressed: () {})),
+                      text: 'Bayar Sekarang',
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PaymentMethodPage()));
+                      })),
             ),
           ],
         );

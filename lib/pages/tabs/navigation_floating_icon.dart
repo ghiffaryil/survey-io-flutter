@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/pages/survey_design/presentation/list_survey_design.dart';
+import 'package:survey_io/pages/survey_design/presentation/survey_design_list.dart';
 
 import '../../common/constants/icons.dart';
 

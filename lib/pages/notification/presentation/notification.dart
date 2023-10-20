@@ -4,6 +4,7 @@ import '../../../common/components/divider.dart';
 import '../../../common/components/label.dart';
 import '../../../common/constants/colors.dart';
 import '../../../common/constants/imageSize.dart';
+import '../../../common/constants/images.dart';
 import '../../../common/constants/padding.dart';
 import '../../../common/constants/styles.dart';
 import '../../../common/extension/helper/date_helper.dart';
@@ -106,7 +107,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   child: Column(
                     children: [
                       Image.asset(
-                        IconName.iconEmptyList,
+                        Images.emptyList,
                         width:
                             AppSizeWidth.imageSize(context, AppSizeWidth.large),
                       ),

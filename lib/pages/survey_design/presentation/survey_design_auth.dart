@@ -25,9 +25,9 @@ class _AuthSurveyDesignState extends State<AuthSurveyDesign> {
       body: Container(
         padding: CustomPadding.p3,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            CustomDividers.smallDivider(),
+            CustomDividers.extraLargeDivider(),
             Image.asset(
               Images.logoHorizontal,
               width: AppSizeWidth.imageSize(context, AppSizeWidth.large),
@@ -37,7 +37,7 @@ class _AuthSurveyDesignState extends State<AuthSurveyDesign> {
               textAlign: TextAlign.center,
               style: TextStyles.extraLarge(color: AppColors.secondary),
             ),
-            CustomDividers.verySmallDivider(),
+            CustomDividers.smallDivider(),
             TextButtonFilled.primary(
               text: 'Daftar',
               onPressed: () {
@@ -101,7 +101,7 @@ class _AuthSurveyDesignState extends State<AuthSurveyDesign> {
                 ],
               ),
             ),
-            CustomDividers.verySmallDivider(),
+            CustomDividers.largeDivider(),
           ],
         ),
       ),
