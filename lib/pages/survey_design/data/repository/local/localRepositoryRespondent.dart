@@ -2,22 +2,22 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-class RespondentChoiceRepository {
-  Future<Map<String, dynamic>?> getChoice() async {
+class LocalRepositoryRespondent {
+  Future<Map<String, dynamic>?> getOption() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? choiceValue = prefs.getString("RespondentChoice");
-    if (choiceValue != null) {
-      return jsonDecode(choiceValue);
+    String? optionValue = prefs.getString("RespondentValue");
+    if (optionValue != null) {
+      return jsonDecode(optionValue);
     }
     return null;
   }
 
-  Future<void> setChoice(String? choiceValue) async {
+  Future<void> setOption(String? optionValue) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('RespondentChoice', choiceValue!);
+    await prefs.setString('RespondentValue', optionValue!);
   }
 
-  Future deleteChoice() async {
+  Future deleteOption() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       await prefs.remove('id');

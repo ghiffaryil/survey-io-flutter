@@ -6,23 +6,31 @@ import 'package:survey_io/common/constants/colors.dart';
 class TextInputField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
   final TextInputType keyboardType;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final String? suffixIconSVG;
   final String? suffixIconPNG;
+  final String? labelText;
+  final bool editable;
+  final TextStyle? labelStyle;
+  final TextStyle? hintStyle;
 
   const TextInputField({
     super.key,
     required this.controller,
     required this.hintText,
-    required this.focusNode,
     required this.keyboardType,
+    this.focusNode,
     this.prefixIcon, // Added parameter for prefix icon
     this.suffixIcon, // Added parameter for suffix icon
     this.suffixIconSVG,
     this.suffixIconPNG,
+    this.labelText,
+    this.editable = true,
+    this.labelStyle,
+    this.hintStyle,
   });
 
   @override
@@ -41,12 +49,16 @@ class TextInputField extends StatelessWidget {
       keyboardType: keyboardType,
       controller: controller,
       decoration: InputDecoration(
+        enabled: editable,
         hintText: hintText,
+        labelText: labelText,
+        labelStyle: labelStyle,
+        hintStyle: hintStyle,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30.0),
           borderSide: const BorderSide(
             color: AppColors.secondary,
-            width: 1.0,
+            width: 2.0,
           ),
         ),
         prefixIcon: prefixIcon,

@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/pages/payment/presentation/payment_method.dart';
+import 'package:survey_io/pages/survey_design/data/repository/local/localRepositoryAge.dart';
+import 'package:survey_io/pages/survey_design/presentation/demography_option.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/components/divider.dart';
 import '../../../common/components/input_field_radio.dart';
@@ -18,9 +20,9 @@ import '../../../common/components/text_button.dart';
 import '../../../common/extension/helper/currency_helper.dart';
 
 import '../../../pages/survey_design/data/repository/local/localRepositoryQuestion.dart';
-import '../../../pages/survey_design/presentation/widgets/question_choice.dart';
-import '../../../pages/survey_design/presentation/widgets/report_time_choice.dart';
-import '../../../pages/survey_design/presentation/widgets/respondent_choice.dart';
+import 'widgets/question_option.dart';
+import 'widgets/report_time_option.dart';
+import 'widgets/respondent_option.dart';
 
 import '../data/repository/local/localRepositoryReportTime.dart';
 import '../data/repository/local/localRepositoryRespondent.dart';
@@ -37,7 +39,7 @@ class SurveyDesign extends StatefulWidget {
 
 class _SurveyDesignState extends State<SurveyDesign> {
   int totalPrice = 0;
-  String screenerChoiceValue = '';
+  String screenerOptionValue = '';
   int respondentId = 0;
   var respondentScope;
 
@@ -48,10 +50,11 @@ class _SurveyDesignState extends State<SurveyDesign> {
   var reportTimeScope;
   int reportTimePrice = 0;
 
-  final respondentChoiceRepository = RespondentChoiceRepository();
-  final questionChoiceRepository = QuestionChoiceRepository();
-  final reportTimeChoiceRepository = ReportTimeChoiceRepository();
-  final screenerChoiceRepository = ScreenerChoiceRepository();
+  final respondentLocalRepository = LocalRepositoryRespondent();
+  final questionLocalRepository = LocalRepositoryQuestion();
+  final reportTimeLocalRepository = LocalRepositoryReportTime();
+  final screenerLocalRepository = LocalRepositoryScreener();
+  final demographyAgeLocalRepository = LocalRepositoryDemographyAge();
 
   @override
   void initState() {
@@ -64,18 +67,18 @@ class _SurveyDesignState extends State<SurveyDesign> {
 
   // Get Respondent Id
   Future getRespondentValue() async {
-    final getChoiceValue = await respondentChoiceRepository.getChoice();
+    final getOptionValue = await respondentLocalRepository.getOption();
 
-    if (getChoiceValue != null) {
-      if (getChoiceValue['id'] == null || getChoiceValue['scope'] == null) {
+    if (getOptionValue != null) {
+      if (getOptionValue['id'] == null || getOptionValue['scope'] == null) {
         setState(() {
           respondentId = 0;
           respondentScope = 'Pilih Jumlah Responden';
         });
       } else {
         setState(() {
-          respondentId = getChoiceValue['id'];
-          respondentScope = getChoiceValue['scope'];
+          respondentId = getOptionValue['id'];
+          respondentScope = getOptionValue['scope'];
           totalPrice = totalPrice + 184000;
         });
       }
@@ -88,20 +91,20 @@ class _SurveyDesignState extends State<SurveyDesign> {
     }
   }
 
-  // Get Question Choice
+  // Get Question Option
   Future getQuestionValue() async {
-    final getChoiceValue = await questionChoiceRepository.getChoice();
+    final getOptionValue = await questionLocalRepository.getOption();
 
-    if (getChoiceValue != null) {
-      if (getChoiceValue['id'] == null || getChoiceValue['scope'] == null) {
+    if (getOptionValue != null) {
+      if (getOptionValue['id'] == null || getOptionValue['scope'] == null) {
         setState(() {
           questionId = 0;
           questionScope = 'Pilih Jumlah Pertanyaan';
         });
       } else {
         setState(() {
-          questionId = getChoiceValue['id'];
-          questionScope = getChoiceValue['scope'];
+          questionId = getOptionValue['id'];
+          questionScope = getOptionValue['scope'];
         });
       }
     } else {
@@ -112,12 +115,12 @@ class _SurveyDesignState extends State<SurveyDesign> {
     }
   }
 
-  // Get ReportTime Choice
+  // Get ReportTime Option
   Future getReportTimeValue() async {
-    final getChoiceValue = await reportTimeChoiceRepository.getChoice();
+    final getOptionValue = await reportTimeLocalRepository.getOption();
 
-    if (getChoiceValue != null) {
-      if (getChoiceValue['id'] == null || getChoiceValue['scope'] == null) {
+    if (getOptionValue != null) {
+      if (getOptionValue['id'] == null || getOptionValue['scope'] == null) {
         setState(() {
           reportTimeId = 0;
           reportTimePrice = 0;
@@ -125,9 +128,9 @@ class _SurveyDesignState extends State<SurveyDesign> {
         });
       } else {
         setState(() {
-          reportTimeId = getChoiceValue['id'];
-          reportTimeScope = getChoiceValue['scope'];
-          reportTimePrice = getChoiceValue['price'];
+          reportTimeId = getOptionValue['id'];
+          reportTimeScope = getOptionValue['scope'];
+          reportTimePrice = getOptionValue['price'];
           totalPrice = totalPrice + reportTimePrice;
         });
       }
@@ -140,50 +143,42 @@ class _SurveyDesignState extends State<SurveyDesign> {
     }
   }
 
-  // Get Screener Choice
+  // Get Screener Option
   Future getScreenerValue() async {
-    final getChoiceValue = await screenerChoiceRepository.getChoice();
+    final getOptionValue = await screenerLocalRepository.getOption();
 
-    if (getChoiceValue != null) {
-      if (getChoiceValue['value'] == null) {
+    if (getOptionValue != null) {
+      if (getOptionValue['scope'] == null) {
         setState(() {
-          screenerChoiceValue = '';
+          screenerOptionValue = '';
         });
       } else {
         setState(() {
-          screenerChoiceValue = getChoiceValue['value'];
+          screenerOptionValue = getOptionValue['scope'];
         });
       }
     } else {
       setState(() {
-        screenerChoiceValue = '';
+        screenerOptionValue = '';
       });
     }
   }
 
   // Save Screener
-  Future<void> saveScreenerSelected() async {
-    var setChoiceValue = {
-      'value': screenerChoiceValue,
+  Future<void> setOption() async {
+    var setOption = {
+      'scope': screenerOptionValue,
     };
-    String setChoiceValueJson = jsonEncode(setChoiceValue);
-    try {
-      await screenerChoiceRepository.setChoice(setChoiceValueJson);
-    } catch (e) {
-      print(e);
-    }
+    String setOptionJson = jsonEncode(setOption);
+    await screenerLocalRepository.setOption(setOptionJson);
   }
 
-  Future<void> deleteAllChoicedValue() async {
-    try {
-      await respondentChoiceRepository.deleteChoice();
-      await questionChoiceRepository.deleteChoice();
-      await reportTimeChoiceRepository.deleteChoice();
-      await screenerChoiceRepository.deleteChoice();
-      print('Deleted all Choices');
-    } catch (e) {
-      print('Error deleting shared preferences: $e');
-    }
+  Future<void> deleteAllOptiondValue() async {
+    await respondentLocalRepository.deleteOption();
+    await questionLocalRepository.deleteOption();
+    await reportTimeLocalRepository.deleteOption();
+    await screenerLocalRepository.deleteOption();
+    await demographyAgeLocalRepository.deleteOption();
   }
 
   @override
@@ -193,7 +188,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
     return Scaffold(
       appBar: PlainAppBar(
         onPressed: () {
-          deleteAllChoicedValue();
+          deleteAllOptiondValue();
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -228,7 +223,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const RespondentChoice())),
+                              builder: (context) => const RespondentOption())),
                       child: Container(
                         height: 60,
                         width: double.infinity,
@@ -275,7 +270,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const QuestionChoice())),
+                              builder: (context) => const QuestionOption())),
                       child: Container(
                         height: 60,
                         width: double.infinity,
@@ -318,35 +313,41 @@ class _SurveyDesignState extends State<SurveyDesign> {
                       labelStyle: TextStyles.medium(color: AppColors.secondary),
                     ),
                     CustomDividers.verySmallDivider(),
-                    Container(
-                      height: 60,
-                      width: double.infinity,
-                      padding: CustomPadding.p1,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: AppColors.secondary, width: 1.5),
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: CustomPadding.px1,
-                            child: Text(
-                              'Default : Semua Demografi',
-                              style: TextStyles.large(
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.bold),
+                    GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DemographyOption())),
+                      child: Container(
+                        height: 60,
+                        width: double.infinity,
+                        padding: CustomPadding.p1,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: AppColors.secondary, width: 1.5),
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: CustomPadding.px1,
+                              child: Text(
+                                'Default : Semua Demografi',
+                                style: TextStyles.large(
+                                    color: AppColors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-                          ),
-                          const Padding(
-                            padding: CustomPadding.px1,
-                            child: Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: AppColors.secondary,
-                              size: 30,
+                            const Padding(
+                              padding: CustomPadding.px1,
+                              child: Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: AppColors.secondary,
+                                size: 30,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     CustomDividers.smallDivider(),
@@ -359,7 +360,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ReportTimeChoice())),
+                              builder: (context) => const ReportTimeOption())),
                       child: Container(
                         height: 60,
                         width: double.infinity,
@@ -409,11 +410,11 @@ class _SurveyDesignState extends State<SurveyDesign> {
                             flex: 5,
                             child: RadioTextInput(
                               value: 'Ya',
-                              selectedOption: screenerChoiceValue,
+                              selectedOption: screenerOptionValue,
                               onChanged: (value) {
                                 setState(() {
-                                  screenerChoiceValue = value;
-                                  saveScreenerSelected();
+                                  screenerOptionValue = value;
+                                  setOption();
                                 });
                               },
                             )),
@@ -424,11 +425,11 @@ class _SurveyDesignState extends State<SurveyDesign> {
                             flex: 5,
                             child: RadioTextInput(
                               value: 'Tidak',
-                              selectedOption: screenerChoiceValue,
+                              selectedOption: screenerOptionValue,
                               onChanged: (value) {
                                 setState(() {
-                                  screenerChoiceValue = value;
-                                  saveScreenerSelected();
+                                  screenerOptionValue = value;
+                                  setOption();
                                 });
                               },
                             )),
@@ -488,7 +489,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
                     child: respondentId > 0 &&
                             questionId > 0 &&
                             reportTimeId > 0 &&
-                            screenerChoiceValue != ''
+                            screenerOptionValue != ''
                         ? TextButtonFilled.primary(
                             text: 'Bayar',
                             onPressed: () {
@@ -565,10 +566,12 @@ class _SurveyDesignState extends State<SurveyDesign> {
                   child: ButtonFilled.primary(
                       text: 'Bayar Sekarang',
                       onPressed: () {
+                        deleteAllOptiondValue();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PaymentMethodPage()));
+                                builder: (context) =>
+                                    const PaymentMethodPage()));
                       })),
             ),
           ],

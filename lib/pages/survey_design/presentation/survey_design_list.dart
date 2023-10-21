@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/constants/imageSize.dart';

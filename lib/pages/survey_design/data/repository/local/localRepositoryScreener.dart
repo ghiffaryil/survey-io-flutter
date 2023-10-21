@@ -2,22 +2,22 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ScreenerChoiceRepository {
-  Future<Map<String, dynamic>?> getChoice() async {
+class LocalRepositoryScreener {
+  Future<Map<String, dynamic>?> getOption() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? choiceValue = prefs.getString("ScreenerChoice");
-    if (choiceValue != null) {
-      return jsonDecode(choiceValue);
+    String? optionValue = prefs.getString("ScreenerValue");
+    if (optionValue != null) {
+      return jsonDecode(optionValue);
     }
     return null;
   }
 
-  Future<void> setChoice(String? choiceValue) async {
+  Future<void> setOption(String? optionValue) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('ScreenerChoice', choiceValue!);
+    await prefs.setString('ScreenerValue', optionValue!);
   }
 
-  Future deleteChoice() async {
+  Future deleteOption() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       await prefs.remove('value');

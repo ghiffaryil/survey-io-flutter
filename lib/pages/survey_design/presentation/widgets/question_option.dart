@@ -3,8 +3,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/pages/survey_design/data/list_report_time.dart';
-import 'package:survey_io/pages/survey_design/models/report_time.dart';
+import 'package:survey_io/pages/survey_design/data/list_question_value.dart';
+import 'package:survey_io/pages/survey_design/models/question_model.dart';
 import 'package:survey_io/pages/survey_design/presentation/survey_design.dart';
 
 import '../../../../common/components/appbar_plain.dart';
@@ -13,67 +13,61 @@ import '../../../../common/components/label.dart';
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/constants/padding.dart';
-import '../../../../common/extension/helper/currency_helper.dart';
-import '../../data/repository/local/localRepositoryReportTime.dart';
+import '../../data/repository/local/localRepositoryQuestion.dart';
 
-class ReportTimeChoice extends StatefulWidget {
-  const ReportTimeChoice({super.key});
+class QuestionOption extends StatefulWidget {
+  const QuestionOption({super.key});
 
   @override
-  State<ReportTimeChoice> createState() => _ReportTimeChoiceState();
+  State<QuestionOption> createState() => _QuestionOptionState();
 }
 
-class _ReportTimeChoiceState extends State<ReportTimeChoice> {
+class _QuestionOptionState extends State<QuestionOption> {
   // Initialize respondentId and respondentScope variable type
   int? selectedId;
   var selectedScope;
-  int? selectedPrice;
 
   // Get shared Preferences Class
-  final _ReportTimeChoiceRepository = ReportTimeChoiceRepository();
+  final _QuestionRepository = LocalRepositoryQuestion();
 
   @override
   void initState() {
-    getChoice(); // Load Get Choice
+    getOption(); // Load Get Choice
     super.initState();
   }
 
   // Get Selected Choice
-  Future getChoice() async {
-    final getChoiceValue = await _ReportTimeChoiceRepository.getChoice();
+  Future getOption() async {
+    final getOptionValue = await _QuestionRepository.getOption();
 
-    if (getChoiceValue != null) {
-      if (getChoiceValue['id'] != null || getChoiceValue['scope'] != null) {
+    if (getOptionValue != null) {
+      if (getOptionValue['id'] != null || getOptionValue['scope'] != null) {
         setState(() {
-          selectedId = getChoiceValue['id'];
-          selectedScope = getChoiceValue['scope'];
-          selectedPrice = getChoiceValue['Price'];
+          selectedId = getOptionValue['id'];
+          selectedScope = getOptionValue['scope'];
         });
       } else {
         setState(() {
           selectedId = 0;
-          selectedPrice = 0;
-          selectedScope = 'Pilih Durasi Report';
+          selectedScope = 'Pilih Jumlah Pertanyaan';
         });
       }
     }
   }
 
   // Save Choice
-  Future<void> saveChoice() async {
-    var setChoiceValue = {
+  Future<void> setOption() async {
+    var setOptionValue = {
       'id': selectedId,
       'scope': selectedScope,
-      'price': selectedPrice,
     };
-    String setChoiceValueJson = jsonEncode(setChoiceValue);
+    String setOptionValueJson = jsonEncode(setOptionValue);
 
     try {
-      await _ReportTimeChoiceRepository.setChoice(setChoiceValueJson);
-
-      print('setChoiceValueJson: $setChoiceValueJson');
+      await _QuestionRepository.setOption(setOptionValueJson);
+      print('Set value to JSON: $setOptionValueJson');
     } catch (e) {
-      print('Error saving setChoiceValue: $e');
+      print('Error saving setOptionValue: $e');
     }
   }
 
@@ -91,23 +85,19 @@ class _ReportTimeChoiceState extends State<ReportTimeChoice> {
           Container(
             padding: CustomPadding.p2,
             child: LabelInput(
-                labelText: 'Durasi Report', labelStyle: TextStyles.h3()),
+                labelText: 'Jumlah Pertanyaan', labelStyle: TextStyles.h3()),
           ),
           ListView.separated(
             separatorBuilder: (context, index) {
               return const Divider();
             },
             shrinkWrap: true,
-            itemCount: ListReportTime.getReportTimeList().length,
+            itemCount: ListQuestion.getQuestionList().length,
             itemBuilder: (context, index) {
-              final ReportTimeModel data =
-                  ListReportTime.getReportTimeList()[index];
-
-              String? formatterRupiahPrice;
-              formatterRupiahPrice = formatCurrency(data.price.toDouble());
+              final QuestionModel data = ListQuestion.getQuestionList()[index];
 
               return ListTile(
-                title: Text(data.scope, style: TextStyles.medium()),
+                title: Text('${data.scope}'),
                 leading: Radio(
                   activeColor: AppColors.primary,
                   value: data.id,
@@ -117,14 +107,9 @@ class _ReportTimeChoiceState extends State<ReportTimeChoice> {
                     setState(() {
                       selectedId = value!; // Update selected id
                       selectedScope = data.scope; // Update selected scope
-                      selectedPrice = data.price; // Update selected scope
-                      saveChoice(); // Save to Shared Preferences
+                      setOption(); // Save to Shared Preferences
                     });
                   },
-                ),
-                trailing: Text(
-                  '$formatterRupiahPrice,-', // Use formatterRupiahPrice
-                  style: TextStyles.medium(),
                 ),
               );
             },

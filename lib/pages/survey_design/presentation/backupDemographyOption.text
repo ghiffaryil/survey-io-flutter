@@ -1,0 +1,254 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/common/components/input_field_text.dart';
+import 'package:survey_io/common/components/label.dart';
+import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/pages/survey_design/data/list_demography_age.dart';
+import 'package:survey_io/pages/survey_design/data/repository/local/localRepositoryAge.dart';
+import 'package:survey_io/pages/survey_design/models/demography_age_model.dart';
+
+import '../../../common/components/appbar_plain.dart';
+import '../../../common/components/checkbox.dart';
+import '../../../common/components/divider.dart';
+import '../../../common/constants/colors.dart';
+import '../../../common/constants/styles.dart';
+
+class DemographyOption extends StatefulWidget {
+  const DemographyOption({super.key});
+
+  @override
+  State<DemographyOption> createState() => _DemographyOptionState();
+}
+
+class _DemographyOptionState extends State<DemographyOption> {
+  final demographyLocalRepository = LocalRepositoryDemographyAge();
+
+  final List<DemographyAgeModel> demographyAgeList =
+      ListDemographyAge.getDemographyAgeList();
+
+  TextEditingController inputDemographyAge = TextEditingController();
+
+  List<int> selectedIds = [];
+  List<String> selectedScopes = [];
+  bool selectAll = false;
+
+  @override
+  void initState() {
+    loadOptionAge();
+    inputDemographyAge.text =
+        selectedScopes.isEmpty ? "Semua" : selectedScopes.join(', ');
+    selectAll = selectedScopes.isEmpty ? true : false;
+    super.initState();
+  }
+
+  // Function to save the selected options to SharedPreferences
+  void saveOptionAge() async {
+    final data = {
+      'id': selectedIds,
+      'scope': selectedScopes,
+    };
+    final jsonData = jsonEncode(data);
+    await demographyLocalRepository.setOption(jsonData);
+  }
+
+  // Function to load saved selection from SharedPreferences
+  void loadOptionAge() async {
+    final savedData = await demographyLocalRepository.getOption();
+    if (savedData != null) {
+      setState(() {
+        selectedIds = (savedData['id'] as List<dynamic>).cast<int>();
+        selectedScopes = (savedData['scope'] as List<dynamic>).cast<String>();
+        selectAll = selectedScopes.isEmpty ? true : false;
+        print('Load Select Age');
+        print(selectedScopes);
+        selectedScopes.isEmpty
+            ? inputDemographyAge.text = "Semua"
+            : inputDemographyAge.text = selectedScopes.join(', ');
+      });
+    } else {
+      setState(() {
+        inputDemographyAge.text = "Usia";
+      });
+    }
+  }
+
+  void updateState() {
+    loadOptionAge();
+    setState(() {
+      inputDemographyAge.text =
+          selectedScopes.isEmpty ? "Semua" : selectedScopes.join(', ');
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PlainAppBar(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          leadingIcon: Icons.close,
+          iconColor: AppColors.black),
+      body: Container(
+        padding: CustomPadding.pdefault,
+        child: Column(
+          children: [
+            const LabelHeading(
+                labelText: 'Atur Demografi', labelColor: AppColors.secondary),
+            Expanded(
+                child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  CustomDividers.regularDivider(),
+                  GestureDetector(
+                    onTap: () {
+                      _showModalBottomSheet(context);
+                    },
+                    child: TextInputField(
+                      controller: inputDemographyAge,
+                      editable: false,
+                      hintText: 'Semua',
+                      labelText: 'Usia',
+                      labelStyle: TextStyles.extraLarge(),
+                      hintStyle: TextStyles.extraLarge(color: AppColors.black),
+                      keyboardType: TextInputType.text,
+                      suffixIcon: Icon(
+                        inputDemographyAge.text == "Usia"
+                            ? Icons.add
+                            : Icons.edit,
+                        color: AppColors.info,
+                      ),
+                    ),
+                  ),
+                  CustomDividers.regularDivider(),
+                ],
+              ),
+            ))
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showModalBottomSheet(BuildContext context) async {
+    await showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25.0),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: CustomPadding.p2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.1,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: AppColors.indicator, // Indicator color
+                      ),
+                      height: 5, // Indicator height
+                    ),
+                  ),
+                  CustomDividers.smallDivider(),
+                  Container(
+                    padding: CustomPadding.p1,
+                    child: Text(
+                      'Usia',
+                      style: TextStyles.h2(color: AppColors.secondary),
+                    ),
+                  ),
+                  Container(
+                    padding: CustomPadding.p1,
+                    child: Text(
+                      'Rp40.000 - 80.000 / 50 Responden',
+                      style: TextStyles.extraLarge(color: AppColors.secondary),
+                    ),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: demographyAgeList.length + 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == 0) {
+                        return ListTile(
+                          title: const Text('Semua'),
+                          leading: CustomCheckbox(
+                            value: selectAll,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                selectAll = value ?? false;
+                                selectedIds.clear();
+                                selectedScopes.clear();
+                              });
+                            },
+                          ),
+                        );
+                      } else {
+                        final option = demographyAgeList[index - 1];
+                        return ListTile(
+                          title: Text(option.scope.toString()),
+                          titleTextStyle:
+                              TextStyles.large(color: AppColors.secondary),
+                          leading: CustomCheckbox(
+                            value: selectedIds.contains(option.id) &&
+                                selectedScopes.contains(option.scope),
+                            onChanged: (bool? value) {
+                              setState(() {
+                                if (value == true) {
+                                  selectedIds.add(option.id);
+                                  selectedScopes.add(option.scope);
+                                  selectAll = false;
+                                } else {
+                                  selectedIds.remove(option.id);
+                                  selectedScopes.remove(option.scope);
+                                  selectAll = false;
+                                }
+                                // Id All id selected
+                                if (selectedIds.length ==
+                                    demographyAgeList.length) {
+                                  selectAll = true;
+                                  selectedIds.clear();
+                                  selectedScopes.clear();
+                                } else if (selectedIds.isEmpty) {
+                                  // Id All id not selected
+                                  selectAll = true;
+                                  selectedIds.clear();
+                                  selectedScopes.clear();
+                                }
+                              });
+                            },
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  CustomDividers.smallDivider(),
+                  Padding(
+                    padding: CustomPadding.p2,
+                    child: ButtonFilled.primary(
+                        text: 'OK',
+                        onPressed: () {
+                          saveOptionAge();
+                          updateState();
+                          Navigator.of(context).pop();
+                        }),
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}

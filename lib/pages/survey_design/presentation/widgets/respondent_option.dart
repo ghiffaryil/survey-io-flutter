@@ -3,8 +3,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/pages/survey_design/data/list_question_value.dart';
-import 'package:survey_io/pages/survey_design/models/question_model.dart';
 import 'package:survey_io/pages/survey_design/presentation/survey_design.dart';
 
 import '../../../../common/components/appbar_plain.dart';
@@ -13,62 +11,63 @@ import '../../../../common/components/label.dart';
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/constants/padding.dart';
-import '../../data/repository/local/localRepositoryQuestion.dart';
+import '../../data/list_respondent.dart';
+import '../../data/repository/local/localRepositoryRespondent.dart';
+import '../../models/respondent_model.dart';
 
-class QuestionChoice extends StatefulWidget {
-  const QuestionChoice({super.key});
+class RespondentOption extends StatefulWidget {
+  const RespondentOption({super.key});
 
   @override
-  State<QuestionChoice> createState() => _QuestionChoiceState();
+  State<RespondentOption> createState() => _RespondentOptionState();
 }
 
-class _QuestionChoiceState extends State<QuestionChoice> {
+class _RespondentOptionState extends State<RespondentOption> {
   // Initialize respondentId and respondentScope variable type
   int? selectedId;
   var selectedScope;
 
   // Get shared Preferences Class
-  final _QuestionRepository = QuestionChoiceRepository();
+  final _RespondentOptionRepository = LocalRepositoryRespondent();
 
   @override
   void initState() {
-    getChoice(); // Load Get Choice
+    getOption(); // Load Get Choice
     super.initState();
   }
 
   // Get Selected Choice
-  Future getChoice() async {
-    final getChoiceValue = await _QuestionRepository.getChoice();
+  Future getOption() async {
+    final getOptionValue = await _RespondentOptionRepository.getOption();
 
-    if (getChoiceValue != null) {
-      if (getChoiceValue['id'] != null || getChoiceValue['scope'] != null) {
+    if (getOptionValue != null) {
+      if (getOptionValue['id'] != null || getOptionValue['scope'] != null) {
         setState(() {
-          selectedId = getChoiceValue['id'];
-          selectedScope = getChoiceValue['scope'];
+          selectedId = getOptionValue['id'];
+          selectedScope = getOptionValue['scope'];
         });
       } else {
         setState(() {
           selectedId = 0;
-          selectedScope = 'Pilih Jumlah Pertanyaan';
+          selectedScope = 'Pilih Jumlah Responden';
         });
       }
     }
   }
 
   // Save Choice
-  Future<void> saveChoice() async {
-    var setChoiceValue = {
+  Future<void> setOption() async {
+    var setOptionValue = {
       'id': selectedId,
       'scope': selectedScope,
     };
-    String setChoiceValueJson = jsonEncode(setChoiceValue);
+    String setOptionValueJson = jsonEncode(setOptionValue);
 
     try {
-      await _QuestionRepository.setChoice(setChoiceValueJson);
-
-      print('Set value to JSON: $setChoiceValueJson');
+      await _RespondentOptionRepository.setOption(setOptionValueJson);
+      print('Set value to JSON: $setOptionValueJson');
     } catch (e) {
-      print('Error saving setChoiceValue: $e');
+      print('Error saving respondentOption: $e');
     }
   }
 
@@ -86,16 +85,17 @@ class _QuestionChoiceState extends State<QuestionChoice> {
           Container(
             padding: CustomPadding.p2,
             child: LabelInput(
-                labelText: 'Jumlah Pertanyaan', labelStyle: TextStyles.h3()),
+                labelText: 'Jumlah Responden', labelStyle: TextStyles.h3()),
           ),
           ListView.separated(
             separatorBuilder: (context, index) {
               return const Divider();
             },
             shrinkWrap: true,
-            itemCount: ListQuestion.getQuestionList().length,
+            itemCount: ListRespondent.getRespondentList().length,
             itemBuilder: (context, index) {
-              final QuestionModel data = ListQuestion.getQuestionList()[index];
+              final RespondentModel data =
+                  ListRespondent.getRespondentList()[index];
 
               return ListTile(
                 title: Text('${data.scope}'),
@@ -108,7 +108,7 @@ class _QuestionChoiceState extends State<QuestionChoice> {
                     setState(() {
                       selectedId = value!; // Update selected id
                       selectedScope = data.scope; // Update selected scope
-                      saveChoice(); // Save to Shared Preferences
+                      setOption(); // Save to Shared Preferences
                     });
                   },
                 ),
@@ -127,6 +127,15 @@ class _QuestionChoiceState extends State<QuestionChoice> {
                           builder: (context) => const SurveyDesign()));
                 }),
           )
+          // Container(
+          //   padding: CustomPadding.py3,
+          //   child: Text(
+          //     'Lebih dari 1.000 responden?',
+          //     style: TextStyles.h5(
+          //         color: AppColors.info,
+          //         textDecoration: TextDecoration.underline),
+          //   ),
+          // )
         ],
       ),
     );

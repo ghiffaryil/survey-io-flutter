@@ -1,6 +1,7 @@
 class DemographyAgeModel {
   final int id;
-  final String scope;
+  String scope;
+  
 
   DemographyAgeModel({
     required this.id,

@@ -3,6 +3,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/pages/survey_design/data/list_report_time.dart';
+import 'package:survey_io/pages/survey_design/models/report_time.dart';
 import 'package:survey_io/pages/survey_design/presentation/survey_design.dart';
 
 import '../../../../common/components/appbar_plain.dart';
@@ -11,63 +13,67 @@ import '../../../../common/components/label.dart';
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/constants/padding.dart';
-import '../../data/list_respondent.dart';
-import '../../data/repository/local/localRepositoryRespondent.dart';
-import '../../models/respondent_model.dart';
+import '../../../../common/extension/helper/currency_helper.dart';
+import '../../data/repository/local/localRepositoryReportTime.dart';
 
-class RespondentChoice extends StatefulWidget {
-  const RespondentChoice({super.key});
+class ReportTimeOption extends StatefulWidget {
+  const ReportTimeOption({super.key});
 
   @override
-  State<RespondentChoice> createState() => _RespondentChoiceState();
+  State<ReportTimeOption> createState() => _ReportTimeOptionState();
 }
 
-class _RespondentChoiceState extends State<RespondentChoice> {
+class _ReportTimeOptionState extends State<ReportTimeOption> {
   // Initialize respondentId and respondentScope variable type
   int? selectedId;
   var selectedScope;
+  int? selectedPrice;
 
   // Get shared Preferences Class
-  final _RespondentChoiceRepository = RespondentChoiceRepository();
+  final _ReportTimeOptionRepository = LocalRepositoryReportTime();
 
   @override
   void initState() {
-    getChoice(); // Load Get Choice
+    getOption(); // Load Get Choice
     super.initState();
   }
 
   // Get Selected Choice
-  Future getChoice() async {
-    final getChoiceValue = await _RespondentChoiceRepository.getChoice();
+  Future getOption() async {
+    final getOptionValue = await _ReportTimeOptionRepository.getOption();
 
-    if (getChoiceValue != null) {
-      if (getChoiceValue['id'] != null || getChoiceValue['scope'] != null) {
+    if (getOptionValue != null) {
+      if (getOptionValue['id'] != null || getOptionValue['scope'] != null) {
         setState(() {
-          selectedId = getChoiceValue['id'];
-          selectedScope = getChoiceValue['scope'];
+          selectedId = getOptionValue['id'];
+          selectedScope = getOptionValue['scope'];
+          selectedPrice = getOptionValue['Price'];
         });
       } else {
         setState(() {
           selectedId = 0;
-          selectedScope = 'Pilih Jumlah Responden';
+          selectedPrice = 0;
+          selectedScope = 'Pilih Durasi Report';
         });
       }
     }
   }
 
   // Save Choice
-  Future<void> saveChoice() async {
-    var setChoiceValue = {
+  Future<void> setOption() async {
+    var setOptionValue = {
       'id': selectedId,
       'scope': selectedScope,
+      'price': selectedPrice,
     };
-    String setChoiceValueJson = jsonEncode(setChoiceValue);
+    String setOptionValueJson = jsonEncode(setOptionValue);
 
     try {
-      await _RespondentChoiceRepository.setChoice(setChoiceValueJson);
-      print('Set value to JSON: $setChoiceValueJson');
+      await _ReportTimeOptionRepository.setOption(setOptionValueJson);
+
+      print('setOptionValueJson: $setOptionValueJson');
     } catch (e) {
-      print('Error saving respondentChoice: $e');
+      print('Error saving setOptionValue: $e');
     }
   }
 
@@ -85,20 +91,23 @@ class _RespondentChoiceState extends State<RespondentChoice> {
           Container(
             padding: CustomPadding.p2,
             child: LabelInput(
-                labelText: 'Jumlah Responden', labelStyle: TextStyles.h3()),
+                labelText: 'Durasi Report', labelStyle: TextStyles.h3()),
           ),
           ListView.separated(
             separatorBuilder: (context, index) {
               return const Divider();
             },
             shrinkWrap: true,
-            itemCount: ListRespondent.getRespondentList().length,
+            itemCount: ListReportTime.getReportTimeList().length,
             itemBuilder: (context, index) {
-              final RespondentModel data =
-                  ListRespondent.getRespondentList()[index];
+              final ReportTimeModel data =
+                  ListReportTime.getReportTimeList()[index];
+
+              String? formatterRupiahPrice;
+              formatterRupiahPrice = formatCurrency(data.price.toDouble());
 
               return ListTile(
-                title: Text('${data.scope}'),
+                title: Text(data.scope, style: TextStyles.medium()),
                 leading: Radio(
                   activeColor: AppColors.primary,
                   value: data.id,
@@ -108,9 +117,14 @@ class _RespondentChoiceState extends State<RespondentChoice> {
                     setState(() {
                       selectedId = value!; // Update selected id
                       selectedScope = data.scope; // Update selected scope
-                      saveChoice(); // Save to Shared Preferences
+                      selectedPrice = data.price; // Update selected scope
+                      setOption(); // Save to Shared Preferences
                     });
                   },
+                ),
+                trailing: Text(
+                  '$formatterRupiahPrice,-', // Use formatterRupiahPrice
+                  style: TextStyles.medium(),
                 ),
               );
             },
@@ -127,15 +141,6 @@ class _RespondentChoiceState extends State<RespondentChoice> {
                           builder: (context) => const SurveyDesign()));
                 }),
           )
-          // Container(
-          //   padding: CustomPadding.py3,
-          //   child: Text(
-          //     'Lebih dari 1.000 responden?',
-          //     style: TextStyles.h5(
-          //         color: AppColors.info,
-          //         textDecoration: TextDecoration.underline),
-          //   ),
-          // )
         ],
       ),
     );
