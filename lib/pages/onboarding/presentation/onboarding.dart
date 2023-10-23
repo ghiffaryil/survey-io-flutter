@@ -90,7 +90,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         alignment: Alignment.center,
         child: Image.asset(
           Images.logoHorizontal,
-          width: AppSizeWidth.imageSize(context, AppSizeWidth.large),
+          width: AppWidth.imageSize(context, AppWidth.large),
         ));
   }
 

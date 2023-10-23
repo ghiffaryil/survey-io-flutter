@@ -344,7 +344,7 @@ class _SurveyDesignListState extends State<SurveyDesignList> {
                   padding: CustomPadding.p1,
                   child: Image.asset(
                     Images.confirmSubmitSurvey,
-                    width: AppSizeWidth.imageSize(context, AppSizeWidth.medium),
+                    width: AppWidth.imageSize(context, AppWidth.medium),
                   )),
               CustomDividers.smallDivider(),
               Text(

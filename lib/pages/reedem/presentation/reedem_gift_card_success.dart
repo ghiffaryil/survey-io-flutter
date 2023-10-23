@@ -44,7 +44,7 @@ class _ReedemGiftCardSuccessState extends State<ReedemGiftCardSuccess> {
             CustomDividers.largeDivider(),
             Image.asset(
               Images.reedemGiftCardSuccess,
-              width: AppSizeWidth.imageSize(context, AppSizeWidth.large),
+              width: AppWidth.imageSize(context, AppWidth.large),
             ),
             CustomDividers.verySmallDivider(),
             Text(

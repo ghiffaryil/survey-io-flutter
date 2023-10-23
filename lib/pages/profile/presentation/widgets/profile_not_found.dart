@@ -36,7 +36,7 @@ class _ProfileNotFoundState extends State<ProfileNotFound> {
           children: [
             CustomDividers.smallDivider(),
             Image.asset(Images.emptyAccount,
-                width: AppSizeHeight.imageSize(context, AppSizeHeight.medium)),
+                width: AppHeight.imageSize(context, AppHeight.medium)),
             CustomDividers.smallDivider(),
             Text(
               'Ups, akun tidak ditemukan \n Yuk buat akun kamu sekarang!',

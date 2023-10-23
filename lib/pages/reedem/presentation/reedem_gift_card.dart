@@ -70,7 +70,7 @@ class _ReedemGiftCardState extends State<ReedemGiftCard> {
             ),
             CustomDividers.verySmallDivider(),
             Image.asset(Images.giftCard,
-                width: AppSizeHeight.imageSize(context, AppSizeHeight.medium)),
+                width: AppHeight.imageSize(context, AppHeight.medium)),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(

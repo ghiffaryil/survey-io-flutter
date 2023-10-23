@@ -108,8 +108,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     children: [
                       Image.asset(
                         Images.emptyList,
-                        width:
-                            AppSizeWidth.imageSize(context, AppSizeWidth.large),
+                        width: AppWidth.imageSize(context, AppWidth.large),
                       ),
                       CustomDividers.regularDivider(),
                       Text(

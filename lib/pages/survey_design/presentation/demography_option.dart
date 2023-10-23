@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import '../../../common/components/input_field_text.dart';
 import '../../../common/components/label.dart';
@@ -8,10 +6,14 @@ import '../../../common/components/appbar_plain.dart';
 import '../../../common/components/divider.dart';
 import '../../../common/constants/colors.dart';
 import '../../../common/constants/styles.dart';
-import '../models/demography_age_model.dart';
-import '../data/list_demography_age.dart';
 import '../data/repository/local/localRepositoryAge.dart';
+import '../data/repository/local/localRepositoryGender.dart';
+import '../data/repository/local/localRepositoryOccupation.dart';
+import '../data/repository/local/localRepositoryReligion.dart';
 import 'widgets/modal_option_age.dart';
+import 'widgets/modal_option_gender.dart';
+import 'widgets/modal_option_regligion.dart';
+import 'widgets/modal_option_occupation.dart';
 
 class DemographyOption extends StatefulWidget {
   const DemographyOption({super.key});
@@ -21,64 +23,127 @@ class DemographyOption extends StatefulWidget {
 }
 
 class _DemographyOptionState extends State<DemographyOption> {
-  final demographyLocalRepository = LocalRepositoryDemographyAge();
+  final ageRepository = LocalRepositoryDemographyAge();
+  final genderRepository = LocalRepositoryDemographyGender();
+  final religionRepository = LocalRepositoryDemographyReligion();
+  final occupationRepository = LocalRepositoryDemographyOccupation();
 
-  final List<DemographyAgeModel> demographyAgeList =
-      ListDemographyAge.getDemographyAgeList();
-
+  // Text Editing
   TextEditingController inputDemographyAge = TextEditingController();
+  TextEditingController inputDemographyGender = TextEditingController();
+  TextEditingController inputDemographyReligion = TextEditingController();
+  TextEditingController inputDemographyOccupation = TextEditingController();
 
-  List<int> selectedIds = [];
-  List<String> selectedScopes = [];
-  bool selectAll = false;
+  // Variabel
+  List<String> selectedScopeAge = [];
+  List<int> selectedIdAge = [];
+
+  int selectedIdGender = 0;
+  String selectedScopeGender = '';
+
+  int selectedIdReligion = 0;
+  String selectedScopeReligion = '';
+
+  int selectedIdOccupation = 0;
+  String selectedScopeOccupation = '';
 
   @override
   void initState() {
-    loadOptionAge();
-    inputDemographyAge.text =
-        selectedScopes.isEmpty ? "Semua" : selectedScopes.join(', ');
-    selectAll = selectedScopes.isEmpty ? true : false;
     super.initState();
+
+    inputDemographyAge.text = '...';
+    inputDemographyGender.text = '...';
+    inputDemographyReligion.text = '...';
+    inputDemographyOccupation.text = '...';
+
+    loadOptionAge();
+    loadOptionGender();
+    loadOptionReligion();
+    loadOptionOccupation();
   }
 
-  // Function to save the selected options to SharedPreferences
-  void saveOptionAge() async {
-    final data = {
-      'id': selectedIds,
-      'scope': selectedScopes,
-    };
-    final jsonData = jsonEncode(data);
-    await demographyLocalRepository.setOption(jsonData);
+  void updateState() {
+    loadOptionAge();
+    loadOptionGender();
+    loadOptionReligion();
+    loadOptionOccupation();
   }
 
-  // Function to load saved selection from SharedPreferences
+  // Load Option Age From Shared References
   void loadOptionAge() async {
-    final savedData = await demographyLocalRepository.getOption();
+    final savedData = await ageRepository.getOption();
     if (savedData != null) {
+      print('Load Age Repository');
       setState(() {
-        selectedIds = (savedData['id'] as List<dynamic>).cast<int>();
-        selectedScopes = (savedData['scope'] as List<dynamic>).cast<String>();
-        selectAll = selectedScopes.isEmpty ? true : false;
-        print('Load Select Age');
-        print(selectedScopes);
-        selectedScopes.isEmpty
-            ? inputDemographyAge.text = "Semua"
-            : inputDemographyAge.text = selectedScopes.join(', ');
+        selectedIdAge = (savedData['id'] as List<dynamic>).cast<int>();
+        selectedScopeAge = (savedData['scope'] as List<dynamic>).cast<String>();
+        inputDemographyAge.text =
+            selectedScopeAge.isEmpty ? "Semua" : selectedScopeAge.join(', ');
       });
+      print(selectedScopeAge);
     } else {
-      setState(() {
-        inputDemographyAge.text = "Usia";
-      });
+      print('Age is Empty');
     }
   }
 
-  // UpdateState
-  void updateState() {
-    loadOptionAge();
-    setState(() {
-      inputDemographyAge.text =
-          selectedScopes.isEmpty ? "Semua" : selectedScopes.join(', ');
-    });
+  // Load Option Gender From Shared References
+  void loadOptionGender() async {
+    final savedData = await genderRepository.getOption();
+    if (savedData != null) {
+      print('Load Gender Repository');
+      setState(() {
+        selectedIdGender = savedData['id'];
+        selectedScopeGender = savedData['scope'];
+        if (selectedScopeGender.isEmpty) {
+          inputDemographyGender.text = "Semua";
+        } else {
+          inputDemographyGender.text = selectedScopeGender;
+        }
+      });
+      print(selectedScopeGender);
+    } else {
+      print('Gender is Empty');
+    }
+  }
+
+  // Load Option Religion From Shared References
+  void loadOptionReligion() async {
+    final savedData = await religionRepository.getOption();
+    if (savedData != null) {
+      print('Load Religion Repository');
+      setState(() {
+        selectedIdReligion = savedData['id'];
+        selectedScopeReligion = savedData['scope'];
+        if (selectedScopeReligion.isEmpty) {
+          inputDemographyReligion.text = "Semua";
+        } else {
+          inputDemographyReligion.text = selectedScopeReligion;
+        }
+      });
+      print(selectedScopeReligion);
+    } else {
+      print('Religion is Empty');
+    }
+  }
+
+  // Load Option Occupation From Shared References
+  void loadOptionOccupation() async {
+    final savedData = await occupationRepository.getOption();
+    if (savedData != null) {
+      print('Load Occupation Repository');
+      setState(() {
+        selectedIdOccupation = savedData['id'];
+        selectedScopeOccupation = savedData['scope'];
+        if (selectedScopeOccupation.isEmpty) {
+          inputDemographyOccupation.text = "Semua";
+        } else {
+          inputDemographyOccupation.text = selectedScopeOccupation;
+        }
+      });
+      print(selectedScopeOccupation);
+    } else {
+      print('Occupation is Empty');
+    }
   }
 
   @override
@@ -91,7 +156,7 @@ class _DemographyOptionState extends State<DemographyOption> {
           leadingIcon: Icons.close,
           iconColor: AppColors.black),
       body: Container(
-        padding: CustomPadding.pdefault,
+        padding: CustomPadding.p2,
         child: Column(
           children: [
             const LabelHeading(
@@ -103,7 +168,7 @@ class _DemographyOptionState extends State<DemographyOption> {
                   CustomDividers.regularDivider(),
                   GestureDetector(
                     onTap: () {
-                      _showModalBottomSheet(context);
+                      _showModalAge(context);
                     },
                     child: TextInputField(
                       controller: inputDemographyAge,
@@ -114,14 +179,68 @@ class _DemographyOptionState extends State<DemographyOption> {
                       hintStyle: TextStyles.extraLarge(color: AppColors.black),
                       keyboardType: TextInputType.text,
                       suffixIcon: Icon(
-                        inputDemographyAge.text == "Usia"
-                            ? Icons.add
-                            : Icons.edit,
+                        selectedScopeAge.isEmpty ? Icons.add : Icons.edit,
                         color: AppColors.info,
                       ),
                     ),
                   ),
-                  CustomDividers.regularDivider(),
+                  CustomDividers.smallDivider(),
+                  GestureDetector(
+                    onTap: () {
+                      _showModalGender(context);
+                    },
+                    child: TextInputField(
+                      controller: inputDemographyGender,
+                      editable: false,
+                      hintText: 'Semua',
+                      labelText: 'Jenis Kelamin',
+                      labelStyle: TextStyles.extraLarge(),
+                      hintStyle: TextStyles.extraLarge(color: AppColors.black),
+                      keyboardType: TextInputType.text,
+                      suffixIcon: Icon(
+                        selectedScopeGender == '' ? Icons.add : Icons.edit,
+                        color: AppColors.info,
+                      ),
+                    ),
+                  ),
+                  CustomDividers.smallDivider(),
+                  GestureDetector(
+                    onTap: () {
+                      _showModalReligion(context);
+                    },
+                    child: TextInputField(
+                      controller: inputDemographyReligion,
+                      editable: false,
+                      hintText: 'Semua',
+                      labelText: 'Agama',
+                      labelStyle: TextStyles.extraLarge(),
+                      hintStyle: TextStyles.extraLarge(color: AppColors.black),
+                      keyboardType: TextInputType.text,
+                      suffixIcon: Icon(
+                        selectedScopeReligion == '' ? Icons.add : Icons.edit,
+                        color: AppColors.info,
+                      ),
+                    ),
+                  ),
+                  CustomDividers.smallDivider(),
+                  GestureDetector(
+                    onTap: () {
+                      _showModalOccupation(context);
+                    },
+                    child: TextInputField(
+                      controller: inputDemographyOccupation,
+                      editable: false,
+                      hintText: 'Semua',
+                      labelText: 'Status Pekerjaan',
+                      labelStyle: TextStyles.extraLarge(),
+                      hintStyle: TextStyles.extraLarge(color: AppColors.black),
+                      keyboardType: TextInputType.text,
+                      suffixIcon: Icon(
+                        selectedScopeOccupation == '' ? Icons.add : Icons.edit,
+                        color: AppColors.info,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ))
@@ -131,7 +250,7 @@ class _DemographyOptionState extends State<DemographyOption> {
     );
   }
 
-  void _showModalBottomSheet(BuildContext context) async {
+  void _showModalAge(BuildContext context) async {
     await showModalBottomSheet(
       backgroundColor: AppColors.white,
       context: context,
@@ -143,22 +262,68 @@ class _DemographyOptionState extends State<DemographyOption> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return ModalOptionAge(
-          demographyAgeList: demographyAgeList,
-          selectedIds: selectedIds,
-          selectedScopes: selectedScopes,
-          selectAll: selectAll,
-          onSave: () {
-            saveOptionAge();
-          },
           onUpdate: () {
             updateState();
           },
-          onChanged: (value) {
-            setState(() {
-              selectAll = value ?? false;
-              selectedIds.clear();
-              selectedScopes.clear();
-            });
+        );
+      },
+    );
+  }
+
+  void _showModalGender(BuildContext context) async {
+    await showModalBottomSheet(
+      backgroundColor: AppColors.white,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25.0),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return ModalOptionGender(
+          onUpdate: () {
+            updateState();
+          },
+        );
+      },
+    );
+  }
+
+  void _showModalReligion(BuildContext context) async {
+    await showModalBottomSheet(
+      backgroundColor: AppColors.white,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25.0),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return ModalOptionReligion(
+          onUpdate: () {
+            updateState();
+          },
+        );
+      },
+    );
+  }
+
+  void _showModalOccupation(BuildContext context) async {
+    await showModalBottomSheet(
+      backgroundColor: AppColors.white,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25.0),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return ModalOptionOccupation(
+          onUpdate: () {
+            updateState();
           },
         );
       },

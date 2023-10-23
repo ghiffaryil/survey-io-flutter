@@ -209,8 +209,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
                       alignment: Alignment.topCenter,
                       child: Image.asset(
                         Images.logoHorizontal,
-                        width:
-                            AppSizeWidth.imageSize(context, AppSizeWidth.large),
+                        width: AppWidth.imageSize(context, AppWidth.large),
                       ),
                     ),
                     CustomDividers.smallDivider(),
@@ -542,7 +541,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
               children: <Widget>[
                 Image.asset(
                   Images.proccedToPay,
-                  width: AppSizeWidth.imageSize(context, AppSizeWidth.medium),
+                  width: AppWidth.imageSize(context, AppWidth.medium),
                 ),
                 CustomDividers.smallDivider(),
                 Text(

@@ -7,6 +7,7 @@ import '../../../../common/components/divider.dart';
 import '../../../../common/components/text_button.dart';
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';
+import '../../../../common/constants/indicator.dart';
 import '../../../../common/constants/styles.dart';
 
 class BottomContainer extends StatelessWidget {
@@ -40,16 +41,7 @@ class BottomContainer extends StatelessWidget {
               color: Colors.white),
           child: Column(
             children: <Widget>[
-              Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.1,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: AppColors.indicator, // Indicator color
-                  ),
-                  height: 5, // Indicator height
-                ),
-              ),
+              const IndicatorModal(),
               CustomDividers.regularDivider(),
               Container(
                 alignment: Alignment.centerLeft,

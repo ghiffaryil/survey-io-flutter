@@ -88,8 +88,8 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                             child: Image.asset(
                               merchant.merchantLogo,
                               width: merchant.merchantType == "bank"
-                                  ? AppSizeWidth.imageSize(
-                                      context, AppSizeWidth.verySmall)
+                                  ? AppWidth.imageSize(
+                                      context, AppWidth.verySmall)
                                   : 25,
                             ),
                           ),

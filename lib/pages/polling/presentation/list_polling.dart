@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import '../../../common/constants/icons.dart';
+import '../../../common/constants/indicator.dart';
 import '../../../common/constants/styles.dart';
 import '../../../common/constants/colors.dart';
 import '../../../common/components/divider.dart';
@@ -502,16 +503,7 @@ class _PollingPageState extends State<PollingPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.1,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: AppColors.indicator, // Indicator color
-                  ),
-                  height: 5, // Indicator height
-                ),
-              ),
+              const IndicatorModal(),
               Column(
                 children: [
                   Row(

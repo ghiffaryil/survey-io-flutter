@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
       appBar: MainAppBar(
         title: Image.asset(
           Images.logoHorizontalWhite,
-          width: AppSizeWidth.imageSize(context, AppSizeWidth.regular),
+          width: AppWidth.imageSize(context, AppWidth.regular),
         ),
         onPressed: () {
           Navigator.push(

@@ -42,9 +42,9 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
             CustomDividers.smallDivider(),
             Image.asset(
               Images.paymentSuccess,
-              width: AppSizeWidth.imageSize(
+              width: AppWidth.imageSize(
                 context,
-                AppSizeWidth.extraLarge,
+                AppWidth.extraLarge,
               ),
             ),
             Container(

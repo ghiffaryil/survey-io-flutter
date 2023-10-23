@@ -30,7 +30,7 @@ class _AuthSurveyDesignState extends State<AuthSurveyDesign> {
             CustomDividers.extraLargeDivider(),
             Image.asset(
               Images.logoHorizontal,
-              width: AppSizeWidth.imageSize(context, AppSizeWidth.large),
+              width: AppWidth.imageSize(context, AppWidth.large),
             ),
             Text(
               'Buat akun terlebih dahulu sebelum melanjutkan pembayaran dan pembuatan survei kamu',
