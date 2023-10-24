@@ -2,11 +2,6 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/pages/survey_design/data/list_report_time.dart';
-import 'package:survey_io/pages/survey_design/models/report_time.dart';
-import 'package:survey_io/pages/survey_design/presentation/survey_design.dart';
-
 import '../../../../common/components/appbar_plain.dart';
 import '../../../../common/components/divider.dart';
 import '../../../../common/components/label.dart';
@@ -14,7 +9,11 @@ import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/constants/padding.dart';
 import '../../../../common/extension/helper/currency_helper.dart';
+import '../../../../common/components/elevated_button.dart';
+import '../../data/list_report_time.dart';
+import '../../models/report_time.dart';
 import '../../data/repository/local/localRepositoryReportTime.dart';
+import '../survey_design.dart';
 
 class ReportTimeOption extends StatefulWidget {
   const ReportTimeOption({super.key});
@@ -107,7 +106,11 @@ class _ReportTimeOptionState extends State<ReportTimeOption> {
               formatterRupiahPrice = formatCurrency(data.price.toDouble());
 
               return ListTile(
-                title: Text(data.scope, style: TextStyles.medium()),
+                dense: true,
+                title: Text(
+                  data.scope,
+                  style: TextStyles.medium(),
+                ),
                 leading: Radio(
                   activeColor: AppColors.primary,
                   value: data.id,

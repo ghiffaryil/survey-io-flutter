@@ -19,26 +19,29 @@ class NavigationFloatingIcon extends StatelessWidget {
       imageAsset = IconName.rewardFocused;
     }
 
-    return SizedBox(
-      height: 60,
-      width: 60,
-      child: FloatingActionButton(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const SurveyDesignList()));
-        },
-        tooltip: 'Buat Survei',
-        shape: RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.circular(16), // Adjust the radius as needed
-        ),
-        child: Image.asset(
-          imageAsset,
-          width: 50,
+    return Container(
+      margin: const EdgeInsets.only(top: 20),
+      child: SizedBox(
+        height: 55,
+        width: 55,
+        child: FloatingActionButton(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const SurveyDesignList()));
+          },
+          tooltip: 'Buat Survei',
+          shape: RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.circular(16), // Adjust the radius as needed
+          ),
+          child: Image.asset(
+            imageAsset,
+            width: 45,
+          ),
         ),
       ),
     );

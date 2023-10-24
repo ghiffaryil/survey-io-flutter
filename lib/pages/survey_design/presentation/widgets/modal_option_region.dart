@@ -8,24 +8,24 @@ import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
-import '../../data/list_demography_religion.dart';
-import '../../data/repository/local/localRepositoryReligion.dart';
-import '../../models/demography_religion_model.dart';
+import '../../data/list_demography_region.dart';
+import '../../data/repository/local/localRepositoryRegion.dart';
+import '../../models/demography_region_model.dart';
 
-class ModalOptionReligion extends StatefulWidget {
+class ModalOptionRegion extends StatefulWidget {
   final void Function() onUpdate;
-  const ModalOptionReligion({super.key, required this.onUpdate});
+  const ModalOptionRegion({super.key, required this.onUpdate});
 
   @override
-  State<ModalOptionReligion> createState() => _ModalOptionReligionState();
+  State<ModalOptionRegion> createState() => _ModalOptionRegionState();
 }
 
-class _ModalOptionReligionState extends State<ModalOptionReligion> {
-  final List<DemographyReligionModel> list =
-      ListDemographyReligion.getDemographyReligionList();
-  final repository = LocalRepositoryDemographyReligion();
+class _ModalOptionRegionState extends State<ModalOptionRegion> {
+  final List<DemographyRegionModel> list =
+      ListDemographyRegion.getDemographyRegionList();
+  final repository = LocalRepositoryDemographyRegion();
 
-  // Selected Religion
+  // Selected Region
   int selectedId = 0;
   String selectedScope = 'Semua';
   bool selectAll = false;
@@ -56,12 +56,12 @@ class _ModalOptionReligionState extends State<ModalOptionReligion> {
         selectedId = savedData['id'];
         selectedScope = savedData['scope'];
         selectAll = selectedScope == "Semua" ? true : false;
-        print('Load Selected Religion');
+        print('Load Selected Region');
         print(selectedScope);
       });
       print(selectedScope);
     } else {
-      print('Religion is Empty');
+      print('Region is Empty');
     }
   }
 
@@ -79,14 +79,14 @@ class _ModalOptionReligionState extends State<ModalOptionReligion> {
           Container(
             padding: CustomPadding.p1,
             child: Text(
-              'Agama',
+              'Wilayah',
               style: TextStyles.h2(color: AppColors.secondary),
             ),
           ),
           Container(
             padding: CustomPadding.p1,
             child: Text(
-              'Rp50.000 - 250.000 / 50 Responden',
+              'Rp20.000 - 1.000.000 / 50 Responden',
               style: TextStyles.extraLarge(color: AppColors.secondary),
             ),
           ),
@@ -95,12 +95,16 @@ class _ModalOptionReligionState extends State<ModalOptionReligion> {
             child: SingleChildScrollView(
               child: ListView.builder(
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: list.length + 1,
                 itemBuilder: (BuildContext context, int index) {
                   if (index == 0) {
                     return ListTile(
+                        dense: true,
+                        visualDensity:
+                            const VisualDensity(horizontal: 0, vertical: -1),
                         title: Text(
-                          'Semua Agama',
+                          'Semua Wilayah',
                           style: TextStyles.extraLarge(
                             color: selectedId == 0
                                 ? Colors.black
@@ -123,6 +127,9 @@ class _ModalOptionReligionState extends State<ModalOptionReligion> {
                   } else {
                     final item = list[index - 1];
                     return ListTile(
+                        dense: true,
+                        visualDensity:
+                            const VisualDensity(horizontal: 0, vertical: -1),
                         title: Text(
                           item.scope,
                           style: TextStyles.extraLarge(

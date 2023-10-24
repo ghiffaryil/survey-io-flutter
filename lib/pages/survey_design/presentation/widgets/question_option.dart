@@ -2,10 +2,6 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/pages/survey_design/data/list_question_value.dart';
-import 'package:survey_io/pages/survey_design/models/question_model.dart';
-import 'package:survey_io/pages/survey_design/presentation/survey_design.dart';
 
 import '../../../../common/components/appbar_plain.dart';
 import '../../../../common/components/divider.dart';
@@ -14,6 +10,10 @@ import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/constants/padding.dart';
 import '../../data/repository/local/localRepositoryQuestion.dart';
+import '../../../../common/components/elevated_button.dart';
+import '../../data/list_question_value.dart';
+import '../../models/question_model.dart';
+import '../survey_design.dart';
 
 class QuestionOption extends StatefulWidget {
   const QuestionOption({super.key});
@@ -97,7 +97,11 @@ class _QuestionOptionState extends State<QuestionOption> {
               final QuestionModel data = ListQuestion.getQuestionList()[index];
 
               return ListTile(
-                title: Text('${data.scope}'),
+                dense: true,
+                title: Text(
+                  '${data.scope}',
+                  style: TextStyles.medium(),
+                ),
                 leading: Radio(
                   activeColor: AppColors.primary,
                   value: data.id,

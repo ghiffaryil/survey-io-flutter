@@ -1,32 +1,32 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
+import '../../../../common/components/notice_card.dart';
 import '../../../../common/components/divider.dart';
 import '../../../../common/components/checkbox.dart';
 import '../../../../common/constants/colors.dart';
-import '../../../../common/constants/imageSize.dart';
 import '../../../../common/constants/indicator.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 
-import '../../data/list_demography_age.dart';
-import '../../data/repository/local/localRepositoryAge.dart';
-import '../../models/demography_age_model.dart';
+import '../../data/list_demography_outcome.dart';
+import '../../data/repository/local/localRepositoryOutcome.dart';
+import '../../models/demography_outcome_model.dart';
 
-class ModalOptionAge extends StatefulWidget {
+class ModalOptionOutcome extends StatefulWidget {
   final void Function() onUpdate;
 
-  const ModalOptionAge({super.key, required this.onUpdate});
+  const ModalOptionOutcome({super.key, required this.onUpdate});
 
   @override
-  State<ModalOptionAge> createState() => _ModalOptionAgeState();
+  State<ModalOptionOutcome> createState() => _ModalOptionOutcomeState();
 }
 
-class _ModalOptionAgeState extends State<ModalOptionAge> {
-  final List<DemographyAgeModel> list =
-      ListDemographyAge.getDemographyAgeList();
-  final ageRepository = LocalRepositoryDemographyAge();
+class _ModalOptionOutcomeState extends State<ModalOptionOutcome> {
+  final List<DemographyOutcomeModel> list =
+      ListDemographyOutcome.getDemographyOutcomeList();
+  final outcomeRepository = LocalRepositoryDemographyOutcome();
 
   List<int> selectedId = [];
   List<String> selectedScope = [];
@@ -46,29 +46,29 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
       'scope': selectedScope,
     };
     final jsonData = jsonEncode(data);
-    await ageRepository.setOption(jsonData);
+    await outcomeRepository.setOption(jsonData);
   }
 
   // Load from Shared References
   void onLoad() async {
-    final savedData = await ageRepository.getOption();
+    final savedData = await outcomeRepository.getOption();
     if (savedData != null) {
       setState(() {
         selectedId = (savedData['id'] as List<dynamic>).cast<int>();
         selectedScope = (savedData['scope'] as List<dynamic>).cast<String>();
         selectAll = selectedScope.isEmpty ? true : false;
-        print('Load Selected Age');
+        print('Load Selected Outcome');
         print(selectedScope);
       });
     } else {
-      print('Age is Empty');
+      print('Outcome is Empty');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppHeight.imageSize(context, AppHeight.large),
+      height: MediaQuery.of(context).size.height * 0.8,
       padding: CustomPadding.p2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,14 +79,14 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
           Container(
             padding: CustomPadding.p1,
             child: Text(
-              'Usia',
+              'Pengeluaran Bulanan',
               style: TextStyles.h2(color: AppColors.secondary),
             ),
           ),
           Container(
             padding: CustomPadding.p1,
             child: Text(
-              'Rp40.000 - 80.000 / 50 Responden',
+              'Rp25.000 - 100.000 / 50 Responden',
               style: TextStyles.extraLarge(color: AppColors.secondary),
             ),
           ),
@@ -107,7 +107,7 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
                       visualDensity:
                           const VisualDensity(horizontal: 0, vertical: -4),
                       title: Text(
-                        'Semua',
+                        'Semua pendapatan',
                         style: TextStyles.large(
                             fontWeight: FontWeight.w600,
                             color: selectedId.isEmpty && selectedScope.isEmpty
@@ -185,18 +185,20 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
               ),
             ),
           ),
-          CustomDividers.smallDivider(),
-          Padding(
-            padding: CustomPadding.p1,
-            child: ButtonFilled.primary(
-                text: 'OK',
-                onPressed: () {
-                  onSave();
-                  onLoad();
-                  widget.onUpdate();
-                  Navigator.of(context).pop();
-                }),
+          NoticeCard(
+            text:
+                'Jumlah responden belum tentu sama banyaknya dari setiap kategori, karena tergantung pada kecepatan responden mengambil survei.',
+            textLink: 'Klik disini untuk info lanjut',
           ),
+          CustomDividers.regularDivider(),
+          ButtonFilled.primary(
+              text: 'OK',
+              onPressed: () {
+                onSave();
+                onLoad();
+                widget.onUpdate();
+                Navigator.of(context).pop();
+              }),
         ],
       ),
     );

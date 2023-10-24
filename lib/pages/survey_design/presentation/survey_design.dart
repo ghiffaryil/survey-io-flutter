@@ -1,12 +1,7 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/pages/payment/presentation/payment_method.dart';
-import 'package:survey_io/pages/survey_design/data/repository/local/localRepositoryAge.dart';
-import 'package:survey_io/pages/survey_design/presentation/demography_option.dart';
+
+import '../../../common/components/elevated_button.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/components/divider.dart';
 import '../../../common/components/input_field_radio.dart';
@@ -19,15 +14,17 @@ import '../../../common/constants/styles.dart';
 import '../../../common/components/text_button.dart';
 import '../../../common/extension/helper/currency_helper.dart';
 
-import '../../../pages/survey_design/data/repository/local/localRepositoryQuestion.dart';
-import 'widgets/question_option.dart';
-import 'widgets/report_time_option.dart';
-import 'widgets/respondent_option.dart';
-
+import '../../payment/presentation/payment_method.dart';
+import '../data/repository/local/localRepositoryAge.dart';
+import '../data/repository/local/localRepositoryQuestion.dart';
 import '../data/repository/local/localRepositoryReportTime.dart';
 import '../data/repository/local/localRepositoryRespondent.dart';
 import '../data/repository/local/localRepositoryScreener.dart';
 
+import 'widgets/question_option.dart';
+import 'widgets/report_time_option.dart';
+import 'widgets/respondent_option.dart';
+import 'demography_option.dart';
 import 'survey_design_list.dart';
 
 class SurveyDesign extends StatefulWidget {
@@ -41,13 +38,13 @@ class _SurveyDesignState extends State<SurveyDesign> {
   int totalPrice = 0;
   String screenerOptionValue = '';
   int respondentId = 0;
-  var respondentScope;
+  dynamic respondentScope;
 
   int questionId = 0;
-  var questionScope;
+  dynamic questionScope;
 
   int reportTimeId = 0;
-  var reportTimeScope;
+  dynamic reportTimeScope;
   int reportTimePrice = 0;
 
   final respondentLocalRepository = LocalRepositoryRespondent();

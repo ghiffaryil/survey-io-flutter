@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
+import '../../../../common/components/notice_card.dart';
 import '../../../../common/components/divider.dart';
 import '../../../../common/components/checkbox.dart';
 import '../../../../common/constants/colors.dart';
@@ -10,23 +11,23 @@ import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 
-import '../../data/list_demography_age.dart';
-import '../../data/repository/local/localRepositoryAge.dart';
-import '../../models/demography_age_model.dart';
+import '../../data/list_demography_marital.dart';
+import '../../data/repository/local/localRepositoryMarital.dart';
+import '../../models/demography_marital_model.dart';
 
-class ModalOptionAge extends StatefulWidget {
+class ModalOptionMarital extends StatefulWidget {
   final void Function() onUpdate;
 
-  const ModalOptionAge({super.key, required this.onUpdate});
+  const ModalOptionMarital({super.key, required this.onUpdate});
 
   @override
-  State<ModalOptionAge> createState() => _ModalOptionAgeState();
+  State<ModalOptionMarital> createState() => _ModalOptionMaritalState();
 }
 
-class _ModalOptionAgeState extends State<ModalOptionAge> {
-  final List<DemographyAgeModel> list =
-      ListDemographyAge.getDemographyAgeList();
-  final ageRepository = LocalRepositoryDemographyAge();
+class _ModalOptionMaritalState extends State<ModalOptionMarital> {
+  final List<DemographyMaritalModel> list =
+      ListDemographyMarital.getDemographyMaritalList();
+  final maritalRepository = LocalRepositoryDemographyMarital();
 
   List<int> selectedId = [];
   List<String> selectedScope = [];
@@ -46,12 +47,12 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
       'scope': selectedScope,
     };
     final jsonData = jsonEncode(data);
-    await ageRepository.setOption(jsonData);
+    await maritalRepository.setOption(jsonData);
   }
 
   // Load from Shared References
   void onLoad() async {
-    final savedData = await ageRepository.getOption();
+    final savedData = await maritalRepository.getOption();
     if (savedData != null) {
       setState(() {
         selectedId = (savedData['id'] as List<dynamic>).cast<int>();
@@ -61,14 +62,14 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
         print(selectedScope);
       });
     } else {
-      print('Age is Empty');
+      print('Marital is Empty');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppHeight.imageSize(context, AppHeight.large),
+      height: AppHeight.imageSize(context, AppHeight.extraLarge),
       padding: CustomPadding.p2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,14 +80,14 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
           Container(
             padding: CustomPadding.p1,
             child: Text(
-              'Usia',
+              'Status Pernikahan',
               style: TextStyles.h2(color: AppColors.secondary),
             ),
           ),
           Container(
             padding: CustomPadding.p1,
             child: Text(
-              'Rp40.000 - 80.000 / 50 Responden',
+              'Rp80.000 - 120.000 / 50 Responden',
               style: TextStyles.extraLarge(color: AppColors.secondary),
             ),
           ),
@@ -107,7 +108,7 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
                       visualDensity:
                           const VisualDensity(horizontal: 0, vertical: -4),
                       title: Text(
-                        'Semua',
+                        'Semua Status Pernikahan',
                         style: TextStyles.large(
                             fontWeight: FontWeight.w600,
                             color: selectedId.isEmpty && selectedScope.isEmpty
@@ -185,18 +186,20 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
               ),
             ),
           ),
-          CustomDividers.smallDivider(),
-          Padding(
-            padding: CustomPadding.p1,
-            child: ButtonFilled.primary(
-                text: 'OK',
-                onPressed: () {
-                  onSave();
-                  onLoad();
-                  widget.onUpdate();
-                  Navigator.of(context).pop();
-                }),
+          NoticeCard(
+            text:
+                'Jumlah responden belum tentu sama banyaknya dari setiap kategori, karena tergantung pada kecepatan responden mengambil survei.',
+            textLink: 'Klik disini untuk info lanjut',
           ),
+          CustomDividers.regularDivider(),
+          ButtonFilled.primary(
+              text: 'OK',
+              onPressed: () {
+                onSave();
+                onLoad();
+                widget.onUpdate();
+                Navigator.of(context).pop();
+              }),
         ],
       ),
     );

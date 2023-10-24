@@ -69,7 +69,7 @@ class _ModalOptionGenderState extends State<ModalOptionGender> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppHeight.imageSize(context, AppHeight.extraLarge),
+      height: AppHeight.imageSize(context, AppHeight.large),
       padding: CustomPadding.p1,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,10 +96,12 @@ class _ModalOptionGenderState extends State<ModalOptionGender> {
             child: SingleChildScrollView(
               child: ListView.builder(
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: list.length,
                 itemBuilder: (BuildContext context, int index) {
                   final item = list[index];
                   return ListTile(
+                      dense: true,
                       title: Text(
                         item.scope,
                         style: TextStyles.extraLarge(

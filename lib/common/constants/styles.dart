@@ -173,11 +173,13 @@ class TextStyles {
   static TextStyle extraLarge({
     Color? color,
     FontWeight? fontWeight,
+    TextDecoration? textDecoration,
   }) {
     return TextStyle(
       fontSize: 20.0,
       fontFamily: 'Nunito',
       fontWeight: fontWeight ?? FontWeight.normal,
+      decoration: textDecoration,
       color: color,
     );
   }
@@ -186,11 +188,13 @@ class TextStyles {
   static TextStyle large({
     Color? color,
     FontWeight? fontWeight,
+    TextDecoration? textDecoration,
   }) {
     return TextStyle(
       fontSize: 18.0,
       fontFamily: 'Nunito',
       fontWeight: fontWeight ?? FontWeight.normal,
+      decoration: textDecoration,
       color: color,
     );
   }
@@ -199,11 +203,13 @@ class TextStyles {
   static TextStyle medium({
     Color? color,
     FontWeight? fontWeight,
+    TextDecoration? textDecoration,
   }) {
     return TextStyle(
       fontFamily: 'Nunito',
       color: color,
       fontSize: 17.0,
+      decoration: textDecoration,
       fontWeight: fontWeight ?? FontWeight.normal,
     );
   }
@@ -212,11 +218,13 @@ class TextStyles {
   static TextStyle regular({
     Color? color,
     FontWeight? fontWeight,
+    TextDecoration? textDecoration,
   }) {
     return TextStyle(
-      fontFamily: 'Nunito',
+      fontFamily: 'Nunito-Regular',
       color: color,
-      fontSize: 16.0,
+      fontSize: 15.0,
+      decoration: textDecoration,
       fontWeight: fontWeight ?? FontWeight.normal,
     );
   }
@@ -225,11 +233,13 @@ class TextStyles {
   static TextStyle small({
     Color? color,
     FontWeight? fontWeight,
+    TextDecoration? textDecoration,
   }) {
     return TextStyle(
       fontSize: 13.0,
       fontFamily: 'Nunito',
       fontWeight: fontWeight ?? FontWeight.normal,
+      decoration: textDecoration,
       color: color,
     );
   }
@@ -238,11 +248,13 @@ class TextStyles {
   static TextStyle verySmall({
     Color? color,
     FontWeight? fontWeight,
+    TextDecoration? textDecoration,
   }) {
     return TextStyle(
       fontSize: 9.0,
       fontFamily: 'Nunito',
       fontWeight: fontWeight ?? FontWeight.normal,
+      decoration: textDecoration,
       color: color,
     );
   }
@@ -251,11 +263,13 @@ class TextStyles {
   static TextStyle muted({
     Color? color,
     FontWeight? fontWeight,
+    TextDecoration? textDecoration,
   }) {
-    return const TextStyle(
+    return TextStyle(
       fontSize: 16.0,
       fontFamily: 'Nunito',
       color: Colors.grey,
+      decoration: textDecoration,
     );
   }
 }
