@@ -35,16 +35,6 @@ class IconName {
 
   static const String iconCheck = 'assets/icons/icon_check_verified.png';
 
-  static const String iconEmptyList = 'assets/icons/icon_empty_list.png';
-  static const String iconReedemGiftCardSuccess =
-      'assets/icons/icon_reedem_gift_card_success.png';
-
-  static const String iconConfirmSubmitSurvey =
-      'assets/icons/icon_confirm_submit_survey.png';
-  static const String iconPaymentSuccess =
-      'assets/icons/icon_payment_success.png';
-  static const String iconProccedToPay = 'assets/icons/icon_procced_to_pay.png';
-
   static const String iconBankBCA = 'assets/icons/icon_bank_bca.png';
   static const String iconBankBRI = 'assets/icons/icon_bank_bri.png';
   static const String iconBankBNI = 'assets/icons/icon_bank_bni.png';
@@ -56,4 +46,5 @@ class IconName {
   static const String iconEwalletDana = 'assets/icons/icon_ewallet_dana.png';
   static const String iconEwalletShopeePay =
       'assets/icons/icon_ewallet_shopeepay.png';
+  static const String notice = 'assets/icons/icon_warning.png';
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/pages/home/presentation/home.dart';
-import 'package:survey_io/pages/profile/presentation/profile.dart';
-import 'package:survey_io/pages/survey_design/presentation/list_survey_design.dart';
+import 'package:survey_io/pages/home/home.dart';
+import 'package:survey_io/pages/profile/profile.dart';
+import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 
 import '../../common/constants/icons.dart';
 
