@@ -5,7 +5,7 @@ class CustomCheckbox extends StatelessWidget {
   final bool value;
   final ValueChanged<bool?>? onChanged;
 
-  CustomCheckbox({
+  const CustomCheckbox({super.key, 
     required this.value,
     required this.onChanged,
   });

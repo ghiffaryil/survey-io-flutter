@@ -10,7 +10,7 @@ class NoticeCard extends StatelessWidget {
   final String textLink;
   final String link;
 
-  NoticeCard(
+  const NoticeCard(
       {super.key, required this.text, this.textLink = '', this.link = ''});
 
   @override

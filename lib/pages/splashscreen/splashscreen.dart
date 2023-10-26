@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '../onboarding/presentation/onboarding.dart';
+import 'package:survey_io/datasources/login/auth_local_datasource.dart';
+import 'package:survey_io/pages/home/home.dart';
+import '../onboarding/onboarding.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({Key? key}) : super(key: key);
@@ -18,14 +20,20 @@ class SplashScreenPageState extends State<SplashScreenPage> {
   }
 
   openSplashScreen() async {
-    //bisa diganti beberapa detik sesuai keinginan
-    var durasiSplash = const Duration(seconds: 2);
+    var splashDuration = const Duration(seconds: 2);
 
-    return Timer(durasiSplash, () {
-      //pindah ke halaman home
-      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        return const OnboardingPage();
-      }));
+    return Timer(splashDuration, () {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => FutureBuilder<bool>(
+                future: AuthLocalDatasource().isLogin(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.data!) {
+                    return const HomePage();
+                  } else {
+                    return const OnboardingPage();
+                  }
+                },
+              )));
     });
   }
 
@@ -37,7 +45,6 @@ class SplashScreenPageState extends State<SplashScreenPage> {
         child: Image.asset(
           "assets/images/logo/logo_survey_io_square.png",
           width: MediaQuery.of(context).size.width * 0.65,
-          // height: 88,
         ),
       ),
     );

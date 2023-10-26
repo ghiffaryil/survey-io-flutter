@@ -1,4 +1,6 @@
-import 'package:flutter/widgets.dart';
+// ignore_for_file: file_names
+
+import 'package:flutter/material.dart';
 
 class AppWidth {
   static double imageSize(BuildContext context, double factor) {
