@@ -61,7 +61,7 @@ class FloatingProfileCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Hi, User',
+                              'Hi, $userFrontName',
                               style: TextStyles.h4(
                                 color: AppColors.secondary,
                               ),
