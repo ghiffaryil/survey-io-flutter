@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/bloc/profile/profile_bloc.dart';
 
 // Import Component
 import 'package:survey_io/common/components/appbar.dart';
@@ -33,6 +35,12 @@ class _HomePageState extends State<HomePage> {
   List<PollingModel> listPollingToday = ListPollingToday.getPollingToday();
 
   @override
+  void initState() {
+    super.initState();
+    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -58,20 +66,76 @@ class _HomePageState extends State<HomePage> {
             pollingToday: listPollingToday,
           ),
           const RedShapeCircular(),
-          FloatingProfileCard(
-            userFrontName: 'User',
-            iconImage: Image.asset(
-              IconName.totalSurvey,
-              width: 40,
-              height: 40,
-            ),
-            label: 'Jumlah Survey',
-            labelValue: 0,
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ListSurveiPage()));
+          BlocBuilder<ProfileBloc, ProfileState>(
+            builder: (context, state) {
+              return state.maybeWhen(
+                orElse: () {
+                  return FloatingProfileCard(
+                    userFrontName: '-',
+                    iconImage: Image.asset(
+                      IconName.totalSurvey,
+                      width: 40,
+                      height: 40,
+                    ),
+                    label: '-',
+                    labelValue: 0,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ListSurveiPage(),
+                        ),
+                      );
+                    },
+                  );
+                },
+                // loading: () {
+                //   return const SizedBox(
+                //     height: 40,
+                //     child: CircularProgressIndicator(),
+                //   );
+                // },
+                error: (error) {
+                  return FloatingProfileCard(
+                    userFrontName: '-',
+                    iconImage: Image.asset(
+                      IconName.totalSurvey,
+                      width: 40,
+                      height: 40,
+                    ),
+                    label: 'Jumlah Survey',
+                    labelValue: 0,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ListSurveiPage(),
+                        ),
+                      );
+                    },
+                  );
+                },
+                loaded: (profile) {
+                  return FloatingProfileCard(
+                    userFrontName: profile.user.name.split(' ')[0],
+                    iconImage: Image.asset(
+                      IconName.totalSurvey,
+                      width: 40,
+                      height: 40,
+                    ),
+                    label: 'Jumlah Survey',
+                    labelValue: 0,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ListSurveiPage(),
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
             },
           ),
         ],

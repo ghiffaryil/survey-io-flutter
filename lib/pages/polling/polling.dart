@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../bloc/polling/polling/polling_bloc.dart';
 import '../../common/constants/icons.dart';
 import '../../common/constants/widgets/indicator.dart';
 import '../../common/constants/styles.dart';
@@ -36,9 +38,6 @@ class _PollingPageState extends State<PollingPage> {
   List<PollingCompletedModel> listPollingCompleted =
       ListPollingCompleted.getCompletedPolling();
 
-  @override
-  void initState() => super.initState();
-
   // Define a mapping of color names to colors
   Map<String, Color> colorMap = {
     "blue": AppColors.info,
@@ -47,6 +46,12 @@ class _PollingPageState extends State<PollingPage> {
     "green": AppColors.success,
     // Add more color mappings as needed
   };
+
+  @override
+  initState() {
+    super.initState();
+    context.read<PollingBloc>().add(const PollingEvent.getPolling());
+  }
 
   // SELECTED VALUES
   Map<int, String> newPollingSelectedValues = {};
@@ -158,131 +163,151 @@ class _PollingPageState extends State<PollingPage> {
   Widget NewPolling() {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: ListView.builder(
-        itemCount: listPollingNew.length,
-        itemBuilder: (context, index) {
-          // Declaration Polling variabel
-          final pollingNewData = listPollingNew[index];
-          var selectedIndexNewPolling = newPollingSelectedValues[index] ?? '';
+      child: BlocBuilder<PollingBloc, PollingState>(
+        builder: (context, state) {
+          return state.maybeWhen(orElse: () {
+            return Container(
+              child: const Center(
+                child: Text('No Polling here'),
+              ),
+            );
+          }, loading: () {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }, loaded: (data) {
+            return ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                // Declaration Polling variabel
+                final pollingData = data[index];
+                var selectedIndexNewPolling =
+                    newPollingSelectedValues[index] ?? '';
 
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(width: 0.5, color: AppColors.light),
-              borderRadius: BorderRadius.circular(20.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
-                  spreadRadius: 3,
-                  blurRadius: 10,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Text(pollingNewData.pollingTitle,
-                      style: TextStyles.h3(color: AppColors.secondary)),
-                ),
-                const SizedBox(height: 10),
-                if (pollingNewData.direction == "Horizontal")
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // for (String pilihan in pollingNewData.arrayOption)
-                      for (int i = 0;
-                          i < pollingNewData.arrayOption.length;
-                          i++)
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                newPollingSelectedValues[index] =
-                                    pollingNewData.arrayOption[i];
-                              });
-                            },
-                            child: Container(
-                                padding: const EdgeInsets.all(10),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: selectedIndexNewPolling ==
-                                            pollingNewData.arrayOption[i]
-                                        ? AppColors.primary
-                                        : AppColors.info,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: selectedIndexNewPolling ==
-                                          pollingNewData.arrayOption[i]
-                                      ? AppColors.primary
-                                      : Colors.transparent,
-                                ),
-                                child: SelectOptionContainer(
-                                  isActive: selectedIndexNewPolling ==
-                                          pollingNewData.arrayOption[i]
-                                      ? true
-                                      : false,
-                                  pilihan: pollingNewData.arrayOption[i],
-                                )),
-                          ),
-                        )),
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(width: 0.5, color: AppColors.light),
+                    borderRadius: BorderRadius.circular(20.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.1),
+                        spreadRadius: 3,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
                     ],
                   ),
-                if (pollingNewData.direction == "Vertical")
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  margin: const EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      for (int i = 0;
-                          i < pollingNewData.arrayOption.length;
-                          i++)
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              newPollingSelectedValues[index] =
-                                  pollingNewData.arrayOption[i];
-                            });
-                          },
-                          child: Container(
-                              margin: const EdgeInsets.only(bottom: 10),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: selectedIndexNewPolling ==
-                                          pollingNewData.arrayOption[i]
-                                      ? AppColors.primary
-                                      : AppColors.info,
-                                  width: 1,
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 10),
+                        child: Text(pollingData.polling.title,
+                            style: TextStyles.h3(color: AppColors.secondary)),
+                      ),
+                      const SizedBox(height: 10),
+                      if (pollingData.placement == "Horizontal")
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // for (String pilihan in pollingData.arrayOption)
+                            for (int i = 0;
+                                i < pollingData.pollingList.length;
+                                i++)
+                              Expanded(
+                                  child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      newPollingSelectedValues[index] =
+                                          pollingData.pollingList[i].toString();
+                                    });
+                                  },
+                                  child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: selectedIndexNewPolling ==
+                                                  pollingData.pollingList[i]
+                                              ? AppColors.primary
+                                              : AppColors.info,
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(50),
+                                        color: selectedIndexNewPolling ==
+                                                pollingData.pollingList[i]
+                                            ? AppColors.primary
+                                            : Colors.transparent,
+                                      ),
+                                      child: SelectOptionContainer(
+                                        isActive: selectedIndexNewPolling ==
+                                                pollingData.pollingList[i]
+                                            ? true
+                                            : false,
+                                        pilihan: pollingData.pollingList[i]
+                                            .toString(),
+                                      )),
                                 ),
-                                borderRadius: BorderRadius.circular(50),
-                                color: selectedIndexNewPolling ==
-                                        pollingNewData.arrayOption[i]
-                                    ? AppColors.primary
-                                    : Colors.transparent,
+                              )),
+                          ],
+                        ),
+                      if (pollingData.placement == "Vertical")
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            for (int i = 0;
+                                i < pollingData.pollingList.length;
+                                i++)
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    newPollingSelectedValues[index] =
+                                        pollingData.pollingList[i].toString();
+                                  });
+                                },
+                                child: Container(
+                                    margin: const EdgeInsets.only(bottom: 10),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: selectedIndexNewPolling ==
+                                                pollingData.pollingList[i]
+                                            ? AppColors.primary
+                                            : AppColors.info,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: selectedIndexNewPolling ==
+                                              pollingData.pollingList[i]
+                                          ? AppColors.primary
+                                          : Colors.transparent,
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 15),
+                                    width: double.infinity,
+                                    child: SelectOptionContainer(
+                                        isActive: selectedIndexNewPolling ==
+                                                pollingData.pollingList[i]
+                                            ? true
+                                            : false,
+                                        pilihan: pollingData.pollingList[i]
+                                            .toString())),
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 15),
-                              width: double.infinity,
-                              child: SelectOptionContainer(
-                                  isActive: selectedIndexNewPolling ==
-                                          pollingNewData.arrayOption[i]
-                                      ? true
-                                      : false,
-                                  pilihan: pollingNewData.arrayOption[i])),
+                          ],
                         ),
                     ],
                   ),
-              ],
-            ),
-          );
+                );
+              },
+            );
+          });
         },
       ),
     );
