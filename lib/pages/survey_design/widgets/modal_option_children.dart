@@ -185,7 +185,7 @@ class _ModalOptionChildrenState extends State<ModalOptionChildren> {
               ),
             ),
           ),
-          NoticeCard(
+          const NoticeCard(
             text:
                 'Jumlah responden belum tentu sama banyaknya dari setiap kategori, karena tergantung pada kecepatan responden mengambil survei.',
             textLink: 'Klik disini untuk info lanjut',

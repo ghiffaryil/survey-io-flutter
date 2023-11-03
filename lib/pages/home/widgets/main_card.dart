@@ -1,12 +1,10 @@
-// ignore_for_file: must_be_immutable
-
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:survey_io/bloc/survey/ayo_check/survey_ayo_check_bloc.dart';
+import 'package:survey_io/bloc/survey/survey_popular/survey_popular_bloc.dart';
+
+import '../../../bloc/survey/ayo_check/survey_ayo_check_bloc.dart';
 import '../../../bloc/polling/polling_today/polling_today_bloc.dart';
-import '../../../bloc/survey/bloc/survey_list_bloc.dart';
 import '../../../common/components/divider.dart';
 import '../../../common/components/image_rounded.dart';
 import '../../../common/components/label.dart';
@@ -36,7 +34,7 @@ class MainCard extends StatefulWidget {
 }
 
 class _MainCardState extends State<MainCard> {
-  String timeRemaining = 'Calculating...';
+  String timeRemaining = '...';
 
   @override
   void initState() {
@@ -47,7 +45,9 @@ class _MainCardState extends State<MainCard> {
     context
         .read<PollingTodayBloc>()
         .add(const PollingTodayEvent.getPollingToday());
-    context.read<SurveyListBloc>().add(const SurveyListEvent.getSurveyList());
+    context
+        .read<SurveyPopularBloc>()
+        .add(const SurveyPopularEvent.getSurveyPopular());
     startCountdown();
   }
 
@@ -354,7 +354,7 @@ class _MainCardState extends State<MainCard> {
                                 ],
                               ),
                               child: SizedBox(
-                                height: 150,
+                                height: 100,
                                 child: ListView.separated(
                                   separatorBuilder: (context, index) {
                                     return const Divider();
@@ -450,9 +450,7 @@ class _MainCardState extends State<MainCard> {
                                                 ],
                                               ),
                                               Text(
-                                                data[index]
-                                                    .totalVote
-                                                    .toString(),
+                                                '${data[index].totalVote.toString()} vote',
                                                 style: TextStyles.small(
                                                     color: AppColors.secondary),
                                               ),
@@ -498,10 +496,19 @@ class _MainCardState extends State<MainCard> {
                                 TextStyles.h4(color: AppColors.secondary)),
                       ),
                       Expanded(
-                        child: Text(
-                          'Lihat Semua',
-                          textAlign: TextAlign.end,
-                          style: TextStyles.regular(color: AppColors.info),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ListSurveiPage()));
+                          },
+                          child: Text(
+                            'Lihat Semua',
+                            textAlign: TextAlign.end,
+                            style: TextStyles.regular(color: AppColors.info),
+                          ),
                         ),
                       )
                     ],
@@ -510,21 +517,20 @@ class _MainCardState extends State<MainCard> {
                   SizedBox(
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
-                        minHeight:
-                            40, // Set the minimum height for at least one card
+                        minHeight: 40,
                         maxHeight: MediaQuery.of(context).size.height * 0.45,
                       ),
-                      child: BlocBuilder<SurveyListBloc, SurveyListState>(
+                      child: BlocBuilder<SurveyPopularBloc, SurveyPopularState>(
                         builder: (context, state) {
                           return state.maybeWhen(
                             orElse: () {
                               return Container();
                             },
                             loading: () {
-                              return Container(
+                              return const SizedBox(
                                 height: 40,
                                 width: 40,
-                                child: const CircularProgressIndicator(),
+                                child: CircularProgressIndicator(),
                               );
                             },
                             error: (message) {

@@ -90,13 +90,14 @@ class User {
   factory User.fromMap(Map<String, dynamic> json) => User(
         id: json["id"],
         name: json["name"],
-        email: json["email"],
-        emailVerified: json["email_verified"],
-        active: json["active"],
+        email: json["email"] ?? "",
+        emailVerified:
+            json["email_verified"] ?? 0, // Provide a default value if it's null
+        active: json["active"] ?? 0, // Provide a default value if it's null
+        refcode: json["refcode"] ?? "",
+        platform: json["platform"] ?? "",
         phoneNumber: json["phone_number"],
         provider: json["provider"],
-        refcode: json["refcode"],
-        platform: json["platform"],
         firebaseToken: json["firebase_token"],
         datetimeCreated: DateTime.parse(json["datetime_created"]),
         datetimeUpdated: DateTime.parse(json["datetime_updated"]),

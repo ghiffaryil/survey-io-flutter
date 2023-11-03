@@ -1,26 +1,23 @@
-// ignore_for_file: unnecessary_null_comparison
-
 import 'dart:convert';
 
-class PollingResponseModel {
-  final List<PollingData> data;
+class PollingDoneResponseModel {
+  final List<PollingDone> data;
   final int status;
 
-  PollingResponseModel({
+  PollingDoneResponseModel({
     required this.data,
     required this.status,
   });
 
-  factory PollingResponseModel.fromJson(String str) =>
-      PollingResponseModel.fromMap(json.decode(str));
+  factory PollingDoneResponseModel.fromJson(String str) =>
+      PollingDoneResponseModel.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory PollingResponseModel.fromMap(Map<String, dynamic> json) =>
-      PollingResponseModel(
-        data: (json["data"] as List<dynamic>?)!
-            .map((x) => PollingData.fromMap(x))
-            .toList(),
+  factory PollingDoneResponseModel.fromMap(Map<String, dynamic> json) =>
+      PollingDoneResponseModel(
+        data: List<PollingDone>.from(
+            json["data"].map((x) => PollingDone.fromMap(x))),
         status: json["status"],
       );
 
@@ -30,35 +27,33 @@ class PollingResponseModel {
       };
 }
 
-class PollingData {
+class PollingDone {
   final Polling polling;
   final List<PollingList> pollingList;
   final String placement;
   final int totalVote;
-  bool allowed;
+  final int answer;
 
-  PollingData({
+  PollingDone({
     required this.polling,
     required this.pollingList,
     required this.placement,
     required this.totalVote,
-    required this.allowed,
+    required this.answer,
   });
 
-  factory PollingData.fromJson(String str) =>
-      PollingData.fromMap(json.decode(str));
+  factory PollingDone.fromJson(String str) =>
+      PollingDone.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
-  factory PollingData.fromMap(Map<String, dynamic> json) => PollingData(
-        polling:
-            Polling.fromMap(json["polling"] as Map<String, dynamic>? ?? {}),
-        pollingList: (json["polling_list"] as List<dynamic>?)
-                ?.map((x) => PollingList.fromMap(x))
-                .toList() ??
-            [],
+
+  factory PollingDone.fromMap(Map<String, dynamic> json) => PollingDone(
+        polling: Polling.fromMap(json["polling"]),
+        pollingList: List<PollingList>.from(
+            json["polling_list"].map((x) => PollingList.fromMap(x))),
         placement: json["placement"],
-        totalVote: json["total_vote"] ?? 0,
-        allowed: json["allowed"] ?? false,
+        totalVote: json["total_vote"],
+        answer: json["answer"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -66,7 +61,7 @@ class PollingData {
         "polling_list": List<dynamic>.from(pollingList.map((x) => x.toMap())),
         "placement": placement,
         "total_vote": totalVote,
-        "allowed": allowed,
+        "answer": answer,
       };
 }
 
@@ -74,9 +69,9 @@ class Polling {
   final int id;
   final String title;
   final int audienceId;
-  final String? description;
-  final String? imageContent;
-  final String? imageHomescreen;
+  final String description;
+  final String imageContent;
+  final String imageHomescreen;
   final int point;
   final String actionLimit;
   final String type;
@@ -112,26 +107,22 @@ class Polling {
   String toJson() => json.encode(toMap());
 
   factory Polling.fromMap(Map<String, dynamic> json) => Polling(
-        id: json["id"] ?? 0,
-        title: json["title"] ?? "",
-        audienceId: json["audience_id"] ?? 0,
-        description: json["description"] ?? "",
-        imageContent: json["image_content"] ?? "",
-        imageHomescreen: json["image_homescreen"] ?? "",
-        point: json["point"] ?? 0,
-        actionLimit: json["action_limit"] ?? 'once',
-        type: json["type"] ?? '',
-        energy: json["energy"] ?? 0,
-        prods: json["prods"] ?? 0,
-        slug: json["slug"] ?? "",
-        datetimeStart: DateTime.parse(
-            json["datetime_start"] ?? "1970-01-01T00:00:00+00:00"),
-        datetimeEnd:
-            DateTime.parse(json["datetime_end"] ?? "1970-01-01T00:00:00+00:00"),
-        datetimeCreated: DateTime.parse(
-            json["datetime_created"] ?? "1970-01-01T00:00:00+00:00"),
-        datetimeUpdated: DateTime.parse(
-            json["datetime_updated"] ?? "1970-01-01T00:00:00+00:00"),
+        id: json["id"],
+        title: json["title"],
+        audienceId: json["audience_id"],
+        description: json["description"],
+        imageContent: json["image_content"],
+        imageHomescreen: json["image_homescreen"],
+        point: json["point"],
+        actionLimit: json["action_limit"],
+        type: json["type"],
+        energy: json["energy"],
+        prods: json["prods"],
+        slug: json["slug"],
+        datetimeStart: DateTime.parse(json["datetime_start"]),
+        datetimeEnd: DateTime.parse(json["datetime_end"]),
+        datetimeCreated: DateTime.parse(json["datetime_created"]),
+        datetimeUpdated: DateTime.parse(json["datetime_updated"]),
       );
 
   Map<String, dynamic> toMap() => {

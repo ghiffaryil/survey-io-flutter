@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 
-import '../../models/survey/survey_list_response_model.dart';
-import '../login/auth_local_datasource.dart';
+import '../../models/polling/polling_done_response_model.dart';
 import '../../../common/constants/variables.dart';
+import '../login/auth_local_datasource.dart';
 
-class SurveyListDatasource {
-  Future<Either<String, SurveyListResponseModel>> getSurveyList() async {
+class PollingDoneDatasource {
+  Future<Either<String, PollingDoneResponseModel>> getPollingDoneList() async {
     // Get token from Shared Preferences Local
     final token = await AuthLocalDatasource().getToken();
 
@@ -22,29 +22,31 @@ class SurveyListDatasource {
       };
 
       final body = {
-        "limit": 99999,
         "offset": 0,
-        "sort_by": [],
+        "sort_by": ["newest"],
       };
 
       final request = http.Request(
         'POST',
-        Uri.parse('${Variables.baseURL}/survey/get-list'),
+        Uri.parse('${Variables.baseURL}/polling/get-list'),
       );
 
       request.headers.addAll(headers);
-      request.body = jsonEncode(body); // Encode the body as JSON
+      request.body = jsonEncode(body);
 
       try {
         final response = await http.Client().send(request);
 
         if (response.statusCode == 200) {
           final responseBody = await response.stream.bytesToString();
-          return Right(SurveyListResponseModel.fromJson(responseBody));
+          print('Load polling today : Success');
+          return Right(PollingDoneResponseModel.fromJson(responseBody));
         } else {
+          print('Load polling today : No Data');
           return const Left('Can\'t Load data ');
         }
       } catch (e) {
+        print('Load polling today : Failed');
         return const Left('Server Error');
       }
     }

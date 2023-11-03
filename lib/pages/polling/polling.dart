@@ -1,8 +1,10 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unrelated_type_equality_checks
 
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/bloc/polling/polling_done/polling_done_bloc.dart';
+import 'package:survey_io/pages/polling/widgets/modal_polling_participate.dart';
 
 import '../../bloc/polling/polling/polling_bloc.dart';
 import '../../common/constants/icons.dart';
@@ -51,6 +53,9 @@ class _PollingPageState extends State<PollingPage> {
   initState() {
     super.initState();
     context.read<PollingBloc>().add(const PollingEvent.getPolling());
+    context
+        .read<PollingDoneBloc>()
+        .add(const PollingDoneEvent.getPollingDone());
   }
 
   // SELECTED VALUES
@@ -144,10 +149,8 @@ class _PollingPageState extends State<PollingPage> {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        // Content for Tab 1
-                        NewPolling(),
-                        // Content for Tab 2
-                        CompletedPolling()
+                        TabNewPolling(), // Content for Tab 1
+                        TabPollingDone(), // Content for Tab 2
                       ],
                     ),
                   ),
@@ -160,291 +163,403 @@ class _PollingPageState extends State<PollingPage> {
     );
   }
 
-  Widget NewPolling() {
+  Widget TabNewPolling() {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: BlocBuilder<PollingBloc, PollingState>(
         builder: (context, state) {
           return state.maybeWhen(orElse: () {
-            return Container(
-              child: const Center(
-                child: Text('No Polling here'),
-              ),
-            );
+            return Container();
           }, loading: () {
             return const Center(
               child: CircularProgressIndicator(),
             );
+          }, error: (message) {
+            return Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.1),
+                child: Text(
+                  'No polling available',
+                  textAlign: TextAlign.center,
+                  style: TextStyles.large(),
+                ));
           }, loaded: (data) {
-            return ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                // Declaration Polling variabel
-                final pollingData = data[index];
-                var selectedIndexNewPolling =
-                    newPollingSelectedValues[index] ?? '';
+            bool allPollingVoted =
+                data.every((pollingData) => pollingData.allowed == false);
 
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(width: 0.5, color: AppColors.light),
-                    borderRadius: BorderRadius.circular(20.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.1),
-                        spreadRadius: 3,
-                        blurRadius: 10,
-                        offset: const Offset(0, 3),
+            if (allPollingVoted) {
+              return Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.1),
+                  child: Text(
+                    'You have voted all polling',
+                    textAlign: TextAlign.center,
+                    style: TextStyles.large(),
+                  ));
+            } else {
+              return ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  final pollingData = data[index];
+                  var selectedIndexNewPolling =
+                      newPollingSelectedValues[index] ?? '';
+                  if (pollingData.allowed == false) {
+                    return Container();
+                  } else {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(width: 0.5, color: AppColors.light),
+                        borderRadius: BorderRadius.circular(20.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 3,
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  margin: const EdgeInsets.only(bottom: 10),
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 10),
-                        child: Text(pollingData.polling.title,
-                            style: TextStyles.h3(color: AppColors.secondary)),
-                      ),
-                      const SizedBox(height: 10),
-                      if (pollingData.placement == "Horizontal")
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // for (String pilihan in pollingData.arrayOption)
-                            for (int i = 0;
-                                i < pollingData.pollingList.length;
-                                i++)
-                              Expanded(
-                                  child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      newPollingSelectedValues[index] =
-                                          pollingData.pollingList[i].toString();
-                                    });
-                                  },
-                                  child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: selectedIndexNewPolling ==
-                                                  pollingData.pollingList[i]
-                                              ? AppColors.primary
-                                              : AppColors.info,
-                                          width: 1,
+                      margin: const EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 10),
+                            child: Text(pollingData.polling.title,
+                                style:
+                                    TextStyles.h3(color: AppColors.secondary)),
+                          ),
+                          const SizedBox(height: 10),
+                          if (pollingData.placement == 'horizontal')
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  for (int i = 0;
+                                      i < pollingData.pollingList.length;
+                                      i++)
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5.0),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              newPollingSelectedValues[index] =
+                                                  pollingData
+                                                      .pollingList[i].label;
+                                            });
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return PollingParticipateModal(
+                                                  selectedItemId: pollingData
+                                                      .pollingList[i].id,
+                                                  selectedItemLabel: pollingData
+                                                      .pollingList[i].label,
+                                                  onSelectedValueChange:
+                                                      (value) {
+                                                    // Update the selected value in the list.
+                                                    newPollingSelectedValues[
+                                                        index] = value;
+                                                  },
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Container(
+                                              padding: const EdgeInsets.all(10),
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color:
+                                                      selectedIndexNewPolling ==
+                                                              pollingData
+                                                                  .pollingList[
+                                                                      i]
+                                                                  .label
+                                                          ? AppColors.primary
+                                                          : AppColors.info,
+                                                  width: 1,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                color:
+                                                    selectedIndexNewPolling ==
+                                                            pollingData
+                                                                .pollingList[i]
+                                                                .label
+                                                        ? AppColors.primary
+                                                        : Colors.transparent,
+                                              ),
+                                              child: SelectOptionContainer(
+                                                isActive:
+                                                    selectedIndexNewPolling ==
+                                                            pollingData
+                                                                .pollingList[i]
+                                                                .label
+                                                        ? true
+                                                        : false,
+                                                pilihan: pollingData
+                                                    .pollingList[i].label,
+                                              )),
                                         ),
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: selectedIndexNewPolling ==
-                                                pollingData.pollingList[i]
-                                            ? AppColors.primary
-                                            : Colors.transparent,
                                       ),
-                                      child: SelectOptionContainer(
-                                        isActive: selectedIndexNewPolling ==
-                                                pollingData.pollingList[i]
-                                            ? true
-                                            : false,
-                                        pilihan: pollingData.pollingList[i]
-                                            .toString(),
-                                      )),
-                                ),
-                              )),
-                          ],
-                        ),
-                      if (pollingData.placement == "Vertical")
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            for (int i = 0;
-                                i < pollingData.pollingList.length;
-                                i++)
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    newPollingSelectedValues[index] =
-                                        pollingData.pollingList[i].toString();
-                                  });
-                                },
-                                child: Container(
-                                    margin: const EdgeInsets.only(bottom: 10),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: selectedIndexNewPolling ==
-                                                pollingData.pollingList[i]
-                                            ? AppColors.primary
-                                            : AppColors.info,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: selectedIndexNewPolling ==
-                                              pollingData.pollingList[i]
-                                          ? AppColors.primary
-                                          : Colors.transparent,
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 15),
-                                    width: double.infinity,
-                                    child: SelectOptionContainer(
-                                        isActive: selectedIndexNewPolling ==
-                                                pollingData.pollingList[i]
-                                            ? true
-                                            : false,
-                                        pilihan: pollingData.pollingList[i]
-                                            .toString())),
-                              ),
-                          ],
-                        ),
-                    ],
-                  ),
-                );
-              },
-            );
+                                    )
+                                ])
+                          else
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                for (int i = 0;
+                                    i < pollingData.pollingList.length;
+                                    i++)
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        newPollingSelectedValues[index] =
+                                            pollingData.pollingList[i].label;
+                                      });
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return PollingParticipateModal(
+                                            selectedItemId:
+                                                pollingData.pollingList[i].id,
+                                            selectedItemLabel: pollingData
+                                                .pollingList[i].label,
+                                            onSelectedValueChange: (value) {
+                                              // Update the selected value in the list.
+                                              newPollingSelectedValues[index] =
+                                                  value;
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                        margin:
+                                            const EdgeInsets.only(bottom: 10),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: selectedIndexNewPolling ==
+                                                    pollingData
+                                                        .pollingList[i].label
+                                                ? AppColors.primary
+                                                : AppColors.info,
+                                            width: 1,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: selectedIndexNewPolling ==
+                                                  pollingData
+                                                      .pollingList[i].label
+                                              ? AppColors.primary
+                                              : Colors.transparent,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 15),
+                                        width: double.infinity,
+                                        child: SelectOptionContainer(
+                                            isActive: selectedIndexNewPolling ==
+                                                    pollingData
+                                                        .pollingList[i].label
+                                                ? true
+                                                : false,
+                                            pilihan: pollingData
+                                                .pollingList[i].label)),
+                                  ),
+                              ],
+                            ),
+                        ],
+                      ),
+                    );
+                  }
+                },
+              );
+            }
           });
         },
       ),
     );
   }
 
-  Widget CompletedPolling() {
+  Widget TabPollingDone() {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: ListView.builder(
-          itemCount: listPollingCompleted.length,
-          itemBuilder: (context, index) {
-            final pollingCompletedData = listPollingCompleted[index];
-
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(width: 0.5, color: AppColors.light),
-                borderRadius: BorderRadius.circular(20.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 3,
-                    blurRadius: 10,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
-                    child: Text(pollingCompletedData.pollingTitle,
-                        style: TextStyles.h3(color: AppColors.secondary)),
-                  ),
-                  const SizedBox(height: 10),
-                  if (pollingCompletedData.direction == "Horizontal")
-                    Row(
-                      children: [
-                        for (int i = 0;
-                            i < pollingCompletedData.arrayOption.length;
-                            i++)
-                          Expanded(
-                              child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Container(
-                                padding: const EdgeInsets.all(10),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: pollingCompletedData.yourChoice ==
-                                            pollingCompletedData.arrayOption[i]
-                                        ? AppColors.primary
-                                        : AppColors.info,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: pollingCompletedData.yourChoice ==
-                                          pollingCompletedData.arrayOption[i]
-                                      ? AppColors.primary
-                                      : Colors.transparent,
-                                ),
-                                child: SelectOptionContainer(
-                                  isActive: pollingCompletedData.yourChoice ==
-                                          pollingCompletedData.arrayOption[i]
-                                      ? true
-                                      : false,
-                                  pilihan: pollingCompletedData.arrayOption[i],
-                                )),
-                          )),
-                      ],
-                    ),
-                  if (pollingCompletedData.direction == "Vertical")
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        for (int i = 0;
-                            i < pollingCompletedData.arrayOption.length;
-                            i++)
-                          Container(
-                              margin: const EdgeInsets.only(bottom: 10),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: pollingCompletedData.yourChoice ==
-                                          pollingCompletedData.arrayOption[i]
-                                      ? AppColors.primary
-                                      : AppColors.info,
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(50),
-                                color: pollingCompletedData.yourChoice ==
-                                        pollingCompletedData.arrayOption[i]
-                                    ? AppColors.primary
-                                    : Colors.transparent,
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 15),
-                              width: double.infinity,
-                              child: SelectOptionContainer(
-                                  isActive: pollingCompletedData.yourChoice ==
-                                          pollingCompletedData.arrayOption[i]
-                                      ? true
-                                      : false,
-                                  pilihan:
-                                      pollingCompletedData.arrayOption[i])),
-                      ],
-                    ),
-                  CustomDividers.mediumDivider(),
-                  Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        final pollingId = pollingCompletedData.pollingId;
-                        showPieChartModal(context, pollingId);
-                      },
-                      child: const Text(
-                        'Lihat Hasil',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            decorationColor: AppColors.info,
-                            decorationStyle: TextDecorationStyle.solid,
-                            decorationThickness: 1.0,
-                            color: AppColors.info,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16),
+      child: BlocBuilder<PollingDoneBloc, PollingDoneState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return Container();
+            },
+            loading: () {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+            error: (message) {
+              return Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.1),
+                  child: Text(
+                    'You haven\'t voted on the poll yet',
+                    textAlign: TextAlign.center,
+                    style: TextStyles.large(),
+                  ));
+            },
+            loaded: (data) {
+              return ListView.builder(
+                  itemCount: listPollingCompleted.length,
+                  itemBuilder: (context, index) {
+                    final pollingCompletedData = listPollingCompleted[index];
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(width: 0.5, color: AppColors.light),
+                        borderRadius: BorderRadius.circular(20.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 3,
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                  CustomDividers.verySmallDivider()
-                ],
-              ),
-            );
-          }),
+                      margin: const EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 10),
+                            child: Text(pollingCompletedData.pollingTitle,
+                                style:
+                                    TextStyles.h3(color: AppColors.secondary)),
+                          ),
+                          const SizedBox(height: 10),
+                          if (pollingCompletedData.direction == "Horizontal")
+                            Row(
+                              children: [
+                                for (int i = 0;
+                                    i < pollingCompletedData.arrayOption.length;
+                                    i++)
+                                  Expanded(
+                                      child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5.0),
+                                    child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: pollingCompletedData
+                                                        .yourChoice ==
+                                                    pollingCompletedData
+                                                        .arrayOption[i]
+                                                ? AppColors.primary
+                                                : AppColors.info,
+                                            width: 1,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color:
+                                              pollingCompletedData.yourChoice ==
+                                                      pollingCompletedData
+                                                          .arrayOption[i]
+                                                  ? AppColors.primary
+                                                  : Colors.transparent,
+                                        ),
+                                        child: SelectOptionContainer(
+                                          isActive:
+                                              pollingCompletedData.yourChoice ==
+                                                      pollingCompletedData
+                                                          .arrayOption[i]
+                                                  ? true
+                                                  : false,
+                                          pilihan: pollingCompletedData
+                                              .arrayOption[i],
+                                        )),
+                                  )),
+                              ],
+                            ),
+                          if (pollingCompletedData.direction == "Vertical")
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                for (int i = 0;
+                                    i < pollingCompletedData.arrayOption.length;
+                                    i++)
+                                  Container(
+                                      margin: const EdgeInsets.only(bottom: 10),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color:
+                                              pollingCompletedData.yourChoice ==
+                                                      pollingCompletedData
+                                                          .arrayOption[i]
+                                                  ? AppColors.primary
+                                                  : AppColors.info,
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(50),
+                                        color:
+                                            pollingCompletedData.yourChoice ==
+                                                    pollingCompletedData
+                                                        .arrayOption[i]
+                                                ? AppColors.primary
+                                                : Colors.transparent,
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 15),
+                                      width: double.infinity,
+                                      child: SelectOptionContainer(
+                                          isActive:
+                                              pollingCompletedData.yourChoice ==
+                                                      pollingCompletedData
+                                                          .arrayOption[i]
+                                                  ? true
+                                                  : false,
+                                          pilihan: pollingCompletedData
+                                              .arrayOption[i])),
+                              ],
+                            ),
+                          CustomDividers.mediumDivider(),
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                final pollingId =
+                                    pollingCompletedData.pollingId;
+                                showPieChartModal(context, pollingId);
+                              },
+                              child: const Text(
+                                'Lihat Hasil',
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.info,
+                                    decorationStyle: TextDecorationStyle.solid,
+                                    decorationThickness: 1.0,
+                                    color: AppColors.info,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
+                              ),
+                            ),
+                          ),
+                          CustomDividers.verySmallDivider()
+                        ],
+                      ),
+                    );
+                  });
+            },
+          );
+        },
+      ),
     );
   }
 
