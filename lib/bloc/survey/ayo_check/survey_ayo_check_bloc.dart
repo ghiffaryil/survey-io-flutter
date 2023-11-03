@@ -9,7 +9,7 @@ part 'survey_ayo_check_bloc.freezed.dart';
 
 class SurveyAyoCheckBloc
     extends Bloc<SurveyAyoCheckEvent, SurveyAyoCheckState> {
-  SurveyAyoCheckBloc() : super(_Initial()) {
+  SurveyAyoCheckBloc() : super(const _Initial()) {
     on<_GetSurveyAyoCheck>((event, emit) async {
       emit(const _Loading());
       final response = await SurveyAyoCheckDatasource().getSurveyAyoCheck();

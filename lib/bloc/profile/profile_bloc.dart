@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:survey_io/datasources/user/user_remote_datasource.dart';
+import 'package:survey_io/datasources/profile/profile_datasource.dart';
 
 import '../../models/user/profile_response_model.dart';
 

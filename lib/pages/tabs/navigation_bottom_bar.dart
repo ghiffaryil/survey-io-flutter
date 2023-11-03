@@ -57,6 +57,8 @@ class _BottomMenuState extends State<BottomMenu> {
           topRight: Radius.circular(35),
         ),
         child: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
           items: [
             BottomNavigationBarItem(
               icon: widget.selectedIndex == 0

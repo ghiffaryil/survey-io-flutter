@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,24 +12,20 @@ class ProfileRemoteDatasource {
     if (token.isEmpty) {
       return const Left('No access token available');
     }
-    final headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'authorization': token
-    };
+    final headers = {'authorization': token};
     final response = await http.get(
       Uri.parse('${Variables.baseURL}/user/get-profile'),
       headers: headers,
     );
 
-    if (response.statusCode == 200) {
-      return Right(ProfileResponseModel.fromJson(response.body));
-    } else {
-      print(response.body);
-      final errorResponse = json.decode(response.body) as Map<String, dynamic>;
-      final error = errorResponse['error'] as String? ?? 'server error';
-      return Left(error);
-      // return const Left('server error');
+    try {
+      if (response.statusCode == 200) {
+        return Right(ProfileResponseModel.fromJson(response.body));
+      } else {
+        return const Left('Can\'t Load data ');
+      }
+    } catch (e) {
+      return const Left('Server Error');
     }
   }
 }

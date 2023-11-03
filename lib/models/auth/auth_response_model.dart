@@ -16,8 +16,8 @@ class AuthResponseModel {
 
   factory AuthResponseModel.fromMap(Map<String, dynamic> json) =>
       AuthResponseModel(
-        accessToken: json["data"]["access_token"],
-        user: User.fromMap(json["data"]["user"]),
+        accessToken: json["data"]["access_token"] ?? "",
+        user: User.fromMap(json["data"]["user"] ?? {}),
       );
 
   Map<String, dynamic> toMap() => {
@@ -56,16 +56,17 @@ class User {
   String toJson() => json.encode(toMap());
 
   factory User.fromMap(Map<String, dynamic> json) => User(
-        id: json["id"],
-        name: json["name"],
-        email: json["email"],
-        emailVerified: json["email_verified"],
-        active: json["active"],
-        refcode: json["refcode"],
-        ktp: json["ktp"],
-        npwp: json["npwp"],
-        platform: json["platform"],
-        point: json["point"],
+        id: json["id"] ?? 0, // Provide a default value if it's null
+        name: json["name"] ?? "",
+        email: json["email"] ?? "",
+        emailVerified:
+            json["email_verified"] ?? 0, // Provide a default value if it's null
+        active: json["active"] ?? 0, // Provide a default value if it's null
+        refcode: json["refcode"] ?? "",
+        ktp: json["ktp"] ?? "",
+        npwp: json["npwp"] ?? "",
+        platform: json["platform"] ?? "",
+        point: json["point"] ?? 0, // Provide a default value if it's null
       );
 
   Map<String, dynamic> toMap() => {

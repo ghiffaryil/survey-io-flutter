@@ -7,8 +7,8 @@ import '../../models/survey/survey_list_response_model.dart';
 import '../login/auth_local_datasource.dart';
 import '../../../common/constants/variables.dart';
 
-class SurveyListDatasource {
-  Future<Either<String, SurveyListResponseModel>> getSurveyList() async {
+class SurveyPopularListDatasource {
+  Future<Either<String, SurveyListResponseModel>> getSurveyPopularList() async {
     // Get token from Shared Preferences Local
     final token = await AuthLocalDatasource().getToken();
 
@@ -22,7 +22,7 @@ class SurveyListDatasource {
       };
 
       final body = {
-        "limit": 99999,
+        "limit": 3,
         "offset": 0,
         "sort_by": [],
       };

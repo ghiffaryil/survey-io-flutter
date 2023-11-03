@@ -9,7 +9,7 @@ part 'polling_today_state.dart';
 part 'polling_today_bloc.freezed.dart';
 
 class PollingTodayBloc extends Bloc<PollingTodayEvent, PollingTodayState> {
-  PollingTodayBloc() : super(_Initial()) {
+  PollingTodayBloc() : super(const _Initial()) {
     on<_GetPollingToday>((event, emit) async {
       emit(const _Loading());
       final response = await PollingTodayDatasource().getPollingTodayList();

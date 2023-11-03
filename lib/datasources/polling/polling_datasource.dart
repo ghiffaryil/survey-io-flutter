@@ -15,28 +15,39 @@ class PollingDatasource {
     if (token.isEmpty) {
       return const Left('No access token available');
     } else {
-      final headers = {'authorization': token};
-
-      final body = {
-        "limit": 10,
-        "offset": 0,
-        "sort_by": ["lowestEnergy"],
+      final headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token
       };
 
-      final response = await http.post(
-        Uri.parse('${Variables.baseURL}/polling/get-list/'),
-        headers: headers,
-        body: body,
+      final body = {
+        "offset": 0,
+        "sort_by": ["newest"],
+      };
+
+      final request = http.Request(
+        'POST',
+        Uri.parse('${Variables.baseURL}/polling/get-list'),
       );
 
-      if (response.statusCode == 200) {
-        return Right(PollingResponseModel.fromJson(response.body));
-      } else {
-        final errorResponse =
-            json.decode(response.body) as Map<String, dynamic>;
-        final error = errorResponse['error'] as String? ?? 'server error';
-        return Left(error);
-        // return const Left('server error');
+      request.headers.addAll(headers);
+      request.body = jsonEncode(body);
+
+      try {
+        final response = await http.Client().send(request);
+
+        if (response.statusCode == 200) {
+          final responseBody = await response.stream.bytesToString();
+          print('Load polling today : Success');
+          return Right(PollingResponseModel.fromJson(responseBody));
+        } else {
+          print('Load polling today : No Data');
+          return const Left('Can\'t Load data ');
+        }
+      } catch (e) {
+        print('Load polling today : Failed');
+        return const Left('Server Error');
       }
     }
   }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:survey_io/bloc/polling/polling/polling_bloc.dart';
+import 'package:survey_io/bloc/polling/polling_done/polling_done_bloc.dart';
 import 'package:survey_io/bloc/survey/ayo_check/survey_ayo_check_bloc.dart';
-import 'package:survey_io/bloc/survey/bloc/survey_list_bloc.dart';
+import 'package:survey_io/bloc/survey/survey_list/survey_list_bloc.dart';
+import 'package:survey_io/bloc/survey/survey_popular/survey_popular_bloc.dart';
 import 'package:survey_io/pages/splashscreen/splashscreen.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,6 +33,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PollingTodayBloc(),
+        ),
+        BlocProvider(
+          create: (context) => PollingDoneBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyPopularBloc(),
         ),
         BlocProvider(
           create: (context) => SurveyListBloc(),

@@ -20,14 +20,18 @@ class AuthRemoteDatasource {
       body: requestModel.toJson(),
     );
 
-    if (response.statusCode == 200) {
-      return Right(AuthResponseModel.fromJson(response.body));
-    } else {
+    try {
       print(response.body);
-      final errorResponse = json.decode(response.body) as Map<String, dynamic>;
-      final error = errorResponse['error'] as String? ?? 'server error';
-      return Left(error);
-      // return const Left('server error');
+      if (response.statusCode == 200) {
+        return Right(AuthResponseModel.fromJson(response.body));
+      } else {
+        final errorResponse =
+            json.decode(response.body) as Map<String, dynamic>;
+        final error = errorResponse['error'] as String? ?? 'Login Failed';
+        return Left(error);
+      }
+    } catch (e) {
+      return const Left('Login Failed');
     }
   }
 

@@ -40,11 +40,14 @@ class _UserInformationState extends State<UserInformation> {
             return state.maybeWhen(orElse: () {
               return Container();
             }, loading: () {
-              return Center(
-                child: Container(),
-              );
-            }, error: (message) {
               return Container();
+            }, error: (message) {
+              return Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    message,
+                    textAlign: TextAlign.center,
+                  ));
             }, loaded: (data) {
               return Row(
                 children: [
