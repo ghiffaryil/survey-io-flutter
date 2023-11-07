@@ -8,6 +8,7 @@ import 'package:survey_io/pages/splashscreen/splashscreen.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/login/login_bloc.dart';
+import 'bloc/polling/polling_result/polling_result_bloc.dart';
 import 'bloc/polling/polling_today/polling_today_bloc.dart';
 import 'bloc/profile/profile_bloc.dart';
 
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PollingDoneBloc(),
+        ),
+        BlocProvider(
+          create: (context) => PollingResultBloc(),
         ),
         BlocProvider(
           create: (context) => SurveyPopularBloc(),

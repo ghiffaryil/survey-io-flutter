@@ -39,14 +39,14 @@ class PollingDatasource {
 
         if (response.statusCode == 200) {
           final responseBody = await response.stream.bytesToString();
-          print('Load polling today : Success');
+          print('Load Polling New : Success');
           return Right(PollingResponseModel.fromJson(responseBody));
         } else {
-          print('Load polling today : No Data');
+          print('Load Polling New : No Data');
           return const Left('Can\'t Load data ');
         }
       } catch (e) {
-        print('Load polling today : Failed');
+        print('Load Polling New : Failed');
         return const Left('Server Error');
       }
     }

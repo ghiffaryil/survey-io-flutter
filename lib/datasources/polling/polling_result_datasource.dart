@@ -1,17 +1,17 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 
-import '../../models/polling/polling_today_response_model.dart';
+import '../../models/polling/polling_result_response_model.dart';
 import '../login/auth_local_datasource.dart';
 import '../../../common/constants/variables.dart';
 
-class PollingTodayDatasource {
-  Future<Either<String, PollingTodayResponseModel>>
-      getPollingTodayList() async {
+class PollingResultDatasource {
+  Future<Either<String, PollingResultResponseModel>> getPollingResultList(
+      int pollingId) async {
     // Get token from Shared Preferences Local
     final token = await AuthLocalDatasource().getToken();
+
+    print('pollingId => $pollingId');
 
     if (token.isEmpty) {
       return const Left('No access token available');
@@ -22,33 +22,27 @@ class PollingTodayDatasource {
         'authorization': token
       };
 
-      final body = {
-        "offset": 0,
-        "sort_by": ["newest"],
-      };
-
       final request = http.Request(
-        'POST',
-        Uri.parse('${Variables.baseURL}/polling/today'),
+        'GET',
+        Uri.parse('${Variables.baseURL}/polling/result?polling_id=$pollingId'),
       );
 
       request.headers.addAll(headers);
-      request.body = jsonEncode(body);
 
       try {
         final response = await http.Client().send(request);
-
         if (response.statusCode == 200) {
           final responseBody = await response.stream.bytesToString();
-          print('Load Polling Today : Success');
-          return Right(PollingTodayResponseModel.fromJson(responseBody));
+          // return Right('Load Polling Done : Success');
+          print(responseBody);
+          return Right(PollingResultResponseModel.fromJson(responseBody));
         } else {
-          print('Load Polling Today : No Data');
-          return const Left('Can\'t Load data ');
+          return const Left('Vote failed!');
+          // return const Left('server error');
         }
       } catch (e) {
-        print('Load Polling Today : Failed');
-        return Left('Can\'t loaded data ');
+        print('Load Polling Done : Failed');
+        return const Left('Server Error');
       }
     }
   }

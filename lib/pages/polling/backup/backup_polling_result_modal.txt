@@ -1,0 +1,432 @@
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../bloc/polling/polling_done/polling_done_bloc.dart';
+
+import '../../../common/constants/icons.dart';
+import '../../../common/constants/widgets/indicator.dart';
+import '../../../common/constants/styles.dart';
+import '../../../common/constants/colors.dart';
+import '../../../common/components/divider.dart';
+import '../../../common/components/label.dart';
+import '../../../common/components/modal_indicator.dart';
+
+import '../../../datasources/polling/list_polling_result.dart';
+import '../../../datasources/polling/list_polling_completed.dart';
+import '../../../datasources/polling/list_polling_new.dart';
+
+import '../../../models/polling/polling_completed.dart';
+import '../../../models/polling/polling_model.dart';
+import '../../../models/polling/polling_result.dart';
+
+import 'container_select_option.dart';
+
+class TabPollingDone extends StatefulWidget {
+  const TabPollingDone({super.key});
+
+  @override
+  State<TabPollingDone> createState() => _TabPollingDoneState();
+}
+
+class _TabPollingDoneState extends State<TabPollingDone> {
+  List<PollingResultModel> listPollingResult =
+      ListPollingResult.getPollingResult();
+
+  List<PollingModel> listPollingNew = ListNewPolling.getNewPolling();
+
+  List<PollingCompletedModel> listPollingCompleted =
+      ListPollingCompleted.getCompletedPolling();
+
+  // Define a mapping of color names to colors
+  Map<String, Color> colorMap = {
+    "blue": AppColors.info,
+    "red": AppColors.primary,
+    "yellow": AppColors.warning,
+    "green": AppColors.success,
+    // Add more color mappings as needed
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: BlocBuilder<PollingDoneBloc, PollingDoneState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return Container();
+            },
+            loading: () {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+            error: (message) {
+              return Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.1),
+                  child: Text(
+                    'You haven\'t voted on the poll yet',
+                    textAlign: TextAlign.center,
+                    style: TextStyles.large(),
+                  ));
+            },
+            loaded: (data) {
+              return ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    final pollingData = data[index];
+                    final pollingDoneData = pollingData.polling;
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(width: 0.5, color: AppColors.light),
+                        borderRadius: BorderRadius.circular(20.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 3,
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      margin: const EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 10),
+                            child: Text(pollingDoneData.title,
+                                style:
+                                    TextStyles.h3(color: AppColors.secondary)),
+                          ),
+                          const SizedBox(height: 10),
+                          if (pollingData.placement == "horizontal")
+                            Row(
+                              children: [
+                                for (int i = 0;
+                                    i < pollingData.pollingList.length;
+                                    i++)
+                                  Expanded(
+                                      child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5.0),
+                                    child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: pollingData.answer ==
+                                                    pollingData
+                                                        .pollingList[i].id
+                                                ? AppColors.primary
+                                                : AppColors.info,
+                                            width: 1,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: pollingData.answer ==
+                                                  pollingData.pollingList[i].id
+                                              ? AppColors.primary
+                                              : Colors.transparent,
+                                        ),
+                                        child: SelectOptionContainer(
+                                          isActive: pollingData.answer ==
+                                                  pollingData.pollingList[i].id
+                                              ? true
+                                              : false,
+                                          pilihan:
+                                              pollingData.pollingList[i].label,
+                                        )),
+                                  )),
+                              ],
+                            ),
+                          if (pollingData.placement == "vertical")
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                for (int i = 0;
+                                    i < pollingData.pollingList.length;
+                                    i++)
+                                  Container(
+                                      margin: const EdgeInsets.only(bottom: 10),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: pollingData.answer ==
+                                                  pollingData.pollingList[i].id
+                                              ? AppColors.primary
+                                              : AppColors.info,
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(50),
+                                        color: pollingData.answer ==
+                                                pollingData.pollingList[i].id
+                                            ? AppColors.primary
+                                            : Colors.transparent,
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 15),
+                                      width: double.infinity,
+                                      child: SelectOptionContainer(
+                                          isActive: pollingData.answer ==
+                                                  pollingData.pollingList[i].id
+                                              ? true
+                                              : false,
+                                          pilihan: data[index]
+                                              .pollingList[i]
+                                              .label)),
+                              ],
+                            ),
+                          CustomDividers.smallDivider(),
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                final pollingId = pollingDoneData.id;
+                                showPieChartModal(context, pollingId);
+                              },
+                              child: const Text(
+                                'Lihat Hasil',
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.info,
+                                    decorationStyle: TextDecorationStyle.solid,
+                                    decorationThickness: 1.0,
+                                    color: AppColors.info,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
+                              ),
+                            ),
+                          ),
+                          CustomDividers.verySmallDivider()
+                        ],
+                      ),
+                    );
+                  });
+            },
+          );
+        },
+      ),
+    );
+  }
+
+    // SHOW MODAL
+  void showPieChartModal(BuildContext context, int selectedPollingId) {
+    showModalBottomSheet<void>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25.0),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        var selectedPolling = listPollingResult.firstWhere(
+          (item) => item.pollingId == selectedPollingId,
+          // orElse: () => null,
+        );
+
+        int touchedIndex = 1;
+
+        // PIE CHART
+        List<PieChartSectionData> pieChartData = [];
+
+        // BAR CHART
+        List<BarChartGroupData> barChartData = [];
+
+        // Create PieChartSectionData for each option
+        for (int i = 0; i < selectedPolling.arrayOption.length; i++) {
+          double dataValue = double.parse(selectedPolling.arrayVoterCount[i]);
+          double percentage =
+              double.parse(selectedPolling.arrayVotersPercent[i]);
+
+          // Format the value and percentage as strings
+          String formattedValue = dataValue.toStringAsFixed(0);
+          String formattedPercentage = percentage.toStringAsFixed(1);
+          String title = '$formattedPercentage% \n ($formattedValue)';
+
+          // Use the color mapping to get the corresponding color
+          String colorName = selectedPolling.arrayPollingColor[i];
+          Color sectionColor = colorMap[colorName] ?? Colors.black;
+
+          barChartData.add(
+            BarChartGroupData(
+              x: i,
+              barsSpace: 5,
+              groupVertically: true,
+              barRods: [
+                BarChartRodData(
+                  fromY: dataValue,
+                  color: sectionColor,
+                  width: 30,
+                  borderRadius: BorderRadius.circular(0),
+                  toY: 0,
+                  // borderSide:
+                  //     BorderSide(strokeAlign: BorderSide.strokeAlignInside),
+                ),
+              ],
+            ),
+          );
+
+          pieChartData.add(
+            PieChartSectionData(
+              title: title,
+              value: dataValue,
+              color: sectionColor,
+              titleStyle: TextStyles.regular(
+                  color: Colors.white, fontWeight: FontWeight.bold),
+              radius: MediaQuery.of(context).size.width * 0.3,
+            ),
+          );
+        }
+
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.75,
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              color: Colors.white),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const IndicatorModal(),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(flex: 8, child: Container()),
+                      Image.asset(
+                        IconName.pieChart,
+                        width: 60,
+                      ),
+                    ],
+                  ),
+                  LabelInput(
+                      labelText: 'Hasil Polling',
+                      labelStyle: TextStyles.h2(color: AppColors.secondary))
+                ],
+              ),
+              const SizedBox(height: 20),
+              Text(
+                selectedPolling.pollingTitle,
+                textAlign: TextAlign.left,
+                style: TextStyles.h4(color: AppColors.secondary),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                "${selectedPolling.voter} Votes",
+                textAlign: TextAlign.left,
+                style: TextStyles.medium(color: AppColors.secondary),
+              ),
+              CustomDividers.smallDivider(),
+              Center(
+                child: SizedBox(
+                    height: 300,
+                    child: selectedPolling.chartMode == "pie"
+                        ? PieChart(
+                            PieChartData(
+                              centerSpaceRadius: 0,
+                              sectionsSpace: 7,
+                              borderData: FlBorderData(show: true),
+                              sections: pieChartData,
+                            ),
+                          )
+                        : BarChart(BarChartData(
+                            barGroups: barChartData,
+                            groupsSpace: 10,
+                            alignment: BarChartAlignment.center,
+                            gridData: const FlGridData(show: false),
+                            borderData: FlBorderData(
+                                border: const Border(
+                              bottom: BorderSide(
+                                color: AppColors
+                                    .secondary, // Specify the border color
+                                width: 2.0, // Specify the border width
+                              ),
+                            )),
+                            minY: 0,
+                            maxY: 1500,
+                            titlesData: FlTitlesData(
+                              bottomTitles: const AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: false,
+                                ),
+                              ),
+                              leftTitles: const AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: false,
+                                ),
+                              ),
+                              topTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                showTitles: true,
+                                getTitlesWidget: (value, meta) {
+                                  String text = '';
+                                  List percentArray =
+                                      selectedPolling.arrayVotersPercent;
+                                  switch (value.toInt()) {
+                                    case 0:
+                                      text = '${percentArray[0]}%';
+                                      break;
+                                    case 1:
+                                      text = '${percentArray[1]}%';
+                                      break;
+                                    case 2:
+                                      text = '${percentArray[2]}%';
+                                      break;
+                                  }
+
+                                  return Text(text);
+                                },
+                              )),
+                              rightTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                            )))),
+              ),
+              CustomDividers.mediumDivider(),
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: List.generate(
+                      selectedPolling.arrayOption.length,
+                      (index) {
+                        String colorName =
+                            selectedPolling.arrayPollingColor[index];
+                        Color indicator = colorMap[colorName] ?? Colors.black;
+
+                        String indicatorText =
+                            selectedPolling.arrayOption[index];
+
+                        return Indicator(
+                          color: indicator,
+                          text: indicatorText,
+                          isSquare: false,
+                          size: 14,
+                          textColor: touchedIndex == index
+                              ? indicator // Use the same color as the indicator when touched
+                              : AppColors.secondary,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}

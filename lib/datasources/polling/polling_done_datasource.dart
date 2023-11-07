@@ -28,7 +28,7 @@ class PollingDoneDatasource {
 
       final request = http.Request(
         'POST',
-        Uri.parse('${Variables.baseURL}/polling/get-list'),
+        Uri.parse('${Variables.baseURL}/polling/done'),
       );
 
       request.headers.addAll(headers);
@@ -39,14 +39,14 @@ class PollingDoneDatasource {
 
         if (response.statusCode == 200) {
           final responseBody = await response.stream.bytesToString();
-          print('Load polling today : Success');
+          print('Load Polling Done : Success');
           return Right(PollingDoneResponseModel.fromJson(responseBody));
         } else {
-          print('Load polling today : No Data');
+          print('Load Polling Done : No Data');
           return const Left('Can\'t Load data ');
         }
       } catch (e) {
-        print('Load polling today : Failed');
+        print('Load Polling Done : Failed');
         return const Left('Server Error');
       }
     }
