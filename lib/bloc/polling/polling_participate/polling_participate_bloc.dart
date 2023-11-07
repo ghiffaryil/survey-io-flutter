@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:survey_io/datasources/polling/polling_participate_datasource.dart';
+
+import '../../../datasources/polling/polling_participate_datasource.dart';
 
 part 'polling_participate_event.dart';
 part 'polling_participate_state.dart';
@@ -12,7 +13,7 @@ class PollingParticipateBloc
     on<_SetPollingParticipate>((event, emit) async {
       emit(const _Loading());
       final response =
-          await PollingParticipateDatasource().setPollingParticipate();
+          await PollingParticipateDatasource().setPollingParticipate(1);
       response.fold(
         (l) => emit(_Error(l)),
         (r) => emit(_Loaded(r)),
