@@ -54,9 +54,8 @@ class _MainCardState extends State<MainCard> {
   void startCountdown() {
     const duration = Duration(seconds: 1);
     Timer.periodic(duration, (Timer timer) {
-      // DateTime now = DateTime.now();
-      DateTime now =
-          DateTime.now().toUtc().add(const Duration(hours: 7)); // GMT+7
+      DateTime now = DateTime.now();
+      // DateTime now = DateTime.now().toUtc().add(const Duration(hours: 7)); // GMT+7
       DateTime midnight = DateTime(now.year, now.month, now.day, 23, 59, 59);
 
       if (now.isAfter(midnight)) {
@@ -441,7 +440,7 @@ class _MainCardState extends State<MainCard> {
                                                     width: 10,
                                                   ),
                                                   Text(
-                                                    pollingTodayData.energy
+                                                    pollingTodayData.point
                                                         .toString(),
                                                     style: TextStyles.h6(
                                                         color: AppColors

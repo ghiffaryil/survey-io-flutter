@@ -11,7 +11,9 @@ import '../../../common/constants/styles.dart';
 import 'reedem.dart';
 
 class ReedemGiftCardSuccess extends StatefulWidget {
-  const ReedemGiftCardSuccess({super.key});
+  final int point;
+
+  const ReedemGiftCardSuccess({super.key, required this.point});
 
   @override
   State<ReedemGiftCardSuccess> createState() => _ReedemGiftCardSuccessState();
@@ -48,7 +50,7 @@ class _ReedemGiftCardSuccessState extends State<ReedemGiftCardSuccess> {
             ),
             CustomDividers.verySmallDivider(),
             Text(
-              '100 koin telah berhasil ditambahkan ke Celengan!',
+              '${widget.point} koin telah berhasil ditambahkan ke Celengan!',
               textAlign: TextAlign.center,
               style: TextStyles.extraLarge(color: AppColors.white),
             ),

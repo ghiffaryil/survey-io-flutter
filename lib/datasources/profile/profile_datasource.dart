@@ -12,6 +12,7 @@ class ProfileRemoteDatasource {
     if (token.isEmpty) {
       return const Left('No access token available');
     }
+    
     final headers = {'authorization': token};
     final response = await http.get(
       Uri.parse('${Variables.baseURL}/user/get-profile'),

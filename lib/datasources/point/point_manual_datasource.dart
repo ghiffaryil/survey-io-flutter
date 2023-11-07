@@ -5,9 +5,9 @@ import 'package:http/http.dart' as http;
 import '../login/auth_local_datasource.dart';
 import '../../../common/constants/variables.dart';
 
-class PollingParticipateDatasource {
-  Future<Either<String, String>> setPollingParticipate(
-      int pollingListId) async {
+class PointManualDatasource {
+  Future<Either<String, String>> setPointManual(
+      int point, String phoneNumber) async {
     // Get token from Shared Preferences Local
     final token = await AuthLocalDatasource().getToken();
 
@@ -17,16 +17,16 @@ class PollingParticipateDatasource {
       final headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'authorization': token
       };
 
       final body = {
-        "polling_list_id": pollingListId,
+        "phone_number": phoneNumber,
+        "point": point,
       };
 
       final request = http.Request(
         'POST',
-        Uri.parse('${Variables.baseURL}/polling/participate'),
+        Uri.parse('${Variables.baseURL}/user/point/manual'),
       );
 
       request.headers.addAll(headers);
@@ -34,15 +34,20 @@ class PollingParticipateDatasource {
 
       try {
         final response = await http.Client().send(request);
+        final responseBody = await response.stream.bytesToString();
+
         if (response.statusCode == 200) {
-          print('Vote Polling Done : Success');
-          return const Right('Vote Success!');
+          print('Point Manual : Success');
+          return const Right('Point Sent!');
         } else {
-          return const Left('Vote failed!');
+          final Map<String, dynamic> errorResponse = json.decode(responseBody);
+          final errorMessage = errorResponse['error'] as String;
+
+          return Left(errorMessage);
         }
       } catch (e) {
-        print('Server Error');
-        return const Left('Server Error');
+        print('Point Manual : Failed');
+        return Left(e.toString());
       }
     }
   }

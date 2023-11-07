@@ -9,11 +9,13 @@ import 'package:survey_io/common/constants/icons.dart';
 import 'package:survey_io/datasources/polling/list_polling_today.dart';
 import 'package:survey_io/models/polling/polling_model.dart';
 import 'package:survey_io/datasources/survey/list_survey_popular.dart';
+import 'package:survey_io/pages/login/login.dart';
 import 'package:survey_io/pages/survey/list_survey.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/pages/tabs/floating_icon.dart';
 import 'package:survey_io/pages/home/widgets/main_card.dart';
 
+import '../../datasources/login/auth_local_datasource.dart';
 import '../notification/notification.dart';
 import '../../common/constants/widgets/profile_card.dart';
 import '../../common/constants/widgets/red_shape_card.dart';
@@ -30,6 +32,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
+  bool isLogged = true;
+
   List<SurveyModelData> listDataPopularSurvey =
       ListSurveyPopular.getSurveyPopular();
   List<PollingModel> listPollingToday = ListPollingToday.getPollingToday();
@@ -38,6 +42,19 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+  }
+
+  // Function to check the login status
+  void checkLoginStatus() async {
+    final token = await AuthLocalDatasource().getToken();
+    if (token.isEmpty) {
+      setState(() {
+        isLogged = false;
+      });
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+    }
   }
 
   @override
@@ -89,12 +106,19 @@ class _HomePageState extends State<HomePage> {
                     },
                   );
                 },
-                // loading: () {
-                //   return const SizedBox(
-                //     height: 40,
-                //     child: CircularProgressIndicator(),
-                //   );
-                // },
+                loading: () {
+                  return FloatingProfileCard(
+                    userFrontName: '-',
+                    iconImage: Image.asset(
+                      IconName.totalSurvey,
+                      width: 40,
+                      height: 40,
+                    ),
+                    label: '-',
+                    labelValue: 0,
+                    onPressed: () {},
+                  );
+                },
                 error: (error) {
                   return FloatingProfileCard(
                     userFrontName: '-',
@@ -115,9 +139,9 @@ class _HomePageState extends State<HomePage> {
                     },
                   );
                 },
-                loaded: (profile) {
+                loaded: (data) {
                   return FloatingProfileCard(
-                    userFrontName: profile.user.name.split(' ')[0],
+                    userFrontName: data.user.name.split(' ')[0],
                     iconImage: Image.asset(
                       IconName.totalSurvey,
                       width: 40,

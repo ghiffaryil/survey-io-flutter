@@ -15,7 +15,15 @@ class AuthLocalDatasource {
   Future<bool> removeAuthData() async {
     final prefs = await SharedPreferences.getInstance();
     final result = await prefs.remove('auth');
+    print(result);
     return result;
+  }
+
+  Future<bool> clearAuthData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final clear = await prefs.clear();
+    print(clear);
+    return clear;
   }
 
   // GET TOKEN

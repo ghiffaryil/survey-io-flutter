@@ -11,18 +11,20 @@ import '../../../../common/components/text_button.dart';
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';
 import '../../../../common/constants/styles.dart';
+import '../../../common/components/elevated_button.dart';
+import '../../../common/constants/widgets/indicator.dart';
 import '../../invite/invite.dart';
 import '../../login/login.dart';
 import '../edit_profile.dart';
 
-class ListMenu extends StatefulWidget {
-  const ListMenu({super.key});
+class ListMenuProfile extends StatefulWidget {
+  const ListMenuProfile({super.key});
 
   @override
-  State<ListMenu> createState() => _ListMenuState();
+  State<ListMenuProfile> createState() => _ListMenuProfileState();
 }
 
-class _ListMenuState extends State<ListMenu> {
+class _ListMenuProfileState extends State<ListMenuProfile> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -149,17 +151,70 @@ class _ListMenuState extends State<ListMenu> {
           },
           builder: (context, state) => state.maybeWhen(orElse: () {
             return TextButtonOutlined.secondary(
+                backgroundColor: AppColors.bg,
                 text: 'Logout',
                 onPressed: () {
                   context.read<LogoutBloc>().add(const LogoutEvent.logout());
                 });
           }, loaded: () {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: Container(),
             );
           }),
         ),
       ),
+    );
+  }
+
+  void showModalLogoutConfirmation(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25.0),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.35,
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              color: Colors.white),
+          child: Column(
+            children: [
+              const IndicatorModal(),
+              CustomDividers.regularDivider(),
+              const Text(
+                'Anda yakin ingin keluar dari aplikasi ini?',
+                style: TextStyle(fontSize: 18),
+              ),
+              CustomDividers.regularDivider(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ButtonOutlined.primary(
+                      text: 'Batal',
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  ButtonFilled.primary(
+                      text: 'Keluar',
+                      onPressed: () {
+                        context
+                            .read<LogoutBloc>()
+                            .add(const LogoutEvent.logout());
+                      }),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

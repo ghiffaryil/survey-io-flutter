@@ -24,7 +24,6 @@ class SurveyPopularListDatasource {
       final body = {
         "limit": 3,
         "offset": 0,
-        "sort_by": [],
       };
 
       final request = http.Request(
@@ -38,8 +37,11 @@ class SurveyPopularListDatasource {
       try {
         final response = await http.Client().send(request);
 
+        print(response);
+
         if (response.statusCode == 200) {
           final responseBody = await response.stream.bytesToString();
+          print(responseBody);
           return Right(SurveyListResponseModel.fromJson(responseBody));
         } else {
           return const Left('Can\'t Load data ');

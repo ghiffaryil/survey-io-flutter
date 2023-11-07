@@ -77,10 +77,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: PlainAppBar(
         leadingIcon: Icons.arrow_back_ios,
-        iconColor: AppColors.secondary,
-        onPressed: () {
-          Navigator.pop(context);
-        },
+        iconColor: AppColors.white,
+        onPressed: () {},
       ),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
@@ -184,10 +182,6 @@ class _LoginPageState extends State<LoginPage> {
               }));
             },
             error: (message) {
-              // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              //   content: Text('$message'),
-              // ));
-
               Fluttertoast.showToast(
                   msg: message,
                   toastLength: Toast.LENGTH_SHORT,

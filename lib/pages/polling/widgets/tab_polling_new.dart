@@ -3,12 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../reedem/reedem_gift_card.dart';
+import '../../../bloc/polling/polling_participate/polling_participate_bloc.dart';
+import '../../../common/constants/icons.dart';
 import '../../../bloc/polling/polling/polling_bloc.dart';
 import '../../../common/components/elevated_button.dart';
 import '../../../common/constants/padding.dart';
 import '../../../common/constants/styles.dart';
 import '../../../common/constants/colors.dart';
-import '../../../datasources/polling/polling_participate_datasource.dart';
 import 'container_select_option.dart';
 
 class TabNewPolling extends StatefulWidget {
@@ -21,8 +22,6 @@ class TabNewPolling extends StatefulWidget {
 class _TabNewPollingState extends State<TabNewPolling> {
   // SELECTED VALUES
   Map<int, String> newPollingSelectedValues = {};
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +116,7 @@ class _TabNewPollingState extends State<TabNewPolling> {
                                             _showPollingParticipateModal(
                                               context,
                                               pollingData.pollingList[i].id,
+                                              pollingData.polling.point,
                                               pollingData.pollingList[i].label,
                                               (value) {
                                                 newPollingSelectedValues[
@@ -182,6 +182,7 @@ class _TabNewPollingState extends State<TabNewPolling> {
                                       _showPollingParticipateModal(
                                         context,
                                         pollingData.pollingList[i].id,
+                                        pollingData.polling.point,
                                         pollingData.pollingList[i].label,
                                         (value) {
                                           // Update the selected value in the list.
@@ -224,6 +225,55 @@ class _TabNewPollingState extends State<TabNewPolling> {
                                   ),
                               ],
                             ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Image.asset(
+                                        IconName.point,
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        pollingData.polling.point.toString(),
+                                        style: TextStyles.regular(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Image.asset(
+                                        IconName.account,
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        pollingData.totalVote.toString(),
+                                        style: TextStyles.regular(),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     );
@@ -237,8 +287,12 @@ class _TabNewPollingState extends State<TabNewPolling> {
     );
   }
 
-  void _showPollingParticipateModal(BuildContext context, int selectedItemId,
-      String selectedItemLabel, Function(String) onSelectedValueChange) {
+  void _showPollingParticipateModal(
+      BuildContext context,
+      int selectedPollingListId,
+      int point,
+      String selectedItemLabel,
+      Function(String) onSelectedValueChange) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -295,8 +349,7 @@ class _TabNewPollingState extends State<TabNewPolling> {
                           onSelectedValueChange('');
                           newPollingSelectedValues = {};
                         });
-                        print(newPollingSelectedValues);
-                        Navigator.of(context).pop(); // Close the dialog
+                        Navigator.of(context).pop();
                       },
                     ),
                   ),
@@ -309,23 +362,15 @@ class _TabNewPollingState extends State<TabNewPolling> {
                       text: 'Submit',
                       height: 40,
                       onPressed: () async {
-                        final datasource = PollingParticipateDatasource();
-                        final result = await datasource
-                            .setPollingParticipate(selectedItemId);
-
-                        if (result.isRight()) {
-                          onSelectedValueChange(selectedItemLabel);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ReedemGiftCard()));
-                        } else {
-                          final error = result.fold((l) => l, (r) => '');
-                          print('Error: $error');
-                          onSelectedValueChange('');
-                          Navigator.of(context).pop(); // Close the dialog
-                        }
+                        context.read<PollingParticipateBloc>().add(
+                            PollingParticipateEvent.setPollingParticipate(
+                                selectedPollingListId));
+                        onSelectedValueChange(selectedItemLabel);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ReedemGiftCard(point: point)));
                       },
                     ),
                   ),

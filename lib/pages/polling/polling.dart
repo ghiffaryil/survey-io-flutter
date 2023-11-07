@@ -9,8 +9,6 @@ import '../../common/constants/styles.dart';
 import '../../common/constants/colors.dart';
 import '../../common/components/label.dart';
 import '../../common/components/appbar_plain.dart';
-
-import '../reedem/reedem_gift_card.dart';
 import 'widgets/tab_polling_done.dart';
 import 'widgets/tab_polling_new.dart';
 
@@ -57,18 +55,10 @@ class _PollingPageState extends State<PollingPage> {
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.all(15),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ReedemGiftCard()));
-                  },
-                  child: LabelInput(
-                      labelText: 'Polling',
-                      labelStyle:
-                          TextStyles.h2ExtraBold(color: AppColors.secondary)),
-                ),
+                child: LabelInput(
+                    labelText: 'Polling',
+                    labelStyle:
+                        TextStyles.h2ExtraBold(color: AppColors.secondary)),
               ),
             ),
             Container(

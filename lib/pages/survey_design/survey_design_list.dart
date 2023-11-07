@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/pages/login/login.dart';
 
 // Import Component
 import '../../../common/constants/styles.dart';
@@ -11,8 +15,10 @@ import '../../../common/components/divider.dart';
 import '../../../common/components/appbar.dart';
 import '../../../common/constants/icons.dart';
 import '../../../common/constants/images.dart';
+import '../../bloc/profile/profile_bloc.dart';
 import '../../common/constants/widgets/profile_card.dart';
 import '../../common/constants/widgets/red_shape_card.dart';
+import '../../datasources/login/auth_local_datasource.dart';
 import '../../datasources/survey_design/list_survey_design.dart';
 import '../../../models/survey_design/survey_design_model.dart';
 import '../notification/notification.dart';
@@ -30,13 +36,36 @@ class SurveyDesignList extends StatefulWidget {
 
 class _SurveyDesignListState extends State<SurveyDesignList> {
   int selectedIndex = 1;
+  bool isLogged = true;
 
   List<SurveyDesignModel> listSurveyDesign = MySurveyDesign.getSurveyDesign();
 
   @override
   void initState() {
     super.initState();
+    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
   }
+
+  
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    checkLoginStatus(); // Check the login status when the widget is built
+  }
+
+  // Function to check the login status
+  void checkLoginStatus() async {
+    final token = await AuthLocalDatasource().getToken();
+    if (token.isEmpty) {
+      setState(() {
+        isLogged = false;
+      });
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+    }
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -62,18 +91,81 @@ class _SurveyDesignListState extends State<SurveyDesignList> {
       body: Stack(children: [
         mainSection(),
         const RedShapeCircular(),
-        FloatingProfileCard(
-          userFrontName: 'User',
-          iconImage: Image.asset(
-            IconName.point,
-            width: 40,
-            height: 40,
-          ),
-          label: 'Celengan Saya',
-          labelValue: 0,
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const ReedemPage()));
+        BlocBuilder<ProfileBloc, ProfileState>(
+          builder: (context, state) {
+            return state.maybeWhen(
+              orElse: () {
+                return FloatingProfileCard(
+                  userFrontName: '-',
+                  iconImage: Image.asset(
+                    IconName.totalSurvey,
+                    width: 40,
+                    height: 40,
+                  ),
+                  label: '',
+                  labelValue: 0,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ReedemPage(),
+                      ),
+                    );
+                  },
+                );
+              },
+              loading: () {
+                return FloatingProfileCard(
+                  userFrontName: '-',
+                  iconImage: Image.asset(
+                    IconName.totalSurvey,
+                    width: 40,
+                    height: 40,
+                  ),
+                  label: '-',
+                  labelValue: 0,
+                  onPressed: () {},
+                );
+              },
+              error: (error) {
+                return FloatingProfileCard(
+                  userFrontName: '-',
+                  iconImage: Image.asset(
+                    IconName.point,
+                    width: 40,
+                    height: 40,
+                  ),
+                  label: 'Celengan Saya',
+                  labelValue: 0,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ReedemPage(),
+                      ),
+                    );
+                  },
+                );
+              },
+              loaded: (data) {
+                return FloatingProfileCard(
+                  userFrontName: data.user.name.split(' ')[0],
+                  iconImage: Image.asset(
+                    IconName.point,
+                    width: 40,
+                    height: 40,
+                  ),
+                  label: 'Celengan Saya',
+                  labelValue: data.point,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReedemPage()));
+                  },
+                );
+              },
+            );
           },
         ),
       ]),

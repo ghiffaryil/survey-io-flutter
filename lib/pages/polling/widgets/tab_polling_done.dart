@@ -28,27 +28,9 @@ class _TabPollingDoneState extends State<TabPollingDone> {
   List<PollingCompletedModel> listPollingCompleted =
       ListPollingCompleted.getCompletedPolling();
 
-  List<PieChartSectionData> pieChartData = [];
-
-  List<Color> sectionColors = [
-    AppColors.info,
-    AppColors.primary,
-    AppColors.warning,
-    AppColors.success,
-    AppColors.secondary,
-    AppColors.black,
-    AppColors.light,
-    AppColors.bg,
-  ];
-
-  // Create and add titles to arrayTitle
-  List<String> arrayTitle = [];
-  Map<int, String> pollingTitleMap = {};
-
   @override
   void initState() {
     super.initState();
-    pieChartData = [];
   }
 
   @override
@@ -191,9 +173,6 @@ class _TabPollingDoneState extends State<TabPollingDone> {
                           Center(
                             child: GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  pieChartData = [];
-                                });
                                 final pollingTitle = pollingDoneData.title;
                                 final pollingId = pollingData.polling.id;
                                 showPieChartModal(
@@ -227,7 +206,9 @@ class _TabPollingDoneState extends State<TabPollingDone> {
   // SHOW MODAL
   void showPieChartModal(
       BuildContext context, int selectedPollingId, String pollingTitle) {
-    print('selectedPollingId => $selectedPollingId');
+    context
+        .read<PollingResultBloc>()
+        .add(PollingResultEvent.getListPollingResult(selectedPollingId));
 
     showModalBottomSheet<void>(
       context: context,
@@ -269,6 +250,9 @@ class _TabPollingDoneState extends State<TabPollingDone> {
                 child: BlocBuilder<PollingResultBloc, PollingResultState>(
                   builder: (context, state) {
                     int totalVotes = 0;
+                    int sumVotes = 0;
+                    double percentVotes = 0.0;
+
                     return state.maybeWhen(
                       orElse: () {
                         return Container();
@@ -282,14 +266,34 @@ class _TabPollingDoneState extends State<TabPollingDone> {
                         return Text(message);
                       },
                       loaded: (data) {
+                        List<PieChartSectionData> pieChartData = [];
+
+                        List<Color> sectionColors = [
+                          AppColors.info,
+                          AppColors.primary,
+                          AppColors.warning,
+                          AppColors.success,
+                          AppColors.secondary,
+                          AppColors.black,
+                          AppColors.light,
+                          AppColors.bg,
+                        ];
+
+                        for (int index = 0; index < data.length; index++) {
+                          sumVotes = sumVotes + data[index].count;
+                        }
+
                         for (int i = 0; i < data.length; i++) {
                           totalVotes = totalVotes + data[i].count;
+                          percentVotes = (data[i].count / sumVotes) * 100;
+
                           pieChartData.add(
                             PieChartSectionData(
                               value: data[i].count.toDouble(),
                               color: sectionColors[i % sectionColors.length],
                               radius: MediaQuery.of(context).size.width * 0.3,
-                              title: data[i].count.toString(),
+                              title:
+                                  "${percentVotes.toStringAsFixed(1)}% \n (${data[i].count})",
                               titleStyle: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -319,11 +323,8 @@ class _TabPollingDoneState extends State<TabPollingDone> {
                             Expanded(
                               child: PieChart(
                                 PieChartData(
-                                  pieTouchData: PieTouchData(
-                                    enabled: false,
-                                  ),
                                   centerSpaceRadius: 0,
-                                  sectionsSpace: 5,
+                                  sectionsSpace: 7,
                                   borderData: FlBorderData(show: false),
                                   sections: pieChartData,
                                 ),

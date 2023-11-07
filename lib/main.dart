@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:survey_io/bloc/logout/logout_bloc.dart';
 import 'package:survey_io/bloc/polling/polling/polling_bloc.dart';
 import 'package:survey_io/bloc/polling/polling_done/polling_done_bloc.dart';
+import 'package:survey_io/bloc/polling/polling_participate/polling_participate_bloc.dart';
 import 'package:survey_io/bloc/survey/ayo_check/survey_ayo_check_bloc.dart';
 import 'package:survey_io/bloc/survey/survey_list/survey_list_bloc.dart';
 import 'package:survey_io/bloc/survey/survey_popular/survey_popular_bloc.dart';
@@ -27,6 +29,9 @@ class MyApp extends StatelessWidget {
           create: (context) => LoginBloc(),
         ),
         BlocProvider(
+          create: (context) => LogoutBloc(),
+        ),
+        BlocProvider(
           create: (context) => SurveyAyoCheckBloc(),
         ),
         BlocProvider(
@@ -37,6 +42,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PollingDoneBloc(),
+        ),
+        BlocProvider(
+          create: (context) => PollingParticipateBloc(),
         ),
         BlocProvider(
           create: (context) => PollingResultBloc(),

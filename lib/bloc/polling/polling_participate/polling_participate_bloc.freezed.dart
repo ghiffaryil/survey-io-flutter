@@ -19,19 +19,19 @@ mixin _$PollingParticipateEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() setPollingParticipate,
+    required TResult Function(int pollingListId) setPollingParticipate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? setPollingParticipate,
+    TResult? Function(int pollingListId)? setPollingParticipate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? setPollingParticipate,
+    TResult Function(int pollingListId)? setPollingParticipate,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -115,7 +115,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() setPollingParticipate,
+    required TResult Function(int pollingListId) setPollingParticipate,
   }) {
     return started();
   }
@@ -124,7 +124,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? setPollingParticipate,
+    TResult? Function(int pollingListId)? setPollingParticipate,
   }) {
     return started?.call();
   }
@@ -133,7 +133,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? setPollingParticipate,
+    TResult Function(int pollingListId)? setPollingParticipate,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -185,6 +185,8 @@ abstract class _$$SetPollingParticipateImplCopyWith<$Res> {
           _$SetPollingParticipateImpl value,
           $Res Function(_$SetPollingParticipateImpl) then) =
       __$$SetPollingParticipateImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int pollingListId});
 }
 
 /// @nodoc
@@ -195,55 +197,80 @@ class __$$SetPollingParticipateImplCopyWithImpl<$Res>
   __$$SetPollingParticipateImplCopyWithImpl(_$SetPollingParticipateImpl _value,
       $Res Function(_$SetPollingParticipateImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? pollingListId = null,
+  }) {
+    return _then(_$SetPollingParticipateImpl(
+      null == pollingListId
+          ? _value.pollingListId
+          : pollingListId // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$SetPollingParticipateImpl implements _SetPollingParticipate {
-  const _$SetPollingParticipateImpl();
+  const _$SetPollingParticipateImpl(this.pollingListId);
+
+  @override
+  final int pollingListId;
 
   @override
   String toString() {
-    return 'PollingParticipateEvent.setPollingParticipate()';
+    return 'PollingParticipateEvent.setPollingParticipate(pollingListId: $pollingListId)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SetPollingParticipateImpl);
+            other is _$SetPollingParticipateImpl &&
+            (identical(other.pollingListId, pollingListId) ||
+                other.pollingListId == pollingListId));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, pollingListId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SetPollingParticipateImplCopyWith<_$SetPollingParticipateImpl>
+      get copyWith => __$$SetPollingParticipateImplCopyWithImpl<
+          _$SetPollingParticipateImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() setPollingParticipate,
+    required TResult Function(int pollingListId) setPollingParticipate,
   }) {
-    return setPollingParticipate();
+    return setPollingParticipate(pollingListId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? setPollingParticipate,
+    TResult? Function(int pollingListId)? setPollingParticipate,
   }) {
-    return setPollingParticipate?.call();
+    return setPollingParticipate?.call(pollingListId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? setPollingParticipate,
+    TResult Function(int pollingListId)? setPollingParticipate,
     required TResult orElse(),
   }) {
     if (setPollingParticipate != null) {
-      return setPollingParticipate();
+      return setPollingParticipate(pollingListId);
     }
     return orElse();
   }
@@ -282,7 +309,13 @@ class _$SetPollingParticipateImpl implements _SetPollingParticipate {
 }
 
 abstract class _SetPollingParticipate implements PollingParticipateEvent {
-  const factory _SetPollingParticipate() = _$SetPollingParticipateImpl;
+  const factory _SetPollingParticipate(final int pollingListId) =
+      _$SetPollingParticipateImpl;
+
+  int get pollingListId;
+  @JsonKey(ignore: true)
+  _$$SetPollingParticipateImplCopyWith<_$SetPollingParticipateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc

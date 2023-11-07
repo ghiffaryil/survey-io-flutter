@@ -37,7 +37,7 @@ class PollingResultDatasource {
           print(responseBody);
           return Right(PollingResultResponseModel.fromJson(responseBody));
         } else {
-          return const Left('Vote failed!');
+          return const Left('No Data failed!');
           // return const Left('server error');
         }
       } catch (e) {
