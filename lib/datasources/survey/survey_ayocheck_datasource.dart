@@ -10,7 +10,6 @@ import '../../models/survey/survey_ayocheck_response_model.dart';
 class SurveyAyoCheckDatasource {
   Future<Either<String, SurveyAyoCheckResponseModel>>
       getSurveyAyoCheck() async {
-    
     final token = await AuthLocalDatasource().getToken();
 
     if (token.isEmpty) {
@@ -28,12 +27,12 @@ class SurveyAyoCheckDatasource {
     );
 
     if (response.statusCode == 200) {
+      print('Load Survey Ayo Check : success');
       return Right(SurveyAyoCheckResponseModel.fromJson(response.body));
     } else {
       final errorResponse = json.decode(response.body) as Map<String, dynamic>;
       final error = errorResponse['error'] as String? ?? 'server error';
       return Left(error);
-      // return const Left('server error');
     }
   }
 }

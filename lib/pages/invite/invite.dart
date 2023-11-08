@@ -40,7 +40,7 @@ class _InviteFriendState extends State<InviteFriend> {
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
-      backgroundColor: AppColors.secondary,
+      backgroundColor: AppColors.light.withOpacity(0.3),
       textColor: Colors.white,
       fontSize: 16.0,
     );

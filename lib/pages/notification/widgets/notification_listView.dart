@@ -7,7 +7,7 @@ import '../../../../common/extension/helper/date_helper.dart';
 import '../../../../common/constants/icons.dart';
 
 import '../../../../models/notification/model_notification.dart';
-import '../../../datasources/notification/list_notification.dart';
+import '../../../datasources/notification/backup/list_notification.dart';
 import 'notification_card.dart';
 
 class NotificationPageListView extends StatefulWidget {

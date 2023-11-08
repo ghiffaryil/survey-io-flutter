@@ -52,9 +52,8 @@ class HorizontalMenu extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: AppColors
-                            .secondary, // Set your desired border color
-                        width: 0.2, // Set your desired border width
+                        color: AppColors.secondary,
+                        width: 0.2,
                       ),
                     ),
                   ),
@@ -73,8 +72,8 @@ class HorizontalMenu extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: AppColors.light, // Set your desired border color
-                        width: 0.2, // Set your desired border width
+                        color: AppColors.light,
+                        width: 0.2,
                       ),
                     ),
                   ),

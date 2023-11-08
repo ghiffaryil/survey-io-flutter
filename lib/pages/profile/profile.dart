@@ -12,6 +12,7 @@ import '../../../common/components/appbar.dart';
 import '../../../common/constants/colors.dart';
 import '../../../common/constants/styles.dart';
 import '../../datasources/login/auth_local_datasource.dart';
+import '../../datasources/token/check_token_datasource.dart';
 import '../tabs/floating_icon.dart';
 import '../tabs/navigation_bottom_bar.dart';
 
@@ -30,17 +31,80 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+    checkToken();
   }
 
-  // Function to check the login status
-  void checkLoginStatus() async {
+  void navigateToLoginPage(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+    );
+  }
+
+  void checkToken() async {
     final token = await AuthLocalDatasource().getToken();
+
     if (token.isEmpty) {
       setState(() {
         isLogged = false;
       });
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+      // navigateToLoginPage(context);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Token Expired'),
+            content:
+                const Text('Sesi anda telah habis. Silahkan login kembali.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  navigateToLoginPage(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      final result = await CheckTokenDatasource().checkToken();
+      result.fold(
+        (error) {
+          setState(() {
+            isLogged = false;
+          });
+          if (error == 'Token is Expired') {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Token Expired'),
+                  content: const Text(
+                      'Sesi anda telah habis. Silahkan login kembali.'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('OK'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        navigateToLoginPage(context);
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            navigateToLoginPage(context);
+          }
+        },
+        (data) {
+          setState(() {
+            isLogged = true;
+          });
+        },
+      );
     }
   }
 
@@ -82,6 +146,4 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
-
-  
 }

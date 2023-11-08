@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/profile/profile_bloc.dart';
-import 'package:survey_io/datasources/login/auth_local_datasource.dart';
-import 'package:survey_io/pages/login/login.dart';
-
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';
 import '../../../../common/constants/styles.dart';
@@ -22,19 +19,6 @@ class _UserInformationState extends State<UserInformation> {
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
-  }
-
-  // Function to check the login status
-  void checkLoginStatus() async {
-    final token = await AuthLocalDatasource().getToken();
-    if (token.isEmpty) {
-      setState(() {
-        isLogged = false;
-      });
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const LoginPage()));
-    }
   }
 
   @override

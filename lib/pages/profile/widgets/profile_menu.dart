@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:survey_io/bloc/logout/logout_bloc.dart';
-import 'package:survey_io/datasources/login/auth_local_datasource.dart';
 
+import '../../../bloc/logout/logout_bloc.dart';
+import '../../../datasources/login/auth_local_datasource.dart';
 import '../../../../common/components/divider.dart';
 import '../../../../common/components/label.dart';
 import '../../../../common/components/list_menu.dart';
@@ -63,9 +62,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
           imageAsset: IconName.helper,
           text: 'Pusat Bantuan',
           icon: Icons.arrow_forward_ios,
-          onPressed: () {
-            // Your onPressed logic here
-          },
+          onPressed: () {},
           iconColor: AppColors.light,
           textColor: AppColors.light,
         ),
@@ -73,9 +70,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
           imageAsset: IconName.privacypolicy,
           text: 'Kebijakan Privasi',
           icon: Icons.arrow_forward_ios,
-          onPressed: () {
-            // Your onPressed logic here
-          },
+          onPressed: () {},
           iconColor: AppColors.light,
           textColor: AppColors.light,
         ),
@@ -83,9 +78,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
           imageAsset: IconName.tnc,
           text: 'Ketentuan Layanan',
           icon: Icons.arrow_forward_ios,
-          onPressed: () {
-            // Your onPressed logic here
-          },
+          onPressed: () {},
           iconColor: AppColors.light,
           textColor: AppColors.light,
         ),
@@ -93,9 +86,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
           imageAsset: IconName.rating,
           text: 'Beri Rating',
           icon: Icons.arrow_forward_ios,
-          onPressed: () {
-            // Your onPressed logic here
-          },
+          onPressed: () {},
           iconColor: AppColors.light,
           textColor: AppColors.light,
         ),
@@ -130,37 +121,26 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
         child: BlocConsumer<LogoutBloc, LogoutState>(
           listener: (context, state) {
             state.maybeWhen(
-                orElse: () {},
-                loaded: () {
-                  AuthLocalDatasource().removeAuthData();
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()));
-                },
-                error: () {
-                  Fluttertoast.showToast(
-                      msg: 'Login Error',
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: AppColors.light.withOpacity(0.3),
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-                });
-          },
-          builder: (context, state) => state.maybeWhen(orElse: () {
-            return TextButtonOutlined.secondary(
-                backgroundColor: AppColors.bg,
-                text: 'Logout',
-                onPressed: () {
-                  context.read<LogoutBloc>().add(const LogoutEvent.logout());
-                });
-          }, loaded: () {
-            return Center(
-              child: Container(),
+              orElse: () {},
+              loaded: () {
+                AuthLocalDatasource().removeAuthData();
+                AuthLocalDatasource().clearAuthData();
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
+              },
             );
-          }),
+          },
+          builder: (context, state) => state.maybeWhen(
+            orElse: () {
+              return TextButtonOutlined.secondary(
+                  backgroundColor: AppColors.bg,
+                  text: 'Logout',
+                  onPressed: () {
+                    showModalLogoutConfirmation(context);
+                    // context.read<LogoutBloc>().add(const LogoutEvent.logout());
+                  });
+            },
+          ),
         ),
       ),
     );
@@ -177,7 +157,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Container(
-          height: MediaQuery.of(context).size.height * 0.35,
+          height: MediaQuery.of(context).size.height * 0.30,
           padding: const EdgeInsets.all(20),
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -185,12 +165,12 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
           child: Column(
             children: [
               const IndicatorModal(),
-              CustomDividers.regularDivider(),
-              const Text(
+              CustomDividers.smallDivider(),
+              Text(
                 'Anda yakin ingin keluar dari aplikasi ini?',
-                style: TextStyle(fontSize: 18),
+                style: TextStyles.extraLarge(),
               ),
-              CustomDividers.regularDivider(),
+              CustomDividers.smallDivider(),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -203,12 +183,19 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
                     height: 15,
                   ),
                   ButtonFilled.primary(
-                      text: 'Keluar',
-                      onPressed: () {
-                        context
-                            .read<LogoutBloc>()
-                            .add(const LogoutEvent.logout());
-                      }),
+                    text: 'Keluar',
+                    onPressed: () {
+                      context
+                          .read<LogoutBloc>()
+                          .add(const LogoutEvent.logout());
+                      AuthLocalDatasource().removeAuthData();
+                      AuthLocalDatasource().clearAuthData();
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
+                    },
+                  ),
                 ],
               ),
             ],

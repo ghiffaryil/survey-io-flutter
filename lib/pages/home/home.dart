@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/profile/profile_bloc.dart';
@@ -16,6 +18,7 @@ import 'package:survey_io/pages/tabs/floating_icon.dart';
 import 'package:survey_io/pages/home/widgets/main_card.dart';
 
 import '../../datasources/login/auth_local_datasource.dart';
+import '../../datasources/token/check_token_datasource.dart';
 import '../notification/notification.dart';
 import '../../common/constants/widgets/profile_card.dart';
 import '../../common/constants/widgets/red_shape_card.dart';
@@ -42,18 +45,81 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+    checkToken();
   }
 
-  // Function to check the login status
-  void checkLoginStatus() async {
+  void navigateToLoginPage(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+    );
+  }
+
+  void checkToken() async {
     final token = await AuthLocalDatasource().getToken();
+
     if (token.isEmpty) {
       setState(() {
         isLogged = false;
       });
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+      // navigateToLoginPage(context);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Token Expired'),
+            content:
+                const Text('Sesi anda telah habis. Silahkan login kembali.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  navigateToLoginPage(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      final result = await CheckTokenDatasource().checkToken();
+      result.fold(
+        (error) {
+          setState(() {
+            isLogged = false;
+          });
+          if (error == 'Token is Expired') {
+            // navigateToLoginPage(context);
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Token Expired'),
+                  content: const Text(
+                      'Sesi anda telah habis. Silahkan login kembali.'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('OK'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        navigateToLoginPage(context);
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            navigateToLoginPage(context);
+          }
+        },
+        (data) {
+          setState(() {
+            isLogged = true;
+          });
+        },
+      );
     }
   }
 

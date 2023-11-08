@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:survey_io/datasources/notification/notification_datasource.dart';
+import 'package:survey_io/datasources/notification/list_notification_datasource.dart';
 
 import '../../../models/notification/notification_response_model.dart';
 
