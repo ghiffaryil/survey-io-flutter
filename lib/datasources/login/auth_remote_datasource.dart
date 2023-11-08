@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
+import 'package:survey_io/datasources/login/auth_local_datasource.dart';
 
 import '../../../common/constants/variables.dart';
 import '../../../models/auth/auth_request_model.dart';
@@ -36,6 +37,8 @@ class AuthRemoteDatasource {
   }
 
   Future<Either<String, String>> logout() async {
+    AuthLocalDatasource().removeAuthData();
+    AuthLocalDatasource().clearAuthData();
     return const Right('Logout Success');
   }
 }

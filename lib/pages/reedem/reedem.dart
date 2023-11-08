@@ -1,10 +1,13 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/bloc/profile/profile_bloc.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/models/reedem/product_prepaid_model.dart';
+import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/pages/reedem/widgets/user_information_card.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/constants/padding.dart';
@@ -24,11 +27,15 @@ class _ReedemPageState extends State<ReedemPage> {
       ListProductPrepaid.getProductPrepaid();
 
   @override
+  void initState() {
+    super.initState();
+    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Create a map to hold grouped products by categoryName
     Map<String, List<Product>> groupedProducts = {};
 
-    // Iterate through the products and group them by categoryName
     for (final merchant in listProductPrepaidCategory) {
       final category = merchant.categoryName;
       if (!groupedProducts.containsKey(category)) {
@@ -43,7 +50,11 @@ class _ReedemPageState extends State<ReedemPage> {
         leadingIcon: Icons.arrow_back_ios,
         iconColor: AppColors.secondary,
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomePage(),
+              ));
         },
       ),
       body: Column(

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../datasources/survey/survey_popular_list_datasource.dart';
+import '../../../datasources/survey/survey_popular_datasource.dart';
 import '../../../models/survey/survey_list_response_model.dart';
 
 part 'survey_popular_event.dart';

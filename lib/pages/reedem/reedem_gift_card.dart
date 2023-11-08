@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:slide_action/slide_action.dart';
 import 'package:survey_io/common/components/appbar_plain.dart';
 import 'package:survey_io/common/components/divider.dart';
@@ -11,16 +12,18 @@ import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/pages/reedem/reedem_gift_card_success.dart';
 
 import '../../../common/constants/images.dart';
 import '../../../common/constants/styles.dart';
+import '../../bloc/profile/profile_bloc.dart';
 
 class ReedemGiftCard extends StatefulWidget {
-  const ReedemGiftCard({
-    Key? key,
-    this.callback,
-  }) : super(key: key);
+  final int point;
+
+  const ReedemGiftCard({Key? key, this.callback, required this.point})
+      : super(key: key);
 
   final FutureOr<void> Function()? callback;
 
@@ -37,6 +40,7 @@ class _ReedemGiftCardState extends State<ReedemGiftCard> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
   }
 
   @override
@@ -50,49 +54,87 @@ class _ReedemGiftCardState extends State<ReedemGiftCard> {
     return Scaffold(
       appBar: PlainAppBar(
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomePage(),
+              ));
         },
         leadingIcon: Icons.close,
         iconColor: AppColors.black,
       ),
-      body: Container(
-        padding: CustomPadding.pdefault,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Center(
-              child: LabelInput(
-                labelAlignment: Alignment.center,
-                labelText: 'Selamat!',
-                labelStyle: TextStyles.h2(color: AppColors.secondary),
+      body: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, state) {
+          return state.maybeWhen(orElse: () {
+            return Container();
+          }, loading: () {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }, error: (message) {
+            return const Center(
+              child: Text('Can\'t Load Data'),
+            );
+          }, loaded: (data) {
+            return Container(
+              padding: CustomPadding.pdefault,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Center(
+                    child: LabelInput(
+                      labelAlignment: Alignment.center,
+                      labelText: 'Selamat!',
+                      labelStyle: TextStyles.h2(color: AppColors.secondary),
+                    ),
+                  ),
+                  CustomDividers.verySmallDivider(),
+                  Image.asset(Images.giftCard,
+                      width: AppHeight.imageSize(context, AppHeight.medium)),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Kamu mendapatkan ${widget.point.toString()} koin dari Polling. Geser tombol di bawah untuk melanjutkan',
+                      textAlign: TextAlign.center,
+                      style: TextStyles.extraLarge(
+                        color: AppColors.light,
+                      ),
+                    ),
+                  ),
+                  CustomDividers.mediumDivider(),
+                  SlideToReedem(
+                    callback: () async {
+                      await Future.delayed(const Duration(seconds: 2));
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReedemGiftCardSuccess(
+                              point: widget.point,
+                            ),
+                          ));
+
+                      // If Want to Send Point Manual
+                      // final datasource = PointManualDatasource();
+                      // final result = await datasource.setPointManual(
+                      //     widget.point, data.user.phoneNumber);
+                      // if (result.isRight()) {
+                      //   await Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) =>
+                      //             const ReedemGiftCardSuccess(),
+                      //       ));
+                      // } else {
+                      //   final error = result.fold((l) => l, (r) => '');
+                      //   print('Error: $error');
+                      // }
+                    },
+                  ),
+                ],
               ),
-            ),
-            CustomDividers.verySmallDivider(),
-            Image.asset(Images.giftCard,
-                width: AppHeight.imageSize(context, AppHeight.medium)),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Kamu mendapatkan 100 koin dari Polling. Geser tombol di bawah untuk melanjutkan',
-                textAlign: TextAlign.center,
-                style: TextStyles.extraLarge(
-                  color: AppColors.light,
-                ),
-              ),
-            ),
-            CustomDividers.mediumDivider(),
-            SlideToReedem(
-              callback: () async {
-                await Future.delayed(const Duration(seconds: 2));
-                await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ReedemGiftCardSuccess(),
-                    ));
-              },
-            ),
-          ],
-        ),
+            );
+          });
+        },
       ),
     );
   }

@@ -2,13 +2,12 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
-
-import '../../models/survey/survey_list_response_model.dart';
 import '../login/auth_local_datasource.dart';
 import '../../../common/constants/variables.dart';
 
-class SurveyListDatasource {
-  Future<Either<String, SurveyListResponseModel>> getSurveyList() async {
+class PointManualDatasource {
+  Future<Either<String, String>> setPointManual(
+      int point, String phoneNumber) async {
     // Get token from Shared Preferences Local
     final token = await AuthLocalDatasource().getToken();
 
@@ -18,18 +17,16 @@ class SurveyListDatasource {
       final headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'authorization': token
       };
 
       final body = {
-        "limit": 99999,
-        "offset": 0,
-        "sort_by": [],
+        "phone_number": phoneNumber,
+        "point": point,
       };
 
       final request = http.Request(
         'POST',
-        Uri.parse('${Variables.baseURL}/survey/get-list'),
+        Uri.parse('${Variables.baseURL}/user/point/manual'),
       );
 
       request.headers.addAll(headers);
@@ -37,15 +34,20 @@ class SurveyListDatasource {
 
       try {
         final response = await http.Client().send(request);
+        final responseBody = await response.stream.bytesToString();
 
         if (response.statusCode == 200) {
-          final responseBody = await response.stream.bytesToString();
-          return Right(SurveyListResponseModel.fromJson(responseBody));
+          print('Point Manual : Success');
+          return const Right('Point Sent!');
         } else {
-          return const Left('Can\'t Load data ');
+          final Map<String, dynamic> errorResponse = json.decode(responseBody);
+          final errorMessage = errorResponse['error'] as String;
+
+          return Left(errorMessage);
         }
       } catch (e) {
-        return const Left('Server Error');
+        print('Point Manual : Failed');
+        return Left(e.toString());
       }
     }
   }

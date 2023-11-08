@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:survey_io/datasources/login/auth_local_datasource.dart';
-import 'package:survey_io/pages/home/home.dart';
+import '../home/home.dart';
 import '../onboarding/onboarding.dart';
+import '../../datasources/login/auth_local_datasource.dart';
+import '../../datasources/token/check_token_datasource.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({Key? key}) : super(key: key);
@@ -13,9 +14,49 @@ class SplashScreenPage extends StatefulWidget {
 }
 
 class SplashScreenPageState extends State<SplashScreenPage> {
+  bool isLogged = false;
+  bool isExpiredToken = false;
+
   @override
   void initState() {
     super.initState();
+    checkToken();
+  }
+
+  void checkToken() async {
+    final isLogin = await AuthLocalDatasource().isLogin();
+    final token = await AuthLocalDatasource().getToken();
+
+    if (token.isEmpty) {
+      setState(() {
+        isLogged = false;
+        isExpiredToken = true;
+      });
+    } else if (isLogin) {
+      // CHECK TOKEN IS STILL AVAILABLE OR
+      final result = await CheckTokenDatasource().checkToken();
+      result.fold(
+        (error) {
+          setState(() {
+            isLogged = true;
+            isExpiredToken = true;
+          });
+        },
+        (data) {
+          setState(() {
+            isLogged = true;
+            isExpiredToken = false;
+          });
+        },
+      );
+    } else {
+      setState(() {
+        isLogged = false;
+        isExpiredToken = true;
+      });
+    }
+
+    // DO OPEN SPLASH SCREEN
     openSplashScreen();
   }
 
@@ -27,7 +68,9 @@ class SplashScreenPageState extends State<SplashScreenPage> {
           builder: (_) => FutureBuilder<bool>(
                 future: AuthLocalDatasource().isLogin(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData && snapshot.data!) {
+                  if (isExpiredToken) {
+                    return const OnboardingPage();
+                  } else if (snapshot.hasData && snapshot.data!) {
                     return const HomePage();
                   } else {
                     return const OnboardingPage();

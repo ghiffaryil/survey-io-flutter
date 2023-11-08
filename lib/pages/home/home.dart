@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/profile/profile_bloc.dart';
@@ -9,11 +11,14 @@ import 'package:survey_io/common/constants/icons.dart';
 import 'package:survey_io/datasources/polling/list_polling_today.dart';
 import 'package:survey_io/models/polling/polling_model.dart';
 import 'package:survey_io/datasources/survey/list_survey_popular.dart';
+import 'package:survey_io/pages/login/login.dart';
 import 'package:survey_io/pages/survey/list_survey.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/pages/tabs/floating_icon.dart';
 import 'package:survey_io/pages/home/widgets/main_card.dart';
 
+import '../../datasources/login/auth_local_datasource.dart';
+import '../../datasources/token/check_token_datasource.dart';
 import '../notification/notification.dart';
 import '../../common/constants/widgets/profile_card.dart';
 import '../../common/constants/widgets/red_shape_card.dart';
@@ -30,6 +35,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
+  bool isLogged = true;
+
   List<SurveyModelData> listDataPopularSurvey =
       ListSurveyPopular.getSurveyPopular();
   List<PollingModel> listPollingToday = ListPollingToday.getPollingToday();
@@ -38,6 +45,82 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+    checkToken();
+  }
+
+  void navigateToLoginPage(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+    );
+  }
+
+  void checkToken() async {
+    final token = await AuthLocalDatasource().getToken();
+
+    if (token.isEmpty) {
+      setState(() {
+        isLogged = false;
+      });
+      // navigateToLoginPage(context);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Token Expired'),
+            content:
+                const Text('Sesi anda telah habis. Silahkan login kembali.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  navigateToLoginPage(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      final result = await CheckTokenDatasource().checkToken();
+      result.fold(
+        (error) {
+          setState(() {
+            isLogged = false;
+          });
+          if (error == 'Token is Expired') {
+            // navigateToLoginPage(context);
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Token Expired'),
+                  content: const Text(
+                      'Sesi anda telah habis. Silahkan login kembali.'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('OK'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        navigateToLoginPage(context);
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            navigateToLoginPage(context);
+          }
+        },
+        (data) {
+          setState(() {
+            isLogged = true;
+          });
+        },
+      );
+    }
   }
 
   @override
@@ -89,12 +172,19 @@ class _HomePageState extends State<HomePage> {
                     },
                   );
                 },
-                // loading: () {
-                //   return const SizedBox(
-                //     height: 40,
-                //     child: CircularProgressIndicator(),
-                //   );
-                // },
+                loading: () {
+                  return FloatingProfileCard(
+                    userFrontName: '-',
+                    iconImage: Image.asset(
+                      IconName.totalSurvey,
+                      width: 40,
+                      height: 40,
+                    ),
+                    label: '-',
+                    labelValue: 0,
+                    onPressed: () {},
+                  );
+                },
                 error: (error) {
                   return FloatingProfileCard(
                     userFrontName: '-',
@@ -115,9 +205,9 @@ class _HomePageState extends State<HomePage> {
                     },
                   );
                 },
-                loaded: (profile) {
+                loaded: (data) {
                   return FloatingProfileCard(
-                    userFrontName: profile.user.name.split(' ')[0],
+                    userFrontName: data.user.name.split(' ')[0],
                     iconImage: Image.asset(
                       IconName.totalSurvey,
                       width: 40,

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/pages/reedem/reedem_history.dart';
 
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';
 import '../../../../common/constants/padding.dart';
 import '../../../../common/constants/styles.dart';
+import '../../../bloc/profile/profile_bloc.dart';
 
 class UserInformation extends StatelessWidget {
   const UserInformation({super.key});
@@ -51,9 +53,27 @@ class UserInformation extends StatelessWidget {
                         color: AppColors.secondary,
                         fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    '1.000.000',
-                    style: TextStyles.regular(color: AppColors.secondary),
+                  BlocBuilder<ProfileBloc, ProfileState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        orElse: () {
+                          return Container();
+                        },
+                        loading: () {
+                          return const Text('-');
+                        },
+                        error: (message) {
+                          return const Text('Can\'t Loaded Data');
+                        },
+                        loaded: (data) {
+                      return Text(
+                        data.point.toString(),
+                        style: TextStyles.regular(color: AppColors.secondary),
+                      );    
+                        },
+                      );
+                      
+                    },
                   )
                 ],
               ),

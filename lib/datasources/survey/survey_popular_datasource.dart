@@ -7,8 +7,8 @@ import '../../models/survey/survey_list_response_model.dart';
 import '../login/auth_local_datasource.dart';
 import '../../../common/constants/variables.dart';
 
-class SurveyListDatasource {
-  Future<Either<String, SurveyListResponseModel>> getSurveyList() async {
+class SurveyPopularListDatasource {
+  Future<Either<String, SurveyListResponseModel>> getSurveyPopularList() async {
     // Get token from Shared Preferences Local
     final token = await AuthLocalDatasource().getToken();
 
@@ -22,9 +22,8 @@ class SurveyListDatasource {
       };
 
       final body = {
-        "limit": 99999,
+        "limit": 3,
         "offset": 0,
-        "sort_by": [],
       };
 
       final request = http.Request(
@@ -33,13 +32,13 @@ class SurveyListDatasource {
       );
 
       request.headers.addAll(headers);
-      request.body = jsonEncode(body);
+      request.body = jsonEncode(body); // Encode the body as JSON
 
       try {
         final response = await http.Client().send(request);
-
         if (response.statusCode == 200) {
           final responseBody = await response.stream.bytesToString();
+          print('Load Survey Populer : success');
           return Right(SurveyListResponseModel.fromJson(responseBody));
         } else {
           return const Left('Can\'t Load data ');

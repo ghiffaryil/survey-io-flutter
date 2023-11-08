@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import '../login/auth_local_datasource.dart';
@@ -5,7 +7,7 @@ import '../../../common/constants/variables.dart';
 
 class PollingParticipateDatasource {
   Future<Either<String, String>> setPollingParticipate(
-      int pollingId) async {
+      int pollingListId) async {
     // Get token from Shared Preferences Local
     final token = await AuthLocalDatasource().getToken();
 
@@ -18,26 +20,28 @@ class PollingParticipateDatasource {
         'authorization': token
       };
 
-       final request = http.Request(
+      final body = {
+        "polling_list_id": pollingListId,
+      };
+
+      final request = http.Request(
         'POST',
         Uri.parse('${Variables.baseURL}/polling/participate'),
       );
 
       request.headers.addAll(headers);
-      
+      request.body = jsonEncode(body);
+
       try {
-      final response = await http.Client().send(request);
-      if (response.statusCode == 200) {
-        
-        // final responseBody = await response.stream.bytesToString();
-          print('Load Polling Done : Success');
-          return Right('Vote Success');
-      } else {
-        return const Left('Vote failed!');
-        // return const Left('server error');
-      }
-       } catch (e) {
-        print('Load Polling Done : Failed');
+        final response = await http.Client().send(request);
+        if (response.statusCode == 200) {
+          print('Vote Polling Done : Success');
+          return const Right('Vote Success!');
+        } else {
+          return const Left('Vote failed!');
+        }
+      } catch (e) {
+        print('Server Error');
         return const Left('Server Error');
       }
     }

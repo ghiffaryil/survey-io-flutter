@@ -68,19 +68,20 @@ class Survey {
   final int point;
   final String surveyLink;
   final String actionLimit;
-  final String type;
+  final String? type; // Make 'type' nullable
   final String source;
   final int energy;
   final int prods;
   final String slug;
-  final String? reportLink; // Changed to nullable
-  final String? accumulativeReportLink; // Changed to nullable
-  final String? pdfLink; // Changed to nullable
+  final String? reportLink; // Make 'reportLink' nullable
+  final String?
+      accumulativeReportLink; // Make 'accumulativeReportLink' nullable
+  final String? pdfLink; // Make 'pdfLink' nullable
   final DateTime datetimeStart;
   final DateTime datetimeEnd;
   final DateTime datetimeCreated;
   final DateTime datetimeUpdated;
-  final dynamic surveyQuestion; // Changed to dynamic
+  final String? surveyQuestion; // Make 'surveyQuestion' nullable
 
   Survey({
     required this.id,
@@ -94,19 +95,19 @@ class Survey {
     required this.point,
     required this.surveyLink,
     required this.actionLimit,
-    required this.type,
+    this.type,
     required this.source,
     required this.energy,
     required this.prods,
     required this.slug,
-    this.reportLink, // Changed to nullable
-    this.accumulativeReportLink, // Changed to nullable
-    this.pdfLink, // Changed to nullable
+    this.reportLink,
+    this.accumulativeReportLink,
+    this.pdfLink,
     required this.datetimeStart,
     required this.datetimeEnd,
     required this.datetimeCreated,
     required this.datetimeUpdated,
-    this.surveyQuestion, // Changed to dynamic
+    this.surveyQuestion,
   });
 
   factory Survey.fromJson(String str) => Survey.fromMap(json.decode(str));
@@ -119,13 +120,13 @@ class Survey {
         audienceId: json["audience_id"],
         userId: json["user_id"],
         surveyDesignId: json["survey_design_id"],
-        description: json["description"],
-        imageContent: json["image_content"],
-        imageHomescreen: json["image_homescreen"],
+        description: json["description"] ?? "",
+        imageContent: json["image_content"] ?? "",
+        imageHomescreen: json["image_homescreen"] ?? "",
         point: json["point"],
         surveyLink: json["survey_link"],
         actionLimit: json["action_limit"],
-        type: json["type"],
+        type: json["type"], // No change, since 'type' is already nullable
         source: json["source"],
         energy: json["energy"],
         prods: json["prods"],
@@ -151,6 +152,9 @@ class Survey {
         "image_homescreen": imageHomescreen,
         "point": point,
         "survey_link": surveyLink,
+        "action_limit": actionLimit,
+        "type": type, // No change, since 'type' is already nullable
+        "source": source,
         "energy": energy,
         "prods": prods,
         "slug": slug,

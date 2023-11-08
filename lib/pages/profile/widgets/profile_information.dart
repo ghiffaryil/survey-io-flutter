@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/profile/profile_bloc.dart';
-
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';
 import '../../../../common/constants/styles.dart';
@@ -14,6 +13,8 @@ class UserInformation extends StatefulWidget {
 }
 
 class _UserInformationState extends State<UserInformation> {
+  bool isLogged = true;
+
   @override
   void initState() {
     super.initState();

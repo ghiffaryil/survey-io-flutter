@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:survey_io/bloc/logout/logout_bloc.dart';
-import 'package:survey_io/datasources/login/auth_local_datasource.dart';
 
+import '../../../bloc/logout/logout_bloc.dart';
+import '../../../datasources/login/auth_local_datasource.dart';
 import '../../../../common/components/divider.dart';
 import '../../../../common/components/label.dart';
 import '../../../../common/components/list_menu.dart';
@@ -11,18 +10,20 @@ import '../../../../common/components/text_button.dart';
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';
 import '../../../../common/constants/styles.dart';
+import '../../../common/components/elevated_button.dart';
+import '../../../common/constants/widgets/indicator.dart';
 import '../../invite/invite.dart';
 import '../../login/login.dart';
 import '../edit_profile.dart';
 
-class ListMenu extends StatefulWidget {
-  const ListMenu({super.key});
+class ListMenuProfile extends StatefulWidget {
+  const ListMenuProfile({super.key});
 
   @override
-  State<ListMenu> createState() => _ListMenuState();
+  State<ListMenuProfile> createState() => _ListMenuProfileState();
 }
 
-class _ListMenuState extends State<ListMenu> {
+class _ListMenuProfileState extends State<ListMenuProfile> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,9 +62,7 @@ class _ListMenuState extends State<ListMenu> {
           imageAsset: IconName.helper,
           text: 'Pusat Bantuan',
           icon: Icons.arrow_forward_ios,
-          onPressed: () {
-            // Your onPressed logic here
-          },
+          onPressed: () {},
           iconColor: AppColors.light,
           textColor: AppColors.light,
         ),
@@ -71,9 +70,7 @@ class _ListMenuState extends State<ListMenu> {
           imageAsset: IconName.privacypolicy,
           text: 'Kebijakan Privasi',
           icon: Icons.arrow_forward_ios,
-          onPressed: () {
-            // Your onPressed logic here
-          },
+          onPressed: () {},
           iconColor: AppColors.light,
           textColor: AppColors.light,
         ),
@@ -81,9 +78,7 @@ class _ListMenuState extends State<ListMenu> {
           imageAsset: IconName.tnc,
           text: 'Ketentuan Layanan',
           icon: Icons.arrow_forward_ios,
-          onPressed: () {
-            // Your onPressed logic here
-          },
+          onPressed: () {},
           iconColor: AppColors.light,
           textColor: AppColors.light,
         ),
@@ -91,9 +86,7 @@ class _ListMenuState extends State<ListMenu> {
           imageAsset: IconName.rating,
           text: 'Beri Rating',
           icon: Icons.arrow_forward_ios,
-          onPressed: () {
-            // Your onPressed logic here
-          },
+          onPressed: () {},
           iconColor: AppColors.light,
           textColor: AppColors.light,
         ),
@@ -128,38 +121,87 @@ class _ListMenuState extends State<ListMenu> {
         child: BlocConsumer<LogoutBloc, LogoutState>(
           listener: (context, state) {
             state.maybeWhen(
-                orElse: () {},
-                loaded: () {
-                  AuthLocalDatasource().removeAuthData();
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()));
-                },
-                error: () {
-                  Fluttertoast.showToast(
-                      msg: 'Login Error',
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: AppColors.light.withOpacity(0.3),
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-                });
-          },
-          builder: (context, state) => state.maybeWhen(orElse: () {
-            return TextButtonOutlined.secondary(
-                text: 'Logout',
-                onPressed: () {
-                  context.read<LogoutBloc>().add(const LogoutEvent.logout());
-                });
-          }, loaded: () {
-            return const Center(
-              child: CircularProgressIndicator(),
+              orElse: () {},
+              loaded: () {
+                AuthLocalDatasource().removeAuthData();
+                AuthLocalDatasource().clearAuthData();
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
+              },
             );
-          }),
+          },
+          builder: (context, state) => state.maybeWhen(
+            orElse: () {
+              return TextButtonOutlined.secondary(
+                  backgroundColor: AppColors.bg,
+                  text: 'Logout',
+                  onPressed: () {
+                    showModalLogoutConfirmation(context);
+                    // context.read<LogoutBloc>().add(const LogoutEvent.logout());
+                  });
+            },
+          ),
         ),
       ),
+    );
+  }
+
+  void showModalLogoutConfirmation(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25.0),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.30,
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              color: Colors.white),
+          child: Column(
+            children: [
+              const IndicatorModal(),
+              CustomDividers.smallDivider(),
+              Text(
+                'Anda yakin ingin keluar dari aplikasi ini?',
+                style: TextStyles.extraLarge(),
+              ),
+              CustomDividers.smallDivider(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ButtonOutlined.primary(
+                      text: 'Batal',
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  ButtonFilled.primary(
+                    text: 'Keluar',
+                    onPressed: () {
+                      context
+                          .read<LogoutBloc>()
+                          .add(const LogoutEvent.logout());
+                      AuthLocalDatasource().removeAuthData();
+                      AuthLocalDatasource().clearAuthData();
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
