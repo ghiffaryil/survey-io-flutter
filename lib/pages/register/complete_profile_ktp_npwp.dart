@@ -66,7 +66,7 @@ class _CompleteProfileKtpNPWPState extends State<CompleteProfileKtpNPWP> {
           child: Container(
             margin:
                 EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
-            padding: CustomPadding.pdefault,
+            padding: CustomPadding.p2,
             child: Column(
               children: [
                 labelText(),

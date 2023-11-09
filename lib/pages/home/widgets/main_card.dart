@@ -480,7 +480,7 @@ class _MainCardState extends State<MainCard> {
             ),
             CustomDividers.verySmallDivider(),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(15),
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
@@ -551,7 +551,7 @@ class _MainCardState extends State<MainCard> {
                                       survey.survey.imageHomescreen;
 
                                   return Container(
-                                    padding: const EdgeInsets.all(7),
+                                    padding: const EdgeInsets.all(5),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(10.0),
@@ -559,7 +559,7 @@ class _MainCardState extends State<MainCard> {
                                     child: Column(
                                       children: [
                                         Container(
-                                          padding: const EdgeInsets.all(7),
+                                          padding: const EdgeInsets.all(5),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
@@ -709,7 +709,7 @@ class _MainCardState extends State<MainCard> {
             ),
             CustomDividers.verySmallDivider(),
             Container(
-              padding: const EdgeInsets.all(25),
+              padding: const EdgeInsets.all(20),
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
