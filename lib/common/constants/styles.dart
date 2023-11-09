@@ -236,7 +236,7 @@ class TextStyles {
     TextDecoration? textDecoration,
   }) {
     return TextStyle(
-      fontSize: 13.0,
+      fontSize: 12.0,
       fontFamily: 'Nunito',
       fontWeight: fontWeight ?? FontWeight.normal,
       decoration: textDecoration,

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../webview_help_center.dart';
+import '../webview_privacy_policy.dart';
+import '../webview_terms_and_condition.dart';
 import '../../../bloc/logout/logout_bloc.dart';
 import '../../../datasources/login/auth_local_datasource.dart';
 import '../../../../common/components/divider.dart';
@@ -24,8 +28,41 @@ class ListMenuProfile extends StatefulWidget {
 }
 
 class _ListMenuProfileState extends State<ListMenuProfile> {
+  Future<void>? _launched;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  Future<void> _launchInBrowserView(Uri url) async {
+    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Uri toLaunch = Uri.https(
+      'play.google.com',
+      'store/apps/details',
+      {'id': 'io.survei.android'},
+    );
+
     return Column(
       children: [
         CustomDividers.verySmallDivider(),
@@ -62,7 +99,12 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
           imageAsset: IconName.helper,
           text: 'Pusat Bantuan',
           icon: Icons.arrow_forward_ios,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const HelpCenterWebview()));
+          },
           iconColor: AppColors.light,
           textColor: AppColors.light,
         ),
@@ -70,7 +112,12 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
           imageAsset: IconName.privacypolicy,
           text: 'Kebijakan Privasi',
           icon: Icons.arrow_forward_ios,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PrivacyPolicyWebview()));
+          },
           iconColor: AppColors.light,
           textColor: AppColors.light,
         ),
@@ -78,7 +125,12 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
           imageAsset: IconName.tnc,
           text: 'Ketentuan Layanan',
           icon: Icons.arrow_forward_ios,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const TermsAndConditionWebview()));
+          },
           iconColor: AppColors.light,
           textColor: AppColors.light,
         ),
@@ -86,7 +138,9 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
           imageAsset: IconName.rating,
           text: 'Beri Rating',
           icon: Icons.arrow_forward_ios,
-          onPressed: () {},
+          onPressed: () => setState(() {
+            _launched = _launchInBrowserView(toLaunch);
+          }),
           iconColor: AppColors.light,
           textColor: AppColors.light,
         ),
@@ -157,7 +211,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Container(
-          height: MediaQuery.of(context).size.height * 0.30,
+          height: MediaQuery.of(context).size.height * 0.35,
           padding: const EdgeInsets.all(20),
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(30)),

@@ -61,7 +61,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
           child: Container(
             margin:
                 EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
-            padding: CustomPadding.pdefault,
+            padding: CustomPadding.p2,
             child: Column(
               children: [
                 labelText(),
