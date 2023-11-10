@@ -1,4 +1,4 @@
-import '../../models/survey_design/scope_model.dart';
+import '../../../models/survey_design/scope_model.dart';
 
 class ListScope {
   static List<ScopeModel> getScopeList() {

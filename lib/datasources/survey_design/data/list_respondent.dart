@@ -1,4 +1,4 @@
-import '../../models/survey_design/respondent_model.dart';
+import '../../../models/survey_design/respondent_model.dart';
 
 class ListRespondent {
   static List<RespondentModel> getRespondentList() {

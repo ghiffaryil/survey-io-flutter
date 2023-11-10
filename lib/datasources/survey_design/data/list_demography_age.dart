@@ -1,4 +1,4 @@
-import '../../models/survey_design/demography_age_model.dart';
+import '../../../models/survey_design/demography_age_model.dart';
 
 class ListDemographyAge {
   static List<DemographyAgeModel> getDemographyAgeList() {

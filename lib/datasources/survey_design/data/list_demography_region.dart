@@ -1,4 +1,4 @@
-import '../../models/survey_design/demography_region_model.dart';
+import '../../../models/survey_design/demography_region_model.dart';
 
 class ListDemographyRegion {
   static List<DemographyRegionModel> getDemographyRegionList() {

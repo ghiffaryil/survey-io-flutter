@@ -189,9 +189,13 @@ class _MainCardState extends State<MainCard> {
                         return state.maybeWhen(orElse: () {
                           return Container();
                         }, loading: () {
-                          return const SizedBox(
-                            height: 40,
-                            child: CircularProgressIndicator(),
+                          return Container(
+                            margin: const EdgeInsets.only(top: 10),
+                            padding: const EdgeInsets.all(8.0),
+                            child: const SizedBox(
+                              height: 40,
+                              child: CircularProgressIndicator(),
+                            ),
                           );
                         }, error: (error) {
                           return SizedBox(

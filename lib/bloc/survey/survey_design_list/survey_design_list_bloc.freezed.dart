@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'polling_done_bloc.dart';
+part of 'survey_design_list_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,58 +15,59 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$PollingDoneEvent {
+mixin _$SurveyDesignListEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() getPollingDone,
+    required TResult Function() getSurveyDesignList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? getPollingDone,
+    TResult? Function()? getSurveyDesignList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? getPollingDone,
+    TResult Function()? getSurveyDesignList,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetPollingDone value) getPollingDone,
+    required TResult Function(_GetSurveyDesignList value) getSurveyDesignList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetPollingDone value)? getPollingDone,
+    TResult? Function(_GetSurveyDesignList value)? getSurveyDesignList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetPollingDone value)? getPollingDone,
+    TResult Function(_GetSurveyDesignList value)? getSurveyDesignList,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PollingDoneEventCopyWith<$Res> {
-  factory $PollingDoneEventCopyWith(
-          PollingDoneEvent value, $Res Function(PollingDoneEvent) then) =
-      _$PollingDoneEventCopyWithImpl<$Res, PollingDoneEvent>;
+abstract class $SurveyDesignListEventCopyWith<$Res> {
+  factory $SurveyDesignListEventCopyWith(SurveyDesignListEvent value,
+          $Res Function(SurveyDesignListEvent) then) =
+      _$SurveyDesignListEventCopyWithImpl<$Res, SurveyDesignListEvent>;
 }
 
 /// @nodoc
-class _$PollingDoneEventCopyWithImpl<$Res, $Val extends PollingDoneEvent>
-    implements $PollingDoneEventCopyWith<$Res> {
-  _$PollingDoneEventCopyWithImpl(this._value, this._then);
+class _$SurveyDesignListEventCopyWithImpl<$Res,
+        $Val extends SurveyDesignListEvent>
+    implements $SurveyDesignListEventCopyWith<$Res> {
+  _$SurveyDesignListEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -83,7 +84,7 @@ abstract class _$$StartedImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$StartedImplCopyWithImpl<$Res>
-    extends _$PollingDoneEventCopyWithImpl<$Res, _$StartedImpl>
+    extends _$SurveyDesignListEventCopyWithImpl<$Res, _$StartedImpl>
     implements _$$StartedImplCopyWith<$Res> {
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
@@ -97,7 +98,7 @@ class _$StartedImpl implements _Started {
 
   @override
   String toString() {
-    return 'PollingDoneEvent.started()';
+    return 'SurveyDesignListEvent.started()';
   }
 
   @override
@@ -113,7 +114,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() getPollingDone,
+    required TResult Function() getSurveyDesignList,
   }) {
     return started();
   }
@@ -122,7 +123,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? getPollingDone,
+    TResult? Function()? getSurveyDesignList,
   }) {
     return started?.call();
   }
@@ -131,7 +132,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? getPollingDone,
+    TResult Function()? getSurveyDesignList,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -144,7 +145,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetPollingDone value) getPollingDone,
+    required TResult Function(_GetSurveyDesignList value) getSurveyDesignList,
   }) {
     return started(this);
   }
@@ -153,7 +154,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetPollingDone value)? getPollingDone,
+    TResult? Function(_GetSurveyDesignList value)? getSurveyDesignList,
   }) {
     return started?.call(this);
   }
@@ -162,7 +163,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetPollingDone value)? getPollingDone,
+    TResult Function(_GetSurveyDesignList value)? getSurveyDesignList,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -172,40 +173,41 @@ class _$StartedImpl implements _Started {
   }
 }
 
-abstract class _Started implements PollingDoneEvent {
+abstract class _Started implements SurveyDesignListEvent {
   const factory _Started() = _$StartedImpl;
 }
 
 /// @nodoc
-abstract class _$$GetPollingDoneImplCopyWith<$Res> {
-  factory _$$GetPollingDoneImplCopyWith(_$GetPollingDoneImpl value,
-          $Res Function(_$GetPollingDoneImpl) then) =
-      __$$GetPollingDoneImplCopyWithImpl<$Res>;
+abstract class _$$GetSurveyDesignListImplCopyWith<$Res> {
+  factory _$$GetSurveyDesignListImplCopyWith(_$GetSurveyDesignListImpl value,
+          $Res Function(_$GetSurveyDesignListImpl) then) =
+      __$$GetSurveyDesignListImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$GetPollingDoneImplCopyWithImpl<$Res>
-    extends _$PollingDoneEventCopyWithImpl<$Res, _$GetPollingDoneImpl>
-    implements _$$GetPollingDoneImplCopyWith<$Res> {
-  __$$GetPollingDoneImplCopyWithImpl(
-      _$GetPollingDoneImpl _value, $Res Function(_$GetPollingDoneImpl) _then)
+class __$$GetSurveyDesignListImplCopyWithImpl<$Res>
+    extends _$SurveyDesignListEventCopyWithImpl<$Res, _$GetSurveyDesignListImpl>
+    implements _$$GetSurveyDesignListImplCopyWith<$Res> {
+  __$$GetSurveyDesignListImplCopyWithImpl(_$GetSurveyDesignListImpl _value,
+      $Res Function(_$GetSurveyDesignListImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$GetPollingDoneImpl implements _GetPollingDone {
-  const _$GetPollingDoneImpl();
+class _$GetSurveyDesignListImpl implements _GetSurveyDesignList {
+  const _$GetSurveyDesignListImpl();
 
   @override
   String toString() {
-    return 'PollingDoneEvent.getPollingDone()';
+    return 'SurveyDesignListEvent.getSurveyDesignList()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$GetPollingDoneImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$GetSurveyDesignListImpl);
   }
 
   @override
@@ -215,29 +217,29 @@ class _$GetPollingDoneImpl implements _GetPollingDone {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() getPollingDone,
+    required TResult Function() getSurveyDesignList,
   }) {
-    return getPollingDone();
+    return getSurveyDesignList();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? getPollingDone,
+    TResult? Function()? getSurveyDesignList,
   }) {
-    return getPollingDone?.call();
+    return getSurveyDesignList?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? getPollingDone,
+    TResult Function()? getSurveyDesignList,
     required TResult orElse(),
   }) {
-    if (getPollingDone != null) {
-      return getPollingDone();
+    if (getSurveyDesignList != null) {
+      return getSurveyDesignList();
     }
     return orElse();
   }
@@ -246,45 +248,45 @@ class _$GetPollingDoneImpl implements _GetPollingDone {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetPollingDone value) getPollingDone,
+    required TResult Function(_GetSurveyDesignList value) getSurveyDesignList,
   }) {
-    return getPollingDone(this);
+    return getSurveyDesignList(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetPollingDone value)? getPollingDone,
+    TResult? Function(_GetSurveyDesignList value)? getSurveyDesignList,
   }) {
-    return getPollingDone?.call(this);
+    return getSurveyDesignList?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetPollingDone value)? getPollingDone,
+    TResult Function(_GetSurveyDesignList value)? getSurveyDesignList,
     required TResult orElse(),
   }) {
-    if (getPollingDone != null) {
-      return getPollingDone(this);
+    if (getSurveyDesignList != null) {
+      return getSurveyDesignList(this);
     }
     return orElse();
   }
 }
 
-abstract class _GetPollingDone implements PollingDoneEvent {
-  const factory _GetPollingDone() = _$GetPollingDoneImpl;
+abstract class _GetSurveyDesignList implements SurveyDesignListEvent {
+  const factory _GetSurveyDesignList() = _$GetSurveyDesignListImpl;
 }
 
 /// @nodoc
-mixin _$PollingDoneState {
+mixin _$SurveyDesignListState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PollingDone> data) loaded,
+    required TResult Function(List<SurveyDesignList> data) loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -292,7 +294,7 @@ mixin _$PollingDoneState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PollingDone> data)? loaded,
+    TResult? Function(List<SurveyDesignList> data)? loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -300,7 +302,7 @@ mixin _$PollingDoneState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PollingDone> data)? loaded,
+    TResult Function(List<SurveyDesignList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -333,16 +335,17 @@ mixin _$PollingDoneState {
 }
 
 /// @nodoc
-abstract class $PollingDoneStateCopyWith<$Res> {
-  factory $PollingDoneStateCopyWith(
-          PollingDoneState value, $Res Function(PollingDoneState) then) =
-      _$PollingDoneStateCopyWithImpl<$Res, PollingDoneState>;
+abstract class $SurveyDesignListStateCopyWith<$Res> {
+  factory $SurveyDesignListStateCopyWith(SurveyDesignListState value,
+          $Res Function(SurveyDesignListState) then) =
+      _$SurveyDesignListStateCopyWithImpl<$Res, SurveyDesignListState>;
 }
 
 /// @nodoc
-class _$PollingDoneStateCopyWithImpl<$Res, $Val extends PollingDoneState>
-    implements $PollingDoneStateCopyWith<$Res> {
-  _$PollingDoneStateCopyWithImpl(this._value, this._then);
+class _$SurveyDesignListStateCopyWithImpl<$Res,
+        $Val extends SurveyDesignListState>
+    implements $SurveyDesignListStateCopyWith<$Res> {
+  _$SurveyDesignListStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -359,7 +362,7 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$PollingDoneStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$SurveyDesignListStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
@@ -373,7 +376,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'PollingDoneState.initial()';
+    return 'SurveyDesignListState.initial()';
   }
 
   @override
@@ -390,7 +393,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PollingDone> data) loaded,
+    required TResult Function(List<SurveyDesignList> data) loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -401,7 +404,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PollingDone> data)? loaded,
+    TResult? Function(List<SurveyDesignList> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -412,7 +415,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PollingDone> data)? loaded,
+    TResult Function(List<SurveyDesignList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -460,7 +463,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements PollingDoneState {
+abstract class _Initial implements SurveyDesignListState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -473,7 +476,7 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$PollingDoneStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$SurveyDesignListStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
@@ -487,7 +490,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'PollingDoneState.loading()';
+    return 'SurveyDesignListState.loading()';
   }
 
   @override
@@ -504,7 +507,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PollingDone> data) loaded,
+    required TResult Function(List<SurveyDesignList> data) loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -515,7 +518,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PollingDone> data)? loaded,
+    TResult? Function(List<SurveyDesignList> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -526,7 +529,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PollingDone> data)? loaded,
+    TResult Function(List<SurveyDesignList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -574,7 +577,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements PollingDoneState {
+abstract class _Loading implements SurveyDesignListState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -584,12 +587,12 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<PollingDone> data});
+  $Res call({List<SurveyDesignList> data});
 }
 
 /// @nodoc
 class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$PollingDoneStateCopyWithImpl<$Res, _$LoadedImpl>
+    extends _$SurveyDesignListStateCopyWithImpl<$Res, _$LoadedImpl>
     implements _$$LoadedImplCopyWith<$Res> {
   __$$LoadedImplCopyWithImpl(
       _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
@@ -604,7 +607,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
       null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<PollingDone>,
+              as List<SurveyDesignList>,
     ));
   }
 }
@@ -612,11 +615,11 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(final List<PollingDone> data) : _data = data;
+  const _$LoadedImpl(final List<SurveyDesignList> data) : _data = data;
 
-  final List<PollingDone> _data;
+  final List<SurveyDesignList> _data;
   @override
-  List<PollingDone> get data {
+  List<SurveyDesignList> get data {
     if (_data is EqualUnmodifiableListView) return _data;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_data);
@@ -624,7 +627,7 @@ class _$LoadedImpl implements _Loaded {
 
   @override
   String toString() {
-    return 'PollingDoneState.loaded(data: $data)';
+    return 'SurveyDesignListState.loaded(data: $data)';
   }
 
   @override
@@ -650,7 +653,7 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PollingDone> data) loaded,
+    required TResult Function(List<SurveyDesignList> data) loaded,
     required TResult Function(String message) error,
   }) {
     return loaded(data);
@@ -661,7 +664,7 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PollingDone> data)? loaded,
+    TResult? Function(List<SurveyDesignList> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loaded?.call(data);
@@ -672,7 +675,7 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PollingDone> data)? loaded,
+    TResult Function(List<SurveyDesignList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -720,10 +723,10 @@ class _$LoadedImpl implements _Loaded {
   }
 }
 
-abstract class _Loaded implements PollingDoneState {
-  const factory _Loaded(final List<PollingDone> data) = _$LoadedImpl;
+abstract class _Loaded implements SurveyDesignListState {
+  const factory _Loaded(final List<SurveyDesignList> data) = _$LoadedImpl;
 
-  List<PollingDone> get data;
+  List<SurveyDesignList> get data;
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -740,7 +743,7 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$PollingDoneStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$SurveyDesignListStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
@@ -770,7 +773,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'PollingDoneState.error(message: $message)';
+    return 'SurveyDesignListState.error(message: $message)';
   }
 
   @override
@@ -795,7 +798,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PollingDone> data) loaded,
+    required TResult Function(List<SurveyDesignList> data) loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -806,7 +809,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PollingDone> data)? loaded,
+    TResult? Function(List<SurveyDesignList> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -817,7 +820,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PollingDone> data)? loaded,
+    TResult Function(List<SurveyDesignList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -865,7 +868,7 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements PollingDoneState {
+abstract class _Error implements SurveyDesignListState {
   const factory _Error(final String message) = _$ErrorImpl;
 
   String get message;

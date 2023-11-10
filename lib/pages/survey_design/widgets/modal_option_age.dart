@@ -10,7 +10,7 @@ import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 
-import '../../../datasources/survey_design/list_demography_age.dart';
+import '../../../datasources/survey_design/data/list_demography_age.dart';
 import '../../../datasources/survey_design/repository/local/localRepositoryAge.dart';
 import '../../../../models/survey_design/demography_age_model.dart';
 

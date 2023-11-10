@@ -9,7 +9,7 @@ import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 
-import '../../../datasources/survey_design/list_demography_gender.dart';
+import '../../../datasources/survey_design/data/list_demography_gender.dart';
 import '../../../../models/survey_design/demography_gender_model.dart';
 import '../../../datasources/survey_design/repository/local/localRepositoryGender.dart';
 

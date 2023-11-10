@@ -8,9 +8,9 @@ import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
-import '../../../datasources/survey_design/list_demography_occupation.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryOccupation.dart';
 import '../../../../models/survey_design/demography_occupation_model.dart';
+import '../../../datasources/survey_design/data/list_demography_occupation.dart';
+import '../../../datasources/survey_design/repository/local/localRepositoryOccupation.dart';
 
 class ModalOptionOccupation extends StatefulWidget {
   final void Function() onUpdate;

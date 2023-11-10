@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -45,12 +47,6 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
       url,
       mode: LaunchMode.externalApplication,
     )) {
-      throw Exception('Could not launch $url');
-    }
-  }
-
-  Future<void> _launchInBrowserView(Uri url) async {
-    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
       throw Exception('Could not launch $url');
     }
   }
@@ -139,7 +135,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
           text: 'Beri Rating',
           icon: Icons.arrow_forward_ios,
           onPressed: () => setState(() {
-            _launched = _launchInBrowserView(toLaunch);
+            _launched = _launchInBrowser(toLaunch);
           }),
           iconColor: AppColors.light,
           textColor: AppColors.light,

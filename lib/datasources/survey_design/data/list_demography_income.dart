@@ -1,4 +1,4 @@
-import '../../models/survey_design/demography_income_model.dart';
+import '../../../models/survey_design/demography_income_model.dart';
 
 class ListDemographyIncome {
   static List<DemographyIncomeModel> getDemographyIncomeList() {

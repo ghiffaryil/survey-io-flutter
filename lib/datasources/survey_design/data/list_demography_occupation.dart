@@ -1,4 +1,4 @@
-import '../../models/survey_design/demography_occupation_model.dart';
+import '../../../models/survey_design/demography_occupation_model.dart';
 
 class ListDemographyOccupation {
   static List<DemographyOccupationModel> getDemographyOccupationList() {

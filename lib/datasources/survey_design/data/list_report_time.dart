@@ -1,4 +1,4 @@
-import '../../models/survey_design/report_time.dart';
+import '../../../models/survey_design/report_time.dart';
 
 class ListReportTime {
   static List<ReportTimeModel> getReportTimeList() {

@@ -9,10 +9,10 @@ import '../../../../common/components/label.dart';
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/constants/padding.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryQuestion.dart';
 import '../../../../common/components/elevated_button.dart';
-import '../../../datasources/survey_design/list_question_value.dart';
 import '../../../../models/survey_design/question_model.dart';
+import '../../../datasources/survey_design/data/list_question_value.dart';
+import '../../../datasources/survey_design/repository/local/localRepositoryQuestion.dart';
 import '../survey_design.dart';
 
 class QuestionOption extends StatefulWidget {

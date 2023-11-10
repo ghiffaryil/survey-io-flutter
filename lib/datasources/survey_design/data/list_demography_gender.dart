@@ -1,4 +1,4 @@
-import '../../models/survey_design/demography_gender_model.dart';
+import '../../../models/survey_design/demography_gender_model.dart';
 
 class ListDemographyGender {
   static List<DemographyGenderModel> getDemographyGenderList() {
