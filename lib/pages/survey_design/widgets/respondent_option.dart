@@ -10,9 +10,9 @@ import '../../../../common/components/label.dart';
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/constants/padding.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryRespondent.dart';
 import '../../../../models/survey_design/respondent_model.dart';
-import '../../../datasources/survey_design/list_respondent.dart';
+import '../../../datasources/survey_design/data/list_respondent.dart';
+import '../../../datasources/survey_design/repository/local/localRepositoryRespondent.dart';
 import '../survey_design.dart';
 
 class RespondentOption extends StatefulWidget {

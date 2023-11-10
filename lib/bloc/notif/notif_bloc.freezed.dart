@@ -284,7 +284,7 @@ mixin _$NotifState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<NotificationList> notificationList) loaded,
+    required TResult Function(List<NotificationList> data) loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -292,7 +292,7 @@ mixin _$NotifState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<NotificationList> notificationList)? loaded,
+    TResult? Function(List<NotificationList> data)? loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -300,7 +300,7 @@ mixin _$NotifState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<NotificationList> notificationList)? loaded,
+    TResult Function(List<NotificationList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -390,7 +390,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<NotificationList> notificationList) loaded,
+    required TResult Function(List<NotificationList> data) loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -401,7 +401,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<NotificationList> notificationList)? loaded,
+    TResult? Function(List<NotificationList> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -412,7 +412,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<NotificationList> notificationList)? loaded,
+    TResult Function(List<NotificationList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -504,7 +504,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<NotificationList> notificationList) loaded,
+    required TResult Function(List<NotificationList> data) loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -515,7 +515,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<NotificationList> notificationList)? loaded,
+    TResult? Function(List<NotificationList> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -526,7 +526,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<NotificationList> notificationList)? loaded,
+    TResult Function(List<NotificationList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -584,7 +584,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<NotificationList> notificationList});
+  $Res call({List<NotificationList> data});
 }
 
 /// @nodoc
@@ -598,12 +598,12 @@ class __$$LoadedImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? notificationList = null,
+    Object? data = null,
   }) {
     return _then(_$LoadedImpl(
-      null == notificationList
-          ? _value._notificationList
-          : notificationList // ignore: cast_nullable_to_non_nullable
+      null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
               as List<NotificationList>,
     ));
   }
@@ -612,21 +612,19 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(final List<NotificationList> notificationList)
-      : _notificationList = notificationList;
+  const _$LoadedImpl(final List<NotificationList> data) : _data = data;
 
-  final List<NotificationList> _notificationList;
+  final List<NotificationList> _data;
   @override
-  List<NotificationList> get notificationList {
-    if (_notificationList is EqualUnmodifiableListView)
-      return _notificationList;
+  List<NotificationList> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_notificationList);
+    return EqualUnmodifiableListView(_data);
   }
 
   @override
   String toString() {
-    return 'NotifState.loaded(notificationList: $notificationList)';
+    return 'NotifState.loaded(data: $data)';
   }
 
   @override
@@ -634,13 +632,12 @@ class _$LoadedImpl implements _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
-            const DeepCollectionEquality()
-                .equals(other._notificationList, _notificationList));
+            const DeepCollectionEquality().equals(other._data, _data));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_notificationList));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
 
   @JsonKey(ignore: true)
   @override
@@ -653,10 +650,10 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<NotificationList> notificationList) loaded,
+    required TResult Function(List<NotificationList> data) loaded,
     required TResult Function(String message) error,
   }) {
-    return loaded(notificationList);
+    return loaded(data);
   }
 
   @override
@@ -664,10 +661,10 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<NotificationList> notificationList)? loaded,
+    TResult? Function(List<NotificationList> data)? loaded,
     TResult? Function(String message)? error,
   }) {
-    return loaded?.call(notificationList);
+    return loaded?.call(data);
   }
 
   @override
@@ -675,12 +672,12 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<NotificationList> notificationList)? loaded,
+    TResult Function(List<NotificationList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(notificationList);
+      return loaded(data);
     }
     return orElse();
   }
@@ -724,10 +721,9 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements NotifState {
-  const factory _Loaded(final List<NotificationList> notificationList) =
-      _$LoadedImpl;
+  const factory _Loaded(final List<NotificationList> data) = _$LoadedImpl;
 
-  List<NotificationList> get notificationList;
+  List<NotificationList> get data;
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -799,7 +795,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<NotificationList> notificationList) loaded,
+    required TResult Function(List<NotificationList> data) loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -810,7 +806,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<NotificationList> notificationList)? loaded,
+    TResult? Function(List<NotificationList> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -821,7 +817,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<NotificationList> notificationList)? loaded,
+    TResult Function(List<NotificationList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

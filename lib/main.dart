@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/bloc/survey/survey_design_list/survey_design_list_bloc.dart';
 
 import 'bloc/login/login_bloc.dart';
 import 'bloc/profile/profile_bloc.dart';
@@ -62,6 +63,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => NotifBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListBloc(),
         ),
       ],
       child: MaterialApp(

@@ -38,7 +38,7 @@ class SurveyPopularListDatasource {
         final response = await http.Client().send(request);
         if (response.statusCode == 200) {
           final responseBody = await response.stream.bytesToString();
-          print('Load Survey Populer : success');
+          print('Load Survey Popular : success');
           return Right(SurveyListResponseModel.fromJson(responseBody));
         } else {
           return const Left('Can\'t Load data ');

@@ -9,7 +9,7 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
-import 'package:survey_io/datasources/survey/list_survey.dart';
+import 'package:survey_io/datasources/survey/data/list_survey.dart';
 import 'package:survey_io/models/survey/survey_model.dart';
 
 import '../../bloc/survey/survey_list/survey_list_bloc.dart';

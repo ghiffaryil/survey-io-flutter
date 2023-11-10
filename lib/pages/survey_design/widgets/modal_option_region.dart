@@ -8,9 +8,9 @@ import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
-import '../../../datasources/survey_design/list_demography_region.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryRegion.dart';
 import '../../../../models/survey_design/demography_region_model.dart';
+import '../../../datasources/survey_design/data/list_demography_region.dart';
+import '../../../datasources/survey_design/repository/local/localRepositoryRegion.dart';
 
 class ModalOptionRegion extends StatefulWidget {
   final void Function() onUpdate;

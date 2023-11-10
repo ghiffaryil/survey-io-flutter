@@ -10,7 +10,7 @@ import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/icons.dart';
 import 'package:survey_io/datasources/polling/list_polling_today.dart';
 import 'package:survey_io/models/polling/polling_model.dart';
-import 'package:survey_io/datasources/survey/list_survey_popular.dart';
+import 'package:survey_io/datasources/survey/data/list_survey_popular.dart';
 import 'package:survey_io/pages/login/login.dart';
 import 'package:survey_io/pages/survey/list_survey.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';

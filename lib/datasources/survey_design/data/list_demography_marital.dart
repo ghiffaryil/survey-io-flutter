@@ -1,4 +1,4 @@
-import '../../models/survey_design/demography_marital_model.dart';
+import '../../../models/survey_design/demography_marital_model.dart';
 
 class ListDemographyMarital {
   static List<DemographyMaritalModel> getDemographyMaritalList() {

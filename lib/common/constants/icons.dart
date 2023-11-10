@@ -47,4 +47,6 @@ class IconName {
   static const String iconEwalletShopeePay =
       'assets/icons/icon_ewallet_shopeepay.png';
   static const String notice = 'assets/icons/icon_warning.png';
+  
+  static const String surveyCheckApproved = 'assets/icons/icon_survei_check_approved.png';
 }

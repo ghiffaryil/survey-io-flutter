@@ -12,7 +12,7 @@ class ProfileRemoteDatasource {
     if (token.isEmpty) {
       return const Left('No access token available');
     }
-    
+
     final headers = {'authorization': token};
     final response = await http.get(
       Uri.parse('${Variables.baseURL}/user/get-profile'),
@@ -21,11 +21,14 @@ class ProfileRemoteDatasource {
 
     try {
       if (response.statusCode == 200) {
+        print('Get Profile : success');
         return Right(ProfileResponseModel.fromJson(response.body));
       } else {
+        print('Get Profile : no data');
         return const Left('Can\'t Load data ');
       }
     } catch (e) {
+      print('Get Profile : $e');
       return const Left('Server Error');
     }
   }

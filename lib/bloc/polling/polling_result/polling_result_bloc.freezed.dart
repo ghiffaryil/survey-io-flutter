@@ -319,7 +319,7 @@ mixin _$PollingResultState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PollingResultList> listPollingResult) loaded,
+    required TResult Function(List<PollingResultList> data) loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -327,7 +327,7 @@ mixin _$PollingResultState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PollingResultList> listPollingResult)? loaded,
+    TResult? Function(List<PollingResultList> data)? loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -335,7 +335,7 @@ mixin _$PollingResultState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PollingResultList> listPollingResult)? loaded,
+    TResult Function(List<PollingResultList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -425,7 +425,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PollingResultList> listPollingResult) loaded,
+    required TResult Function(List<PollingResultList> data) loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -436,7 +436,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PollingResultList> listPollingResult)? loaded,
+    TResult? Function(List<PollingResultList> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -447,7 +447,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PollingResultList> listPollingResult)? loaded,
+    TResult Function(List<PollingResultList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -539,7 +539,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PollingResultList> listPollingResult) loaded,
+    required TResult Function(List<PollingResultList> data) loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -550,7 +550,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PollingResultList> listPollingResult)? loaded,
+    TResult? Function(List<PollingResultList> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -561,7 +561,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PollingResultList> listPollingResult)? loaded,
+    TResult Function(List<PollingResultList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -619,7 +619,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<PollingResultList> listPollingResult});
+  $Res call({List<PollingResultList> data});
 }
 
 /// @nodoc
@@ -633,12 +633,12 @@ class __$$LoadedImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? listPollingResult = null,
+    Object? data = null,
   }) {
     return _then(_$LoadedImpl(
-      null == listPollingResult
-          ? _value._listPollingResult
-          : listPollingResult // ignore: cast_nullable_to_non_nullable
+      null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
               as List<PollingResultList>,
     ));
   }
@@ -647,21 +647,19 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(final List<PollingResultList> listPollingResult)
-      : _listPollingResult = listPollingResult;
+  const _$LoadedImpl(final List<PollingResultList> data) : _data = data;
 
-  final List<PollingResultList> _listPollingResult;
+  final List<PollingResultList> _data;
   @override
-  List<PollingResultList> get listPollingResult {
-    if (_listPollingResult is EqualUnmodifiableListView)
-      return _listPollingResult;
+  List<PollingResultList> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_listPollingResult);
+    return EqualUnmodifiableListView(_data);
   }
 
   @override
   String toString() {
-    return 'PollingResultState.loaded(listPollingResult: $listPollingResult)';
+    return 'PollingResultState.loaded(data: $data)';
   }
 
   @override
@@ -669,13 +667,12 @@ class _$LoadedImpl implements _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
-            const DeepCollectionEquality()
-                .equals(other._listPollingResult, _listPollingResult));
+            const DeepCollectionEquality().equals(other._data, _data));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_listPollingResult));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
 
   @JsonKey(ignore: true)
   @override
@@ -688,10 +685,10 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PollingResultList> listPollingResult) loaded,
+    required TResult Function(List<PollingResultList> data) loaded,
     required TResult Function(String message) error,
   }) {
-    return loaded(listPollingResult);
+    return loaded(data);
   }
 
   @override
@@ -699,10 +696,10 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PollingResultList> listPollingResult)? loaded,
+    TResult? Function(List<PollingResultList> data)? loaded,
     TResult? Function(String message)? error,
   }) {
-    return loaded?.call(listPollingResult);
+    return loaded?.call(data);
   }
 
   @override
@@ -710,12 +707,12 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PollingResultList> listPollingResult)? loaded,
+    TResult Function(List<PollingResultList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(listPollingResult);
+      return loaded(data);
     }
     return orElse();
   }
@@ -759,10 +756,9 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements PollingResultState {
-  const factory _Loaded(final List<PollingResultList> listPollingResult) =
-      _$LoadedImpl;
+  const factory _Loaded(final List<PollingResultList> data) = _$LoadedImpl;
 
-  List<PollingResultList> get listPollingResult;
+  List<PollingResultList> get data;
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -834,7 +830,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<PollingResultList> listPollingResult) loaded,
+    required TResult Function(List<PollingResultList> data) loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -845,7 +841,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<PollingResultList> listPollingResult)? loaded,
+    TResult? Function(List<PollingResultList> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -856,7 +852,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<PollingResultList> listPollingResult)? loaded,
+    TResult Function(List<PollingResultList> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
