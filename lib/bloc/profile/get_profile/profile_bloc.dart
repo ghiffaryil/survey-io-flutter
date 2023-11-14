@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:survey_io/datasources/profile/profile_datasource.dart';
-
-import '../../models/user/profile_response_model.dart';
+import 'package:survey_io/models/user/profile_response_model.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';

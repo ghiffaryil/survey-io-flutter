@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/common/components/input_field_date.dart';
-import 'package:survey_io/common/components/input_field_radio.dart';
-import 'package:survey_io/common/components/input_field_text.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
+import 'package:survey_io/bloc/profile/edit_profile/edit_profile_bloc.dart';
+import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
+import 'package:survey_io/datasources/profile/profile_datasource.dart';
+import 'package:survey_io/models/user/edit_profile_request_model.dart';
+import 'package:survey_io/pages/profile/profile.dart';
 
 // Import Component
+import '../../common/components/elevated_button.dart';
+import '../../common/components/input_field_date.dart';
+import '../../common/components/input_field_radio.dart';
+import '../../common/components/input_field_text.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/pages/login/login.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
 
@@ -33,13 +40,106 @@ class _EditProfileState extends State<EditProfile> {
   FocusNode emailFocus = FocusNode();
   FocusNode phoneNumberFocus = FocusNode();
 
+  int userId = 0;
+  int userActive = 0;
+  String userCreatedTime = '';
+  String userProvince = '';
+  String userCity = '';
+  String userProvider = '';
+  String userPlatform = '';
+  String createdTime = '';
+  String userGender = '';
+  int userAge = 0;
+
   String selectedGender = '';
+
+  @override
+  void initState() {
+    super.initState();
+    loadProfileInformation();
+  }
 
   void unfocusAll() {
     fullNameFocus.unfocus();
     dateOfBirthFocus.unfocus();
     emailFocus.unfocus();
     phoneNumberFocus.unfocus();
+  }
+
+  void loadProfileInformation() async {
+    try {
+      final result = await ProfileRemoteDatasource().getProfile();
+
+      result.fold(
+        (error) {
+          print('Error: $error');
+        },
+        (data) {
+          setState(() {
+            userId = data.data.user.id;
+            fullName.text = data.data.user.name;
+            email.text = data.data.user.email;
+
+            phoneNumber.text = data.data.user.phoneNumber;
+            // Convert to local timezone
+            DateTime localDob = data.data.userProfile.dob.toLocal();
+            String formattedDob = DateFormat('dd-MM-yyyy').format(localDob);
+            dateOfBirth.text = formattedDob;
+
+            if (data.data.userProfile.gender == "man" ||
+                data.data.userProfile.gender == "male" ||
+                selectedGender == "Laki-laki") {
+              selectedGender = "Laki-laki";
+              userGender = "male";
+            } else {
+              selectedGender = "Perempuan";
+              userGender = "female";
+            }
+          });
+          userActive = data.data.user.active;
+        },
+      );
+    } catch (e) {
+      print('Exception: $e');
+    }
+  }
+
+  bool _validateForm() {
+    if (phoneNumber.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Please enter your phone number',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.light.withOpacity(0.3),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    } else if (fullName.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Please enter your Name',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.light.withOpacity(0.3),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    } else if (email.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Please enter your Email',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.light.withOpacity(0.3),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    }
+    return true;
   }
 
   @override
@@ -54,41 +154,62 @@ class _EditProfileState extends State<EditProfile> {
           iconSize: 35.0,
           iconColor: AppColors.secondary,
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return const Profile();
+            }));
           },
         ),
         backgroundColor: AppColors.bg,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                color: Colors.white,
-                child: Text(
-                  'Edit Profil',
-                  style: TextStyles.h2ExtraBold(color: AppColors.secondary),
+        body: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              color: Colors.white,
+              child: Text(
+                'Edit Profil',
+                style: TextStyles.h2ExtraBold(color: AppColors.secondary),
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: Container(
+                  padding: CustomPadding.p2,
+                  child: BlocBuilder<ProfileBloc, ProfileState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        orElse: () {
+                          return Container();
+                        },
+                        loading: () {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                        error: (message) {
+                          return Center(
+                            child: Text(message),
+                          );
+                        },
+                        loaded: (data) {
+                          return formInputSection();
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
-              Container(
-                padding: CustomPadding.p2,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    formInputField(),
-                    CustomDividers.mediumDivider(),
-                    submitButton(),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget formInputField() {
+  Widget formInputSection() {
     return Column(
       children: [
         LabelInput(
@@ -118,8 +239,9 @@ class _EditProfileState extends State<EditProfile> {
                   selectedOption: selectedGender,
                   onChanged: (value) {
                     setState(() {
-                      selectedGender =
-                          value; // Update the selected selectedGender
+                      selectedGender = value;
+                      userGender = 'male';
+                      print(selectedGender);
                     });
                   },
                 )),
@@ -133,7 +255,9 @@ class _EditProfileState extends State<EditProfile> {
                   selectedOption: selectedGender,
                   onChanged: (value) {
                     setState(() {
-                      selectedGender = value; // Update the selected gender
+                      selectedGender = value;
+                      userGender = 'female';
+                      print(selectedGender);
                     });
                   },
                 )),
@@ -165,7 +289,7 @@ class _EditProfileState extends State<EditProfile> {
           keyboardType: TextInputType.phone,
           controller: phoneNumber,
           hintText: '081234567890',
-          suffixIconPNG: IconName.pollingCheckInfo,
+          suffixIconPNG: userActive == 1 ? IconName.pollingCheckInfo : null,
         ),
         CustomDividers.smallDivider(),
         LabelInput(
@@ -179,16 +303,74 @@ class _EditProfileState extends State<EditProfile> {
           controller: email,
           hintText: 'Masukkan Email Kamu',
         ),
+        CustomDividers.mediumDivider(),
+        submitButton(),
       ],
     );
   }
 
   Widget submitButton() {
-    return ButtonFilled.primary(
-        text: 'Submit',
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const LoginPage()));
-        });
+    return BlocListener<EditProfileBloc, EditProfileState>(
+      listener: (context, state) {
+        state.maybeWhen(
+            orElse: () {},
+            loaded: (data) {
+              loadProfileInformation();
+              // Navigator.pushReplacement(context,
+              //     MaterialPageRoute(builder: (context) {
+              //   return const HomePage();
+              // }));
+            },
+            error: (message) {
+              Fluttertoast.showToast(
+                  msg: message,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: AppColors.light.withOpacity(0.3),
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            });
+      },
+      child: BlocBuilder<EditProfileBloc, EditProfileState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return ButtonFilled.primary(
+                  text: 'Submit',
+                  onPressed: () {
+                    print('userGender $userGender');
+
+                    if (_validateForm()) {
+                      // Parse the existing date string
+                      DateTime parsedDate =
+                          DateFormat('dd-MM-yyyy').parse(dateOfBirth.text);
+                      // Format the date as 'yyyy-MM-dd'
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(parsedDate);
+
+                      final requestModel = EditProfileRequestModel(
+                        id: userId,
+                        name: fullName.text,
+                        email: email.text,
+                        dob: formattedDate,
+                        gender: userGender,
+                        phoneNumber: phoneNumber.text,
+                      );
+                      context
+                          .read<EditProfileBloc>()
+                          .add(EditProfileEvent.editProfile(requestModel));
+                    }
+                  });
+            },
+            loading: () {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }

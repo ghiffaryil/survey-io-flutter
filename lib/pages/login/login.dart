@@ -234,8 +234,6 @@ class _LoginPageState extends State<LoginPage> {
                     context
                         .read<LoginBloc>()
                         .add(LoginEvent.login(requestModel));
-                    // Navigator.push(context,
-                    //     MaterialPageRoute(builder: (context) => const HomePage()));
                   }
                 });
           }, loading: () {

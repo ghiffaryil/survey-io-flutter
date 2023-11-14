@@ -40,6 +40,7 @@ class SurveyListDatasource {
 
         if (response.statusCode == 200) {
           final responseBody = await response.stream.bytesToString();
+          print(responseBody);
           return Right(SurveyListResponseModel.fromJson(responseBody));
         } else {
           return const Left('Can\'t Load data ');

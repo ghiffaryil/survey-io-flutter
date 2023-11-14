@@ -128,7 +128,7 @@ class UserProfile {
   final int age;
   final dynamic children;
   final dynamic region;
-  final String gender;
+  late final String gender;
   final dynamic province;
   final dynamic city;
   final dynamic ethnic;
