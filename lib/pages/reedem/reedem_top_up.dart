@@ -39,14 +39,14 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
   String selectedProductName = '';
   int selectedProductId = 0;
   int selectedAmount = 0;
-  double _koin = 0.0;
+  int _koin = 0;
 
   @override
   void initState() {
     selectedProductId = widget.productId;
     selectedProductName = widget.productName;
     isBottomContainerVisible = true;
-    _koin = widget.koin.toDouble();
+    _koin = widget.koin;
     super.initState();
   }
 
@@ -150,7 +150,7 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
                                     selectedAmount = product.amount;
                                     isBottomContainerVisible = true;
                                     // Update both koin and _koin
-                                    _koin = product.amount / 1000;
+                                    _koin = product.amount;
                                   });
                                   widget.onSelectedProductChanged(product.id);
                                 },

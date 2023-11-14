@@ -12,12 +12,12 @@ import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/common/constants/padding.dart';
-import 'package:survey_io/pages/home/home.dart';
+import 'package:survey_io/pages/polling/polling.dart';
 import 'package:survey_io/pages/reedem/reedem_gift_card_success.dart';
 
 import '../../../common/constants/images.dart';
 import '../../../common/constants/styles.dart';
-import '../../bloc/profile/profile_bloc.dart';
+import '../../bloc/profile/get_profile/profile_bloc.dart';
 
 class ReedemGiftCard extends StatefulWidget {
   final int point;
@@ -57,7 +57,7 @@ class _ReedemGiftCardState extends State<ReedemGiftCard> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePage(),
+                builder: (context) => const PollingPage(),
               ));
         },
         leadingIcon: Icons.close,

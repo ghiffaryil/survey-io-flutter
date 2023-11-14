@@ -6,7 +6,7 @@ import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';
 import '../../../../common/constants/padding.dart';
 import '../../../../common/constants/styles.dart';
-import '../../../bloc/profile/profile_bloc.dart';
+import '../../../bloc/profile/get_profile/profile_bloc.dart';
 
 class UserInformation extends StatelessWidget {
   const UserInformation({super.key});
@@ -66,13 +66,13 @@ class UserInformation extends StatelessWidget {
                           return const Text('Can\'t Loaded Data');
                         },
                         loaded: (data) {
-                      return Text(
-                        data.point.toString(),
-                        style: TextStyles.regular(color: AppColors.secondary),
-                      );    
+                          return Text(
+                            data.point.toString(),
+                            style:
+                                TextStyles.regular(color: AppColors.secondary),
+                          );
                         },
                       );
-                      
                     },
                   )
                 ],

@@ -10,7 +10,7 @@ import 'package:survey_io/pages/profile/profile.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
 
-import '../../bloc/profile/profile_bloc.dart';
+import '../../bloc/profile/get_profile/profile_bloc.dart';
 import '../../common/components/appbar_plain.dart';
 import '../../common/constants/icons.dart';
 import '../../common/constants/images.dart';

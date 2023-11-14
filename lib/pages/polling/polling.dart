@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/polling/polling_done/polling_done_bloc.dart';
+import 'package:survey_io/pages/home/home.dart';
 
 import '../../bloc/polling/polling/polling_bloc.dart';
 import '../../common/constants/styles.dart';
@@ -43,7 +44,11 @@ class _PollingPageState extends State<PollingPage> {
         iconSize: 35.0,
         iconColor: AppColors.secondary,
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomePage(),
+              ));
         },
       ),
       body: RefreshIndicator(

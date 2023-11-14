@@ -291,7 +291,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                               child: Row(
                                                 children: [
                                                   Expanded(
-                                                    flex: 6,
+                                                    flex: 7,
                                                     child: Container(
                                                       alignment:
                                                           Alignment.centerLeft,
@@ -318,7 +318,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                     ),
                                                   ),
                                                   Expanded(
-                                                    flex: 4,
+                                                    flex: 3,
                                                     child: ButtonFilled.info(
                                                         height: 40,
                                                         text: 'Bayar',

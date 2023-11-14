@@ -22,6 +22,7 @@ class ProfileRemoteDatasource {
     try {
       if (response.statusCode == 200) {
         print('Get Profile : success');
+        print(response.body);
         return Right(ProfileResponseModel.fromJson(response.body));
       } else {
         print('Get Profile : no data');

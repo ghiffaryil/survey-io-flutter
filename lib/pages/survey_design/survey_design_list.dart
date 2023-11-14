@@ -10,7 +10,7 @@ import '../../../common/constants/styles.dart';
 import '../../../common/constants/colors.dart';
 import '../../../common/components/appbar.dart';
 import '../../../models/survey_design/survey_design_model.dart';
-import '../../bloc/profile/profile_bloc.dart';
+import '../../bloc/profile/get_profile/profile_bloc.dart';
 import '../../common/constants/widgets/red_shape_card.dart';
 import '../../datasources/login/auth_local_datasource.dart';
 import '../../datasources/survey_design/list_survey_design.dart';

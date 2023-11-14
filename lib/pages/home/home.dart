@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:survey_io/bloc/profile/profile_bloc.dart';
+import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 
 // Import Component
 import 'package:survey_io/common/components/appbar.dart';
