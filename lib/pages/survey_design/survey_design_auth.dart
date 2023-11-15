@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:survey_io/datasources/login/auth_local_datasource.dart';
+import 'package:survey_io/datasources/token/check_token_datasource.dart';
+import 'package:survey_io/pages/survey_design/survey_design.dart';
 
 import '../login/login.dart';
 import '../register/complete_profile_ktp_npwp.dart';
@@ -19,6 +22,54 @@ class AuthSurveyDesign extends StatefulWidget {
 }
 
 class _AuthSurveyDesignState extends State<AuthSurveyDesign> {
+  bool isLogged = false;
+  bool isExpiredToken = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkLogged();
+  }
+
+  void checkLogged() async {
+    final isLogin = await AuthLocalDatasource().isLogin();
+    final token = await AuthLocalDatasource().getToken();
+
+    if (token.isEmpty) {
+      setState(() {
+        isLogged = false;
+        isExpiredToken = true;
+      });
+    } else if (isLogin) {
+      // CHECK TOKEN IS STILL AVAILABLE
+      final result = await CheckTokenDatasource().checkToken();
+      result.fold(
+        (error) {
+          setState(() {
+            isLogged = true;
+            isExpiredToken = true;
+          });
+        },
+        (data) {
+          setState(() {
+            isLogged = true;
+            isExpiredToken = false;
+          });
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const SurveyDesign()));
+        },
+      );
+    } else {
+      setState(() {
+        isLogged = false;
+        isExpiredToken = true;
+      });
+    }
+
+    // DO OPEN SPLASH SCREEN
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

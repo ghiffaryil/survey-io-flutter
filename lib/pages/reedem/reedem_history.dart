@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/bloc/reedem/reedem_history/reedem_history_bloc.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/models/reedem/reedem_history_mdel.dart';
 import '../../../common/components/label.dart';
@@ -25,6 +27,14 @@ class ReedemHistoryPage extends StatefulWidget {
 class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
   List<ReedemHistoryModel> reedemHistoryData =
       ListReedemHistory.getReedemHistory();
+
+  @override
+  void initState() {
+    super.initState();
+    context
+        .read<ReedemHistoryBloc>()
+        .add(const ReedemHistoryEvent.getListReedemHistory());
+  }
 
   void markNotificationAsRead(int reedemHistoryId) {
     setState(() {
@@ -101,8 +111,19 @@ class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
               labelStyle: TextStyles.h2(color: AppColors.secondary),
             ),
           ),
-          reedemHistoryData.isEmpty
-              ? Container(
+          BlocBuilder<ReedemHistoryBloc, ReedemHistoryState>(
+            builder: (context, state) {
+              return state.maybeWhen(orElse: () {
+                return Container();
+              }, loading: () {
+                return const Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }, error: (message) {
+                return Container(
                   padding: CustomPadding.p3,
                   child: Column(
                     children: [
@@ -119,22 +140,23 @@ class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
                       )
                     ],
                   ),
-                )
-              : Expanded(
+                );
+              }, loaded: (data) {
+                return Expanded(
                   child: ListView.builder(
                     // shrinkWrap: true,
                     // physics: const NeverScrollableScrollPhysics(),
-                    itemCount: reedemHistoryData.length,
+                    itemCount: data.length,
                     itemBuilder: (BuildContext context, int index) {
                       bool isSameDate = true;
                       final String dateString =
-                          reedemHistoryData[index].datetime_created;
+                          data[index].datetimeCreated.toString();
                       final DateTime date = DateTime.parse(dateString);
 
                       if (index == 0) {
                       } else {
                         final String prevDateString =
-                            reedemHistoryData[index - 1].datetime_created;
+                            data[index - 1].datetimeCreated.toString();
                         final DateTime prevDate =
                             DateTime.parse(prevDateString);
                         isSameDate = date.isSameDate(prevDate);
@@ -149,14 +171,51 @@ class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
                                 date.formatDate(),
                                 style: TextStyles.h6ExtraBold(),
                               )),
-                          buildDismissibleNotification(index),
+                          Container(
+                            padding: const EdgeInsets.all(20.0),
+                            alignment: Alignment.centerLeft,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors
+                                      .grey, // Choose your desired border color
+                                  width: 0.2, // Choose the border width
+                                ),
+                              ),
+                            ),
+                            child: Text(data[index].message,
+                                style: TextStyles.regular(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.light)),
+                          ),
                         ]);
                       } else {
-                        return buildDismissibleNotification(index);
+                        return Container(
+                          padding: const EdgeInsets.all(20.0),
+                          alignment: Alignment.centerLeft,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors
+                                    .grey, // Choose your desired border color
+                                width: 0.2, // Choose the border width
+                              ),
+                            ),
+                          ),
+                          child: Text(data[index].message,
+                              style: TextStyles.regular(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.light)),
+                        );
                       }
                     },
                   ),
-                ),
+                );
+              });
+            },
+          ),
         ],
       ),
     );
