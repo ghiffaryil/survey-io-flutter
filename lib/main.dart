@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/profile/edit_profile/edit_profile_bloc.dart';
+import 'package:survey_io/bloc/reedem/product_prepaid_list/product_prepaid_list_bloc.dart';
+import 'package:survey_io/bloc/reedem/reedem_history/reedem_history_bloc.dart';
 import 'package:survey_io/bloc/survey/survey_design_list/survey_design_list_bloc.dart';
 
 import 'bloc/login/login_bloc.dart';
@@ -70,6 +72,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => EditProfileBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ProductPrepaidListBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ReedemHistoryBloc(),
         ),
       ],
       child: MaterialApp(

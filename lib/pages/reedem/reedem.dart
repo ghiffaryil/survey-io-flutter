@@ -2,18 +2,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
+import 'package:survey_io/bloc/reedem/product_prepaid_list/product_prepaid_list_bloc.dart';
+import 'package:survey_io/common/components/image_rounded.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
-import 'package:survey_io/models/reedem/product_prepaid_model.dart';
 import 'package:survey_io/pages/home/home.dart';
+import 'package:survey_io/pages/reedem/widgets/item_reedem_wrapper.dart';
 import 'package:survey_io/pages/reedem/widgets/user_information_card.dart';
-import '../../../common/components/appbar_plain.dart';
-import '../../../common/constants/padding.dart';
-import '../../datasources/reedem/list_product_prepaid.dart';
+import 'package:survey_io/common/components/appbar_plain.dart';
+import 'package:survey_io/common/constants/padding.dart';
 import 'reedem_all_product.dart';
-import 'widgets/item_reedem_product_card.dart';
 
 class ReedemPage extends StatefulWidget {
   const ReedemPage({super.key});
@@ -23,27 +23,17 @@ class ReedemPage extends StatefulWidget {
 }
 
 class _ReedemPageState extends State<ReedemPage> {
-  List<ProductPrepaidCategory> listProductPrepaidCategory =
-      ListProductPrepaid.getProductPrepaid();
-
   @override
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+    context
+        .read<ProductPrepaidListBloc>()
+        .add(const ProductPrepaidListEvent.getProductPrepaidList());
   }
 
   @override
   Widget build(BuildContext context) {
-    Map<String, List<Product>> groupedProducts = {};
-
-    for (final merchant in listProductPrepaidCategory) {
-      final category = merchant.categoryName;
-      if (!groupedProducts.containsKey(category)) {
-        groupedProducts[category] = [];
-      }
-      groupedProducts[category]?.addAll(merchant.listProducts);
-    }
-
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: PlainAppBar(
@@ -73,71 +63,202 @@ class _ReedemPageState extends State<ReedemPage> {
           Expanded(
             child: Padding(
               padding: CustomPadding.p1,
-              child: ListView.builder(
-                itemCount: listProductPrepaidCategory.length,
-                itemBuilder: (context, index) {
-                  final merchant = listProductPrepaidCategory[index];
-                  final isFirstChild = index == 0;
-                  final isDifferentCategory = isFirstChild ||
-                      merchant.categoryName !=
-                          listProductPrepaidCategory[index - 1].categoryName;
+              child:
+                  BlocBuilder<ProductPrepaidListBloc, ProductPrepaidListState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return Container();
+                    },
+                    loading: () {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                    error: (message) {
+                      return Text(message);
+                    },
+                    loaded: (data) {
+                      return ListView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          final dataProduct = data[index];
+                          final isFirstChild = index == 0;
+                          final isDifferentCategory = isFirstChild ||
+                              dataProduct.categoryName !=
+                                  data[index - 1].categoryName;
 
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      if (isDifferentCategory)
-                        Container(
-                          width: double.infinity,
-                          padding: CustomPadding.p2,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                merchant.categoryName,
-                                style: TextStyles.large(
-                                  color: AppColors.secondary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ReedemPageAllProducts(),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  'Lihat Semua',
-                                  style: TextStyles.large(
-                                    color: AppColors.info,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 1,
-                        itemBuilder: (context, indexProduct) {
-                          final product = merchant.listProducts[indexProduct];
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              ProductItemWidget(
-                                productData: product,
-                                listProductmerchant: merchant.listProducts,
+                              if (isDifferentCategory)
+                                Container(
+                                  width: double.infinity,
+                                  padding: CustomPadding.p2,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        dataProduct.categoryName,
+                                        style: TextStyles.large(
+                                          color: AppColors.secondary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const ReedemPageAllProducts(),
+                                            ),
+                                          );
+                                        },
+                                        child: Text(
+                                          'Lihat Semua',
+                                          style: TextStyles.large(
+                                            color: AppColors.info,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: 1,
+                                itemBuilder: (context, indexProduct) {
+                                  final product =
+                                      dataProduct.products[indexProduct];
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Card(
+                                        elevation: 4,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                flex: 3,
+                                                child: Padding(
+                                                  padding: CustomPadding.p1,
+                                                  child: RoundedImage(
+                                                    imageType: 'network',
+                                                    imageUrl:
+                                                        product.categoryImage,
+                                                    height: 120,
+                                                    fit: BoxFit.fitWidth,
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 6,
+                                                child: Padding(
+                                                  padding: CustomPadding.p1,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        'Top Up ${product.amount}',
+                                                        style: TextStyles.h4(),
+                                                      ),
+                                                      CustomDividers
+                                                          .verySmallDivider(),
+                                                      Text(
+                                                          'Get Top ${product.productName} balance up To ${product.amount}'),
+                                                      CustomDividers
+                                                          .smallDivider(),
+                                                      Container(
+                                                          width:
+                                                              double.infinity,
+                                                          alignment: Alignment
+                                                              .centerRight,
+                                                          child: TextButton(
+                                                            style: TextButton
+                                                                .styleFrom(
+                                                              minimumSize:
+                                                                  const Size(
+                                                                      20, 20),
+                                                              backgroundColor:
+                                                                  AppColors
+                                                                      .white,
+                                                              side: const BorderSide(
+                                                                  color: AppColors
+                                                                      .primary),
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              ),
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          RedeemTopUpPageWrapper(
+                                                                    productId:
+                                                                        product
+                                                                            .id,
+                                                                    productName:
+                                                                        product
+                                                                            .productName,
+                                                                    productImage:
+                                                                        product
+                                                                            .image,
+                                                                    listProducts:
+                                                                        data[index]
+                                                                            .products,
+                                                                    koin: product
+                                                                        .price,
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                            child:
+                                                                const Padding(
+                                                              padding:
+                                                                  CustomPadding
+                                                                      .px1,
+                                                              child: Text(
+                                                                'Reedem',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: AppColors
+                                                                      .primary,
+                                                                  fontSize: 14,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ))
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      CustomDividers.verySmallDivider(),
+                                    ],
+                                  );
+                                },
                               ),
-                              CustomDividers.verySmallDivider(),
                             ],
                           );
                         },
-                      ),
-                    ],
+                      );
+                    },
                   );
                 },
               ),

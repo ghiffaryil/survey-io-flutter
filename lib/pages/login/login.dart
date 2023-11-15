@@ -9,6 +9,7 @@ import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_password.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 import 'package:survey_io/datasources/login/auth_local_datasource.dart';
+import 'package:survey_io/datasources/token/check_token_datasource.dart';
 import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/models/auth/auth_request_model.dart';
 import 'package:survey_io/pages/register/register_phone_number.dart';
@@ -35,9 +36,15 @@ class _LoginPageState extends State<LoginPage> {
 
   String gender = '';
   bool _hidePassword = true;
+  bool isLogged = false;
+  bool isExpiredToken = false;
 
   var presscount = 0;
 
+  @override
+  void initState() {
+    super.initState();
+  }
   void _showHidePasswordTogle() {
     setState(() {
       _hidePassword = !_hidePassword;

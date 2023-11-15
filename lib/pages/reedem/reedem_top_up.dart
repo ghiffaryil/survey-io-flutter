@@ -131,7 +131,6 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
                             ? TextButtonFilled.primary(
                                 text: product.amount.toString(),
                                 onPressed: () {
-                                  // Change selected product id to 0
                                   print('Unselected => ${product.id}');
                                   setState(() {
                                     selectedProductId = 0;
