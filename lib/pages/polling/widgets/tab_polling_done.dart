@@ -220,7 +220,7 @@ class _TabPollingDoneState extends State<TabPollingDone> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Container(
-          height: MediaQuery.of(context).size.height * 0.75,
+          height: MediaQuery.of(context).size.height * 0.8,
           padding: const EdgeInsets.all(20),
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -267,7 +267,6 @@ class _TabPollingDoneState extends State<TabPollingDone> {
                       },
                       loaded: (data) {
                         List<PieChartSectionData> pieChartData = [];
-
                         List<Color> sectionColors = [
                           AppColors.info,
                           AppColors.primary,
@@ -301,7 +300,6 @@ class _TabPollingDoneState extends State<TabPollingDone> {
                             ),
                           );
                         }
-
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -319,7 +317,7 @@ class _TabPollingDoneState extends State<TabPollingDone> {
                               style:
                                   TextStyles.medium(color: AppColors.secondary),
                             ),
-                            CustomDividers.smallDivider(),
+                            CustomDividers.verySmallDivider(),
                             Expanded(
                               child: PieChart(
                                 PieChartData(
@@ -330,27 +328,31 @@ class _TabPollingDoneState extends State<TabPollingDone> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: List.generate(data.length, (index) {
-                                  final label = data[index].count.toString();
-                                  return Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5),
-                                    alignment: Alignment.center,
-                                    child: Indicator(
+                            CustomDividers.verySmallDivider(),
+                            Container(
+                              alignment: Alignment.center,
+                              child: GridView.builder(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 5.0,
+                                    crossAxisSpacing: 5.0,
+                                    mainAxisExtent: 30,
+                                  ),
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: data.length,
+                                  itemBuilder: (context, index) {
+                                    final label = data[index].label;
+                                    return Indicator(
                                       text: label,
                                       color: sectionColors[
                                           index % sectionColors.length],
                                       isSquare: false,
-                                    ),
-                                  );
-                                }),
-                              ),
+                                    );
+                                  }),
                             ),
+                            CustomDividers.verySmallDivider(),
                           ],
                         );
                       },

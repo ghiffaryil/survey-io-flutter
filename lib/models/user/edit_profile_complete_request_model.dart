@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-class EditProfileRequestModel {
+class EditProfileCompleteRequestModel {
   final int id;
   final String name;
   final String email;
   final String phoneNumber;
   final String dob;
   final String gender;
-  String? ktp;
-  String? npwp;
+  final String ktp;
+  final String npwp;
 
-  EditProfileRequestModel({
+  EditProfileCompleteRequestModel({
     required this.id,
     required this.name,
     required this.email,
@@ -34,8 +34,8 @@ class EditProfileRequestModel {
     };
   }
 
-  factory EditProfileRequestModel.fromMap(Map<String, dynamic> map) {
-    return EditProfileRequestModel(
+  factory EditProfileCompleteRequestModel.fromMap(Map<String, dynamic> map) {
+    return EditProfileCompleteRequestModel(
       id: map["id"],
       name: map["name"],
       email: map["email"],
@@ -49,6 +49,6 @@ class EditProfileRequestModel {
 
   String toJson() => json.encode(toMap());
 
-  factory EditProfileRequestModel.toJson(String source) =>
-      EditProfileRequestModel.fromMap(json.decode(source));
+  factory EditProfileCompleteRequestModel.toJson(String source) =>
+      EditProfileCompleteRequestModel.fromMap(json.decode(source));
 }

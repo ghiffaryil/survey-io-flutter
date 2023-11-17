@@ -1,30 +1,32 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 
-import '../../../common/components/elevated_button.dart';
-import '../../../common/components/appbar_plain.dart';
-import '../../../common/components/divider.dart';
-import '../../../common/components/input_field_radio.dart';
-import '../../../common/components/label.dart';
-import '../../../common/constants/colors.dart';
-import '../../../common/constants/imageSize.dart';
-import '../../../common/constants/images.dart';
-import '../../../common/constants/padding.dart';
-import '../../../common/constants/styles.dart';
-import '../../../common/components/text_button.dart';
-import '../../../common/extension/helper/currency_helper.dart';
-import '../../datasources/survey_design/repository/local/localRepositoryAge.dart';
-import '../../datasources/survey_design/repository/local/localRepositoryQuestion.dart';
-import '../../datasources/survey_design/repository/local/localRepositoryReportTime.dart';
-import '../../datasources/survey_design/repository/local/localRepositoryRespondent.dart';
-import '../../datasources/survey_design/repository/local/localRepositoryScreener.dart';
-
-import '../payment/payment_method.dart';
-import 'widgets/question_option.dart';
-import 'widgets/report_time_option.dart';
-import 'widgets/respondent_option.dart';
-import 'demography_option.dart';
-import 'survey_design_list.dart';
+import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/common/components/appbar_plain.dart';
+import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/common/components/input_field_radio.dart';
+import 'package:survey_io/common/components/label.dart';
+import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/imageSize.dart';
+import 'package:survey_io/common/constants/images.dart';
+import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/common/constants/styles.dart';
+import 'package:survey_io/common/components/text_button.dart';
+import 'package:survey_io/common/extension/helper/currency_helper.dart';
+import 'package:survey_io/datasources/survey_design/repository/local/localRepositoryAge.dart';
+import 'package:survey_io/datasources/survey_design/repository/local/localRepositoryQuestion.dart';
+import 'package:survey_io/datasources/survey_design/repository/local/localRepositoryReportTime.dart';
+import 'package:survey_io/datasources/survey_design/repository/local/localRepositoryRespondent.dart';
+import 'package:survey_io/datasources/survey_design/repository/local/localRepositoryScreener.dart';
+import 'package:survey_io/pages/home/home.dart';
+import 'package:survey_io/pages/payment/payment_method.dart';
+import 'package:survey_io/pages/survey_design/widgets/question_option.dart';
+import 'package:survey_io/pages/survey_design/widgets/report_time_option.dart';
+import 'package:survey_io/pages/survey_design/widgets/respondent_option.dart';
+import 'package:survey_io/pages/survey_design/demography_option.dart';
+// import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 
 class SurveyDesign extends StatefulWidget {
   const SurveyDesign({super.key});
@@ -54,11 +56,12 @@ class _SurveyDesignState extends State<SurveyDesign> {
 
   @override
   void initState() {
+    super.initState();
     getRespondentValue();
     getQuestionValue();
     getReportTimeValue();
     getScreenerValue();
-    super.initState();
+    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
   }
 
   // Get Respondent Id
@@ -185,10 +188,8 @@ class _SurveyDesignState extends State<SurveyDesign> {
       appBar: PlainAppBar(
         onPressed: () {
           deleteAllOptiondValue();
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const SurveyDesignList()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const HomePage()));
         },
         leadingIcon: Icons.close,
         iconColor: AppColors.black,

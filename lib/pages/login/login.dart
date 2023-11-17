@@ -44,6 +44,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
   }
+
   void _showHidePasswordTogle() {
     setState(() {
       _hidePassword = !_hidePassword;
@@ -62,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.light.withOpacity(0.3),
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
         textColor: Colors.white,
         fontSize: 16.0,
       );
@@ -73,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.light.withOpacity(0.3),
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
         textColor: Colors.white,
         fontSize: 16.0,
       );
@@ -99,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
               toastLength: Toast.LENGTH_LONG,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
-              backgroundColor: AppColors.light.withOpacity(0.3),
+              backgroundColor: AppColors.secondary.withOpacity(0.8),
               textColor: Colors.white,
               fontSize: 16.0);
           return false;
@@ -219,7 +220,7 @@ class _LoginPageState extends State<LoginPage> {
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1,
-                  backgroundColor: AppColors.light.withOpacity(0.3),
+                  backgroundColor: AppColors.secondary.withOpacity(0.8),
                   textColor: Colors.white,
                   fontSize: 16.0);
             });

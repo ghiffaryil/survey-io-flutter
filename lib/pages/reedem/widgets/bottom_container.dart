@@ -72,12 +72,13 @@ class BottomContainer extends StatelessWidget {
                   }));
                 },
                 error: (message) {
+                  // Jika gagal reedem / koin tidak mencukupi
                   Fluttertoast.showToast(
                       msg: message,
                       toastLength: Toast.LENGTH_SHORT,
                       gravity: ToastGravity.BOTTOM,
                       timeInSecForIosWeb: 1,
-                      backgroundColor: AppColors.light.withOpacity(0.3),
+                      backgroundColor: AppColors.secondary.withOpacity(0.8),
                       textColor: Colors.white,
                       fontSize: 16.0);
                   Navigator.pushReplacement(context,

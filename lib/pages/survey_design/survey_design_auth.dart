@@ -5,7 +5,7 @@ import 'package:survey_io/datasources/token/check_token_datasource.dart';
 import 'package:survey_io/pages/survey_design/survey_design.dart';
 
 import '../login/login.dart';
-import '../register/complete_profile_ktp_npwp.dart';
+import '../profile/edit_profile_complete.dart';
 import '../../common/components/divider.dart';
 import '../../common/components/text_button.dart';
 import '../../common/constants/colors.dart';
@@ -14,25 +14,24 @@ import '../../common/constants/padding.dart';
 import '../../../common/constants/imageSize.dart';
 import '../../../common/constants/styles.dart';
 
-class AuthSurveyDesign extends StatefulWidget {
-  const AuthSurveyDesign({super.key});
+class SurveyDesignAuth extends StatefulWidget {
+  const SurveyDesignAuth({super.key});
 
   @override
-  State<AuthSurveyDesign> createState() => _AuthSurveyDesignState();
+  State<SurveyDesignAuth> createState() => _SurveyDesignAuthState();
 }
 
-class _AuthSurveyDesignState extends State<AuthSurveyDesign> {
+class _SurveyDesignAuthState extends State<SurveyDesignAuth> {
   bool isLogged = false;
   bool isExpiredToken = false;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    checkLogged();
+    checkAuth();
   }
 
-  void checkLogged() async {
+  void checkAuth() async {
     final isLogin = await AuthLocalDatasource().isLogin();
     final token = await AuthLocalDatasource().getToken();
 
@@ -95,7 +94,7 @@ class _AuthSurveyDesignState extends State<AuthSurveyDesign> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const CompleteProfileKtpNPWP()));
+                        builder: (context) => const EditProfileComplete()));
               },
             ),
             Row(children: <Widget>[

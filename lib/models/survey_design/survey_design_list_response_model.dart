@@ -58,6 +58,7 @@ class SurveyDesignList {
   final int surveyId;
   final String? pdfLink;
   final String respondentProgress;
+  final String title;
 
   SurveyDesignList({
     required this.id,
@@ -90,6 +91,7 @@ class SurveyDesignList {
     required this.surveyId,
     required this.pdfLink,
     required this.respondentProgress,
+    required this.title,
   });
 
   factory SurveyDesignList.fromJson(String str) =>
@@ -131,6 +133,7 @@ class SurveyDesignList {
         surveyId: json["survey_id"],
         pdfLink: json["pdf_link"],
         respondentProgress: json["respondent_progress"],
+        title: json["title"].isEmpty ? 'Survey Kamu' : json["title"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -164,5 +167,6 @@ class SurveyDesignList {
         "survey_id": surveyId,
         "pdf_link": pdfLink,
         "respondent_progress": respondentProgress,
+        "title": title,
       };
 }

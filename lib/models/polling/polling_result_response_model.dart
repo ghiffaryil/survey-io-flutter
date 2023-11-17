@@ -30,10 +30,12 @@ class PollingResultResponseModel {
 class PollingResultList {
   final int pollingListId;
   final int count;
+  final String label;
 
   PollingResultList({
     required this.pollingListId,
     required this.count,
+    required this.label,
   });
 
   factory PollingResultList.fromJson(String str) =>
@@ -45,10 +47,12 @@ class PollingResultList {
       PollingResultList(
         pollingListId: json["polling_list_id"],
         count: json["count"],
+        label: json["label"],
       );
 
   Map<String, dynamic> toMap() => {
         "polling_list_id": pollingListId,
         "count": count,
+        "label": label,
       };
 }

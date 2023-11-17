@@ -31,6 +31,7 @@ class SurveyDesignModel {
   final int survey_id;
   final dynamic pdf_link;
   final String respondent_progress;
+  final String title;
 
   SurveyDesignModel({
     required this.id,
@@ -63,5 +64,6 @@ class SurveyDesignModel {
     required this.survey_id,
     required this.pdf_link,
     required this.respondent_progress,
+    required this.title,
   });
 }

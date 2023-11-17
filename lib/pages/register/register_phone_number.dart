@@ -10,7 +10,7 @@ import '../../../common/components/divider.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/components/information_card.dart';
 import '../../../common/constants/padding.dart';
-import 'verification_otp.dart';
+import 'register_verification_otp.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
