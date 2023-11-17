@@ -8,11 +8,11 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
-import 'package:survey_io/pages/home/home.dart';
-import 'package:survey_io/pages/reedem/widgets/item_reedem_wrapper.dart';
-import 'package:survey_io/pages/reedem/widgets/user_information_card.dart';
 import 'package:survey_io/common/components/appbar_plain.dart';
 import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/pages/reedem/widgets/item_reedem_wrapper.dart';
+import 'package:survey_io/pages/reedem/widgets/user_information_card.dart';
+import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 import 'reedem_all_product.dart';
 
 class ReedemPage extends StatefulWidget {
@@ -43,7 +43,7 @@ class _ReedemPageState extends State<ReedemPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePage(),
+                builder: (context) => const SurveyDesignList(),
               ));
         },
       ),
@@ -210,6 +210,9 @@ class _ReedemPageState extends State<ReedemPage> {
                                                                     productId:
                                                                         product
                                                                             .id,
+                                                                    productCode:
+                                                                        product
+                                                                            .productCode,
                                                                     productName:
                                                                         product
                                                                             .productName,
@@ -220,7 +223,9 @@ class _ReedemPageState extends State<ReedemPage> {
                                                                         data[index]
                                                                             .products,
                                                                     koin: product
-                                                                        .price,
+                                                                        .amount,
+                                                                    amount: product
+                                                                        .amount,
                                                                   ),
                                                                 ),
                                                               );

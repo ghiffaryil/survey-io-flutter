@@ -8,24 +8,29 @@ import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/datasources/profile/profile_datasource.dart';
 import '../../../common/constants/styles.dart';
-import 'widgets/botoom_container.dart';
+import 'widgets/bottom_container.dart';
 
 class ReedemTopUpPage extends StatefulWidget {
   final int productId;
   final String productName;
+  final String productCode;
   final String productImage;
   final List listProducts;
   final int koin;
+  final int amount;
   final Function(int) onSelectedProductChanged;
 
   const ReedemTopUpPage({
     Key? key,
     required this.productId,
+    required this.productCode,
     required this.productName,
     required this.productImage,
     required this.listProducts,
     required this.koin,
+    required this.amount,
     required this.onSelectedProductChanged,
   }) : super(key: key);
 
@@ -34,20 +39,45 @@ class ReedemTopUpPage extends StatefulWidget {
 }
 
 class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
-  bool isGrid = true;
-  bool isBottomContainerVisible = false;
-  String selectedProductName = '';
+  int userId = 0;
   int selectedProductId = 0;
   int selectedAmount = 0;
   int _koin = 0;
+  String selectedProductName = '';
+  String selectedProductCode = '';
+  TextEditingController inputPhoneNumber = TextEditingController();
+  bool isBottomContainerVisible = false;
 
   @override
   void initState() {
+    super.initState();
     selectedProductId = widget.productId;
     selectedProductName = widget.productName;
+    selectedAmount = widget.amount;
+    selectedProductCode = widget.productCode;
     isBottomContainerVisible = true;
     _koin = widget.koin;
-    super.initState();
+    loadProfileInformation();
+  }
+
+  void loadProfileInformation() async {
+    try {
+      final result = await ProfileRemoteDatasource().getProfile();
+
+      result.fold(
+        (error) {
+          print('Error: $error');
+        },
+        (data) {
+          setState(() {
+            userId = data.data.user.id;
+            inputPhoneNumber.text = data.data.user.phoneNumber;
+          });
+        },
+      );
+    } catch (e) {
+      print('Exception: $e');
+    }
   }
 
   @override
@@ -89,29 +119,28 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
                         fit: BoxFit.fitHeight,
                       ),
                     ),
-                    CustomDividers.mediumDivider(),
-                    Column(
-                      children: [
-                        Text(
-                          'Nomor ${widget.productName} Terdaftar',
-                          style: TextStyles.h3(),
+                    CustomDividers.regularDivider(),
+                    Text(
+                      'Nomor ${widget.productName} Terdaftar',
+                      style: TextStyles.h3(),
+                    ),
+                    CustomDividers.smallDivider(),
+                    SizedBox(
+                      width: 200,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isBottomContainerVisible = false;
+                          });
+                        },
+                        child: TextFormField(
+                          style: TextStyles.large(color: AppColors.secondary),
+                          keyboardAppearance: Brightness.dark,
+                          keyboardType: TextInputType.phone,
+                          textAlign: TextAlign.center,
+                          controller: inputPhoneNumber,
                         ),
-                        SizedBox(
-                          width: 200,
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isBottomContainerVisible = false;
-                              });
-                            },
-                            child: TextFormField(
-                              keyboardAppearance: Brightness.dark,
-                              keyboardType: TextInputType.phone,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        )
-                      ],
+                      ),
                     ),
                     CustomDividers.mediumDivider(),
                     GridView.builder(
@@ -142,13 +171,13 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
                             : TextButtonOutlined.primary(
                                 text: product.amount.toString(),
                                 onPressed: () {
-                                  // Change selected product id to ID
-                                  print('Selected => ${product.id}');
+                                  print(
+                                      'Selected => ${product.id} / ${product.productCode} / ${product.amount}');
+
                                   setState(() {
                                     selectedProductId = product.id;
                                     selectedAmount = product.amount;
                                     isBottomContainerVisible = true;
-                                    // Update both koin and _koin
                                     _koin = product.amount;
                                   });
                                   widget.onSelectedProductChanged(product.id);
@@ -165,8 +194,10 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
             Visibility(
               visible: MediaQuery.of(context).viewInsets.bottom < 1,
               child: BottomContainer(
+                phoneNumber: inputPhoneNumber.text,
                 productName: selectedProductName,
                 productId: selectedProductId,
+                productCode: selectedProductCode,
                 amount: selectedAmount,
                 koin: _koin.toInt(),
               ),

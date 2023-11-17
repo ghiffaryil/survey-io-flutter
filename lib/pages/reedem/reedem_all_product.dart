@@ -183,6 +183,9 @@ class _ReedemPageAllProductsState extends State<ReedemPageAllProducts> {
                                                                     productId:
                                                                         product
                                                                             .id,
+                                                                    productCode:
+                                                                        product
+                                                                            .productCode,
                                                                     productName:
                                                                         product
                                                                             .productName,
@@ -193,7 +196,9 @@ class _ReedemPageAllProductsState extends State<ReedemPageAllProducts> {
                                                                         data[index]
                                                                             .products,
                                                                     koin: product
-                                                                        .price,
+                                                                        .amount,
+                                                                    amount: product
+                                                                        .amount,
                                                                   ),
                                                                 ),
                                                               );

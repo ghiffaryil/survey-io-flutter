@@ -5,6 +5,7 @@ import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/pages/reedem/reedem.dart';
 
 import '../../../common/constants/images.dart';
 import '../../../common/constants/styles.dart';
@@ -33,7 +34,11 @@ class _ReedemFailedState extends State<ReedemFailed> {
     return Scaffold(
       appBar: PlainAppBar(
         onPressed: () {
-          Navigator.pop(context);
+          // Navigator.pop(context);
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) {
+            return const ReedemPage();
+          }));
         },
         leadingIcon: Icons.close,
         iconColor: AppColors.black,
@@ -69,7 +74,11 @@ class _ReedemFailedState extends State<ReedemFailed> {
             ButtonFilled.primary(
                 text: 'Coba Lagi',
                 onPressed: () {
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) {
+                    return const ReedemPage();
+                  }));
                 })
           ],
         ),

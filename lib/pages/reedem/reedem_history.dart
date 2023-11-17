@@ -186,8 +186,7 @@ class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
                             ),
                             child: Text(data[index].message,
                                 style: TextStyles.regular(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.light)),
+                                    color: AppColors.secondary)),
                           ),
                         ]);
                       } else {

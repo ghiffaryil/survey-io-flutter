@@ -12,8 +12,8 @@ class PollingParticipateBloc
   PollingParticipateBloc() : super(const _Initial()) {
     on<_SetPollingParticipate>((event, emit) async {
       emit(const _Loading());
-      final response =
-          await PollingParticipateDatasource().setPollingParticipate(event.pollingListId);
+      final response = await PollingParticipateDatasource()
+          .setPollingParticipate(event.pollingListId);
       response.fold(
         (l) => emit(_Error(l)),
         (r) => emit(_Loaded(r)),
