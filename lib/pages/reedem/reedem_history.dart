@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/reedem/reedem_history/reedem_history_bloc.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/models/reedem/reedem_history_mdel.dart';
+import 'package:survey_io/models/reedem/reedem_history_response_model.dart';
 import '../../../common/components/label.dart';
 import '../../../common/constants/colors.dart';
 import '../../../common/constants/imageSize.dart';
@@ -142,21 +143,26 @@ class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
                   ),
                 );
               }, loaded: (data) {
+                // data.sort((a, b) => b.datetimeCreated.compareTo(a.datetimeCreated));
+
+                // Filter unread notifications
+                List<ReedemHistoryList> dataList = List.from(data);
+                dataList.sort(
+                    (a, b) => b.datetimeCreated.compareTo(a.datetimeCreated));
+
                 return Expanded(
                   child: ListView.builder(
-                    // shrinkWrap: true,
-                    // physics: const NeverScrollableScrollPhysics(),
-                    itemCount: data.length,
+                    itemCount: dataList.length,
                     itemBuilder: (BuildContext context, int index) {
                       bool isSameDate = true;
                       final String dateString =
-                          data[index].datetimeCreated.toString();
+                          dataList[index].datetimeCreated.toString();
                       final DateTime date = DateTime.parse(dateString);
 
                       if (index == 0) {
                       } else {
                         final String prevDateString =
-                            data[index - 1].datetimeCreated.toString();
+                            dataList[index - 1].datetimeCreated.toString();
                         final DateTime prevDate =
                             DateTime.parse(prevDateString);
                         isSameDate = date.isSameDate(prevDate);
@@ -178,13 +184,12 @@ class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
                               color: Colors.white,
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors
-                                      .grey, // Choose your desired border color
-                                  width: 0.2, // Choose the border width
+                                  color: Colors.grey,
+                                  width: 0.2,
                                 ),
                               ),
                             ),
-                            child: Text(data[index].message,
+                            child: Text(dataList[index].message,
                                 style: TextStyles.regular(
                                     color: AppColors.secondary)),
                           ),
@@ -197,13 +202,12 @@ class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
                             color: Colors.white,
                             border: Border(
                               bottom: BorderSide(
-                                color: Colors
-                                    .grey, // Choose your desired border color
-                                width: 0.2, // Choose the border width
+                                color: Colors.grey,
+                                width: 0.2,
                               ),
                             ),
                           ),
-                          child: Text(data[index].message,
+                          child: Text(dataList[index].message,
                               style: TextStyles.regular(
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.light)),

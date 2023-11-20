@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
-        icon: const Icon(Icons.notifications),
+        badge: true,
       ),
       body: Stack(
         children: [
