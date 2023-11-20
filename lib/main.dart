@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:survey_io/bloc/reedem/product_prepaid_list/product_prepaid_list_bloc.dart';
 import 'package:survey_io/bloc/reedem/reedem_history/reedem_history_bloc.dart';
+import 'package:survey_io/bloc/reedem/topup_prepaid/topup_prepaid_bloc.dart';
 import 'package:survey_io/bloc/survey/survey_design_list/survey_design_list_bloc.dart';
 
 import 'bloc/login/login_bloc.dart';
@@ -21,7 +24,17 @@ import 'package:survey_io/pages/splashscreen/splashscreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -78,6 +91,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ReedemHistoryBloc(),
+        ),
+        BlocProvider(
+          create: (context) => TopupPrepaidBloc(),
         ),
       ],
       child: MaterialApp(

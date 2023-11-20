@@ -1,3 +1,5 @@
+import 'package:survey_io/common/constants/widgets/notification_badge.dart';
+
 import '../constants/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +11,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Icon? icon;
   final double height;
   final double toolbarHeight;
+  final bool? badge;
 
   const MainAppBar({
     required this.title,
@@ -18,6 +21,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.icon,
     this.height = 100,
     this.toolbarHeight = 100,
+    this.badge = false,
     Key? key,
   }) : super(key: key);
 
@@ -33,7 +37,9 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: AppColors.primary,
       title: title,
       actions: [
-        if (onPressed != null &&
+        if (badge == true)
+          const NotificationBadge()
+        else if (onPressed != null &&
             icon !=
                 null) // Show actions if both onPressed and icon are provided
           Padding(

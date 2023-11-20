@@ -11,7 +11,7 @@ import 'package:survey_io/common/components/divider.dart';
 
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/constants/padding.dart';
-import 'complete_profile.dart';
+import 'register_complete.dart';
 
 class VerificationOTP extends StatefulWidget {
   const VerificationOTP({super.key});

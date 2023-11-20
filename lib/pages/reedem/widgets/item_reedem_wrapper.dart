@@ -6,7 +6,9 @@ import '../reedem_top_up.dart';
 
 class RedeemTopUpPageWrapper extends StatefulWidget {
   final int productId;
+  final int amount;
   final String productName;
+  final String productCode;
   final String productImage;
   final List listProducts;
   final int koin;
@@ -14,6 +16,8 @@ class RedeemTopUpPageWrapper extends StatefulWidget {
   const RedeemTopUpPageWrapper({
     Key? key,
     required this.productId,
+    required this.amount,
+    required this.productCode,
     required this.productName,
     required this.productImage,
     required this.listProducts,
@@ -37,7 +41,9 @@ class _RedeemTopUpPageWrapperState extends State<RedeemTopUpPageWrapper> {
   Widget build(BuildContext context) {
     return ReedemTopUpPage(
       productId: widget.productId,
+      amount: widget.amount,
       productName: widget.productName,
+      productCode: widget.productCode,
       productImage: widget.productImage,
       listProducts: widget.listProducts,
       koin: widget.koin,

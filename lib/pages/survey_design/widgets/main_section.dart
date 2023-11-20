@@ -11,7 +11,8 @@ import 'package:survey_io/common/constants/images.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/extension/helper/currency_helper.dart';
-import 'package:survey_io/pages/survey_design/survey_design_auth.dart';
+import 'package:survey_io/datasources/profile/profile_datasource.dart';
+import 'package:survey_io/pages/profile/edit_profile_complete.dart';
 
 class MainSectionSurveyDesign extends StatefulWidget {
   const MainSectionSurveyDesign({super.key});
@@ -22,6 +23,32 @@ class MainSectionSurveyDesign extends StatefulWidget {
 }
 
 class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
+  bool isLogged = false;
+  bool isExpiredToken = false;
+  String ktp = '';
+  String npwp = '';
+  int userActive = 0;
+
+  void loadProfileInformation() async {
+    try {
+      final result = await ProfileRemoteDatasource().getProfile();
+      result.fold(
+        (error) {
+          print('Error: $error');
+        },
+        (data) {
+          setState(() {
+            ktp = data.data.userProfile.ktp;
+            npwp = data.data.userProfile.npwp;
+            userActive = data.data.user.active;
+          });
+        },
+      );
+    } catch (e) {
+      print('Exception: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -140,7 +167,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                     children: [
                                       Expanded(
                                           flex: 7,
-                                          child: Text(surveyDesignData.type,
+                                          child: Text(surveyDesignData.title,
                                               textAlign: TextAlign.left,
                                               style: TextStyles.h4(
                                                   color: AppColors.secondary))),
@@ -521,25 +548,27 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
   }
 
   Widget buildButtonSubmit(String mode) {
-    return mode == 'primary'
-        ? ButtonFilled.primary(
-            text: 'Buat Survei',
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AuthSurveyDesign()));
-            })
-        : TextButtonOutlined.transparent(
-            borderColor: AppColors.primary,
-            textColor: AppColors.primary,
-            text: 'Buat Survei',
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AuthSurveyDesign()));
-            });
+    return Container(
+        child: mode == 'primary'
+            ? ButtonFilled.primary(text: 'Buat Survei', onPressed: () {})
+            : TextButtonOutlined.transparent(
+                borderColor: AppColors.primary,
+                textColor: AppColors.primary,
+                text: 'Buat Survei',
+                onPressed: () {
+                  // ignore: unnecessary_null_comparison
+                  if (ktp == null || npwp == null) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EditProfileComplete()));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EditProfileComplete()));
+                  }
+                }));
   }
 
   void showModalSubmitConfirmation(BuildContext context) {

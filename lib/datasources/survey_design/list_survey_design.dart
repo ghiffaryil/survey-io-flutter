@@ -35,6 +35,7 @@ class MySurveyDesign {
         survey_id: 83,
         pdf_link: null,
         respondent_progress: "0/500",
+        title: 'AAA',
       ),
       SurveyDesignModel(
         id: 33,
@@ -68,6 +69,7 @@ class MySurveyDesign {
         survey_id: 82,
         pdf_link: null,
         respondent_progress: "0/500",
+        title: 'AAA',
       ),
       SurveyDesignModel(
         id: 31,
@@ -101,6 +103,7 @@ class MySurveyDesign {
         survey_id: 80,
         pdf_link: null,
         respondent_progress: "0/500",
+        title: 'AAA',
       ),
       SurveyDesignModel(
         id: 30,
@@ -133,6 +136,7 @@ class MySurveyDesign {
         survey_id: 79,
         pdf_link: null,
         respondent_progress: "0/500",
+        title: 'AAA',
       )
     ];
   }

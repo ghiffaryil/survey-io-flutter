@@ -14,7 +14,6 @@ import '../../bloc/profile/get_profile/profile_bloc.dart';
 import '../../common/constants/widgets/red_shape_card.dart';
 import '../../datasources/login/auth_local_datasource.dart';
 import '../../datasources/survey_design/list_survey_design.dart';
-import '../notification/notification.dart';
 import '../tabs/floating_icon.dart';
 import '../tabs/navigation_bottom_bar.dart';
 
@@ -68,15 +67,7 @@ class _SurveyDesignListState extends State<SurveyDesignList> {
             color: AppColors.white,
           ),
         ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const NotificationPage(),
-            ),
-          );
-        },
-        icon: const Icon(Icons.notifications),
+        badge: true,
       ),
       body: const Stack(children: [
         MainSectionSurveyDesign(),

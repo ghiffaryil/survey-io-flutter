@@ -20,17 +20,22 @@ class CheckTokenDatasource {
 
     try {
       if (response.statusCode == 200) {
+        print('Token OK');
         return const Right('Token OK');
       } else if (response.statusCode == 401) {
         if (response.body.contains("Token is expired")) {
+          print('Token is Expired');
           return const Left('Token is Expired');
         } else {
+          print('Unauthorized');
           return const Left('Unauthorized');
         }
       } else {
+        print('Can\'t Load data');
         return const Left('Can\'t Load data');
       }
     } catch (e) {
+      print('Server Error');
       return const Left('Server Error');
     }
   }

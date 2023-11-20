@@ -1,10 +1,11 @@
+import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:survey_io/pages/profile/profile.dart';
 import 'package:survey_io/bloc/profile/edit_profile/edit_profile_bloc.dart';
-import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
+import 'package:survey_io/common/components/appbar_plain.dart';
+import 'package:survey_io/common/constants/icons.dart';
 import 'package:survey_io/datasources/profile/profile_datasource.dart';
 import 'package:survey_io/models/user/edit_profile_request_model.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
@@ -12,27 +13,37 @@ import 'package:survey_io/common/components/input_field_date.dart';
 import 'package:survey_io/common/components/input_field_radio.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
-import 'package:survey_io/common/constants/icons.dart';
-import 'package:survey_io/common/components/appbar_plain.dart';
+import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 
-class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
+class EditProfileComplete extends StatefulWidget {
+  const EditProfileComplete({super.key});
 
   @override
-  State<EditProfile> createState() => _EditProfileState();
+  State<EditProfileComplete> createState() => _EditProfileCompleteState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _EditProfileCompleteState extends State<EditProfileComplete> {
   TextEditingController fullName = TextEditingController();
-  TextEditingController dateOfBirth = TextEditingController();
+  TextEditingController placeOfBirth = TextEditingController();
+  TextEditingController passcode = TextEditingController();
+  TextEditingController inputKtpNumber = TextEditingController();
+  TextEditingController inputNpwpNumber = TextEditingController();
+  TextEditingController referalCode = TextEditingController();
+
   TextEditingController email = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
+  TextEditingController dateOfBirth = TextEditingController();
 
   FocusNode fullNameFocus = FocusNode();
+  FocusNode placeOfBirthFocus = FocusNode();
+  FocusNode passcodeFocus = FocusNode();
+  FocusNode inputKtpNumberFocus = FocusNode();
+  FocusNode inputNpwpNumberFocus = FocusNode();
+  FocusNode referalCodeFocus = FocusNode();
   FocusNode dateOfBirthFocus = FocusNode();
   FocusNode emailFocus = FocusNode();
   FocusNode phoneNumberFocus = FocusNode();
@@ -46,9 +57,6 @@ class _EditProfileState extends State<EditProfile> {
   String userPlatform = '';
   String createdTime = '';
   String userGender = '';
-  String userKTP = '';
-  String userNPWP = '';
-  int userAge = 0;
   String selectedGender = '';
 
   @override
@@ -57,16 +65,10 @@ class _EditProfileState extends State<EditProfile> {
     loadProfileInformation();
   }
 
-  void unfocusAll() {
-    fullNameFocus.unfocus();
-    dateOfBirthFocus.unfocus();
-    emailFocus.unfocus();
-    phoneNumberFocus.unfocus();
-  }
-
   void loadProfileInformation() async {
     try {
       final result = await ProfileRemoteDatasource().getProfile();
+
       result.fold(
         (error) {
           print('Error: $error');
@@ -76,10 +78,13 @@ class _EditProfileState extends State<EditProfile> {
             userId = data.data.user.id;
             fullName.text = data.data.user.name;
             email.text = data.data.user.email;
+            inputKtpNumber.text = data.data.userProfile.ktp;
+            inputNpwpNumber.text = data.data.userProfile.npwp;
             phoneNumber.text = data.data.user.phoneNumber;
             DateTime localDob = data.data.userProfile.dob.toLocal();
             String formattedDob = DateFormat('dd-MM-yyyy').format(localDob);
             dateOfBirth.text = formattedDob;
+
             if (data.data.userProfile.gender == "man" ||
                 data.data.userProfile.gender == "male" ||
                 selectedGender == "Laki-laki") {
@@ -89,10 +94,8 @@ class _EditProfileState extends State<EditProfile> {
               selectedGender = "Perempuan";
               userGender = "female";
             }
-            userActive = data.data.user.active;
-            userKTP = data.data.userProfile.ktp;
-            userNPWP = data.data.userProfile.npwp;
           });
+          userActive = data.data.user.active;
         },
       );
     } catch (e) {
@@ -100,36 +103,81 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
+  void unfocusAll() {
+    fullNameFocus.unfocus();
+    placeOfBirthFocus.unfocus();
+    passcodeFocus.unfocus();
+    inputKtpNumberFocus.unfocus();
+    inputNpwpNumberFocus.unfocus();
+    referalCodeFocus.unfocus();
+    dateOfBirthFocus.unfocus();
+    emailFocus.unfocus();
+    phoneNumberFocus.unfocus();
+  }
+
   bool _validateForm() {
-    if (phoneNumber.text.isEmpty) {
+    if (fullName.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Please enter your phone number',
+        msg: 'Harap masukkan Nama Lengkap Anda',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.light.withOpacity(0.3),
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-      return false;
-    } else if (fullName.text.isEmpty) {
-      Fluttertoast.showToast(
-        msg: 'Please enter your Name',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.light.withOpacity(0.3),
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
         textColor: Colors.white,
         fontSize: 16.0,
       );
       return false;
     } else if (email.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Please enter your Email',
+        msg: 'Harap masukkan Email Anda',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.light.withOpacity(0.3),
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    } else if (dateOfBirth.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Harap masukkan Tanggal Lahir Anda',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    } else if (phoneNumber.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Harap masukkan Nomor Telepon Anda',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    } else if (inputKtpNumber.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Harap masukkan Nomor KTP Anda',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    } else if (inputNpwpNumber.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Harap masukkan Nomor NPWP Anda',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
         textColor: Colors.white,
         fontSize: 16.0,
       );
@@ -151,50 +199,25 @@ class _EditProfileState extends State<EditProfile> {
           iconColor: AppColors.secondary,
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const Profile();
+              return const SurveyDesignList();
             }));
           },
         ),
-        backgroundColor: AppColors.bg,
         body: Column(
           children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              color: Colors.white,
-              child: Text(
-                'Edit Profil',
-                style: TextStyles.h2ExtraBold(color: AppColors.secondary),
-              ),
-            ),
+            Container(padding: CustomPadding.px2, child: labelText()),
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom,
-                ),
                 child: Container(
                   padding: CustomPadding.p2,
-                  child: BlocBuilder<ProfileBloc, ProfileState>(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        orElse: () {
-                          return Container();
-                        },
-                        loading: () {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
-                        error: (message) {
-                          return Center(
-                            child: Text(message),
-                          );
-                        },
-                        loaded: (data) {
-                          return formInputSection();
-                        },
-                      );
-                    },
+                  child: Column(
+                    children: [
+                      formInputField(),
+                      CustomDividers.smallDivider(),
+                      labelTermAndCondition(),
+                      CustomDividers.smallDivider(),
+                      submitButton(),
+                    ],
                   ),
                 ),
               ),
@@ -205,7 +228,30 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Widget formInputSection() {
+  Widget labelText() {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Sedikit Lagi....',
+            style: TextStyles.h2(color: AppColors.secondary),
+          ),
+        ),
+        CustomDividers.smallDivider(),
+        Container(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            '3. Lengkapi Profil Kamu',
+            style: TextStyles.h4(color: AppColors.secondary),
+          ),
+        ),
+        CustomDividers.smallDivider(),
+      ],
+    );
+  }
+
+  Widget formInputField() {
     return Column(
       children: [
         LabelInput(
@@ -299,9 +345,55 @@ class _EditProfileState extends State<EditProfile> {
           controller: email,
           hintText: 'Masukkan Email Kamu',
         ),
-        CustomDividers.mediumDivider(),
-        submitButton(),
+        CustomDividers.smallDivider(),
+        LabelInput(
+          labelText: 'No. KTP',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          focusNode: inputKtpNumberFocus,
+          keyboardType: TextInputType.number,
+          controller: inputKtpNumber,
+          hintText: 'Masukkan No. KTP',
+        ),
+        CustomDividers.smallDivider(),
+        LabelInput(
+          labelText: 'No. NPWP',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          focusNode: inputNpwpNumberFocus,
+          keyboardType: TextInputType.number,
+          controller: inputNpwpNumber,
+          hintText: 'Masukkan No. NPWP (Jika Ada)',
+        ),
       ],
+    );
+  }
+
+  Widget labelTermAndCondition() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+      child: RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+          children: [
+            TextSpan(
+                text: 'Dengan menekan “Submit”, kamu menyutujui',
+                style: TextStyles.regular(color: AppColors.secondary)),
+            TextSpan(
+              text: ' Ketentuan Layanan',
+              style: TextStyles.regular(color: AppColors.primary),
+              recognizer: TapGestureRecognizer()..onTap = () {},
+            ),
+            TextSpan(
+                text: ' Survei.io',
+                style: TextStyles.regular(color: AppColors.secondary)),
+          ],
+        ),
+      ),
     );
   }
 
@@ -311,7 +403,10 @@ class _EditProfileState extends State<EditProfile> {
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
-              loadProfileInformation();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SurveyDesignList()));
             },
             error: (message) {
               Fluttertoast.showToast(
@@ -331,23 +426,20 @@ class _EditProfileState extends State<EditProfile> {
               return ButtonFilled.primary(
                   text: 'Submit',
                   onPressed: () {
-                    print('userGender $userGender');
-
                     if (_validateForm()) {
                       DateTime parsedDate =
                           DateFormat('dd-MM-yyyy').parse(dateOfBirth.text);
                       String formattedDate =
                           DateFormat('yyyy-MM-dd').format(parsedDate);
                       final requestModel = EditProfileRequestModel(
-                        id: userId,
-                        name: fullName.text,
-                        email: email.text,
-                        dob: formattedDate,
-                        gender: userGender,
-                        phoneNumber: phoneNumber.text,
-                        ktp: userKTP,
-                        npwp: userNPWP,
-                      );
+                          id: userId,
+                          name: fullName.text,
+                          email: email.text,
+                          dob: formattedDate,
+                          gender: userGender,
+                          phoneNumber: phoneNumber.text,
+                          ktp: inputKtpNumber.text,
+                          npwp: inputNpwpNumber.text);
                       context
                           .read<EditProfileBloc>()
                           .add(EditProfileEvent.editProfile(requestModel));
