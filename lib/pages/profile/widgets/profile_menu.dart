@@ -144,7 +144,9 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
         versionInformation(),
         CustomDividers.smallDivider(),
         buttonLogout(),
-        CustomDividers.mediumDivider(),
+        const SizedBox(
+          height: 30,
+        )
       ],
     );
   }
@@ -167,7 +169,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
     return BlocProvider(
       create: (context) => LogoutBloc(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
         child: BlocConsumer<LogoutBloc, LogoutState>(
           listener: (context, state) {
             state.maybeWhen(
@@ -207,7 +209,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Container(
-          height: MediaQuery.of(context).size.height * 0.35,
+          height: MediaQuery.of(context).size.height * 0.30,
           padding: const EdgeInsets.all(20),
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -225,15 +227,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ButtonOutlined.primary(
-                      text: 'Batal',
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      }),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  ButtonFilled.primary(
-                    text: 'Keluar',
+                    text: 'Ya, Keluar',
                     onPressed: () {
                       context
                           .read<LogoutBloc>()
@@ -246,6 +240,14 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
                               builder: (context) => const LoginPage()));
                     },
                   ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  ButtonFilled.primary(
+                      text: 'Tidak, Batal',
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }),
                 ],
               ),
             ],

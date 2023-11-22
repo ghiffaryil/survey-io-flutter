@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:survey_io/bloc/reedem/topup_prepaid/topup_prepaid_bloc.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/pages/reedem/reedem_failed.dart';
@@ -57,6 +58,10 @@ class BottomContainer extends StatelessWidget {
       ),
       isScrollControlled: true,
       builder: (BuildContext bc) {
+        String formattedKoin =
+            NumberFormat('###,###.###', 'id_ID').format(koin);
+        String formattedAmount =
+            NumberFormat('###,###.###', 'id_ID').format(amount);
         return BlocListener<TopupPrepaidBloc, TopupPrepaidState>(
           listener: (context, state) {
             state.maybeWhen(
@@ -110,7 +115,7 @@ class BottomContainer extends StatelessWidget {
                 ),
                 CustomDividers.verySmallDivider(),
                 Text(
-                  'Kamu yakin ingin menukarkan $koin koin ke $productName $amount?',
+                  'Kamu yakin ingin menukarkan $formattedKoin koin ke $productName $formattedAmount?',
                   textAlign: TextAlign.left,
                   style: const TextStyle(
                     color: AppColors.secondary,
@@ -156,6 +161,8 @@ class BottomContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formattedKoin = NumberFormat('###,###.###', 'id_ID').format(koin);
+
     return Container(
       decoration: const BoxDecoration(
         color: AppColors.white,
@@ -201,7 +208,7 @@ class BottomContainer extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          koin.toString(),
+                          formattedKoin,
                           style: TextStyles.h3(),
                         ),
                       ],

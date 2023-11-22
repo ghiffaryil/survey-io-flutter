@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
+import 'package:survey_io/bloc/survey/survey_design_list/survey_design_list_bloc.dart';
 
 // Import Component
 import 'package:survey_io/common/components/appbar.dart';
@@ -17,14 +18,14 @@ import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/pages/tabs/floating_icon.dart';
 import 'package:survey_io/pages/home/widgets/main_card.dart';
 
-import '../../datasources/login/auth_local_datasource.dart';
-import '../../datasources/token/check_token_datasource.dart';
-import '../notification/notification.dart';
-import '../../common/constants/widgets/profile_card.dart';
-import '../../common/constants/widgets/red_shape_card.dart';
-import '../../common/constants/imageSize.dart';
-import '../../common/constants/images.dart';
-import '../../models/survey/survey_model.dart';
+import 'package:survey_io/pages/notification/notification.dart';
+import 'package:survey_io/datasources/login/auth_local_datasource.dart';
+import 'package:survey_io/datasources/token/check_token_datasource.dart';
+import 'package:survey_io/common/constants/widgets/profile_card.dart';
+import 'package:survey_io/common/constants/widgets/red_shape_card.dart';
+import 'package:survey_io/common/constants/imageSize.dart';
+import 'package:survey_io/common/constants/images.dart';
+import 'package:survey_io/models/survey/survey_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -45,6 +46,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+    context
+        .read<SurveyDesignListBloc>()
+        .add(const SurveyDesignListEvent.getSurveyDesignList());
     checkToken();
   }
 
@@ -160,41 +164,8 @@ class _HomePageState extends State<HomePage> {
                       width: 40,
                       height: 40,
                     ),
-                    label: '-',
-                    labelValue: 0,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ListSurveiPage(),
-                        ),
-                      );
-                    },
-                  );
-                },
-                loading: () {
-                  return FloatingProfileCard(
-                    userFrontName: '-',
-                    iconImage: Image.asset(
-                      IconName.totalSurvey,
-                      width: 40,
-                      height: 40,
-                    ),
-                    label: '-',
-                    labelValue: 0,
-                    onPressed: () {},
-                  );
-                },
-                error: (error) {
-                  return FloatingProfileCard(
-                    userFrontName: '-',
-                    iconImage: Image.asset(
-                      IconName.totalSurvey,
-                      width: 40,
-                      height: 40,
-                    ),
                     label: 'Jumlah Survey',
-                    labelValue: 0,
+                    labelValue: '-',
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -206,21 +177,52 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
                 loaded: (data) {
-                  return FloatingProfileCard(
-                    userFrontName: data.user.name.split(' ')[0],
-                    iconImage: Image.asset(
-                      IconName.totalSurvey,
-                      width: 40,
-                      height: 40,
-                    ),
-                    label: 'Jumlah Survey',
-                    labelValue: 0,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ListSurveiPage(),
-                        ),
+                  return BlocBuilder<SurveyDesignListBloc,
+                      SurveyDesignListState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        loaded: (surveyDesignList) {
+                          return FloatingProfileCard(
+                            userFrontName: data.user.name.split(' ')[0],
+                            iconImage: Image.asset(
+                              IconName.totalSurvey,
+                              width: 40,
+                              height: 40,
+                            ),
+                            label: 'Jumlah Survey',
+                            labelValue: surveyDesignList.length.toString(),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ListSurveiPage(),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        // Handle other states if needed
+                        orElse: () {
+                          // Handle the default case
+                          return FloatingProfileCard(
+                            userFrontName: '-',
+                            iconImage: Image.asset(
+                              IconName.totalSurvey,
+                              width: 40,
+                              height: 40,
+                            ),
+                            label: 'Jumlah Survey',
+                            labelValue: '-',
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ListSurveiPage(),
+                                ),
+                              );
+                            },
+                          );
+                        },
                       );
                     },
                   );

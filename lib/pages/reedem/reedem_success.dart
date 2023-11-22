@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:survey_io/common/components/appbar_plain.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
@@ -32,6 +33,11 @@ class ReedemSuccess extends StatefulWidget {
 class _ReedemSuccessState extends State<ReedemSuccess> {
   @override
   Widget build(BuildContext context) {
+    String formattedAmount =
+        NumberFormat('###,###.###', 'id_ID').format(widget.amount);
+    String formattedKoin =
+        NumberFormat('###,###.###', 'id_ID').format(widget.koin);
+
     return Scaffold(
       appBar: PlainAppBar(
         onPressed: () {
@@ -64,7 +70,7 @@ class _ReedemSuccessState extends State<ReedemSuccess> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Kamu berhasil menukarkan ${widget.koin} koin ke ${widget.productName} Rp ${widget.amount}',
+                'Kamu berhasil menukarkan $formattedKoin koin ke ${widget.productName} Rp $formattedAmount',
                 textAlign: TextAlign.center,
                 style: TextStyles.extraLarge(
                   color: AppColors.light,

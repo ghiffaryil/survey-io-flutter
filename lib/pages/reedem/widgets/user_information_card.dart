@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:survey_io/pages/reedem/reedem_history.dart';
 
 import '../../../../common/constants/colors.dart';
@@ -66,8 +67,13 @@ class UserInformation extends StatelessWidget {
                           return const Text('Can\'t Loaded Data');
                         },
                         loaded: (data) {
+                          // Format the point value with a thousands separator
+                          String formattedPoint =
+                              NumberFormat('###,###.###', 'id_ID')
+                                  .format(data.point);
+
                           return Text(
-                            data.point.toString(),
+                            formattedPoint,
                             style:
                                 TextStyles.regular(color: AppColors.secondary),
                           );

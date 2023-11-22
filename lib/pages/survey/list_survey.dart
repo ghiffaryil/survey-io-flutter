@@ -11,6 +11,7 @@ import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/datasources/survey/data/list_survey.dart';
 import 'package:survey_io/models/survey/survey_model.dart';
+import 'package:survey_io/pages/survey/widgets/webview_survey.dart';
 
 import '../../bloc/survey/survey_list/survey_list_bloc.dart';
 import '../../common/components/appbar_plain.dart';
@@ -171,7 +172,19 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
                                         text: 'Ikut Survei',
-                                        onPressed: () {}),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      WebviewSurvey(
+                                                        id: survey.survey.id,
+                                                        url: survey
+                                                            .survey.surveyLink,
+                                                        title:
+                                                            survey.survey.title,
+                                                      )));
+                                        }),
                                   )
                                 ],
                               ),

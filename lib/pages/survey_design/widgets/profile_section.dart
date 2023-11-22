@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 import 'package:survey_io/common/constants/icons.dart';
 import 'package:survey_io/common/constants/widgets/profile_card.dart';
@@ -17,7 +18,7 @@ class _ProfileSectionSurveyDesignState
     extends State<ProfileSectionSurveyDesign> {
   @override
   Widget build(BuildContext context) {
-    return Container(child: BlocBuilder<ProfileBloc, ProfileState>(
+    return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         return state.maybeWhen(
           orElse: () {
@@ -28,8 +29,8 @@ class _ProfileSectionSurveyDesignState
                 width: 40,
                 height: 40,
               ),
-              label: '',
-              labelValue: 0,
+              label: 'Celengan Saya',
+              labelValue: '-',
               onPressed: () {
                 Navigator.push(
                   context,
@@ -38,19 +39,6 @@ class _ProfileSectionSurveyDesignState
                   ),
                 );
               },
-            );
-          },
-          loading: () {
-            return FloatingProfileCard(
-              userFrontName: '-',
-              iconImage: Image.asset(
-                IconName.totalSurvey,
-                width: 40,
-                height: 40,
-              ),
-              label: '-',
-              labelValue: 0,
-              onPressed: () {},
             );
           },
           error: (error) {
@@ -62,7 +50,7 @@ class _ProfileSectionSurveyDesignState
                 height: 40,
               ),
               label: 'Celengan Saya',
-              labelValue: 0,
+              labelValue: '-',
               onPressed: () {
                 Navigator.push(
                   context,
@@ -74,6 +62,10 @@ class _ProfileSectionSurveyDesignState
             );
           },
           loaded: (data) {
+            // Format the point value with a thousands separator
+            String formattedPoint =
+                NumberFormat('###,###.###', 'id_ID').format(data.point);
+
             return FloatingProfileCard(
               userFrontName: data.user.name.split(' ')[0],
               iconImage: Image.asset(
@@ -82,7 +74,7 @@ class _ProfileSectionSurveyDesignState
                 height: 40,
               ),
               label: 'Celengan Saya',
-              labelValue: data.point,
+              labelValue: formattedPoint,
               onPressed: () {
                 Navigator.push(
                     context,
@@ -93,6 +85,6 @@ class _ProfileSectionSurveyDesignState
           },
         );
       },
-    ));
+    );
   }
 }
