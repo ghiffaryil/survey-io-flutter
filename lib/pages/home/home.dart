@@ -8,12 +8,11 @@ import 'package:survey_io/bloc/survey/survey_design_list/survey_design_list_bloc
 // Import Component
 import 'package:survey_io/common/components/appbar.dart';
 import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/constants/icons.dart';
+import 'package:survey_io/common/constants/widgets/profile_section_coin.dart';
 import 'package:survey_io/datasources/polling/list_polling_today.dart';
 import 'package:survey_io/models/polling/polling_model.dart';
 import 'package:survey_io/datasources/survey/data/list_survey_popular.dart';
 import 'package:survey_io/pages/login/login.dart';
-import 'package:survey_io/pages/survey/list_survey.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/pages/tabs/floating_icon.dart';
 import 'package:survey_io/pages/home/widgets/main_card.dart';
@@ -21,7 +20,6 @@ import 'package:survey_io/pages/home/widgets/main_card.dart';
 import 'package:survey_io/pages/notification/notification.dart';
 import 'package:survey_io/datasources/login/auth_local_datasource.dart';
 import 'package:survey_io/datasources/token/check_token_datasource.dart';
-import 'package:survey_io/common/constants/widgets/profile_card.dart';
 import 'package:survey_io/common/constants/widgets/red_shape_card.dart';
 import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/common/constants/images.dart';
@@ -153,83 +151,7 @@ class _HomePageState extends State<HomePage> {
             pollingToday: listPollingToday,
           ),
           const RedShapeCircular(),
-          BlocBuilder<ProfileBloc, ProfileState>(
-            builder: (context, state) {
-              return state.maybeWhen(
-                orElse: () {
-                  return FloatingProfileCard(
-                    userFrontName: '-',
-                    iconImage: Image.asset(
-                      IconName.totalSurvey,
-                      width: 40,
-                      height: 40,
-                    ),
-                    label: 'Jumlah Survey',
-                    labelValue: '-',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ListSurveiPage(),
-                        ),
-                      );
-                    },
-                  );
-                },
-                loaded: (data) {
-                  return BlocBuilder<SurveyDesignListBloc,
-                      SurveyDesignListState>(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        loaded: (surveyDesignList) {
-                          return FloatingProfileCard(
-                            userFrontName: data.user.name.split(' ')[0],
-                            iconImage: Image.asset(
-                              IconName.totalSurvey,
-                              width: 40,
-                              height: 40,
-                            ),
-                            label: 'Jumlah Survey',
-                            labelValue: surveyDesignList.length.toString(),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ListSurveiPage(),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        // Handle other states if needed
-                        orElse: () {
-                          // Handle the default case
-                          return FloatingProfileCard(
-                            userFrontName: '-',
-                            iconImage: Image.asset(
-                              IconName.totalSurvey,
-                              width: 40,
-                              height: 40,
-                            ),
-                            label: 'Jumlah Survey',
-                            labelValue: '-',
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ListSurveiPage(),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          ),
+          const ProfileSectionCoin(),
         ],
       ),
       bottomNavigationBar: BottomMenu(

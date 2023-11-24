@@ -6,16 +6,16 @@ import 'package:survey_io/common/constants/icons.dart';
 import 'package:survey_io/common/constants/widgets/profile_card.dart';
 import 'package:survey_io/pages/reedem/reedem.dart';
 
-class ProfileSectionSurveyDesign extends StatefulWidget {
-  const ProfileSectionSurveyDesign({super.key});
+class ProfileSectionCoin extends StatefulWidget {
+  const ProfileSectionCoin({super.key});
 
   @override
-  State<ProfileSectionSurveyDesign> createState() =>
-      _ProfileSectionSurveyDesignState();
+  State<ProfileSectionCoin> createState() =>
+      _ProfileSectionCoinState();
 }
 
-class _ProfileSectionSurveyDesignState
-    extends State<ProfileSectionSurveyDesign> {
+class _ProfileSectionCoinState
+    extends State<ProfileSectionCoin> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
