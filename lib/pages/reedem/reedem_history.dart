@@ -143,10 +143,10 @@ class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
                   ),
                 );
               }, loaded: (data) {
-                // data.sort((a, b) => b.datetimeCreated.compareTo(a.datetimeCreated));
-
-                // Filter unread notifications
+                // Declarated data to list
                 List<ReedemHistoryList> dataList = List.from(data);
+
+                // Sort data by dateTimeCreated
                 dataList.sort(
                     (a, b) => b.datetimeCreated.compareTo(a.datetimeCreated));
 

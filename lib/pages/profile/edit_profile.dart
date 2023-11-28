@@ -285,6 +285,7 @@ class _EditProfileState extends State<EditProfile> {
           keyboardType: TextInputType.phone,
           controller: phoneNumber,
           hintText: '081234567890',
+          editable: false ,
           suffixIconPNG: userActive == 1 ? IconName.pollingCheckInfo : null,
         ),
         CustomDividers.smallDivider(),

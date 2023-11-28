@@ -1,5 +1,8 @@
 import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:survey_io/bloc/register/request_otp/request_otp_bloc.dart';
 import 'package:survey_io/pages/login/login.dart';
 
 import '../../../common/components/elevated_button.dart';
@@ -27,6 +30,22 @@ class _RegisterPageState extends State<RegisterPage> {
     phoneNumberFocus.unfocus();
   }
 
+  bool _validateForm() {
+    if (phoneNumber.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Please enter your phone number',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,9 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
               formInputField(),
               CustomDividers.smallDivider(),
               buildNoticeSection(),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.4,
-              ),
+              CustomDividers.smallDivider(),
               CustomDividers.smallDivider(),
               buildButtonSubmit(),
               CustomDividers.smallDivider(),
@@ -104,12 +121,52 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget buildButtonSubmit() {
-    return ButtonFilled.primary(
-        text: 'Daftar',
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const VerificationOTP()));
-        });
+    return BlocListener<RequestOtpBloc, RequestOtpState>(
+      listener: (context, state) {
+        state.maybeWhen(
+            orElse: () {},
+            loaded: (data) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return VerificationOtpPage(phoneNumber: phoneNumber.text);
+              }));
+            },
+            error: (message) {
+              Fluttertoast.showToast(
+                  msg: message,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: AppColors.secondary.withOpacity(0.8),
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            });
+      },
+      child: BlocBuilder<RequestOtpBloc, RequestOtpState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return ButtonFilled.primary(
+                  text: 'Daftar',
+                  onPressed: () {
+                    if (_validateForm()) {
+                      context
+                          .read<RequestOtpBloc>()
+                          .add(RequestOtpEvent.requestOtp(phoneNumber.text));
+                    }
+                  });
+            },
+            loading: () {
+              return ButtonFilled.primary(
+                  textColor: AppColors.white,
+                  text: '',
+                  loading: true,
+                  onPressed: () {});
+            },
+          );
+        },
+      ),
+    );
   }
 
   Widget buildTextSignInHere() {

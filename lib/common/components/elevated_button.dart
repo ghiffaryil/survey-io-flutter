@@ -11,6 +11,7 @@ class ButtonFilled extends StatelessWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final VoidCallback onPressed;
+  final bool loading;
 
   const ButtonFilled.primary({
     super.key,
@@ -23,6 +24,7 @@ class ButtonFilled extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
   });
 
   const ButtonFilled.secondary({
@@ -36,6 +38,7 @@ class ButtonFilled extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
   });
 
   const ButtonFilled.success({
@@ -49,6 +52,7 @@ class ButtonFilled extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
   });
 
   const ButtonFilled.info({
@@ -62,6 +66,7 @@ class ButtonFilled extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
   });
 
   const ButtonFilled.warning({
@@ -75,6 +80,7 @@ class ButtonFilled extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
   });
 
   const ButtonFilled.light({
@@ -88,6 +94,7 @@ class ButtonFilled extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
   });
 
   const ButtonFilled.white({
@@ -101,6 +108,7 @@ class ButtonFilled extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
   });
 
   const ButtonFilled.custom({
@@ -114,6 +122,7 @@ class ButtonFilled extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
   });
 
   @override
@@ -127,14 +136,18 @@ class ButtonFilled extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Text(
-        text,
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: fontWeight,
-          fontSize: fontSize,
-        ),
-      ),
+      child: loading
+          ? CircularProgressIndicator(
+              color: textColor,
+            )
+          : Text(
+              text,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: fontWeight,
+                fontSize: fontSize,
+              ),
+            ),
     );
   }
 }
@@ -150,6 +163,7 @@ class ButtonOutlined extends StatelessWidget {
   final FontWeight fontWeight;
   final VoidCallback onPressed;
   final Color backgroundColor;
+  final bool loading;
 
   const ButtonOutlined.primary({
     super.key,
@@ -162,6 +176,7 @@ class ButtonOutlined extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
     this.backgroundColor = AppColors.white,
   });
 
@@ -176,6 +191,7 @@ class ButtonOutlined extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
     this.backgroundColor = AppColors.white,
   });
 
@@ -190,6 +206,7 @@ class ButtonOutlined extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
     this.backgroundColor = AppColors.white,
   });
 
@@ -204,6 +221,7 @@ class ButtonOutlined extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
     this.backgroundColor = AppColors.white,
   });
 
@@ -218,6 +236,7 @@ class ButtonOutlined extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
     this.backgroundColor = AppColors.white,
   });
 
@@ -232,6 +251,7 @@ class ButtonOutlined extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
     this.backgroundColor = AppColors.white,
   });
 
@@ -246,6 +266,7 @@ class ButtonOutlined extends StatelessWidget {
     this.fontSize = 17,
     this.fontWeight = FontWeight.bold,
     required this.onPressed,
+    this.loading = false,
     this.backgroundColor = AppColors.bg,
   });
 
@@ -261,14 +282,18 @@ class ButtonOutlined extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Text(
-        text,
-        style: TextStyle(
-          color: textColor,
-          fontWeight: fontWeight,
-          fontSize: fontSize,
-        ),
-      ),
+      child: loading
+          ? CircularProgressIndicator(
+              color: textColor,
+            )
+          : Text(
+              text,
+              style: TextStyle(
+                color: textColor,
+                fontWeight: fontWeight,
+                fontSize: fontSize,
+              ),
+            ),
     );
   }
 }

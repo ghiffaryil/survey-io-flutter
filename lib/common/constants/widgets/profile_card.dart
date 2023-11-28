@@ -8,7 +8,7 @@ class FloatingProfileCard extends StatelessWidget {
   final String userFrontName;
   final Image iconImage;
   final String label;
-  final int labelValue;
+  final String labelValue;
   final VoidCallback onPressed;
 
   const FloatingProfileCard({

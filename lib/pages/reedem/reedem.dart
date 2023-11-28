@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 import 'package:survey_io/bloc/reedem/product_prepaid_list/product_prepaid_list_bloc.dart';
 import 'package:survey_io/common/components/image_rounded.dart';
@@ -87,6 +88,7 @@ class _ReedemPageState extends State<ReedemPage> {
                           final isDifferentCategory = isFirstChild ||
                               dataProduct.categoryName !=
                                   data[index - 1].categoryName;
+                          ;
 
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -133,6 +135,11 @@ class _ReedemPageState extends State<ReedemPage> {
                                 itemBuilder: (context, indexProduct) {
                                   final product =
                                       dataProduct.products[indexProduct];
+
+                                  final formattedAmount =
+                                      NumberFormat('###,###.###', 'id_ID')
+                                          .format(product.amount);
+
                                   return Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.stretch,
@@ -166,13 +173,13 @@ class _ReedemPageState extends State<ReedemPage> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        'Top Up ${product.amount}',
+                                                        'Top Up $formattedAmount',
                                                         style: TextStyles.h4(),
                                                       ),
                                                       CustomDividers
                                                           .verySmallDivider(),
                                                       Text(
-                                                          'Get Top ${product.productName} balance up To ${product.amount}'),
+                                                          'Get Top ${product.productName} balance up To $formattedAmount'),
                                                       CustomDividers
                                                           .smallDivider(),
                                                       Container(

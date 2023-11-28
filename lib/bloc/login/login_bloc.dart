@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:survey_io/datasources/login/auth_local_datasource.dart';
 
 import '../../datasources/login/auth_remote_datasource.dart';
 import '../../models/auth/auth_request_model.dart';
@@ -16,7 +17,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       final response = await AuthRemoteDatasource().login(event.requestModel);
       response.fold(
         (error) => emit(_Error(error)),
-        (data) => emit(_Loaded(data)),
+        (data) {
+          AuthLocalDatasource().saveAuthData(data);
+          emit(_Loaded(data));
+        },
       );
     });
   }

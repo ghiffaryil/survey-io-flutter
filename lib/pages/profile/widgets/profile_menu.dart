@@ -4,23 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../webview_help_center.dart';
-import '../webview_privacy_policy.dart';
-import '../webview_terms_and_condition.dart';
-import '../../../bloc/logout/logout_bloc.dart';
-import '../../../datasources/login/auth_local_datasource.dart';
-import '../../../../common/components/divider.dart';
-import '../../../../common/components/label.dart';
-import '../../../../common/components/list_menu.dart';
-import '../../../../common/components/text_button.dart';
-import '../../../../common/constants/colors.dart';
-import '../../../../common/constants/icons.dart';
-import '../../../../common/constants/styles.dart';
-import '../../../common/components/elevated_button.dart';
-import '../../../common/constants/widgets/indicator.dart';
-import '../../invite/invite.dart';
-import '../../login/login.dart';
-import '../edit_profile.dart';
+import 'package:survey_io/pages/profile/webview_help_center.dart';
+import 'package:survey_io/pages/profile/webview_privacy_policy.dart';
+import 'package:survey_io/pages/profile/webview_terms_and_condition.dart';
+import 'package:survey_io/bloc/logout/logout_bloc.dart';
+import 'package:survey_io/datasources/login/auth_local_datasource.dart';
+import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/common/components/label.dart';
+import 'package:survey_io/common/components/list_menu.dart';
+import 'package:survey_io/common/components/text_button.dart';
+import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/icons.dart';
+import 'package:survey_io/common/constants/styles.dart';
+import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/common/constants/widgets/indicator.dart';
+import 'package:survey_io/pages/invite/invite.dart';
+import 'package:survey_io/pages/login/login.dart';
+import 'package:survey_io/pages/profile/edit_profile.dart';
 
 class ListMenuProfile extends StatefulWidget {
   const ListMenuProfile({super.key});
@@ -144,7 +144,9 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
         versionInformation(),
         CustomDividers.smallDivider(),
         buttonLogout(),
-        CustomDividers.mediumDivider(),
+        const SizedBox(
+          height: 30,
+        )
       ],
     );
   }
@@ -167,7 +169,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
     return BlocProvider(
       create: (context) => LogoutBloc(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
         child: BlocConsumer<LogoutBloc, LogoutState>(
           listener: (context, state) {
             state.maybeWhen(
@@ -207,7 +209,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Container(
-          height: MediaQuery.of(context).size.height * 0.35,
+          height: MediaQuery.of(context).size.height * 0.30,
           padding: const EdgeInsets.all(20),
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -218,22 +220,14 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
               CustomDividers.smallDivider(),
               Text(
                 'Anda yakin ingin keluar dari aplikasi ini?',
-                style: TextStyles.extraLarge(),
+                style: TextStyles.medium(),
               ),
               CustomDividers.smallDivider(),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ButtonOutlined.primary(
-                      text: 'Batal',
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      }),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  ButtonFilled.primary(
-                    text: 'Keluar',
+                    text: 'Ya, Keluar',
                     onPressed: () {
                       context
                           .read<LogoutBloc>()
@@ -246,6 +240,14 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
                               builder: (context) => const LoginPage()));
                     },
                   ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  ButtonFilled.primary(
+                      text: 'Tidak, Batal',
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }),
                 ],
               ),
             ],

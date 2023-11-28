@@ -112,22 +112,6 @@ class _ReedemGiftCardState extends State<ReedemGiftCard> {
                               point: widget.point,
                             ),
                           ));
-
-                      // If Want to Send Point Manual
-                      // final datasource = PointManualDatasource();
-                      // final result = await datasource.setPointManual(
-                      //     widget.point, data.user.phoneNumber);
-                      // if (result.isRight()) {
-                      //   await Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) =>
-                      //             const ReedemGiftCardSuccess(),
-                      //       ));
-                      // } else {
-                      //   final error = result.fold((l) => l, (r) => '');
-                      //   print('Error: $error');
-                      // }
                     },
                   ),
                 ],

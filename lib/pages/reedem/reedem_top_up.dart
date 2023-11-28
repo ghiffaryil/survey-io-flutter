@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:survey_io/common/components/appbar_plain.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/image_rounded.dart';
@@ -42,6 +43,7 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
   int userId = 0;
   int selectedProductId = 0;
   int selectedAmount = 0;
+  String selectedAmountString = '';
   int _koin = 0;
   String selectedProductName = '';
   String selectedProductCode = '';
@@ -54,6 +56,8 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
     selectedProductId = widget.productId;
     selectedProductName = widget.productName;
     selectedAmount = widget.amount;
+    selectedAmountString =
+        NumberFormat('###,###.###', 'id_ID').format(selectedAmount);
     selectedProductCode = widget.productCode;
     isBottomContainerVisible = true;
     _koin = widget.koin;
@@ -156,9 +160,14 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
                       itemCount: widget.listProducts.length,
                       itemBuilder: (context, index) {
                         var product = widget.listProducts[index];
+
+                        final formattedAmount =
+                            NumberFormat('###,###.###', 'id_ID')
+                                .format(product.amount);
+
                         return selectedProductId == product.id
                             ? TextButtonFilled.primary(
-                                text: product.amount.toString(),
+                                text: selectedAmountString,
                                 onPressed: () {
                                   print('Unselected => ${product.id}');
                                   setState(() {
@@ -169,14 +178,15 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
                                 },
                               )
                             : TextButtonOutlined.primary(
-                                text: product.amount.toString(),
+                                text: formattedAmount,
                                 onPressed: () {
                                   print(
-                                      'Selected => ${product.id} / ${product.productCode} / ${product.amount}');
+                                      'Selected => ${product.id} -> ${product.productCode} -> ${product.amount}');
 
                                   setState(() {
                                     selectedProductId = product.id;
                                     selectedAmount = product.amount;
+                                    selectedAmountString = formattedAmount;
                                     isBottomContainerVisible = true;
                                     _koin = product.amount;
                                   });
