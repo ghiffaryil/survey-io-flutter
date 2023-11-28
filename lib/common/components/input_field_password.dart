@@ -31,6 +31,7 @@ class PasswordTextInputState extends State<PasswordTextInput> {
       obscureText: widget.hidePassword,
       controller: widget.controller,
       obscuringCharacter: '*',
+      
       decoration: InputDecoration(
         hintText: widget.hintText,
         border: OutlineInputBorder(

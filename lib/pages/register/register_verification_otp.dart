@@ -2,25 +2,34 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:survey_io/bloc/register/verify_otp/verify_otp_bloc.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/datasources/register/request_otp.dart';
 
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/constants/padding.dart';
 import 'register_complete.dart';
 
-class VerificationOTP extends StatefulWidget {
-  const VerificationOTP({super.key});
+class VerificationOtpPage extends StatefulWidget {
+  final String phoneNumber;
+
+  const VerificationOtpPage({
+    super.key,
+    required this.phoneNumber,
+  });
 
   @override
-  State<VerificationOTP> createState() => _VerificationOTPState();
+  State<VerificationOtpPage> createState() => _VerificationOtpPageState();
 }
 
-class _VerificationOTPState extends State<VerificationOTP> {
+class _VerificationOtpPageState extends State<VerificationOtpPage> {
   String otpCode = '';
 
   final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
@@ -82,9 +91,8 @@ class _VerificationOTPState extends State<VerificationOTP> {
               buildFormInputOTP(),
               CustomDividers.smallDivider(),
               buildFormResetOTP(),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.48,
-              ),
+              CustomDividers.smallDivider(),
+              CustomDividers.smallDivider(),
               buildButtonVerification(),
               CustomDividers.smallDivider(),
             ],
@@ -175,22 +183,36 @@ class _VerificationOTPState extends State<VerificationOTP> {
             children: [
               TextSpan(
                 recognizer: _timerActive ? null : TapGestureRecognizer()
-                  ?..onTap = () {
-                    setState(() {
-                      _secondsRemaining = 59;
-                      _timerActive = true;
-                      _startTimer();
-                    });
+                  ?..onTap = () async {
+                    // If Want to Send Point Manual
+
+                    final datasource = RequestOtpDatasource();
+                    final result =
+                        await datasource.requestOtp(widget.phoneNumber);
+                    if (result.isRight()) {
+                      setState(() {
+                        _otpInputControllers[0].text = '';
+                        _otpInputControllers[1].text = '';
+                        _otpInputControllers[2].text = '';
+                        _otpInputControllers[3].text = '';
+                        _secondsRemaining = 59;
+                        _timerActive = true;
+                        _startTimer();
+                      });
+                    } else {
+                      final error = result.fold((l) => l, (r) => '');
+                      print('Error: $error');
+                    }
                   },
                 text: 'Kirim Lagi ',
                 style: TextStyles.h4(
-                  color: AppColors.primary,
+                  color: _timerActive ? AppColors.light : AppColors.primary,
                 ),
               ),
               TextSpan(
                 text: timerText,
                 style: TextStyles.h4(
-                  color: AppColors.primary,
+                  color: _timerActive ? AppColors.light : AppColors.primary,
                 ),
               ),
             ],
@@ -201,11 +223,58 @@ class _VerificationOTPState extends State<VerificationOTP> {
   }
 
   Widget buildButtonVerification() {
-    return ButtonFilled.primary(
-        text: 'Verifikasi',
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const CompleteProfile()));
-        });
+    return BlocListener<VerifyOtpBloc, VerifyOtpState>(
+      listener: (context, state) {
+        state.maybeWhen(
+            orElse: () {},
+            loaded: (data) {
+              String otpCode = data.otpCode;
+              int otpId = data.id;
+
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return CompleteProfile(
+                  sendPhoneNumber: widget.phoneNumber,
+                  otpCode: otpCode,
+                  otpId: otpId,
+                );
+              }));
+            },
+            error: (message) {
+              Fluttertoast.showToast(
+                  msg: message,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: AppColors.secondary.withOpacity(0.8),
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            });
+      },
+      child: BlocBuilder<VerifyOtpBloc, VerifyOtpState>(
+        builder: (context, state) {
+          String mergedOtpValue = _otpInputControllers.sublist(0, 4).fold('',
+              (String previousValue, TextEditingController controller) {
+            return previousValue + controller.text;
+          });
+
+          return state.maybeWhen(orElse: () {
+            return ButtonFilled.primary(
+                text: 'Verifikasi',
+                onPressed: () {
+                  print(mergedOtpValue);
+                  context.read<VerifyOtpBloc>().add(VerifyOtpEvent.verifyOtp(
+                      widget.phoneNumber, mergedOtpValue));
+                });
+          }, loading: () {
+            return ButtonFilled.primary(
+                textColor: AppColors.white,
+                text: '',
+                loading: true,
+                onPressed: () {});
+          });
+        },
+      ),
+    );
   }
 }

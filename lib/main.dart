@@ -6,6 +6,9 @@ import 'package:survey_io/bloc/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:survey_io/bloc/reedem/product_prepaid_list/product_prepaid_list_bloc.dart';
 import 'package:survey_io/bloc/reedem/reedem_history/reedem_history_bloc.dart';
 import 'package:survey_io/bloc/reedem/topup_prepaid/topup_prepaid_bloc.dart';
+import 'package:survey_io/bloc/register/register/register_bloc.dart';
+import 'package:survey_io/bloc/register/request_otp/request_otp_bloc.dart';
+import 'package:survey_io/bloc/register/verify_otp/verify_otp_bloc.dart';
 import 'package:survey_io/bloc/survey/survey_design_list/survey_design_list_bloc.dart';
 
 import 'bloc/login/login_bloc.dart';
@@ -44,6 +47,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) => RequestOtpBloc(),
+        ),
+        BlocProvider(
+          create: (context) => VerifyOtpBloc(),
+        ),
+        BlocProvider(
+          create: (context) => RegisterBloc(),
+        ),
         BlocProvider(
           create: (context) => LoginBloc(),
         ),

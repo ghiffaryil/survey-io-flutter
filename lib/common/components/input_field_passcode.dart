@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:survey_io/common/constants/colors.dart';
 
 // PASSWORD TEXT INPUT
@@ -31,6 +32,9 @@ class PasscodeTextInputState extends State<PasscodeTextInput> {
       obscureText: widget.hidePassword,
       controller: widget.controller,
       obscuringCharacter: '*',
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(6)
+      ], // Limit to 6 characters
       decoration: InputDecoration(
         hintText: widget.hintText,
         border: OutlineInputBorder(

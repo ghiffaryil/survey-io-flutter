@@ -1,22 +1,32 @@
 import 'package:flutter/gestures.dart' show TapGestureRecognizer;
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:survey_io/common/components/appbar_plain.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_date.dart';
 import 'package:survey_io/common/components/input_field_radio.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
-
-// Import Component
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/pages/login/login.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
-
-import '../../../common/components/input_field_passcode.dart';
-import '../../../common/constants/padding.dart';
+import 'package:survey_io/bloc/register/register/register_bloc.dart';
+import 'package:survey_io/models/register/register_request_model.dart';
+import 'package:survey_io/common/components/input_field_passcode.dart';
 
 class CompleteProfile extends StatefulWidget {
-  const CompleteProfile({super.key});
+  final String sendPhoneNumber;
+  final String otpCode;
+  final int otpId;
+
+  const CompleteProfile(
+      {super.key,
+      required this.sendPhoneNumber,
+      required this.otpCode,
+      required this.otpId});
 
   @override
   State<CompleteProfile> createState() => _CompleteProfileState();
@@ -24,18 +34,34 @@ class CompleteProfile extends StatefulWidget {
 
 class _CompleteProfileState extends State<CompleteProfile> {
   TextEditingController fullName = TextEditingController();
-  TextEditingController placeOfBirth = TextEditingController();
+  TextEditingController dob = TextEditingController();
+
+  TextEditingController phoneNumber = TextEditingController();
+  TextEditingController email = TextEditingController();
+
+  TextEditingController province = TextEditingController();
+  TextEditingController city = TextEditingController();
+
   TextEditingController passcode = TextEditingController();
   TextEditingController referalCode = TextEditingController();
 
   FocusNode fullNameFocus = FocusNode();
-  FocusNode placeOfBirthFocus = FocusNode();
+  FocusNode emailFocus = FocusNode();
+  FocusNode phoneNumberFocus = FocusNode();
+  FocusNode dobFocus = FocusNode();
   FocusNode passcodeFocus = FocusNode();
   FocusNode referalCodeFocus = FocusNode();
 
   String gender = '';
   String selectedGender = '';
   bool _hidePasscode = true;
+
+  @override
+  void initState() {
+    super.initState();
+    unfocusAll();
+    phoneNumber.text = widget.sendPhoneNumber;
+  }
 
   void _showHidePasscodeTogle() {
     setState(() {
@@ -45,9 +71,69 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
   void unfocusAll() {
     fullNameFocus.unfocus();
-    placeOfBirthFocus.unfocus();
+    dobFocus.unfocus();
     passcodeFocus.unfocus();
     referalCodeFocus.unfocus();
+  }
+
+  bool _validateForm() {
+    if (fullName.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Please enter your phone number',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    } else if (email.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Please enter your Email',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    } else if (dob.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Please enter your Date of Birth',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    } else if (phoneNumber.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Please enter your phone number',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    } else if (passcode.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Please enter your Passcode',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.secondary.withOpacity(0.8),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    }
+    return true;
   }
 
   @override
@@ -57,22 +143,35 @@ class _CompleteProfileState extends State<CompleteProfile> {
         unfocusAll();
       },
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
-            padding: CustomPadding.p2,
-            child: Column(
-              children: [
-                labelText(),
-                formInputField(),
-                CustomDividers.regularDivider(),
-                labelTermAndCondition(),
-                CustomDividers.smallDivider(),
-                submitButton(),
-              ],
+        appBar: PlainAppBar(
+            height: 20,
+            onPressed: () {},
+            leadingIcon: null,
+            iconColor: AppColors.white),
+        body: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              margin: const EdgeInsets.only(bottom: 5),
+              child: labelText(),
             ),
-          ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      formInputField(),
+                      CustomDividers.regularDivider(),
+                      labelTermAndCondition(),
+                      CustomDividers.smallDivider(),
+                      submitButton(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -117,6 +216,31 @@ class _CompleteProfileState extends State<CompleteProfile> {
         ),
         CustomDividers.smallDivider(),
         LabelInput(
+          labelText: 'No. Handphone',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          focusNode: phoneNumberFocus,
+          keyboardType: TextInputType.text,
+          controller: phoneNumber,
+          hintText: '08123456789',
+          editable: false,
+        ),
+        CustomDividers.smallDivider(),
+        LabelInput(
+          labelText: 'Email',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          focusNode: emailFocus,
+          keyboardType: TextInputType.emailAddress,
+          controller: email,
+          hintText: 'Email',
+        ),
+        CustomDividers.smallDivider(),
+        LabelInput(
           labelText: 'Jenis Kelamin',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
@@ -131,6 +255,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   selectedOption: selectedGender,
                   onChanged: (value) {
                     setState(() {
+                      gender = 'male';
                       selectedGender = value;
                     });
                   },
@@ -145,6 +270,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   selectedOption: selectedGender,
                   onChanged: (value) {
                     setState(() {
+                      gender = 'female';
                       selectedGender = value;
                     });
                   },
@@ -158,8 +284,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
         ),
         CustomDividers.verySmallDivider(),
         DateInputField(
-          focusNode: placeOfBirthFocus,
-          controller: placeOfBirth,
+          focusNode: dobFocus,
+          controller: dob,
           hintText: '01-01-1991',
           firstDate: DateTime(1980),
           lastDate: DateTime.now(),
@@ -186,7 +312,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
         ),
         CustomDividers.verySmallDivider(),
         TextInputField(
-          focusNode: referalCodeFocus,
           keyboardType: TextInputType.text,
           controller: referalCode,
           hintText: 'Masukkan Kode (Jika Ada)',
@@ -198,12 +323,79 @@ class _CompleteProfileState extends State<CompleteProfile> {
   }
 
   Widget submitButton() {
-    return ButtonFilled.primary(
-        text: 'Submit',
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const LoginPage()));
-        });
+    return BlocListener<RegisterBloc, RegisterState>(
+      listener: (context, state) {
+        state.maybeWhen(
+            orElse: () {},
+            loaded: (data) {
+              // Lakukan Login
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return const LoginPage();
+              }));
+            },
+            error: (message) {
+              Fluttertoast.showToast(
+                  msg: message,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: AppColors.secondary.withOpacity(0.8),
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return const LoginPage();
+              }));
+            });
+      },
+      child: BlocBuilder<RegisterBloc, RegisterState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return ButtonFilled.primary(
+                text: 'Submit',
+                onPressed: () {
+                  DateTime parsedDate =
+                      DateFormat('dd-MM-yyyy').parse(dob.text);
+                  String formattedDate =
+                      DateFormat('yyyy-MM-dd').format(parsedDate);
+
+                  if (_validateForm()) {
+                    final requestModel = RegisterRequestModel(
+                      name: fullName.text,
+                      phoneNumber: phoneNumber.text,
+                      email: email.text,
+                      gender: gender,
+                      dob: formattedDate,
+                      province: 'DKI Jakarta',
+                      city: 'Jakarta Selatan',
+                      pin: passcode.text,
+                      firebaseToken: '32jr982jd9137asd2',
+                      platform: 'android',
+                      deviceId: 'xxx01',
+                      otpId: widget.otpId,
+                      referalCode: referalCode.text,
+                    );
+                    context
+                        .read<RegisterBloc>()
+                        .add(RegisterEvent.registerUser(requestModel));
+                  }
+                },
+              );
+            },
+            loading: () {
+              return ButtonFilled.primary(
+                  textColor: AppColors.white,
+                  text: '',
+                  loading: true,
+                  onPressed: () {});
+            },
+          );
+        },
+      ),
+    );
   }
 
   Widget labelTermAndCondition() {

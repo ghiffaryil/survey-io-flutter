@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'topup_prepaid_bloc.dart';
+part of 'request_otp_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,58 +15,58 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$TopupPrepaidEvent {
+mixin _$RequestOtpEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String productCode) setTopUpPrepaid,
+    required TResult Function(String phoneNumber) requestOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String productCode)? setTopUpPrepaid,
+    TResult? Function(String phoneNumber)? requestOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String productCode)? setTopUpPrepaid,
+    TResult Function(String phoneNumber)? requestOtp,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_SetTopUpPrepaid value) setTopUpPrepaid,
+    required TResult Function(_RequestOtp value) requestOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_SetTopUpPrepaid value)? setTopUpPrepaid,
+    TResult? Function(_RequestOtp value)? requestOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_SetTopUpPrepaid value)? setTopUpPrepaid,
+    TResult Function(_RequestOtp value)? requestOtp,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TopupPrepaidEventCopyWith<$Res> {
-  factory $TopupPrepaidEventCopyWith(
-          TopupPrepaidEvent value, $Res Function(TopupPrepaidEvent) then) =
-      _$TopupPrepaidEventCopyWithImpl<$Res, TopupPrepaidEvent>;
+abstract class $RequestOtpEventCopyWith<$Res> {
+  factory $RequestOtpEventCopyWith(
+          RequestOtpEvent value, $Res Function(RequestOtpEvent) then) =
+      _$RequestOtpEventCopyWithImpl<$Res, RequestOtpEvent>;
 }
 
 /// @nodoc
-class _$TopupPrepaidEventCopyWithImpl<$Res, $Val extends TopupPrepaidEvent>
-    implements $TopupPrepaidEventCopyWith<$Res> {
-  _$TopupPrepaidEventCopyWithImpl(this._value, this._then);
+class _$RequestOtpEventCopyWithImpl<$Res, $Val extends RequestOtpEvent>
+    implements $RequestOtpEventCopyWith<$Res> {
+  _$RequestOtpEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -83,7 +83,7 @@ abstract class _$$StartedImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$StartedImplCopyWithImpl<$Res>
-    extends _$TopupPrepaidEventCopyWithImpl<$Res, _$StartedImpl>
+    extends _$RequestOtpEventCopyWithImpl<$Res, _$StartedImpl>
     implements _$$StartedImplCopyWith<$Res> {
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
@@ -97,7 +97,7 @@ class _$StartedImpl implements _Started {
 
   @override
   String toString() {
-    return 'TopupPrepaidEvent.started()';
+    return 'RequestOtpEvent.started()';
   }
 
   @override
@@ -113,7 +113,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String productCode) setTopUpPrepaid,
+    required TResult Function(String phoneNumber) requestOtp,
   }) {
     return started();
   }
@@ -122,7 +122,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String productCode)? setTopUpPrepaid,
+    TResult? Function(String phoneNumber)? requestOtp,
   }) {
     return started?.call();
   }
@@ -131,7 +131,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String productCode)? setTopUpPrepaid,
+    TResult Function(String phoneNumber)? requestOtp,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -144,7 +144,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_SetTopUpPrepaid value) setTopUpPrepaid,
+    required TResult Function(_RequestOtp value) requestOtp,
   }) {
     return started(this);
   }
@@ -153,7 +153,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_SetTopUpPrepaid value)? setTopUpPrepaid,
+    TResult? Function(_RequestOtp value)? requestOtp,
   }) {
     return started?.call(this);
   }
@@ -162,7 +162,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_SetTopUpPrepaid value)? setTopUpPrepaid,
+    TResult Function(_RequestOtp value)? requestOtp,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -172,36 +172,36 @@ class _$StartedImpl implements _Started {
   }
 }
 
-abstract class _Started implements TopupPrepaidEvent {
+abstract class _Started implements RequestOtpEvent {
   const factory _Started() = _$StartedImpl;
 }
 
 /// @nodoc
-abstract class _$$SetTopUpPrepaidImplCopyWith<$Res> {
-  factory _$$SetTopUpPrepaidImplCopyWith(_$SetTopUpPrepaidImpl value,
-          $Res Function(_$SetTopUpPrepaidImpl) then) =
-      __$$SetTopUpPrepaidImplCopyWithImpl<$Res>;
+abstract class _$$RequestOtpImplCopyWith<$Res> {
+  factory _$$RequestOtpImplCopyWith(
+          _$RequestOtpImpl value, $Res Function(_$RequestOtpImpl) then) =
+      __$$RequestOtpImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String productCode});
+  $Res call({String phoneNumber});
 }
 
 /// @nodoc
-class __$$SetTopUpPrepaidImplCopyWithImpl<$Res>
-    extends _$TopupPrepaidEventCopyWithImpl<$Res, _$SetTopUpPrepaidImpl>
-    implements _$$SetTopUpPrepaidImplCopyWith<$Res> {
-  __$$SetTopUpPrepaidImplCopyWithImpl(
-      _$SetTopUpPrepaidImpl _value, $Res Function(_$SetTopUpPrepaidImpl) _then)
+class __$$RequestOtpImplCopyWithImpl<$Res>
+    extends _$RequestOtpEventCopyWithImpl<$Res, _$RequestOtpImpl>
+    implements _$$RequestOtpImplCopyWith<$Res> {
+  __$$RequestOtpImplCopyWithImpl(
+      _$RequestOtpImpl _value, $Res Function(_$RequestOtpImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? productCode = null,
+    Object? phoneNumber = null,
   }) {
-    return _then(_$SetTopUpPrepaidImpl(
-      null == productCode
-          ? _value.productCode
-          : productCode // ignore: cast_nullable_to_non_nullable
+    return _then(_$RequestOtpImpl(
+      null == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -209,63 +209,62 @@ class __$$SetTopUpPrepaidImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SetTopUpPrepaidImpl implements _SetTopUpPrepaid {
-  const _$SetTopUpPrepaidImpl(this.productCode);
+class _$RequestOtpImpl implements _RequestOtp {
+  const _$RequestOtpImpl(this.phoneNumber);
 
   @override
-  final String productCode;
+  final String phoneNumber;
 
   @override
   String toString() {
-    return 'TopupPrepaidEvent.setTopUpPrepaid(productCode: $productCode)';
+    return 'RequestOtpEvent.requestOtp(phoneNumber: $phoneNumber)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SetTopUpPrepaidImpl &&
-            (identical(other.productCode, productCode) ||
-                other.productCode == productCode));
+            other is _$RequestOtpImpl &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, productCode);
+  int get hashCode => Object.hash(runtimeType, phoneNumber);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SetTopUpPrepaidImplCopyWith<_$SetTopUpPrepaidImpl> get copyWith =>
-      __$$SetTopUpPrepaidImplCopyWithImpl<_$SetTopUpPrepaidImpl>(
-          this, _$identity);
+  _$$RequestOtpImplCopyWith<_$RequestOtpImpl> get copyWith =>
+      __$$RequestOtpImplCopyWithImpl<_$RequestOtpImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String productCode) setTopUpPrepaid,
+    required TResult Function(String phoneNumber) requestOtp,
   }) {
-    return setTopUpPrepaid(productCode);
+    return requestOtp(phoneNumber);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String productCode)? setTopUpPrepaid,
+    TResult? Function(String phoneNumber)? requestOtp,
   }) {
-    return setTopUpPrepaid?.call(productCode);
+    return requestOtp?.call(phoneNumber);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String productCode)? setTopUpPrepaid,
+    TResult Function(String phoneNumber)? requestOtp,
     required TResult orElse(),
   }) {
-    if (setTopUpPrepaid != null) {
-      return setTopUpPrepaid(productCode);
+    if (requestOtp != null) {
+      return requestOtp(phoneNumber);
     }
     return orElse();
   }
@@ -274,51 +273,50 @@ class _$SetTopUpPrepaidImpl implements _SetTopUpPrepaid {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_SetTopUpPrepaid value) setTopUpPrepaid,
+    required TResult Function(_RequestOtp value) requestOtp,
   }) {
-    return setTopUpPrepaid(this);
+    return requestOtp(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_SetTopUpPrepaid value)? setTopUpPrepaid,
+    TResult? Function(_RequestOtp value)? requestOtp,
   }) {
-    return setTopUpPrepaid?.call(this);
+    return requestOtp?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_SetTopUpPrepaid value)? setTopUpPrepaid,
+    TResult Function(_RequestOtp value)? requestOtp,
     required TResult orElse(),
   }) {
-    if (setTopUpPrepaid != null) {
-      return setTopUpPrepaid(this);
+    if (requestOtp != null) {
+      return requestOtp(this);
     }
     return orElse();
   }
 }
 
-abstract class _SetTopUpPrepaid implements TopupPrepaidEvent {
-  const factory _SetTopUpPrepaid(final String productCode) =
-      _$SetTopUpPrepaidImpl;
+abstract class _RequestOtp implements RequestOtpEvent {
+  const factory _RequestOtp(final String phoneNumber) = _$RequestOtpImpl;
 
-  String get productCode;
+  String get phoneNumber;
   @JsonKey(ignore: true)
-  _$$SetTopUpPrepaidImplCopyWith<_$SetTopUpPrepaidImpl> get copyWith =>
+  _$$RequestOtpImplCopyWith<_$RequestOtpImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-mixin _$TopupPrepaidState {
+mixin _$RequestOtpState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(TopUpPrepaidResponseModel data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -326,7 +324,7 @@ mixin _$TopupPrepaidState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(TopUpPrepaidResponseModel data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -334,7 +332,7 @@ mixin _$TopupPrepaidState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(TopUpPrepaidResponseModel data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -367,16 +365,16 @@ mixin _$TopupPrepaidState {
 }
 
 /// @nodoc
-abstract class $TopupPrepaidStateCopyWith<$Res> {
-  factory $TopupPrepaidStateCopyWith(
-          TopupPrepaidState value, $Res Function(TopupPrepaidState) then) =
-      _$TopupPrepaidStateCopyWithImpl<$Res, TopupPrepaidState>;
+abstract class $RequestOtpStateCopyWith<$Res> {
+  factory $RequestOtpStateCopyWith(
+          RequestOtpState value, $Res Function(RequestOtpState) then) =
+      _$RequestOtpStateCopyWithImpl<$Res, RequestOtpState>;
 }
 
 /// @nodoc
-class _$TopupPrepaidStateCopyWithImpl<$Res, $Val extends TopupPrepaidState>
-    implements $TopupPrepaidStateCopyWith<$Res> {
-  _$TopupPrepaidStateCopyWithImpl(this._value, this._then);
+class _$RequestOtpStateCopyWithImpl<$Res, $Val extends RequestOtpState>
+    implements $RequestOtpStateCopyWith<$Res> {
+  _$RequestOtpStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -393,7 +391,7 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$TopupPrepaidStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$RequestOtpStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
@@ -407,7 +405,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'TopupPrepaidState.initial()';
+    return 'RequestOtpState.initial()';
   }
 
   @override
@@ -424,7 +422,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(TopUpPrepaidResponseModel data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -435,7 +433,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(TopUpPrepaidResponseModel data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -446,7 +444,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(TopUpPrepaidResponseModel data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -494,7 +492,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements TopupPrepaidState {
+abstract class _Initial implements RequestOtpState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -507,7 +505,7 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$TopupPrepaidStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$RequestOtpStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
@@ -521,7 +519,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'TopupPrepaidState.loading()';
+    return 'RequestOtpState.loading()';
   }
 
   @override
@@ -538,7 +536,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(TopUpPrepaidResponseModel data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -549,7 +547,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(TopUpPrepaidResponseModel data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -560,7 +558,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(TopUpPrepaidResponseModel data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -608,7 +606,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements TopupPrepaidState {
+abstract class _Loading implements RequestOtpState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -618,12 +616,12 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({TopUpPrepaidResponseModel data});
+  $Res call({String data});
 }
 
 /// @nodoc
 class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$TopupPrepaidStateCopyWithImpl<$Res, _$LoadedImpl>
+    extends _$RequestOtpStateCopyWithImpl<$Res, _$LoadedImpl>
     implements _$$LoadedImplCopyWith<$Res> {
   __$$LoadedImplCopyWithImpl(
       _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
@@ -638,7 +636,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
       null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as TopUpPrepaidResponseModel,
+              as String,
     ));
   }
 }
@@ -649,11 +647,11 @@ class _$LoadedImpl implements _Loaded {
   const _$LoadedImpl(this.data);
 
   @override
-  final TopUpPrepaidResponseModel data;
+  final String data;
 
   @override
   String toString() {
-    return 'TopupPrepaidState.loaded(data: $data)';
+    return 'RequestOtpState.loaded(data: $data)';
   }
 
   @override
@@ -678,7 +676,7 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(TopUpPrepaidResponseModel data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) {
     return loaded(data);
@@ -689,7 +687,7 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(TopUpPrepaidResponseModel data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loaded?.call(data);
@@ -700,7 +698,7 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(TopUpPrepaidResponseModel data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -748,10 +746,10 @@ class _$LoadedImpl implements _Loaded {
   }
 }
 
-abstract class _Loaded implements TopupPrepaidState {
-  const factory _Loaded(final TopUpPrepaidResponseModel data) = _$LoadedImpl;
+abstract class _Loaded implements RequestOtpState {
+  const factory _Loaded(final String data) = _$LoadedImpl;
 
-  TopUpPrepaidResponseModel get data;
+  String get data;
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -768,7 +766,7 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$TopupPrepaidStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$RequestOtpStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
@@ -798,7 +796,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'TopupPrepaidState.error(message: $message)';
+    return 'RequestOtpState.error(message: $message)';
   }
 
   @override
@@ -823,7 +821,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(TopUpPrepaidResponseModel data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -834,7 +832,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(TopUpPrepaidResponseModel data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -845,7 +843,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(TopUpPrepaidResponseModel data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -893,7 +891,7 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements TopupPrepaidState {
+abstract class _Error implements RequestOtpState {
   const factory _Error(final String message) = _$ErrorImpl;
 
   String get message;

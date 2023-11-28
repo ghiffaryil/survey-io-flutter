@@ -4,12 +4,11 @@ import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/bloc/login/login_bloc.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/common/components/input_field_password.dart';
+import 'package:survey_io/common/components/input_field_passcode.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
-import 'package:survey_io/datasources/login/auth_local_datasource.dart';
-import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/models/auth/auth_request_model.dart';
 import 'package:survey_io/pages/register/register_phone_number.dart';
 
@@ -34,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   FocusNode passcodeFocus = FocusNode();
 
   String gender = '';
-  bool _hidePassword = true;
+  bool _hidePasscode = true;
   bool isLogged = false;
   bool isExpiredToken = false;
 
@@ -45,9 +44,9 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
   }
 
-  void _showHidePasswordTogle() {
+  void _showHidePasscodeTogle() {
     setState(() {
-      _hidePassword = !_hidePassword;
+      _hidePasscode = !_hidePasscode;
     });
   }
 
@@ -70,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
       return false;
     } else if (passcode.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Please enter your password',
+        msg: 'Please enter your Passcode',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -156,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
       child: GestureDetector(
         onTap: () {},
         child: Text(
-          'Forgot Password',
+          'Lupa Password?',
           style: TextStyles.regular(color: AppColors.info),
         ),
       ),
@@ -183,20 +182,20 @@ class _LoginPageState extends State<LoginPage> {
           focusNode: phoneNumberFocus,
           keyboardType: TextInputType.phone,
           controller: phoneNumber,
-          hintText: '0812345678910',
+          hintText: 'Masukkan Nomor telepon',
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'Password',
+          labelText: 'Passcode',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
-        PasswordTextInput(
+        PasscodeTextInput(
           focusNode: passcodeFocus,
           controller: passcode,
-          hintText: 'Password',
-          hidePassword: _hidePassword,
-          onPasswordVisibilityToggle: _showHidePasswordTogle,
+          hintText: 'Passcode',
+          hidePassword: _hidePasscode,
+          onPasswordVisibilityToggle: _showHidePasscodeTogle,
         ),
       ],
     );
@@ -208,7 +207,6 @@ class _LoginPageState extends State<LoginPage> {
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
-              AuthLocalDatasource().saveAuthData(data);
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) {
                 return const HomePage();
@@ -244,11 +242,11 @@ class _LoginPageState extends State<LoginPage> {
                   }
                 });
           }, loading: () {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primary,
-              ),
-            );
+            return ButtonFilled.primary(
+                textColor: AppColors.white,
+                text: '',
+                loading: true,
+                onPressed: () {});
           });
         },
       ),
