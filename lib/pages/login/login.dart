@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,55 +82,35 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        presscount++;
-        if (presscount == 2) {
-          exit(0);
-        } else {
-          // var snackBar = SnackBar(
-          //     content: Text(
-          //         'Tekan "kembali" sekali lagi untuk keluar dari aplikasi'));
-          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          Fluttertoast.showToast(
-              msg: 'Tekan "kembali" sekali lagi untuk keluar dari aplikasi',
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: AppColors.secondary.withOpacity(0.8),
-              textColor: Colors.white,
-              fontSize: 16.0);
-          return false;
-        }
-      },
-      child: Scaffold(
-        appBar: PlainAppBar(
-          leadingIcon: Icons.arrow_back_ios,
-          iconColor: AppColors.white,
-          onPressed: () {},
-        ),
-        body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              labelTextLogin(),
-              CustomDividers.smallDivider(),
-              formInputField(),
-              labelTextPassword(),
-              CustomDividers.extraLargeDivider(),
-              CustomDividers.largeDivider(),
-              CustomDividers.extraLargeDivider(),
-              BlocProvider(
-                create: (context) => LoginBloc(),
-                child: buttonSubmit(),
-              ),
-              CustomDividers.smallDivider(),
-              textSignUpHere(),
-              CustomDividers.verySmallDivider(),
-            ],
-          ),
+    return Scaffold(
+      appBar: PlainAppBar(
+        leadingIcon: Icons.arrow_back_ios,
+        iconColor: AppColors.secondary,
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            labelTextLogin(),
+            CustomDividers.smallDivider(),
+            formInputField(),
+            labelTextPassword(),
+            CustomDividers.extraLargeDivider(),
+            CustomDividers.largeDivider(),
+            CustomDividers.extraLargeDivider(),
+            BlocProvider(
+              create: (context) => LoginBloc(),
+              child: buttonSubmit(),
+            ),
+            CustomDividers.smallDivider(),
+            textSignUpHere(),
+            CustomDividers.verySmallDivider(),
+          ],
         ),
       ),
     );

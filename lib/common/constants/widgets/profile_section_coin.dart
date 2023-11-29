@@ -10,12 +10,10 @@ class ProfileSectionCoin extends StatefulWidget {
   const ProfileSectionCoin({super.key});
 
   @override
-  State<ProfileSectionCoin> createState() =>
-      _ProfileSectionCoinState();
+  State<ProfileSectionCoin> createState() => _ProfileSectionCoinState();
 }
 
-class _ProfileSectionCoinState
-    extends State<ProfileSectionCoin> {
+class _ProfileSectionCoinState extends State<ProfileSectionCoin> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
@@ -23,42 +21,28 @@ class _ProfileSectionCoinState
         return state.maybeWhen(
           orElse: () {
             return FloatingProfileCard(
-              userFrontName: '-',
-              iconImage: Image.asset(
-                IconName.totalSurvey,
-                width: 40,
-                height: 40,
-              ),
-              label: 'Celengan Saya',
-              labelValue: '-',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ReedemPage(),
-                  ),
-                );
-              },
-            );
-          },
-          error: (error) {
-            return FloatingProfileCard(
-              userFrontName: '-',
+              userFrontName: 'User',
               iconImage: Image.asset(
                 IconName.point,
                 width: 40,
                 height: 40,
               ),
               label: 'Celengan Saya',
-              labelValue: '-',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ReedemPage(),
-                  ),
-                );
-              },
+              labelValue: '0',
+              onPressed: () {},
+            );
+          },
+          error: (error) {
+            return FloatingProfileCard(
+              userFrontName: 'User',
+              iconImage: Image.asset(
+                IconName.point,
+                width: 40,
+                height: 40,
+              ),
+              label: 'Celengan Saya',
+              labelValue: '0',
+              onPressed: () {},
             );
           },
           loaded: (data) {

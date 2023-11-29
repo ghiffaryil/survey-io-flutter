@@ -9,7 +9,8 @@ import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/padding.dart';
-import 'package:survey_io/datasources/profile/profile_datasource.dart';
+import 'package:survey_io/datasources/profile/get_profile_datasource.dart';
+
 import '../../../common/constants/styles.dart';
 import 'widgets/bottom_container.dart';
 

@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/survey/survey_popular/survey_popular_bloc.dart';
+import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
+import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
 import 'package:survey_io/pages/survey/widgets/webview_survey.dart';
 
 import '../../../bloc/survey/ayo_check/survey_ayo_check_bloc.dart';
@@ -21,13 +23,8 @@ import '../../survey/list_survey.dart';
 import '../../survey_design/survey_design_list.dart';
 
 class MainCard extends StatefulWidget {
-  final List popularSurvey;
-  final List pollingToday;
-
   const MainCard({
     super.key,
-    required this.popularSurvey,
-    required this.pollingToday,
   });
 
   @override
@@ -40,16 +37,42 @@ class _MainCardState extends State<MainCard> {
   @override
   void initState() {
     super.initState();
+    checkToken();
+    startCountdown();
+  }
+
+  void loadDataSource() {
     context
         .read<SurveyAyoCheckBloc>()
         .add(const SurveyAyoCheckEvent.getSurveyAyoCheck());
+
     context
         .read<PollingTodayBloc>()
         .add(const PollingTodayEvent.getPollingToday());
+
     context
         .read<SurveyPopularBloc>()
         .add(const SurveyPopularEvent.getSurveyPopular());
-    startCountdown();
+  }
+
+  void checkToken() async {
+    final token = await AuthLocalDatasource().getToken();
+    final guestToken = await AuthLocalGuestDatasource().getToken();
+
+    // IF TOKEN IS EMPTY
+    if (token.isEmpty) {
+      // IF GUEST TOKEN NOT EMPTY
+      if (guestToken.isNotEmpty) {
+        print('Guest Token => $guestToken');
+        loadDataSource();
+      } else {
+        print('No Guest Token');
+      }
+    } else {
+      // Have User Token
+      print('User Token : $token');
+      loadDataSource();
+    }
   }
 
   void startCountdown() {
@@ -799,7 +822,7 @@ class _MainCardState extends State<MainCard> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const SurveyDesignList()));
+                                          const SurveyDesignListPage()));
                             })
                       ],
                     ),

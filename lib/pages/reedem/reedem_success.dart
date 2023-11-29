@@ -6,8 +6,8 @@ import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/pages/reedem/reedem.dart';
-import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 
 import '../../../common/constants/images.dart';
 import '../../../common/constants/styles.dart';
@@ -84,7 +84,7 @@ class _ReedemSuccessState extends State<ReedemSuccess> {
                   // Navigator.pop(context);
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) {
-                    return const SurveyDesignList();
+                    return const HomePage();
                   }));
                 })
           ],

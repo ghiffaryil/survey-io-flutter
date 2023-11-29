@@ -23,71 +23,52 @@ class _ProfileSectionSurveyDesignState
         return state.maybeWhen(
           orElse: () {
             return FloatingProfileCard(
-              userFrontName: '-',
+              userFrontName: 'User',
               iconImage: Image.asset(
                 IconName.totalSurvey,
                 width: 40,
                 height: 40,
               ),
               label: 'Jumlah Survey',
-              labelValue: '-',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ListSurveiPage(),
-                  ),
-                );
-              },
+              labelValue: '0',
+              onPressed: () {},
             );
           },
           loaded: (data) {
             return BlocBuilder<SurveyDesignListBloc, SurveyDesignListState>(
               builder: (context, state) {
-                return state.maybeWhen(
-                  loaded: (surveyDesignList) {
-                    return FloatingProfileCard(
-                      userFrontName: data.user.name.split(' ')[0],
-                      iconImage: Image.asset(
-                        IconName.totalSurvey,
-                        width: 40,
-                        height: 40,
-                      ),
-                      label: 'Jumlah Survey',
-                      labelValue: surveyDesignList.length.toString(),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ListSurveiPage(),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  // Handle other states if needed
-                  orElse: () {
-                    // Handle the default case
-                    return FloatingProfileCard(
-                      userFrontName: '-',
-                      iconImage: Image.asset(
-                        IconName.totalSurvey,
-                        width: 40,
-                        height: 40,
-                      ),
-                      label: 'Jumlah Survey',
-                      labelValue: '-',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ListSurveiPage(),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                );
+                return state.maybeWhen(orElse: () {
+                  return FloatingProfileCard(
+                    userFrontName: 'User',
+                    iconImage: Image.asset(
+                      IconName.totalSurvey,
+                      width: 40,
+                      height: 40,
+                    ),
+                    label: 'Jumlah Survey',
+                    labelValue: '0',
+                    onPressed: () {},
+                  );
+                }, loaded: (surveyDesignList) {
+                  return FloatingProfileCard(
+                    userFrontName: data.user.name.split(' ')[0],
+                    iconImage: Image.asset(
+                      IconName.totalSurvey,
+                      width: 40,
+                      height: 40,
+                    ),
+                    label: 'Jumlah Survey',
+                    labelValue: surveyDesignList.length.toString(),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ListSurveiPage(),
+                        ),
+                      );
+                    },
+                  );
+                });
               },
             );
           },

@@ -9,8 +9,6 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
-import 'package:survey_io/datasources/survey/data/list_survey.dart';
-import 'package:survey_io/models/survey/survey_model.dart';
 import 'package:survey_io/pages/survey/widgets/webview_survey.dart';
 
 import '../../bloc/survey/survey_list/survey_list_bloc.dart';
@@ -25,7 +23,7 @@ class ListSurveiPage extends StatefulWidget {
 }
 
 class _ListSurveiPageState extends State<ListSurveiPage> {
-  List<SurveyModelData> listSurvey = ListSurvey.getSurvey();
+  
 
   @override
   void initState() {

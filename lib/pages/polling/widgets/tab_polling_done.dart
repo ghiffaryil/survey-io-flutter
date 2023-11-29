@@ -11,10 +11,6 @@ import '../../../common/constants/colors.dart';
 import '../../../common/components/divider.dart';
 import '../../../common/components/label.dart';
 
-import '../../../datasources/polling/list_polling_completed.dart';
-
-import '../../../models/polling/polling_completed.dart';
-
 import 'container_select_option.dart';
 
 class TabPollingDone extends StatefulWidget {
@@ -25,8 +21,7 @@ class TabPollingDone extends StatefulWidget {
 }
 
 class _TabPollingDoneState extends State<TabPollingDone> {
-  List<PollingCompletedModel> listPollingCompleted =
-      ListPollingCompleted.getCompletedPolling();
+  
 
   @override
   void initState() {

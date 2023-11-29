@@ -6,9 +6,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
+import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
+import 'package:survey_io/datasources/token/check_token_datasource.dart';
+import 'package:survey_io/pages/login/login.dart';
 import 'package:survey_io/pages/profile/profile.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
+import 'package:survey_io/pages/profile/widgets/profile_not_found.dart';
 
 import '../../bloc/profile/get_profile/profile_bloc.dart';
 import '../../common/components/appbar_plain.dart';
@@ -25,11 +30,78 @@ class InviteFriend extends StatefulWidget {
 
 class _InviteFriendState extends State<InviteFriend> {
   int selectedIndex = 2;
+  bool isLogged = false;
+  bool isGuest = false;
 
   @override
   void initState() {
     super.initState();
+    checkToken();
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+  }
+
+  void navigateToLoginPage(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+    );
+  }
+
+  void checkToken() async {
+    final token = await AuthLocalDatasource().getToken();
+    final guestToken = await AuthLocalGuestDatasource().getToken();
+
+    if (token.isEmpty) {
+      setState(() {
+        isLogged = false;
+      });
+      if (guestToken.isEmpty) {
+        setState(() {
+          isGuest = false;
+        });
+      } else {
+        setState(() {
+          isGuest = true;
+        });
+      }
+    } else {
+      final result = await CheckTokenDatasource().checkToken();
+      result.fold(
+        (error) {
+          setState(() {
+            isLogged = false;
+          });
+          if (error == 'Token is Expired') {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Token Expired'),
+                  content: const Text(
+                      'Sesi anda telah habis. Silahkan login kembali.'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('OK'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        navigateToLoginPage(context);
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            navigateToLoginPage(context);
+          }
+        },
+        (data) {
+          setState(() {
+            isLogged = true;
+          });
+        },
+      );
+    }
   }
 
   void copyTextToClipboard(String copy) {
@@ -58,27 +130,29 @@ class _InviteFriendState extends State<InviteFriend> {
           Navigator.pop(context);
         },
       ),
-      body: Container(
-        padding: CustomPadding.pdefault,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            LabelInput(
-                labelText: 'Undang Teman',
-                labelStyle: TextStyles.h2(color: AppColors.secondary)),
-            CustomDividers.regularDivider(),
-            ImageInvitation(),
-            CustomDividers.smallDivider(),
-            TextInformationReferal(),
-            CustomDividers.smallDivider(),
-            ReferalCode(),
-            CustomDividers.smallDivider(),
-            TextInformation(),
-            CustomDividers.regularDivider(),
-            buttonInviteFriend(),
-          ],
-        ),
-      ),
+      body: isLogged
+          ? Container(
+              padding: CustomPadding.pdefault,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  LabelInput(
+                      labelText: 'Undang Teman',
+                      labelStyle: TextStyles.h2(color: AppColors.secondary)),
+                  CustomDividers.regularDivider(),
+                  ImageInvitation(),
+                  CustomDividers.smallDivider(),
+                  TextInformationReferal(),
+                  CustomDividers.smallDivider(),
+                  ReferalCode(),
+                  CustomDividers.smallDivider(),
+                  TextInformation(),
+                  CustomDividers.regularDivider(),
+                  buttonInviteFriend(),
+                ],
+              ),
+            )
+          : const ProfileNotFound(),
     );
   }
 

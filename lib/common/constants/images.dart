@@ -1,5 +1,5 @@
 class Images {
-  static const String notice = 'assets/images/information/warning_info.svg';
+  static const String notice = 'assets/icons/icon_warning.png';
   static const String logoHorizontal =
       'assets/images/logo/logo_survey_io_horizontal.png';
 

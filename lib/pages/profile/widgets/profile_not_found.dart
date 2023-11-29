@@ -4,15 +4,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/pages/login/login.dart';
-import 'package:survey_io/pages/onboarding/onboarding.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/pages/register/register_phone_number.dart';
 
-import '../../../../common/constants/imageSize.dart';
-import '../../../../common/constants/images.dart';
+import 'package:survey_io/common/constants/imageSize.dart';
+import 'package:survey_io/common/constants/images.dart';
 
 class ProfileNotFound extends StatefulWidget {
   const ProfileNotFound({super.key});
@@ -59,7 +59,7 @@ class _ProfileNotFoundState extends State<ProfileNotFound> {
         text: 'Daftar',
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const OnboardingPage()));
+              MaterialPageRoute(builder: (context) => const RegisterPage()));
         });
   }
 

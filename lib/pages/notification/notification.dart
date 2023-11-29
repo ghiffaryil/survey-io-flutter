@@ -79,7 +79,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         ),
                         CustomDividers.regularDivider(),
                         Text(
-                          'Mohon maaf, sepertinya terjadi kesalahan pada sistem',
+                          'Oops, Data tidak ditemukan',
                           textAlign: TextAlign.center,
                           style:
                               TextStyles.extraLarge(color: AppColors.secondary),

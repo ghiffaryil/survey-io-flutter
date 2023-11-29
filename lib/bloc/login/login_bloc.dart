@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:survey_io/datasources/login/auth_local_datasource.dart';
+import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
 
-import '../../datasources/login/auth_remote_datasource.dart';
+import '../../datasources/login/auth_login_datasource.dart';
 import '../../models/auth/auth_request_model.dart';
 import '../../models/auth/auth_response_model.dart';
 
