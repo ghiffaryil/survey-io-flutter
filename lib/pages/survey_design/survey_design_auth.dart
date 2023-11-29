@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:survey_io/datasources/login/auth_local_datasource.dart';
-import 'package:survey_io/datasources/token/check_token_datasource.dart';
-import 'package:survey_io/pages/survey_design/survey_design.dart';
-
-import '../login/login.dart';
-import '../profile/edit_profile_complete.dart';
-import '../../common/components/divider.dart';
-import '../../common/components/text_button.dart';
-import '../../common/constants/colors.dart';
-import '../../common/constants/images.dart';
-import '../../common/constants/padding.dart';
-import '../../../common/constants/imageSize.dart';
-import '../../../common/constants/styles.dart';
+import 'package:survey_io/pages/login/login.dart';
+import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/common/components/text_button.dart';
+import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/images.dart';
+import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/common/constants/imageSize.dart';
+import 'package:survey_io/common/constants/styles.dart';
+import 'package:survey_io/pages/register/register_phone_number.dart';
 
 class SurveyDesignAuth extends StatefulWidget {
   const SurveyDesignAuth({super.key});
@@ -28,45 +24,6 @@ class _SurveyDesignAuthState extends State<SurveyDesignAuth> {
   @override
   void initState() {
     super.initState();
-    checkAuth();
-  }
-
-  void checkAuth() async {
-    final isLogin = await AuthLocalDatasource().isLogin();
-    final token = await AuthLocalDatasource().getToken();
-
-    if (token.isEmpty) {
-      setState(() {
-        isLogged = false;
-        isExpiredToken = true;
-      });
-    } else if (isLogin) {
-      // CHECK TOKEN IS STILL AVAILABLE
-      final result = await CheckTokenDatasource().checkToken();
-      result.fold(
-        (error) {
-          setState(() {
-            isLogged = true;
-            isExpiredToken = true;
-          });
-        },
-        (data) {
-          setState(() {
-            isLogged = true;
-            isExpiredToken = false;
-          });
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const SurveyDesign()));
-        },
-      );
-    } else {
-      setState(() {
-        isLogged = false;
-        isExpiredToken = true;
-      });
-    }
-
-    // DO OPEN SPLASH SCREEN
   }
 
   @override
@@ -94,7 +51,7 @@ class _SurveyDesignAuthState extends State<SurveyDesignAuth> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const EditProfileComplete()));
+                        builder: (context) => const RegisterPage()));
               },
             ),
             Row(children: <Widget>[

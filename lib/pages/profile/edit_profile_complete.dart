@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:survey_io/bloc/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:survey_io/common/components/appbar_plain.dart';
 import 'package:survey_io/common/constants/icons.dart';
-import 'package:survey_io/datasources/profile/profile_datasource.dart';
+import 'package:survey_io/datasources/profile/get_profile_datasource.dart';
 import 'package:survey_io/models/user/edit_profile_request_model.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_date.dart';
@@ -199,7 +199,7 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
           iconColor: AppColors.secondary,
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const SurveyDesignList();
+              return const SurveyDesignListPage();
             }));
           },
         ),
@@ -406,7 +406,7 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const SurveyDesignList()));
+                      builder: (context) => const SurveyDesignListPage()));
             },
             error: (message) {
               Fluttertoast.showToast(

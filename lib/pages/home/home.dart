@@ -4,26 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 import 'package:survey_io/bloc/survey/survey_design_list/survey_design_list_bloc.dart';
+import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 
 // Import Component
-import 'package:survey_io/common/components/appbar.dart';
-import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/constants/widgets/profile_section_coin.dart';
-import 'package:survey_io/datasources/polling/list_polling_today.dart';
-import 'package:survey_io/models/polling/polling_model.dart';
-import 'package:survey_io/datasources/survey/data/list_survey_popular.dart';
 import 'package:survey_io/pages/login/login.dart';
-import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
-import 'package:survey_io/pages/tabs/floating_icon.dart';
-import 'package:survey_io/pages/home/widgets/main_card.dart';
-
-import 'package:survey_io/pages/notification/notification.dart';
-import 'package:survey_io/datasources/login/auth_local_datasource.dart';
-import 'package:survey_io/datasources/token/check_token_datasource.dart';
-import 'package:survey_io/common/constants/widgets/red_shape_card.dart';
-import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/common/constants/images.dart';
+import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/components/appbar.dart';
+import 'package:survey_io/pages/tabs/floating_icon.dart';
+import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/models/survey/survey_model.dart';
+import 'package:survey_io/pages/home/widgets/main_card.dart';
+import 'package:survey_io/pages/notification/notification.dart';
+import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
+import 'package:survey_io/common/constants/widgets/profile_section_coin.dart';
+import 'package:survey_io/datasources/survey/data/list_survey_popular.dart';
+import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
+import 'package:survey_io/common/constants/widgets/red_shape_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -34,20 +31,23 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
-  bool isLogged = true;
+  bool isLogged = false;
+  bool isGuest = false;
 
   List<SurveyModelData> listDataPopularSurvey =
       ListSurveyPopular.getSurveyPopular();
-  List<PollingModel> listPollingToday = ListPollingToday.getPollingToday();
 
   @override
   void initState() {
     super.initState();
+    checkToken();
+  }
+
+  void loadDataSource() {
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
     context
         .read<SurveyDesignListBloc>()
         .add(const SurveyDesignListEvent.getSurveyDesignList());
-    checkToken();
   }
 
   void navigateToLoginPage(BuildContext context) {
@@ -59,69 +59,21 @@ class _HomePageState extends State<HomePage> {
 
   void checkToken() async {
     final token = await AuthLocalDatasource().getToken();
+    final guestToken = await AuthLocalGuestDatasource().getToken();
 
+    // IF TOKEN IS EMPTY
     if (token.isEmpty) {
-      setState(() {
-        isLogged = false;
-      });
-      // navigateToLoginPage(context);
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Token Expired'),
-            content:
-                const Text('Sesi anda telah habis. Silahkan login kembali.'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  navigateToLoginPage(context);
-                },
-              ),
-            ],
-          );
-        },
-      );
+      // IF GUEST TOKEN NOT EMPTY
+      if (guestToken.isNotEmpty) {
+        print('Guest Token => $guestToken');
+        loadDataSource();
+      } else {
+        print('No Guest Token');
+      }
     } else {
-      final result = await CheckTokenDatasource().checkToken();
-      result.fold(
-        (error) {
-          setState(() {
-            isLogged = false;
-          });
-          if (error == 'Token is Expired') {
-            // navigateToLoginPage(context);
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: const Text('Token Expired'),
-                  content: const Text(
-                      'Sesi anda telah habis. Silahkan login kembali.'),
-                  actions: <Widget>[
-                    TextButton(
-                      child: const Text('OK'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        navigateToLoginPage(context);
-                      },
-                    ),
-                  ],
-                );
-              },
-            );
-          } else {
-            navigateToLoginPage(context);
-          }
-        },
-        (data) {
-          setState(() {
-            isLogged = true;
-          });
-        },
-      );
+      // Have User Token
+      print('User Token : $token');
+      loadDataSource();
     }
   }
 
@@ -144,14 +96,11 @@ class _HomePageState extends State<HomePage> {
         },
         badge: true,
       ),
-      body: Stack(
+      body: const Stack(
         children: [
-          MainCard(
-            popularSurvey: listDataPopularSurvey,
-            pollingToday: listPollingToday,
-          ),
-          const RedShapeCircular(),
-          const ProfileSectionCoin(),
+          MainCard(),
+          RedShapeCircular(),
+          ProfileSectionCoin(),
         ],
       ),
       bottomNavigationBar: BottomMenu(

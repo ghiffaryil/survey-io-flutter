@@ -1,14 +1,14 @@
 // ignore_for_file: unused_field
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/bloc/bloc/guest_bloc.dart';
+import 'package:survey_io/pages/home/home.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'package:survey_io/pages/profile/webview_help_center.dart';
 import 'package:survey_io/pages/profile/webview_privacy_policy.dart';
 import 'package:survey_io/pages/profile/webview_terms_and_condition.dart';
 import 'package:survey_io/bloc/logout/logout_bloc.dart';
-import 'package:survey_io/datasources/login/auth_local_datasource.dart';
+import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/common/components/list_menu.dart';
@@ -226,19 +226,47 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ButtonOutlined.primary(
-                    text: 'Ya, Keluar',
-                    onPressed: () {
-                      context
-                          .read<LogoutBloc>()
-                          .add(const LogoutEvent.logout());
-                      AuthLocalDatasource().removeAuthData();
-                      AuthLocalDatasource().clearAuthData();
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPage()));
+                  BlocListener<LogoutBloc, LogoutState>(
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        orElse: () {},
+                        loading: () {
+                          AuthLocalDatasource().removeAuthData();
+                          AuthLocalDatasource().clearAuthData();
+                          context
+                              .read<GuestBloc>()
+                              .add(const GuestEvent.getGuestToken());
+                        },
+                        loaded: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomePage()));
+                        },
+                      );
                     },
+                    child: BlocBuilder<LogoutBloc, LogoutState>(
+                      builder: (context, state) {
+                        return state.maybeWhen(orElse: () {
+                          return ButtonOutlined.primary(
+                            text: 'Ya, Keluar',
+                            onPressed: () {
+                              // DO LOGOUT BLOC
+                              context
+                                  .read<LogoutBloc>()
+                                  .add(const LogoutEvent.logout());
+                            },
+                          );
+                        }, loading: () {
+                          return ButtonOutlined.primary(
+                            text: '',
+                            loading: true,
+                            textColor: AppColors.primary,
+                            onPressed: () {},
+                          );
+                        });
+                      },
+                    ),
                   ),
                   const SizedBox(
                     height: 15,

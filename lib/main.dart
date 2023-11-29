@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/bloc/bloc/guest_bloc.dart';
 import 'package:survey_io/bloc/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:survey_io/bloc/reedem/product_prepaid_list/product_prepaid_list_bloc.dart';
 import 'package:survey_io/bloc/reedem/reedem_history/reedem_history_bloc.dart';
@@ -47,6 +48,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) => GuestBloc(),
+        ),
         BlocProvider(
           create: (context) => RequestOtpBloc(),
         ),

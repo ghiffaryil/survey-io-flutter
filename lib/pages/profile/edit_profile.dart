@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:survey_io/datasources/profile/get_profile_datasource.dart';
 import 'package:survey_io/pages/profile/profile.dart';
 import 'package:survey_io/bloc/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
-import 'package:survey_io/datasources/profile/profile_datasource.dart';
 import 'package:survey_io/models/user/edit_profile_request_model.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_date.dart';
@@ -237,7 +237,6 @@ class _EditProfileState extends State<EditProfile> {
                     setState(() {
                       selectedGender = value;
                       userGender = 'male';
-                      print(selectedGender);
                     });
                   },
                 )),
@@ -253,7 +252,6 @@ class _EditProfileState extends State<EditProfile> {
                     setState(() {
                       selectedGender = value;
                       userGender = 'female';
-                      print(selectedGender);
                     });
                   },
                 )),
@@ -285,7 +283,7 @@ class _EditProfileState extends State<EditProfile> {
           keyboardType: TextInputType.phone,
           controller: phoneNumber,
           hintText: '081234567890',
-          editable: false ,
+          editable: false,
           suffixIconPNG: userActive == 1 ? IconName.pollingCheckInfo : null,
         ),
         CustomDividers.smallDivider(),

@@ -41,14 +41,63 @@ class _UserInformationState extends State<UserInformation> {
             return state.maybeWhen(orElse: () {
               return Container();
             }, loading: () {
-              return Container();
+              return Row(children: [
+                Image.asset(
+                  IconName.account,
+                  width: 45,
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  flex: 6,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '-',
+                        style: TextStyles.extraLarge(
+                            color: AppColors.secondary,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '-',
+                        style: TextStyles.regular(color: AppColors.secondary),
+                      )
+                    ],
+                  ),
+                ),
+              ]);
             }, error: (message) {
-              return Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    message,
-                    textAlign: TextAlign.center,
-                  ));
+              return Row(children: [
+                Image.asset(
+                  IconName.account,
+                  width: 45,
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  flex: 6,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '-',
+                        style: TextStyles.extraLarge(
+                            color: AppColors.secondary,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '-',
+                        style: TextStyles.regular(color: AppColors.secondary),
+                      )
+                    ],
+                  ),
+                ),
+              ]);
             }, loaded: (data) {
               return Row(
                 children: [

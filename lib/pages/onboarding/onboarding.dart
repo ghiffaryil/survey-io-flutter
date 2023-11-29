@@ -2,13 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:survey_io/bloc/bloc/guest_bloc.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/models/survey_design/survey_design_list_response_model.dart';
+import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/pages/register/register_phone_number.dart';
+import 'package:survey_io/pages/survey_design/survey_design.dart';
+import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 
 import '../../common/constants/imageSize.dart';
 import '../../common/constants/images.dart';
@@ -144,25 +151,84 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   Widget buttonFollowSurvey() {
-    return ButtonFilled.primary(
-        text: 'Ikut Survei',
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const RegisterPage()),
-          );
-        });
+    return BlocListener<GuestBloc, GuestState>(
+      listener: (context, state) {
+        state.maybeWhen(
+            orElse: () {},
+            loaded: (data) {
+
+              
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return const HomePage();
+              }));
+            },
+            error: (message) {
+              Fluttertoast.showToast(
+                  msg: message,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: AppColors.secondary.withOpacity(0.8),
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            });
+      },
+      child: BlocBuilder<GuestBloc, GuestState>(
+        builder: (context, state) {
+          return state.maybeWhen(orElse: () {
+            return ButtonFilled.primary(
+                text: 'Ikut Survei',
+                onPressed: () {
+                  context
+                      .read<GuestBloc>()
+                      .add(const GuestEvent.getGuestToken());
+                });
+          });
+        },
+      ),
+    );
   }
 
   Widget buttonCreateSurvey() {
-    return ButtonOutlined.primary(
-        text: 'Buat Survei',
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const RegisterPage()),
+    return BlocListener<GuestBloc, GuestState>(
+      listener: (context, state) {
+        state.maybeWhen(
+            orElse: () {},
+            loaded: (data) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return const HomePage();
+              }));
+            },
+            error: (message) {
+              Fluttertoast.showToast(
+                  msg: message,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: AppColors.secondary.withOpacity(0.8),
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            });
+      },
+      child: BlocBuilder<GuestBloc, GuestState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return ButtonOutlined.primary(
+                text: 'Buat Survei',
+                onPressed: () {
+                  context
+                      .read<GuestBloc>()
+                      .add(const GuestEvent.getGuestToken());
+                },
+              );
+            },
           );
-        });
+        },
+      ),
+    );
   }
 }
 

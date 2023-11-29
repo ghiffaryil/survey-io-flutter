@@ -11,7 +11,8 @@ import 'package:survey_io/common/constants/images.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/extension/helper/currency_helper.dart';
-import 'package:survey_io/datasources/profile/profile_datasource.dart';
+import 'package:survey_io/datasources/profile/get_profile_datasource.dart';
+
 import 'package:survey_io/pages/profile/edit_profile_complete.dart';
 
 class MainSectionSurveyDesign extends StatefulWidget {

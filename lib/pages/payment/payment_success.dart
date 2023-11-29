@@ -64,7 +64,7 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SurveyDesignList()));
+                            builder: (context) => const SurveyDesignListPage()));
                   }),
             ),
             CustomDividers.mediumDivider(),
