@@ -1,7 +1,7 @@
 // ignore_for_file: unused_field
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:survey_io/bloc/bloc/guest_bloc.dart';
+import 'package:survey_io/bloc/guest/guest_bloc.dart';
 import 'package:survey_io/pages/home/home.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:survey_io/pages/profile/webview_help_center.dart';

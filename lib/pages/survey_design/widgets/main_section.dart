@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:survey_io/bloc/survey/survey_design_list/survey_design_list_bloc.dart';
 import 'package:survey_io/common/components/divider.dart';
-import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/text_button.dart';
+import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/common/constants/imageSize.dart';
+import 'package:survey_io/common/constants/styles.dart';
+import 'package:survey_io/common/constants/images.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/icons.dart';
-import 'package:survey_io/common/constants/imageSize.dart';
-import 'package:survey_io/common/constants/images.dart';
 import 'package:survey_io/common/constants/padding.dart';
-import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/common/extension/helper/currency_helper.dart';
-import 'package:survey_io/datasources/profile/get_profile_datasource.dart';
-
 import 'package:survey_io/pages/profile/edit_profile_complete.dart';
+import 'package:survey_io/pages/survey_design/survey_design_list.dart';
+import 'package:survey_io/common/extension/helper/currency_helper.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_list/survey_design_list_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_submit/survey_design_submit_bloc.dart';
 
 class MainSectionSurveyDesign extends StatefulWidget {
   const MainSectionSurveyDesign({super.key});
@@ -29,26 +29,6 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
   String ktp = '';
   String npwp = '';
   int userActive = 0;
-
-  void loadProfileInformation() async {
-    try {
-      final result = await ProfileRemoteDatasource().getProfile();
-      result.fold(
-        (error) {
-          print('Error: $error');
-        },
-        (data) {
-          setState(() {
-            ktp = data.data.userProfile.ktp;
-            npwp = data.data.userProfile.npwp;
-            userActive = data.data.user.active;
-          });
-        },
-      );
-    } catch (e) {
-      print('Exception: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -304,7 +284,9 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                           text: 'Submit',
                                                           onPressed: () {
                                                             showModalSubmitConfirmation(
-                                                                context);
+                                                                context,
+                                                                surveyDesignData
+                                                                    .id);
                                                           }),
                                                     ),
                                                   ],
@@ -350,10 +332,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                     child: ButtonFilled.info(
                                                         height: 40,
                                                         text: 'Bayar',
-                                                        onPressed: () {
-                                                          showModalSubmitConfirmation(
-                                                              context);
-                                                        }),
+                                                        onPressed: () {}),
                                                   )
                                                 ],
                                               ),
@@ -417,12 +396,10 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                       width: double.infinity,
                                                       child: Row(
                                                         children: [
-                                                          Expanded(
+                                                          const Expanded(
                                                             flex: 7,
-                                                            child: Container(
-                                                              child: const Text(
-                                                                  'Survei kamu butuh perbaikan, Ketuk Edit untuk melakukan perubahan.'),
-                                                            ),
+                                                            child: Text(
+                                                                'Survei kamu butuh perbaikan, Ketuk Edit untuk melakukan perubahan.'),
                                                           ),
                                                           Expanded(
                                                             flex: 3,
@@ -482,51 +459,50 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                             ],
                                                           ),
                                                         )
-                                                      : Container(
-                                                          child: Column(
-                                                            children: [
-                                                              const SizedBox(
-                                                                height: 10,
-                                                              ),
-                                                              Text(
-                                                                'Survei kamu telah selesai. Silakan download laporan hasil survei di bawah ini.',
-                                                                style: TextStyles.medium(
-                                                                    color: AppColors
-                                                                        .light),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 20,
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                      flex: 4,
-                                                                      child: TextButtonOutlined.info(
-                                                                          height:
-                                                                              40,
-                                                                          text:
-                                                                              'Format PDF',
-                                                                          onPressed:
-                                                                              () {})),
-                                                                  const SizedBox(
-                                                                    width: 15,
-                                                                  ),
-                                                                  Expanded(
-                                                                      flex: 4,
-                                                                      child: TextButtonOutlined.info(
-                                                                          height:
-                                                                              40,
-                                                                          text:
-                                                                              'Format CSV',
-                                                                          onPressed:
-                                                                              () {}))
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
+                                                      : Column(
+                                                          children: [
+                                                            const SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Text(
+                                                              'Survei kamu telah selesai. Silakan download laporan hasil survei di bawah ini.',
+                                                              style: TextStyles
+                                                                  .medium(
+                                                                      color: AppColors
+                                                                          .light),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                    flex: 4,
+                                                                    child: TextButtonOutlined.info(
+                                                                        height:
+                                                                            40,
+                                                                        text:
+                                                                            'Format PDF',
+                                                                        onPressed:
+                                                                            () {})),
+                                                                const SizedBox(
+                                                                  width: 15,
+                                                                ),
+                                                                Expanded(
+                                                                    flex: 4,
+                                                                    child: TextButtonOutlined.info(
+                                                                        height:
+                                                                            40,
+                                                                        text:
+                                                                            'Format CSV',
+                                                                        onPressed:
+                                                                            () {}))
+                                                              ],
+                                                            )
+                                                          ],
                                                         )
                                 ],
                               ),
@@ -572,7 +548,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                 }));
   }
 
-  void showModalSubmitConfirmation(BuildContext context) {
+  void showModalSubmitConfirmation(BuildContext context, int surveyDesignId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -628,8 +604,85 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                     width: 10,
                   ),
                   Expanded(
-                      child: TextButtonFilled.primary(
-                          height: 45, text: 'Submit', onPressed: () {})),
+                      child: BlocListener<SurveyDesignSubmitBloc,
+                          SurveyDesignSubmitState>(
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        orElse: () {},
+                        loaded: (data) {
+                          if (data == "Success") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SurveyDesignListPage()));
+                          }
+                        },
+                        error: (message) {
+                          Navigator.pop(context);
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                    title: Container(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          'Oops...!',
+                                          style: TextStyles.h3(
+                                              color: AppColors.primary),
+                                        )),
+                                    content: Text(
+                                      message,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyles.h5(
+                                          color: AppColors.secondary),
+                                    ),
+                                    actions: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text(
+                                              'Ok',
+                                              style: TextStyles.regular(
+                                                  color: AppColors.primary),
+                                            )),
+                                      )
+                                    ]);
+                              });
+                        },
+                      );
+                    },
+                    child: BlocBuilder<SurveyDesignSubmitBloc,
+                        SurveyDesignSubmitState>(
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          orElse: () {
+                            return ButtonFilled.primary(
+                              height: 45,
+                              text: 'Submit',
+                              onPressed: () {
+                                context.read<SurveyDesignSubmitBloc>().add(
+                                    SurveyDesignSubmitEvent.submitSurveyDesign(
+                                        surveyDesignId));
+                              },
+                            );
+                          },
+                          loading: () {
+                            return ButtonFilled.primary(
+                              height: 45,
+                              text: '',
+                              textColor: AppColors.white,
+                              onPressed: () {},
+                              loading: true,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  )),
                 ],
               ),
             ),

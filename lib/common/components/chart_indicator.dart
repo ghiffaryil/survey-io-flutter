@@ -18,26 +18,32 @@ class Indicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            shape: isSquare ? BoxShape.rectangle : BoxShape.circle,
-            color: color,
+        Expanded(
+          flex: 2,
+          child: Container(
+            width: size,
+            height: size,
+            decoration: BoxDecoration(
+              shape: isSquare ? BoxShape.rectangle : BoxShape.circle,
+              color: color,
+            ),
           ),
         ),
         const SizedBox(
           width: 4,
         ),
-        Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: textColor,
+        Flexible(
+          flex: 8,
+          child: Text(
+            text,
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+            ),
           ),
         )
       ],

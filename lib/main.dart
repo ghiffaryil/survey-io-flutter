@@ -2,22 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:survey_io/bloc/bloc/guest_bloc.dart';
-import 'package:survey_io/bloc/profile/edit_profile/edit_profile_bloc.dart';
-import 'package:survey_io/bloc/reedem/product_prepaid_list/product_prepaid_list_bloc.dart';
-import 'package:survey_io/bloc/reedem/reedem_history/reedem_history_bloc.dart';
-import 'package:survey_io/bloc/reedem/topup_prepaid/topup_prepaid_bloc.dart';
-import 'package:survey_io/bloc/register/register/register_bloc.dart';
-import 'package:survey_io/bloc/register/request_otp/request_otp_bloc.dart';
-import 'package:survey_io/bloc/register/verify_otp/verify_otp_bloc.dart';
-import 'package:survey_io/bloc/survey/survey_design_list/survey_design_list_bloc.dart';
-
+import 'package:survey_io/bloc/survey_design/survey_design_submit/survey_design_submit_bloc.dart';
 import 'bloc/login/login_bloc.dart';
 import 'bloc/profile/get_profile/profile_bloc.dart';
 import 'bloc/polling/polling_result/polling_result_bloc.dart';
 import 'bloc/polling/polling_today/polling_today_bloc.dart';
 import 'package:survey_io/bloc/logout/logout_bloc.dart';
 import 'package:survey_io/bloc/notif/notif_bloc.dart';
+import 'package:survey_io/bloc/guest/guest_bloc.dart';
+import 'package:survey_io/bloc/profile/edit_profile/edit_profile_bloc.dart';
+import 'package:survey_io/bloc/reedem/reedem_history/reedem_history_bloc.dart';
+import 'package:survey_io/bloc/reedem/topup_prepaid/topup_prepaid_bloc.dart';
+import 'package:survey_io/bloc/register/register/register_bloc.dart';
+import 'package:survey_io/bloc/register/request_otp/request_otp_bloc.dart';
+import 'package:survey_io/bloc/register/verify_otp/verify_otp_bloc.dart';
+import 'package:survey_io/bloc/reedem/product_prepaid_list/product_prepaid_list_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_list/survey_design_list_bloc.dart';
 import 'package:survey_io/bloc/polling/polling/polling_bloc.dart';
 import 'package:survey_io/bloc/polling/polling_done/polling_done_bloc.dart';
 import 'package:survey_io/bloc/polling/polling_participate/polling_participate_bloc.dart';
@@ -110,6 +110,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => TopupPrepaidBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignSubmitBloc(),
         ),
       ],
       child: MaterialApp(

@@ -7,6 +7,8 @@ class IconName {
 
   static const String polling = 'assets/icons/icon_polling.png';
   static const String pollingCheck = 'assets/icons/icon_polling_check.png';
+  static const String pollingCheckSuccess =
+      'assets/icons/icon_polling_check_success.png';
   static const String pollingCheckInfo =
       'assets/icons/icon_polling_check_info.png';
   static const String pollingCheckFocused =
@@ -47,6 +49,7 @@ class IconName {
   static const String iconEwalletShopeePay =
       'assets/icons/icon_ewallet_shopeepay.png';
   static const String notice = 'assets/icons/icon_warning.png';
-  
-  static const String surveyCheckApproved = 'assets/icons/icon_survei_check_approved.png';
+
+  static const String surveyCheckApproved =
+      'assets/icons/icon_survei_check_approved.png';
 }

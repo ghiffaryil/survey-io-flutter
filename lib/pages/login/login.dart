@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/bloc/login/login_bloc.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
@@ -185,6 +186,7 @@ class _LoginPageState extends State<LoginPage> {
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
+              AuthLocalGuestDatasource().removeAuthData();
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) {
                 return const HomePage();

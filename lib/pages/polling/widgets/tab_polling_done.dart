@@ -21,8 +21,6 @@ class TabPollingDone extends StatefulWidget {
 }
 
 class _TabPollingDoneState extends State<TabPollingDone> {
-  
-
   @override
   void initState() {
     super.initState();
@@ -312,7 +310,6 @@ class _TabPollingDoneState extends State<TabPollingDone> {
                               style:
                                   TextStyles.medium(color: AppColors.secondary),
                             ),
-                            CustomDividers.verySmallDivider(),
                             Expanded(
                               child: PieChart(
                                 PieChartData(
@@ -324,29 +321,26 @@ class _TabPollingDoneState extends State<TabPollingDone> {
                               ),
                             ),
                             CustomDividers.verySmallDivider(),
-                            Container(
-                              alignment: Alignment.center,
-                              child: GridView.builder(
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    mainAxisSpacing: 5.0,
-                                    crossAxisSpacing: 5.0,
-                                    mainAxisExtent: 30,
-                                  ),
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: data.length,
-                                  itemBuilder: (context, index) {
-                                    final label = data[index].label;
-                                    return Indicator(
-                                      text: label,
-                                      color: sectionColors[
-                                          index % sectionColors.length],
-                                      isSquare: false,
-                                    );
-                                  }),
-                            ),
+                            GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 5.0,
+                                  crossAxisSpacing: 5.0,
+                                  mainAxisExtent: 30,
+                                ),
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  final label = data[index].label;
+                                  return Indicator(
+                                    text: label,
+                                    color: sectionColors[
+                                        index % sectionColors.length],
+                                    isSquare: false,
+                                  );
+                                }),
                             CustomDividers.verySmallDivider(),
                           ],
                         );

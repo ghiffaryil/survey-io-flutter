@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
-import 'package:survey_io/bloc/survey/survey_design_list/survey_design_list_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_list/survey_design_list_bloc.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 
 // Import Component
@@ -14,7 +14,7 @@ import 'package:survey_io/common/components/appbar.dart';
 import 'package:survey_io/pages/tabs/floating_icon.dart';
 import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/models/survey/survey_model.dart';
-import 'package:survey_io/pages/home/widgets/main_card.dart';
+import 'package:survey_io/pages/home/widgets/main_section.dart';
 import 'package:survey_io/pages/notification/notification.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 import 'package:survey_io/common/constants/widgets/profile_section_coin.dart';
@@ -73,6 +73,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       // Have User Token
       print('User Token : $token');
+      print('Guest Token => $guestToken');
       loadDataSource();
     }
   }
@@ -98,7 +99,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: const Stack(
         children: [
-          MainCard(),
+          MainSection(),
           RedShapeCircular(),
           ProfileSectionCoin(),
         ],
