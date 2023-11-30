@@ -37,7 +37,7 @@ class AuthRemoteGuestDatasource {
 
   Future<Either<String, String>> deleteToken() async {
     AuthLocalGuestDatasource().removeAuthData();
-    AuthLocalGuestDatasource().clearAuthData();
+    // AuthLocalGuestDatasource().clearAuthData();
     return const Right('Logout Success');
   }
 }

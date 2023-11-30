@@ -5,7 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:survey_io/bloc/bloc/guest_bloc.dart';
+import 'package:survey_io/bloc/guest/guest_bloc.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/colors.dart';
@@ -14,7 +14,7 @@ import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/models/survey_design/survey_design_list_response_model.dart';
 import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/pages/register/register_phone_number.dart';
-import 'package:survey_io/pages/survey_design/survey_design.dart';
+import 'package:survey_io/pages/survey_design/survey_design_create.dart';
 import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 
 import '../../common/constants/imageSize.dart';

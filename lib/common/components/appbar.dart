@@ -39,9 +39,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         if (badge == true)
           const NotificationBadge()
-        else if (onPressed != null &&
-            icon !=
-                null) // Show actions if both onPressed and icon are provided
+        else if (onPressed != null && icon != null)
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(

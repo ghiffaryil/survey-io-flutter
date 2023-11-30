@@ -20,13 +20,13 @@ class AuthLocalGuestDatasource {
     return result;
   }
 
-  Future<bool> clearAuthData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final clear = await prefs.clear();
-    print('Clear Auth Data');
-    print(clear);
-    return clear;
-  }
+  // Future<bool> clearAuthData() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final clear = await prefs.clear();
+  //   print('Clear Auth Data');
+  //   print(clear);
+  //   return clear;
+  // }
 
   // GET TOKEN
   Future<String> getToken() async {

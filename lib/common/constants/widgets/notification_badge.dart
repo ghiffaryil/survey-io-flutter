@@ -54,8 +54,13 @@ class _NotificationBadgeState extends State<NotificationBadge> {
                     orElse: () {
                       return Container();
                     },
-                    loading: () {
-                      return Container(
+                    loaded: (data) {
+                      if (data.isNotEmpty) {
+                        List<NotificationList> unreadNotifications = data
+                            .where((notification) => notification.unread == 1)
+                            .toList();
+
+                        return Container(
                           width: 15,
                           height: 15,
                           decoration: BoxDecoration(
@@ -63,33 +68,22 @@ class _NotificationBadgeState extends State<NotificationBadge> {
                               color: AppColors.warning,
                               border:
                                   Border.all(color: AppColors.bg, width: 0)),
-                          child: Container());
-                    },
-                    loaded: (data) {
-                      List<NotificationList> unreadNotifications = data
-                          .where((notification) => notification.unread == 1)
-                          .toList();
-
-                      return Container(
-                        width: 15,
-                        height: 15,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColors.warning,
-                            border: Border.all(color: AppColors.bg, width: 0)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: Center(
-                            child: Text(
-                              unreadNotifications.length.toString(),
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 10,
-                                  color: AppColors.black),
+                          child: Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: Center(
+                              child: Text(
+                                unreadNotifications.length.toString(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 10,
+                                    color: AppColors.black),
+                              ),
                             ),
                           ),
-                        ),
-                      );
+                        );
+                      } else {
+                        return Container();
+                      }
                     },
                   );
                 },

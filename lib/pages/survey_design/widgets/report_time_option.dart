@@ -13,7 +13,7 @@ import '../../../../common/components/elevated_button.dart';
 import '../../../../models/survey_design/report_time.dart';
 import '../../../datasources/survey_design/data/list_report_time.dart';
 import '../../../datasources/survey_design/repository/local/localRepositoryReportTime.dart';
-import '../survey_design.dart';
+import '../survey_design_create.dart';
 
 class ReportTimeOption extends StatefulWidget {
   const ReportTimeOption({super.key});

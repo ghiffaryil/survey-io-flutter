@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:survey_io/bloc/survey/survey_design_list/survey_design_list_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_list/survey_design_list_bloc.dart';
 import 'package:survey_io/common/constants/widgets/profile_section_survey_design.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 import 'package:survey_io/pages/survey_design/widgets/guest_section.dart';
@@ -14,7 +14,7 @@ import 'package:survey_io/models/survey_design/survey_design_model.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 import 'package:survey_io/common/constants/widgets/red_shape_card.dart';
 import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
-import 'package:survey_io/datasources/survey_design/list_survey_design.dart';
+import 'package:survey_io/datasources/survey_design/data/list_survey_design.dart';
 import 'package:survey_io/pages/tabs/floating_icon.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
 
