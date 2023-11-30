@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/bloc/profile/get_list_city/get_list_city_bloc.dart';
+import 'package:survey_io/bloc/profile/get_list_province/get_list_province_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_submit/survey_design_submit_bloc.dart';
 import 'bloc/login/login_bloc.dart';
 import 'bloc/profile/get_profile/profile_bloc.dart';
@@ -113,6 +115,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SurveyDesignSubmitBloc(),
+        ),
+        BlocProvider(
+          create: (context) => GetListProvinceBloc(),
+        ),
+        BlocProvider(
+          create: (context) => GetListCityBloc(),
         ),
       ],
       child: MaterialApp(

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 import '../login/auth_save_local_datasource.dart';
 import '../../../common/constants/variables.dart';
-import '../../models/user/profile_response_model.dart';
+import '../../models/user/get_profile_response_model.dart';
 
 class ProfileRemoteDatasource {
   Future<Either<String, ProfileResponseModel>> getProfile() async {

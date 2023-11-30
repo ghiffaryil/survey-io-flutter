@@ -13,7 +13,7 @@ import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/appbar.dart';
 import 'package:survey_io/pages/tabs/floating_icon.dart';
 import 'package:survey_io/common/constants/imageSize.dart';
-import 'package:survey_io/models/survey/survey_model.dart';
+import 'package:survey_io/models/survey/data/survey_model.dart';
 import 'package:survey_io/pages/home/widgets/main_section.dart';
 import 'package:survey_io/pages/notification/notification.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
@@ -66,6 +66,10 @@ class _HomePageState extends State<HomePage> {
       // IF GUEST TOKEN NOT EMPTY
       if (guestToken.isNotEmpty) {
         print('Guest Token => $guestToken');
+        setState(() {
+          isGuest = true;
+          isLogged = false;
+        });
         loadDataSource();
       } else {
         print('No Guest Token');
@@ -74,6 +78,10 @@ class _HomePageState extends State<HomePage> {
       // Have User Token
       print('User Token : $token');
       print('Guest Token => $guestToken');
+      setState(() {
+          isGuest = false;
+          isLogged = true;
+        });
       loadDataSource();
     }
   }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:survey_io/models/survey_design/data/demography_gender_model.dart';
 
 import '../../../../common/constants/imageSize.dart';
 import '../../../../common/constants/widgets/indicator.dart';
@@ -10,7 +11,6 @@ import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 
 import '../../../datasources/survey_design/data/list_demography_gender.dart';
-import '../../../../models/survey_design/demography_gender_model.dart';
 import '../../../datasources/survey_design/repository/local/localRepositoryGender.dart';
 
 class ModalOptionGender extends StatefulWidget {

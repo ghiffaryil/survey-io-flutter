@@ -1,4 +1,4 @@
-import '../../../models/survey_design/demography_outcome_model.dart';
+import 'package:survey_io/models/survey_design/data/demography_outcome_model.dart';
 
 class ListDemographyOutcome {
   static List<DemographyOutcomeModel> getDemographyOutcomeList() {

@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:survey_io/models/survey_design/data/respondent_model.dart';
+import 'package:survey_io/pages/survey_design/survey_design.dart';
 
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/components/appbar_plain.dart';
@@ -10,10 +12,8 @@ import '../../../../common/components/label.dart';
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/constants/padding.dart';
-import '../../../../models/survey_design/respondent_model.dart';
 import '../../../datasources/survey_design/data/list_respondent.dart';
 import '../../../datasources/survey_design/repository/local/localRepositoryRespondent.dart';
-import '../survey_design_create.dart';
 
 class RespondentOption extends StatefulWidget {
   const RespondentOption({super.key});

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:survey_io/models/survey_design/data/demography_age_model.dart';
 
 import '../../../../common/components/divider.dart';
 import '../../../../common/components/checkbox.dart';
@@ -12,7 +13,7 @@ import '../../../../common/constants/padding.dart';
 
 import '../../../datasources/survey_design/data/list_demography_age.dart';
 import '../../../datasources/survey_design/repository/local/localRepositoryAge.dart';
-import '../../../../models/survey_design/demography_age_model.dart';
+
 
 class ModalOptionAge extends StatefulWidget {
   final void Function() onUpdate;

@@ -1,4 +1,4 @@
-import '../../../models/survey_design/demography_region_model.dart';
+import 'package:survey_io/models/survey_design/data/demography_region_model.dart';
 
 class ListDemographyRegion {
   static List<DemographyRegionModel> getDemographyRegionList() {

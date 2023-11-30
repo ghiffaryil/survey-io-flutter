@@ -19,7 +19,6 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/constants/widgets/indicator.dart';
 import 'package:survey_io/pages/invite/invite.dart';
-import 'package:survey_io/pages/login/login.dart';
 import 'package:survey_io/pages/profile/edit_profile.dart';
 
 class ListMenuProfile extends StatefulWidget {
@@ -166,36 +165,14 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
   }
 
   Widget buttonLogout() {
-    return BlocProvider(
-      create: (context) => LogoutBloc(),
-      child: Padding(
+    return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: BlocConsumer<LogoutBloc, LogoutState>(
-          listener: (context, state) {
-            state.maybeWhen(
-              orElse: () {},
-              loaded: () {
-                AuthLocalDatasource().removeAuthData();
-                AuthLocalDatasource().clearAuthData();
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
-              },
-            );
-          },
-          builder: (context, state) => state.maybeWhen(
-            orElse: () {
-              return TextButtonOutlined.secondary(
-                  backgroundColor: AppColors.bg,
-                  text: 'Logout',
-                  onPressed: () {
-                    showModalLogoutConfirmation(context);
-                    // context.read<LogoutBloc>().add(const LogoutEvent.logout());
-                  });
-            },
-          ),
-        ),
-      ),
-    );
+        child: TextButtonOutlined.secondary(
+            backgroundColor: AppColors.bg,
+            text: 'Logout',
+            onPressed: () {
+              showModalLogoutConfirmation(context);
+            }));
   }
 
   void showModalLogoutConfirmation(BuildContext context) {

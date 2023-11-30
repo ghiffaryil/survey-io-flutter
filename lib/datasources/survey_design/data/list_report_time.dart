@@ -1,4 +1,4 @@
-import '../../../models/survey_design/report_time.dart';
+import 'package:survey_io/models/survey_design/data/report_time.dart';
 
 class ListReportTime {
   static List<ReportTimeModel> getReportTimeList() {
