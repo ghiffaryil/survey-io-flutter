@@ -95,7 +95,10 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
               userGender = "female";
             }
           });
+
           userActive = data.data.user.active;
+          userProvince = data.data.userProfile.province;
+          userCity = data.data.userProfile.city;
         },
       );
     } catch (e) {
@@ -439,7 +442,9 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
                           gender: userGender,
                           phoneNumber: phoneNumber.text,
                           ktp: inputKtpNumber.text,
-                          npwp: inputNpwpNumber.text);
+                          npwp: inputNpwpNumber.text,
+                          city: userCity,
+                          province: userProvince);
                       context
                           .read<EditProfileBloc>()
                           .add(EditProfileEvent.editProfile(requestModel));

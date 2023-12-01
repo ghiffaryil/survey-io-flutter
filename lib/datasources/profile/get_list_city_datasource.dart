@@ -7,7 +7,8 @@ import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
 import 'package:survey_io/common/constants/variables.dart';
 
 class GetListCityDatasource {
-  Future<Either<String, ListCityResponseModel>> getCityList(int provinceId) async {
+  Future<Either<String, ListCityResponseModel>> getCityList(
+      int provinceId) async {
     // Get token from Shared Preferences Local
     final token = await AuthLocalDatasource().getToken();
 
@@ -22,7 +23,7 @@ class GetListCityDatasource {
 
       final request = http.Request(
         'POST',
-        Uri.parse('${Variables.baseURL}/polling/get-list'),
+        Uri.parse('${Variables.baseURL}/user/city-list'),
       );
 
       final body = {

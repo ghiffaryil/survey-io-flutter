@@ -7,6 +7,8 @@ class EditProfileRequestModel {
   final String phoneNumber;
   final String dob;
   final String gender;
+  String? province;
+  String? city;
   String? ktp;
   String? npwp;
 
@@ -19,6 +21,8 @@ class EditProfileRequestModel {
     required this.gender,
     required this.ktp,
     required this.npwp,
+    required this.province,
+    required this.city,
   });
 
   Map<String, dynamic> toMap() {
@@ -31,6 +35,8 @@ class EditProfileRequestModel {
       "gender": gender,
       "ktp": ktp,
       "npwp": npwp,
+      "province": province,
+      "city": city,
     };
   }
 
@@ -44,6 +50,8 @@ class EditProfileRequestModel {
       gender: map["gender"],
       ktp: map["ktp"],
       npwp: map["npwp"],
+      province: map["province"],
+      city: map["city"],
     );
   }
 

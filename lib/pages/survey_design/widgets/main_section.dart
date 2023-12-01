@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_payment/survey_design_payment_bloc.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
@@ -14,6 +15,7 @@ import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 import 'package:survey_io/common/extension/helper/currency_helper.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_list/survey_design_list_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_submit/survey_design_submit_bloc.dart';
+import 'package:survey_io/pages/survey_design/survey_design_payment_webview.dart';
 
 class MainSectionSurveyDesign extends StatefulWidget {
   const MainSectionSurveyDesign({super.key});
@@ -329,10 +331,63 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                   ),
                                                   Expanded(
                                                     flex: 3,
-                                                    child: ButtonFilled.info(
-                                                        height: 40,
-                                                        text: 'Bayar',
-                                                        onPressed: () {}),
+                                                    child: BlocListener<
+                                                        SurveyDesignPaymentBloc,
+                                                        SurveyDesignPaymentState>(
+                                                      listener:
+                                                          (context, state) {
+                                                        state.maybeWhen(
+                                                          orElse: () {},
+                                                          loaded: (data) {
+                                                            print(data.url);
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        SurveyDesignPaymentWebview(
+                                                                            url:
+                                                                                data.url)));
+                                                          },
+                                                        );
+                                                      },
+                                                      child: BlocBuilder<
+                                                          SurveyDesignPaymentBloc,
+                                                          SurveyDesignPaymentState>(
+                                                        builder:
+                                                            (context, state) {
+                                                          return state
+                                                              .maybeWhen(
+                                                                  orElse: () {
+                                                            return ButtonFilled
+                                                                .info(
+                                                                    height: 40,
+                                                                    text:
+                                                                        'Bayar',
+                                                                    onPressed:
+                                                                        () {
+                                                                      print(surveyDesignData
+                                                                          .id);
+                                                                      context
+                                                                          .read<
+                                                                              SurveyDesignPaymentBloc>()
+                                                                          .add(SurveyDesignPaymentEvent.getSurveyDesignPaymentLink(
+                                                                              surveyDesignData.id));
+                                                                    });
+                                                          }, loading: () {
+                                                            return ButtonFilled
+                                                                .info(
+                                                              height: 40,
+                                                              text: '',
+                                                              textColor:
+                                                                  AppColors
+                                                                      .white,
+                                                              onPressed: () {},
+                                                              loading: true,
+                                                            );
+                                                          });
+                                                        },
+                                                      ),
+                                                    ),
                                                   )
                                                 ],
                                               ),

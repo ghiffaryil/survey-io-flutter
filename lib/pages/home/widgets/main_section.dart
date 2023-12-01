@@ -47,11 +47,9 @@ class _MainSectionState extends State<MainSection> {
     context
         .read<SurveyAyoCheckBloc>()
         .add(const SurveyAyoCheckEvent.getSurveyAyoCheck());
-
     context
         .read<PollingTodayBloc>()
         .add(const PollingTodayEvent.getPollingToday());
-
     context
         .read<SurveyPopularBloc>()
         .add(const SurveyPopularEvent.getSurveyPopular());

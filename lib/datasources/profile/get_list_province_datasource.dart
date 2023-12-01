@@ -19,8 +19,8 @@ class GetListProvinceDatasource {
       };
 
       final request = http.Request(
-        'POST',
-        Uri.parse('${Variables.baseURL}/polling/get-list'),
+        'GET',
+        Uri.parse('${Variables.baseURL}/user/province-list'),
       );
 
       request.headers.addAll(headers);
