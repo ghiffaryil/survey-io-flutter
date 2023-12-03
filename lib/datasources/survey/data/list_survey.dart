@@ -1,4 +1,4 @@
-import 'package:survey_io/models/survey/survey_model.dart';
+import 'package:survey_io/models/survey/data/survey_model.dart';
 
 class ListSurvey {
   static List<SurveyModelData> getSurvey() {

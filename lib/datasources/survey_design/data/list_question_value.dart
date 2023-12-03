@@ -1,4 +1,4 @@
-import '../../../models/survey_design/question_model.dart';
+import 'package:survey_io/models/survey_design/data/question_model.dart';
 
 class ListQuestion {
   static List<QuestionModel> getQuestionList() {

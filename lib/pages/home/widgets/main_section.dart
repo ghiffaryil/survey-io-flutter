@@ -35,6 +35,13 @@ class _MainSectionState extends State<MainSection> {
   String timeRemaining = '...';
   bool isGuest = true;
   bool isLogged = false;
+  bool _isDisposed = false;
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -47,11 +54,9 @@ class _MainSectionState extends State<MainSection> {
     context
         .read<SurveyAyoCheckBloc>()
         .add(const SurveyAyoCheckEvent.getSurveyAyoCheck());
-
     context
         .read<PollingTodayBloc>()
         .add(const PollingTodayEvent.getPollingToday());
-
     context
         .read<SurveyPopularBloc>()
         .add(const SurveyPopularEvent.getSurveyPopular());
@@ -92,6 +97,12 @@ class _MainSectionState extends State<MainSection> {
   void startCountdown() {
     const duration = Duration(seconds: 1);
     Timer.periodic(duration, (Timer timer) {
+      if (_isDisposed) {
+        // Check if the widget is disposed before updating the state
+        timer.cancel();
+        return;
+      }
+
       DateTime now = DateTime.now();
       // DateTime now = DateTime.now().toUtc().add(const Duration(hours: 7)); // GMT+7
       DateTime midnight = DateTime(now.year, now.month, now.day, 23, 59, 59);
@@ -108,9 +119,15 @@ class _MainSectionState extends State<MainSection> {
         String hours = difference.inHours.toString().padLeft(2, '0');
         String minutes = (difference.inMinutes % 60).toString().padLeft(2, '0');
         String seconds = (difference.inSeconds % 60).toString().padLeft(2, '0');
-        setState(() {
-          timeRemaining = '$hours:$minutes:$seconds';
-        });
+        // setState(() {
+        //   timeRemaining = '$hours:$minutes:$seconds';
+        // });
+        if (!_isDisposed) {
+          // Check again before updating the state
+          setState(() {
+            timeRemaining = '$hours:$minutes:$seconds';
+          });
+        }
       }
     });
   }

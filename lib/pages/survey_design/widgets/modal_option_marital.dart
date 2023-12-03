@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:survey_io/models/survey_design/data/demography_marital_model.dart';
 
 import '../../../../common/components/notice_card.dart';
 import '../../../../common/components/divider.dart';
@@ -13,7 +14,7 @@ import '../../../../common/constants/padding.dart';
 
 import '../../../datasources/survey_design/data/list_demography_marital.dart';
 import '../../../datasources/survey_design/repository/local/localRepositoryMarital.dart';
-import '../../../../models/survey_design/demography_marital_model.dart';
+
 
 class ModalOptionMarital extends StatefulWidget {
   final void Function() onUpdate;

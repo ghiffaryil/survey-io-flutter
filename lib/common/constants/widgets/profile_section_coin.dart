@@ -46,10 +46,8 @@ class _ProfileSectionCoinState extends State<ProfileSectionCoin> {
             );
           },
           loaded: (data) {
-            // Format the point value with a thousands separator
             String formattedPoint =
                 NumberFormat('###,###.###', 'id_ID').format(data.point);
-
             return FloatingProfileCard(
               userFrontName: data.user.name.split(' ')[0],
               iconImage: Image.asset(

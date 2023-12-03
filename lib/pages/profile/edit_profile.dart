@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:survey_io/bloc/profile/get_list_city/get_list_city_bloc.dart';
+import 'package:survey_io/bloc/profile/get_list_province/get_list_province_bloc.dart';
 import 'package:survey_io/datasources/profile/get_profile_datasource.dart';
+import 'package:survey_io/models/user/list_city_response_model.dart';
+import 'package:survey_io/models/user/list_province_response_model.dart';
 import 'package:survey_io/pages/profile/profile.dart';
 import 'package:survey_io/bloc/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
@@ -32,6 +36,9 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController email = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
 
+  TextEditingController province = TextEditingController();
+  TextEditingController city = TextEditingController();
+
   FocusNode fullNameFocus = FocusNode();
   FocusNode dateOfBirthFocus = FocusNode();
   FocusNode emailFocus = FocusNode();
@@ -49,11 +56,21 @@ class _EditProfileState extends State<EditProfile> {
   String userKTP = '';
   String userNPWP = '';
   int userAge = 0;
-  String selectedGender = '';
+
+  String genderSelected = '';
+
+  int provinceIdSelected = 0;
+  int cityIdSelected = 0;
+
+  // Initialize these variables in your state or wherever applicable
+  String? provinceNameSelected;
+  String? cityNameSelected;
 
   @override
   void initState() {
     super.initState();
+    provinceNameSelected = '';
+    cityNameSelected = '';
     loadProfileInformation();
   }
 
@@ -82,17 +99,22 @@ class _EditProfileState extends State<EditProfile> {
             dateOfBirth.text = formattedDob;
             if (data.data.userProfile.gender == "man" ||
                 data.data.userProfile.gender == "male" ||
-                selectedGender == "Laki-laki") {
-              selectedGender = "Laki-laki";
+                genderSelected == "Laki-laki") {
+              genderSelected = "Laki-laki";
               userGender = "male";
             } else {
-              selectedGender = "Perempuan";
+              genderSelected = "Perempuan";
               userGender = "female";
             }
             userActive = data.data.user.active;
             userKTP = data.data.userProfile.ktp;
             userNPWP = data.data.userProfile.npwp;
+
+            provinceNameSelected = data.data.userProfile.province;
+            cityNameSelected = data.data.userProfile.city;
           });
+
+          data.data.userProfile.province != "" ? loadProvinceList() : null;
         },
       );
     } catch (e) {
@@ -100,10 +122,23 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
+  void loadProvinceList() {
+    print('load province');
+    context
+        .read<GetListProvinceBloc>()
+        .add(const GetListProvinceEvent.getListProvince());
+  }
+
+  void loadCityList(getProvinceId) {
+    context
+        .read<GetListCityBloc>()
+        .add(GetListCityEvent.getListCity(getProvinceId));
+  }
+
   bool _validateForm() {
     if (phoneNumber.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Please enter your phone number',
+        msg: 'Harap masukkan Nomor Telepon Anda',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -114,7 +149,7 @@ class _EditProfileState extends State<EditProfile> {
       return false;
     } else if (fullName.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Please enter your Name',
+        msg: 'Harap masukkan Email Anda',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -125,7 +160,7 @@ class _EditProfileState extends State<EditProfile> {
       return false;
     } else if (email.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Please enter your Email',
+        msg: 'Harap masukkan Email Anda',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -160,13 +195,14 @@ class _EditProfileState extends State<EditProfile> {
           children: [
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               color: Colors.white,
               child: Text(
                 'Edit Profil',
                 style: TextStyles.h2ExtraBold(color: AppColors.secondary),
               ),
             ),
+            CustomDividers.verySmallDivider(),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(
@@ -232,10 +268,10 @@ class _EditProfileState extends State<EditProfile> {
                 flex: 5,
                 child: RadioTextInput(
                   value: 'Laki-laki',
-                  selectedOption: selectedGender,
+                  selectedOption: genderSelected,
                   onChanged: (value) {
                     setState(() {
-                      selectedGender = value;
+                      genderSelected = value;
                       userGender = 'male';
                     });
                   },
@@ -247,10 +283,10 @@ class _EditProfileState extends State<EditProfile> {
                 flex: 5,
                 child: RadioTextInput(
                   value: 'Perempuan',
-                  selectedOption: selectedGender,
+                  selectedOption: genderSelected,
                   onChanged: (value) {
                     setState(() {
-                      selectedGender = value;
+                      genderSelected = value;
                       userGender = 'female';
                     });
                   },
@@ -298,8 +334,165 @@ class _EditProfileState extends State<EditProfile> {
           controller: email,
           hintText: 'Masukkan Email Kamu',
         ),
-        CustomDividers.mediumDivider(),
+        CustomDividers.smallDivider(),
+
+        // PROVINCE
+        LabelInput(
+          labelText: 'Provinsi',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+
+        BlocBuilder<GetListProvinceBloc, GetListProvinceState>(
+          builder: (context, state) {
+            return state.maybeWhen(
+              orElse: () {
+                return GestureDetector(
+                  onTap: () {
+                    loadProvinceList();
+                  },
+                  child: TextInputField(
+                    keyboardType: TextInputType.text,
+                    editable: false,
+                    controller: province,
+                    hintText: 'Pilih Provinsi',
+                  ),
+                );
+              },
+              loaded: (data) {
+                return Container(
+                  height: 50,
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(left: 15, right: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1.0, color: AppColors.light),
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButton<DataProvince>(
+                          items: data.map((dataProvince) {
+                            return DropdownMenuItem<DataProvince>(
+                              value: dataProvince,
+                              child: Text(dataProvince.name),
+                            );
+                          }).toList(),
+                          underline: Container(height: 0),
+                          onChanged: (DataProvince? value) {
+                            if (value != null) {
+                              setState(() {
+                                cityIdSelected = 0;
+                                cityNameSelected = '';
+                                provinceIdSelected = value.id;
+                                provinceNameSelected = value.name;
+                              });
+                              loadCityList(provinceIdSelected);
+                              print(
+                                  '$provinceIdSelected / $provinceNameSelected');
+                            }
+                          },
+                          // ignore: unnecessary_null_comparison
+                          value: provinceNameSelected != null
+                              ? data.firstWhere(
+                                  (dataProvince) =>
+                                      dataProvince.name == provinceNameSelected,
+                                  orElse: () => data.first,
+                                )
+                              : null,
+                          isExpanded: true, // Set to true for full width
+                          icon: const Icon(Icons.arrow_drop_down),
+                        ),
+                      ),
+                      // Add additional space or padding if needed
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        ),
+
+        // CITY
+        CustomDividers.smallDivider(),
+        LabelInput(
+          labelText: 'Kota/Kabupaten',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        BlocBuilder<GetListCityBloc, GetListCityState>(
+          builder: (context, state) {
+            return state.maybeWhen(
+              orElse: () {
+                return GestureDetector(
+                  onTap: () => loadCityList(provinceIdSelected),
+                  child: TextInputField(
+                    keyboardType: TextInputType.text,
+                    editable: false,
+                    controller: city,
+                    hintText: 'Pilih Kota',
+                  ),
+                );
+              },
+              loaded: (data) {
+                if (cityIdSelected == 0 && cityNameSelected == '') {
+                  // Set initial values based on the first item in the loaded data
+                  cityIdSelected = data.first.id;
+                  cityNameSelected = data.first.name;
+                  print('$cityIdSelected / $cityNameSelected');
+                }
+                return Container(
+                  height: 60,
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(left: 15, right: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1.0, color: AppColors.light),
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButton<DataCity>(
+                          items: data.map((dataCity) {
+                            return DropdownMenuItem<DataCity>(
+                              value: dataCity,
+                              child: Text(dataCity.name),
+                            );
+                          }).toList(),
+                          underline: Container(height: 0),
+                          onChanged: (DataCity? value) {
+                            if (value != null) {
+                              setState(() {
+                                cityIdSelected = value.id;
+                                cityNameSelected = value.name;
+                              });
+                              print('$cityIdSelected / $cityNameSelected');
+                            }
+                          },
+                          // ignore: unnecessary_null_comparison
+                          value: cityNameSelected != null
+                              ? data.firstWhere(
+                                  (dataCity) =>
+                                      dataCity.name == cityNameSelected,
+                                  orElse: () => data.first,
+                                )
+                              : null,
+                          isExpanded: true, // Set to true for full width
+                          icon: const Icon(Icons.arrow_drop_down),
+                        ),
+                      ),
+                      // Add additional space or padding if needed
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        ),
+
+        CustomDividers.regularDivider(),
         submitButton(),
+        CustomDividers.smallDivider(),
       ],
     );
   }
@@ -318,7 +511,7 @@ class _EditProfileState extends State<EditProfile> {
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1,
-                  backgroundColor: AppColors.light.withOpacity(0.3),
+                  backgroundColor: AppColors.secondary,
                   textColor: Colors.white,
                   fontSize: 16.0);
             });
@@ -346,6 +539,8 @@ class _EditProfileState extends State<EditProfile> {
                         phoneNumber: phoneNumber.text,
                         ktp: userKTP,
                         npwp: userNPWP,
+                        city: cityNameSelected,
+                        province: provinceNameSelected,
                       );
                       context
                           .read<EditProfileBloc>()

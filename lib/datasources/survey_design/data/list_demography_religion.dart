@@ -1,4 +1,4 @@
-import '../../../models/survey_design/demography_religion_model.dart';
+import 'package:survey_io/models/survey_design/data/demography_religion_model.dart';
 
 class ListDemographyReligion {
   static List<DemographyReligionModel> getDemographyReligionList() {

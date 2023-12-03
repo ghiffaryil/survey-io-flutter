@@ -1,4 +1,4 @@
-import '../../../models/survey_design/demography_children_model.dart';
+import 'package:survey_io/models/survey_design/data/demography_children_model.dart';
 
 class ListDemographyChildren {
   static List<DemographyChildrenModel> getDemographyChildrenList() {

@@ -1,4 +1,4 @@
-import '../../../models/survey_design/demography_age_model.dart';
+import 'package:survey_io/models/survey_design/data/demography_age_model.dart';
 
 class ListDemographyAge {
   static List<DemographyAgeModel> getDemographyAgeList() {

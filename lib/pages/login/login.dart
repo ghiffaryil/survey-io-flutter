@@ -31,12 +31,9 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passcode = TextEditingController();
   FocusNode passcodeFocus = FocusNode();
 
-  String gender = '';
   bool _hidePasscode = true;
   bool isLogged = false;
   bool isExpiredToken = false;
-
-  var presscount = 0;
 
   @override
   void initState() {
