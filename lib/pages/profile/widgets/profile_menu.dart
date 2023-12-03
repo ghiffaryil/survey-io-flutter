@@ -208,39 +208,27 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
                       child: BlocConsumer<LogoutBloc, LogoutState>(
                         listener: (context, state) {
                           state.maybeWhen(
-                            orElse: () {},
-                            loaded: () {
-                              AuthLocalDatasource().removeAuthData();
-                              AuthLocalDatasource().clearAuthData();
+                              orElse: () {},
+                              loaded: () {
+                                AuthLocalDatasource().removeAuthData();
+                                AuthLocalDatasource().clearAuthData();
 
-                              showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                        title: Text(
-                                          'Logout Success',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyles.regular(
-                                              color: AppColors.secondary),
-                                        ),
-                                        content: GestureDetector(
-                                            onTap: () {
-                                              Navigator.pushReplacement(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                return const HomePage();
-                                              }));
-                                            },
-                                            child: Text(
-                                              'Ok',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyles.regular(
-                                                  color: AppColors.primary),
-                                            )));
-                                  });
-                            },
-                          );
+                                Future.delayed(
+                                    const Duration(milliseconds: 500), () {
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return const HomePage();
+                                  }));
+                                });
+                              },
+                              loading: () {
+                                return ButtonOutlined.primary(
+                                  text: '',
+                                  loading: true,
+                                  textColor: AppColors.primary,
+                                  onPressed: () {},
+                                );
+                              });
                         },
                         builder: (context, state) {
                           return state.maybeWhen(orElse: () {
@@ -254,13 +242,6 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
                                     .read<GuestBloc>()
                                     .add(const GuestEvent.getGuestToken());
                               },
-                            );
-                          }, loading: () {
-                            return ButtonOutlined.primary(
-                              text: '',
-                              loading: true,
-                              textColor: AppColors.primary,
-                              onPressed: () {},
                             );
                           });
                         },

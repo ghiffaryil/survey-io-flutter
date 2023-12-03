@@ -35,6 +35,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController dateOfBirth = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
+
   TextEditingController province = TextEditingController();
   TextEditingController city = TextEditingController();
 
@@ -137,7 +138,7 @@ class _EditProfileState extends State<EditProfile> {
   bool _validateForm() {
     if (phoneNumber.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Please enter your phone number',
+        msg: 'Harap masukkan Nomor Telepon Anda',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -148,7 +149,7 @@ class _EditProfileState extends State<EditProfile> {
       return false;
     } else if (fullName.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Please enter your Name',
+        msg: 'Harap masukkan Email Anda',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -159,7 +160,7 @@ class _EditProfileState extends State<EditProfile> {
       return false;
     } else if (email.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Please enter your Email',
+        msg: 'Harap masukkan Email Anda',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -381,6 +382,8 @@ class _EditProfileState extends State<EditProfile> {
                           onChanged: (DataProvince? value) {
                             if (value != null) {
                               setState(() {
+                                cityIdSelected = 0;
+                                cityNameSelected = '';
                                 provinceIdSelected = value.id;
                                 provinceNameSelected = value.name;
                               });
@@ -421,14 +424,23 @@ class _EditProfileState extends State<EditProfile> {
           builder: (context, state) {
             return state.maybeWhen(
               orElse: () {
-                return TextInputField(
-                  keyboardType: TextInputType.text,
-                  editable: false,
-                  controller: city,
-                  hintText: 'Pilih Kota',
+                return GestureDetector(
+                  onTap: () => loadCityList(provinceIdSelected),
+                  child: TextInputField(
+                    keyboardType: TextInputType.text,
+                    editable: false,
+                    controller: city,
+                    hintText: 'Pilih Kota',
+                  ),
                 );
               },
               loaded: (data) {
+                if (cityIdSelected == 0 && cityNameSelected == '') {
+                  // Set initial values based on the first item in the loaded data
+                  cityIdSelected = data.first.id;
+                  cityNameSelected = data.first.name;
+                  print('$cityIdSelected / $cityNameSelected');
+                }
                 return Container(
                   height: 60,
                   width: double.infinity,
@@ -454,7 +466,6 @@ class _EditProfileState extends State<EditProfile> {
                                 cityIdSelected = value.id;
                                 cityNameSelected = value.name;
                               });
-
                               print('$cityIdSelected / $cityNameSelected');
                             }
                           },

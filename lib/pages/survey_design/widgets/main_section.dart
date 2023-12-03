@@ -582,7 +582,22 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
   Widget buildButtonSubmit(String mode) {
     return Container(
         child: mode == 'primary'
-            ? ButtonFilled.primary(text: 'Buat Survei', onPressed: () {})
+            ? ButtonFilled.primary(
+                text: 'Buat Survei',
+                onPressed: () {
+                  // ignore: unnecessary_null_comparison
+                  if (ktp == null || npwp == null) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EditProfileComplete()));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EditProfileComplete()));
+                  }
+                })
             : TextButtonOutlined.transparent(
                 borderColor: AppColors.primary,
                 textColor: AppColors.primary,
