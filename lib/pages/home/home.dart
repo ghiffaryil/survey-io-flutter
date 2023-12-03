@@ -75,8 +75,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
         presscount++;
         if (presscount == 2) {
           exit(0);
@@ -90,7 +91,6 @@ class _HomePageState extends State<HomePage> {
             textColor: Colors.white,
             fontSize: 16.0,
           );
-          return false;
         }
       },
       child: Scaffold(

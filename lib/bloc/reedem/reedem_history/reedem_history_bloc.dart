@@ -8,7 +8,7 @@ part 'reedem_history_state.dart';
 part 'reedem_history_bloc.freezed.dart';
 
 class ReedemHistoryBloc extends Bloc<ReedemHistoryEvent, ReedemHistoryState> {
-  ReedemHistoryBloc() : super(_Initial()) {
+  ReedemHistoryBloc() : super(const _Initial()) {
     on<_GetListReedemHistory>((event, emit) async {
       emit(const _Loading());
       final response =

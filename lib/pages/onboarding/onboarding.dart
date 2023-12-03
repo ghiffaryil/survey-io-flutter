@@ -1,5 +1,7 @@
 // ignore_for_file: unused_import, unused_field
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +42,7 @@ class CarouselItem {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   int _currentIndex = 0;
+  var presscount = 0;
   final CarouselController _carouselController = CarouselController();
 
   final List<CarouselItem> carouselItems = [
@@ -71,20 +74,39 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(35.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            headerLogo(),
-            onboardingSlider(),
-            const SizedBox(
-              height: 20,
-            ),
-            buttonFollowSurvey(),
-            buttonCreateSurvey()
-          ],
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        presscount++;
+        if (presscount == 2) {
+          exit(0);
+        } else {
+          Fluttertoast.showToast(
+            msg: 'Tekan sekali lagi untuk keluar dari Aplikasi',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: AppColors.secondary.withOpacity(0.8),
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        }
+      },
+      child: Scaffold(
+        body: Container(
+          padding: const EdgeInsets.all(35.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              headerLogo(),
+              onboardingSlider(),
+              const SizedBox(
+                height: 20,
+              ),
+              buttonFollowSurvey(),
+              buttonCreateSurvey()
+            ],
+          ),
         ),
       ),
     );
