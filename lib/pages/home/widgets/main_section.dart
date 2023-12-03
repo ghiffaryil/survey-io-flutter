@@ -737,20 +737,9 @@ class _MainSectionState extends State<MainSection> {
                                                                 .width *
                                                             0.15,
                                                       ),
-                                                      TextButton(
-                                                        style: TextButton
-                                                            .styleFrom(
-                                                          minimumSize:
-                                                              const Size(
-                                                                  10, 30),
-                                                          backgroundColor:
-                                                              AppColors.white,
-                                                          side: const BorderSide(
-                                                              color: AppColors
-                                                                  .info),
-                                                        ),
+                                                      IconButton(
                                                         onPressed: () {},
-                                                        child: const Icon(
+                                                        icon: const Icon(
                                                           Icons.share,
                                                           size: 17,
                                                           color: AppColors.info,
@@ -763,7 +752,7 @@ class _MainSectionState extends State<MainSection> {
                                                                 right: 10.0),
                                                         child: TextButtonOutlined
                                                             .primary(
-                                                                rounded: false,
+                                                                rounded: true,
                                                                 minWidth: 0.20,
                                                                 height: 30,
                                                                 fontSize: 14,

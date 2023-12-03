@@ -26,11 +26,19 @@ class FloatingProfileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(25),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 1,
+              blurRadius: 6,
+              offset: Offset(0, 2), // changes position of shadow
+            ),
+          ],
         ),
-        elevation: 4,
         child: SizedBox(
           width: double.infinity,
           height: 100,
