@@ -8,7 +8,6 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
-import 'package:survey_io/datasources/token/check_token_datasource.dart';
 import 'package:survey_io/pages/login/login.dart';
 import 'package:survey_io/pages/profile/profile.dart';
 import 'package:survey_io/common/components/divider.dart';
@@ -37,7 +36,39 @@ class _InviteFriendState extends State<InviteFriend> {
   void initState() {
     super.initState();
     checkToken();
+  }
+
+  void loadDataSource() {
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+  }
+
+  void checkToken() async {
+    final token = await AuthLocalDatasource().getToken();
+    final guestToken = await AuthLocalGuestDatasource().getToken();
+
+    // IF TOKEN IS EMPTY
+    if (token.isEmpty) {
+      // IF GUEST TOKEN NOT EMPTY
+      if (guestToken.isNotEmpty) {
+        print('Guest Token => $guestToken');
+        setState(() {
+          isGuest = true;
+          isLogged = false;
+        });
+        loadDataSource();
+      } else {
+        print('No Guest Token');
+      }
+    } else {
+      // Have User Token
+      print('User Token : $token');
+      print('Guest Token => $guestToken');
+      setState(() {
+        isGuest = false;
+        isLogged = true;
+      });
+      loadDataSource();
+    }
   }
 
   void navigateToLoginPage(BuildContext context) {
@@ -45,63 +76,6 @@ class _InviteFriendState extends State<InviteFriend> {
       context,
       MaterialPageRoute(builder: (context) => const LoginPage()),
     );
-  }
-
-  void checkToken() async {
-    final token = await AuthLocalDatasource().getToken();
-    final guestToken = await AuthLocalGuestDatasource().getToken();
-
-    if (token.isEmpty) {
-      setState(() {
-        isLogged = false;
-      });
-      if (guestToken.isEmpty) {
-        setState(() {
-          isGuest = false;
-        });
-      } else {
-        setState(() {
-          isGuest = true;
-        });
-      }
-    } else {
-      final result = await CheckTokenDatasource().checkToken();
-      result.fold(
-        (error) {
-          setState(() {
-            isLogged = false;
-          });
-          if (error == 'Token is Expired') {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: const Text('Token Expired'),
-                  content: const Text(
-                      'Sesi anda telah habis. Silahkan login kembali.'),
-                  actions: <Widget>[
-                    TextButton(
-                      child: const Text('OK'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        navigateToLoginPage(context);
-                      },
-                    ),
-                  ],
-                );
-              },
-            );
-          } else {
-            navigateToLoginPage(context);
-          }
-        },
-        (data) {
-          setState(() {
-            isLogged = true;
-          });
-        },
-      );
-    }
   }
 
   void copyTextToClipboard(String copy) {
@@ -112,7 +86,7 @@ class _InviteFriendState extends State<InviteFriend> {
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
-      backgroundColor: AppColors.light.withOpacity(0.3),
+      backgroundColor: AppColors.secondary.withOpacity(0.7),
       textColor: Colors.white,
       fontSize: 16.0,
     );

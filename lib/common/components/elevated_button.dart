@@ -275,6 +275,7 @@ class ButtonOutlined extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
+        surfaceTintColor: backgroundColor,
         minimumSize: Size(MediaQuery.of(context).size.width * minWidth, height),
         side: BorderSide(color: borderColor),
         shape: RoundedRectangleBorder(

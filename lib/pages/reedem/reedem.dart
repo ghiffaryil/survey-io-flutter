@@ -145,6 +145,8 @@ class _ReedemPageState extends State<ReedemPage> {
                                         CrossAxisAlignment.stretch,
                                     children: [
                                       Card(
+                                        color: Colors.white,
+                                        surfaceTintColor: Colors.white,
                                         elevation: 4,
                                         child: Padding(
                                           padding: const EdgeInsets.all(5.0),
