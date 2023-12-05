@@ -11,7 +11,7 @@ import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 import '../../../datasources/survey_design/data/list_demography_outcome.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryOutcome.dart';
+import '../../../datasources/survey_design/repository/localRepositoryOutcome.dart';
 
 class ModalOptionOutcome extends StatefulWidget {
   final void Function() onUpdate;

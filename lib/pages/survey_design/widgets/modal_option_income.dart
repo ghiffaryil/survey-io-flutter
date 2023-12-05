@@ -12,8 +12,7 @@ import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 
 import '../../../datasources/survey_design/data/list_demography_income.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryIncome.dart';
-
+import '../../../datasources/survey_design/repository/localRepositoryIncome.dart';
 
 class ModalOptionIncome extends StatefulWidget {
   final void Function() onUpdate;

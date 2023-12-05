@@ -23,8 +23,6 @@ class ListSurveiPage extends StatefulWidget {
 }
 
 class _ListSurveiPageState extends State<ListSurveiPage> {
-  
-
   @override
   void initState() {
     super.initState();
@@ -43,19 +41,15 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
           Navigator.pop(context);
         },
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: CustomPadding.px2,
-          child: Column(
-            children: [
-              LabelInput(
-                  labelText: 'Survei',
-                  labelStyle:
-                      TextStyles.h2ExtraBold(color: AppColors.secondary)),
-              CustomDividers.verySmallDivider(),
-              sectionListSurvey(),
-            ],
-          ),
+      body: Container(
+        padding: CustomPadding.px2,
+        child: Column(
+          children: [
+            LabelInput(
+                labelText: 'Survei',
+                labelStyle: TextStyles.h2ExtraBold(color: AppColors.secondary)),
+            Expanded(child: SingleChildScrollView(child: sectionListSurvey())),
+          ],
         ),
       ),
     );

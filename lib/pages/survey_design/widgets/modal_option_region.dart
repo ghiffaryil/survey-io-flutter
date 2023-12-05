@@ -10,7 +10,7 @@ import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 import '../../../datasources/survey_design/data/list_demography_region.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryRegion.dart';
+import '../../../datasources/survey_design/repository/localRepositoryRegion.dart';
 
 class ModalOptionRegion extends StatefulWidget {
   final void Function() onUpdate;

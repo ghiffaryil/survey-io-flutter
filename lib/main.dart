@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_request_otp/forgot_passcode_request_otp_bloc.dart';
+import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_verify_otp/forgot_passcode_verify_otp_bloc.dart';
+import 'package:survey_io/bloc/forgot_pasccode/update_passcode/update_passcode_bloc.dart';
 import 'package:survey_io/bloc/profile/get_list_city/get_list_city_bloc.dart';
 import 'package:survey_io/bloc/profile/get_list_province/get_list_province_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_payment/survey_design_payment_bloc.dart';
@@ -125,6 +128,15 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SurveyDesignPaymentBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ForgotPasscodeRequestOtpBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ForgotPasscodeVerifyOtpBloc(),
+        ),
+        BlocProvider(
+          create: (context) => UpdatePasscodeBloc(),
         ),
       ],
       child: MaterialApp(

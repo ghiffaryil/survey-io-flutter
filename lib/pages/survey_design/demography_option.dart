@@ -7,15 +7,15 @@ import '../../../common/components/divider.dart';
 import '../../../common/constants/colors.dart';
 import '../../../common/constants/styles.dart';
 
-import '../../datasources/survey_design/repository/local/localRepositoryAge.dart';
-import '../../datasources/survey_design/repository/local/localRepositoryChildren.dart';
-import '../../datasources/survey_design/repository/local/localRepositoryGender.dart';
-import '../../datasources/survey_design/repository/local/localRepositoryIncome.dart';
-import '../../datasources/survey_design/repository/local/localRepositoryOccupation.dart';
-import '../../datasources/survey_design/repository/local/localRepositoryOutcome.dart';
-import '../../datasources/survey_design/repository/local/localRepositoryRegion.dart';
-import '../../datasources/survey_design/repository/local/localRepositoryReligion.dart';
-import '../../datasources/survey_design/repository/local/localRepositoryMarital.dart';
+import '../../datasources/survey_design/repository/localRepositoryAge.dart';
+import '../../datasources/survey_design/repository/localRepositoryChildren.dart';
+import '../../datasources/survey_design/repository/localRepositoryGender.dart';
+import '../../datasources/survey_design/repository/localRepositoryIncome.dart';
+import '../../datasources/survey_design/repository/localRepositoryOccupation.dart';
+import '../../datasources/survey_design/repository/localRepositoryOutcome.dart';
+import '../../datasources/survey_design/repository/localRepositoryRegion.dart';
+import '../../datasources/survey_design/repository/localRepositoryReligion.dart';
+import '../../datasources/survey_design/repository/localRepositoryMarital.dart';
 
 import 'widgets/modal_option_age.dart';
 import 'widgets/modal_option_gender.dart';

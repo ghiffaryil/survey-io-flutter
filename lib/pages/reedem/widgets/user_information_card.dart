@@ -15,18 +15,17 @@ class UserInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: CustomPadding.pdefault,
+      padding: CustomPadding.p2,
       decoration: BoxDecoration(
         color: AppColors.white,
         border: Border(
           bottom: BorderSide(
-            color: AppColors.light.withOpacity(0.5), // Specify the border color
-            width: 2.0, // Specify the border width
+            color: AppColors.light.withOpacity(0.2), // Specify the border color
+            width: 1.5, // Specify the border widt h
           ),
         ),
       ),
       child: Container(
-        margin: const EdgeInsets.only(top: 20),
         height: MediaQuery.of(context).size.height * 0.1,
         padding: const EdgeInsets.symmetric(horizontal: 15),
         decoration: BoxDecoration(

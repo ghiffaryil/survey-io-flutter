@@ -13,8 +13,7 @@ import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 
 import '../../../datasources/survey_design/data/list_demography_marital.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryMarital.dart';
-
+import '../../../datasources/survey_design/repository/localRepositoryMarital.dart';
 
 class ModalOptionMarital extends StatefulWidget {
   final void Function() onUpdate;

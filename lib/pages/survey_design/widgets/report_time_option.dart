@@ -13,7 +13,7 @@ import '../../../../common/constants/padding.dart';
 import '../../../../common/extension/helper/currency_helper.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../datasources/survey_design/data/list_report_time.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryReportTime.dart';
+import '../../../datasources/survey_design/repository/localRepositoryReportTime.dart';
 
 class ReportTimeOption extends StatefulWidget {
   const ReportTimeOption({super.key});

@@ -12,8 +12,7 @@ import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 
 import '../../../datasources/survey_design/data/list_demography_age.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryAge.dart';
-
+import '../../../datasources/survey_design/repository/localRepositoryAge.dart';
 
 class ModalOptionAge extends StatefulWidget {
   final void Function() onUpdate;

@@ -10,7 +10,7 @@ import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 import '../../../datasources/survey_design/data/list_demography_religion.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryReligion.dart';
+import '../../../datasources/survey_design/repository/localRepositoryReligion.dart';
 
 class ModalOptionReligion extends StatefulWidget {
   final void Function() onUpdate;

@@ -13,7 +13,7 @@ import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/constants/padding.dart';
 import '../../../datasources/survey_design/data/list_respondent.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryRespondent.dart';
+import '../../../datasources/survey_design/repository/localRepositoryRespondent.dart';
 
 class RespondentOption extends StatefulWidget {
   const RespondentOption({super.key});

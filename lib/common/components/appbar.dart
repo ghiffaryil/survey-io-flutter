@@ -35,6 +35,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: elevation,
       automaticallyImplyLeading: implyLeading,
       backgroundColor: AppColors.primary,
+      surfaceTintColor: AppColors.primary,
       title: title,
       actions: [
         if (badge == true)
@@ -86,6 +87,7 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       automaticallyImplyLeading: implyLeading,
       backgroundColor: AppColors.primary,
+      surfaceTintColor: AppColors.primary,
       title: title,
     );
   }
@@ -126,6 +128,7 @@ class WebViewAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       automaticallyImplyLeading: implyLeading,
       backgroundColor: AppColors.white,
+      surfaceTintColor: AppColors.white,
       title: title,
     );
   }

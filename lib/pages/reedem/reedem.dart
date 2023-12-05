@@ -53,7 +53,7 @@ class _ReedemPageState extends State<ReedemPage> {
           Container(
             color: AppColors.white,
             child: Padding(
-              padding: CustomPadding.px3,
+              padding: CustomPadding.px2,
               child: LabelInput(
                 labelText: 'Hadiah',
                 labelStyle: TextStyles.h2(color: AppColors.secondary),
@@ -88,8 +88,6 @@ class _ReedemPageState extends State<ReedemPage> {
                           final isDifferentCategory = isFirstChild ||
                               dataProduct.categoryName !=
                                   data[index - 1].categoryName;
-                          ;
-
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
@@ -147,7 +145,7 @@ class _ReedemPageState extends State<ReedemPage> {
                                       Card(
                                         color: Colors.white,
                                         surfaceTintColor: Colors.white,
-                                        elevation: 4,
+                                        elevation: 5,
                                         child: Padding(
                                           padding: const EdgeInsets.all(5.0),
                                           child: Row(

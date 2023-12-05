@@ -142,27 +142,24 @@ class _MainSectionState extends State<MainSection> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Container(
-        decoration: const BoxDecoration(),
-        child: Column(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.15,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
+      child: Column(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.15,
+            decoration: const BoxDecoration(
+              color: Colors.white,
             ),
-            iconSection(),
-            CustomDividers.verySmallDivider(),
-            ayoCheckSection(),
-            CustomDividers.verySmallDivider(),
-            pollingTodaySection(),
-            CustomDividers.verySmallDivider(),
-            surveyPopularSection(),
-            CustomDividers.verySmallDivider(),
-            createSurveySection(),
-          ],
-        ),
+          ),
+          iconSection(),
+          CustomDividers.verySmallDivider(),
+          ayoCheckSection(),
+          CustomDividers.verySmallDivider(),
+          pollingTodaySection(),
+          CustomDividers.verySmallDivider(),
+          surveyPopularSection(),
+          CustomDividers.verySmallDivider(),
+          createSurveySection(),
+        ],
       ),
     );
   }
@@ -807,7 +804,7 @@ class _MainSectionState extends State<MainSection> {
           LabelInput(
               labelText: 'Mau Buat Survei Sendiri?',
               labelStyle: TextStyles.h4(color: AppColors.secondary)),
-          CustomDividers.verySmallDivider(),
+          CustomDividers.smallDivider(),
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -868,6 +865,7 @@ class _MainSectionState extends State<MainSection> {
               ],
             ),
           ),
+          CustomDividers.verySmallDivider(),
         ],
       ),
     );

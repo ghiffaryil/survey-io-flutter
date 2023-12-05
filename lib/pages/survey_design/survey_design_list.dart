@@ -93,7 +93,7 @@ class _SurveyDesignListPageState extends State<SurveyDesignListPage> {
             ? const SurveyDesignGuestSection()
             : const MainSectionSurveyDesign(),
         const RedShapeCircular(),
-        const ProfileSectionSurveyDesign()
+        const ProfileSectionSurveyDesign(),
       ]),
       bottomNavigationBar: BottomMenu(
         selectedIndex: selectedIndex,

@@ -13,7 +13,7 @@ import '../../../../common/constants/styles.dart';
 import '../../../../common/constants/padding.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../datasources/survey_design/data/list_question_value.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryQuestion.dart';
+import '../../../datasources/survey_design/repository/localRepositoryQuestion.dart';
 
 class QuestionOption extends StatefulWidget {
   const QuestionOption({super.key});

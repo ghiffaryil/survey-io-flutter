@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'get_list_city_bloc.dart';
+part of 'forgot_passcode_verify_otp_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,58 +15,61 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$GetListCityEvent {
+mixin _$ForgotPasscodeVerifyOtpEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(int provinceId) getListCity,
+    required TResult Function(String phoneNumber, String otpCode) verifyOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int provinceId)? getListCity,
+    TResult? Function(String phoneNumber, String otpCode)? verifyOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int provinceId)? getListCity,
+    TResult Function(String phoneNumber, String otpCode)? verifyOtp,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetListCity value) getListCity,
+    required TResult Function(_VerifyOtp value) verifyOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetListCity value)? getListCity,
+    TResult? Function(_VerifyOtp value)? verifyOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetListCity value)? getListCity,
+    TResult Function(_VerifyOtp value)? verifyOtp,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $GetListCityEventCopyWith<$Res> {
-  factory $GetListCityEventCopyWith(
-          GetListCityEvent value, $Res Function(GetListCityEvent) then) =
-      _$GetListCityEventCopyWithImpl<$Res, GetListCityEvent>;
+abstract class $ForgotPasscodeVerifyOtpEventCopyWith<$Res> {
+  factory $ForgotPasscodeVerifyOtpEventCopyWith(
+          ForgotPasscodeVerifyOtpEvent value,
+          $Res Function(ForgotPasscodeVerifyOtpEvent) then) =
+      _$ForgotPasscodeVerifyOtpEventCopyWithImpl<$Res,
+          ForgotPasscodeVerifyOtpEvent>;
 }
 
 /// @nodoc
-class _$GetListCityEventCopyWithImpl<$Res, $Val extends GetListCityEvent>
-    implements $GetListCityEventCopyWith<$Res> {
-  _$GetListCityEventCopyWithImpl(this._value, this._then);
+class _$ForgotPasscodeVerifyOtpEventCopyWithImpl<$Res,
+        $Val extends ForgotPasscodeVerifyOtpEvent>
+    implements $ForgotPasscodeVerifyOtpEventCopyWith<$Res> {
+  _$ForgotPasscodeVerifyOtpEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -83,7 +86,7 @@ abstract class _$$StartedImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$StartedImplCopyWithImpl<$Res>
-    extends _$GetListCityEventCopyWithImpl<$Res, _$StartedImpl>
+    extends _$ForgotPasscodeVerifyOtpEventCopyWithImpl<$Res, _$StartedImpl>
     implements _$$StartedImplCopyWith<$Res> {
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
@@ -97,7 +100,7 @@ class _$StartedImpl implements _Started {
 
   @override
   String toString() {
-    return 'GetListCityEvent.started()';
+    return 'ForgotPasscodeVerifyOtpEvent.started()';
   }
 
   @override
@@ -113,7 +116,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(int provinceId) getListCity,
+    required TResult Function(String phoneNumber, String otpCode) verifyOtp,
   }) {
     return started();
   }
@@ -122,7 +125,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int provinceId)? getListCity,
+    TResult? Function(String phoneNumber, String otpCode)? verifyOtp,
   }) {
     return started?.call();
   }
@@ -131,7 +134,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int provinceId)? getListCity,
+    TResult Function(String phoneNumber, String otpCode)? verifyOtp,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -144,7 +147,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetListCity value) getListCity,
+    required TResult Function(_VerifyOtp value) verifyOtp,
   }) {
     return started(this);
   }
@@ -153,7 +156,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetListCity value)? getListCity,
+    TResult? Function(_VerifyOtp value)? verifyOtp,
   }) {
     return started?.call(this);
   }
@@ -162,7 +165,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetListCity value)? getListCity,
+    TResult Function(_VerifyOtp value)? verifyOtp,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -172,99 +175,107 @@ class _$StartedImpl implements _Started {
   }
 }
 
-abstract class _Started implements GetListCityEvent {
+abstract class _Started implements ForgotPasscodeVerifyOtpEvent {
   const factory _Started() = _$StartedImpl;
 }
 
 /// @nodoc
-abstract class _$$GetListCityImplCopyWith<$Res> {
-  factory _$$GetListCityImplCopyWith(
-          _$GetListCityImpl value, $Res Function(_$GetListCityImpl) then) =
-      __$$GetListCityImplCopyWithImpl<$Res>;
+abstract class _$$VerifyOtpImplCopyWith<$Res> {
+  factory _$$VerifyOtpImplCopyWith(
+          _$VerifyOtpImpl value, $Res Function(_$VerifyOtpImpl) then) =
+      __$$VerifyOtpImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int provinceId});
+  $Res call({String phoneNumber, String otpCode});
 }
 
 /// @nodoc
-class __$$GetListCityImplCopyWithImpl<$Res>
-    extends _$GetListCityEventCopyWithImpl<$Res, _$GetListCityImpl>
-    implements _$$GetListCityImplCopyWith<$Res> {
-  __$$GetListCityImplCopyWithImpl(
-      _$GetListCityImpl _value, $Res Function(_$GetListCityImpl) _then)
+class __$$VerifyOtpImplCopyWithImpl<$Res>
+    extends _$ForgotPasscodeVerifyOtpEventCopyWithImpl<$Res, _$VerifyOtpImpl>
+    implements _$$VerifyOtpImplCopyWith<$Res> {
+  __$$VerifyOtpImplCopyWithImpl(
+      _$VerifyOtpImpl _value, $Res Function(_$VerifyOtpImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? provinceId = null,
+    Object? phoneNumber = null,
+    Object? otpCode = null,
   }) {
-    return _then(_$GetListCityImpl(
-      null == provinceId
-          ? _value.provinceId
-          : provinceId // ignore: cast_nullable_to_non_nullable
-              as int,
+    return _then(_$VerifyOtpImpl(
+      null == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      null == otpCode
+          ? _value.otpCode
+          : otpCode // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
 /// @nodoc
 
-class _$GetListCityImpl implements _GetListCity {
-  const _$GetListCityImpl(this.provinceId);
+class _$VerifyOtpImpl implements _VerifyOtp {
+  const _$VerifyOtpImpl(this.phoneNumber, this.otpCode);
 
   @override
-  final int provinceId;
+  final String phoneNumber;
+  @override
+  final String otpCode;
 
   @override
   String toString() {
-    return 'GetListCityEvent.getListCity(provinceId: $provinceId)';
+    return 'ForgotPasscodeVerifyOtpEvent.verifyOtp(phoneNumber: $phoneNumber, otpCode: $otpCode)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GetListCityImpl &&
-            (identical(other.provinceId, provinceId) ||
-                other.provinceId == provinceId));
+            other is _$VerifyOtpImpl &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
+            (identical(other.otpCode, otpCode) || other.otpCode == otpCode));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, provinceId);
+  int get hashCode => Object.hash(runtimeType, phoneNumber, otpCode);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$GetListCityImplCopyWith<_$GetListCityImpl> get copyWith =>
-      __$$GetListCityImplCopyWithImpl<_$GetListCityImpl>(this, _$identity);
+  _$$VerifyOtpImplCopyWith<_$VerifyOtpImpl> get copyWith =>
+      __$$VerifyOtpImplCopyWithImpl<_$VerifyOtpImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(int provinceId) getListCity,
+    required TResult Function(String phoneNumber, String otpCode) verifyOtp,
   }) {
-    return getListCity(provinceId);
+    return verifyOtp(phoneNumber, otpCode);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int provinceId)? getListCity,
+    TResult? Function(String phoneNumber, String otpCode)? verifyOtp,
   }) {
-    return getListCity?.call(provinceId);
+    return verifyOtp?.call(phoneNumber, otpCode);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int provinceId)? getListCity,
+    TResult Function(String phoneNumber, String otpCode)? verifyOtp,
     required TResult orElse(),
   }) {
-    if (getListCity != null) {
-      return getListCity(provinceId);
+    if (verifyOtp != null) {
+      return verifyOtp(phoneNumber, otpCode);
     }
     return orElse();
   }
@@ -273,50 +284,52 @@ class _$GetListCityImpl implements _GetListCity {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetListCity value) getListCity,
+    required TResult Function(_VerifyOtp value) verifyOtp,
   }) {
-    return getListCity(this);
+    return verifyOtp(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetListCity value)? getListCity,
+    TResult? Function(_VerifyOtp value)? verifyOtp,
   }) {
-    return getListCity?.call(this);
+    return verifyOtp?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetListCity value)? getListCity,
+    TResult Function(_VerifyOtp value)? verifyOtp,
     required TResult orElse(),
   }) {
-    if (getListCity != null) {
-      return getListCity(this);
+    if (verifyOtp != null) {
+      return verifyOtp(this);
     }
     return orElse();
   }
 }
 
-abstract class _GetListCity implements GetListCityEvent {
-  const factory _GetListCity(final int provinceId) = _$GetListCityImpl;
+abstract class _VerifyOtp implements ForgotPasscodeVerifyOtpEvent {
+  const factory _VerifyOtp(final String phoneNumber, final String otpCode) =
+      _$VerifyOtpImpl;
 
-  int get provinceId;
+  String get phoneNumber;
+  String get otpCode;
   @JsonKey(ignore: true)
-  _$$GetListCityImplCopyWith<_$GetListCityImpl> get copyWith =>
+  _$$VerifyOtpImplCopyWith<_$VerifyOtpImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-mixin _$GetListCityState {
+mixin _$ForgotPasscodeVerifyOtpState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<DataCity> data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -324,7 +337,7 @@ mixin _$GetListCityState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<DataCity> data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -332,7 +345,7 @@ mixin _$GetListCityState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<DataCity> data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -365,16 +378,19 @@ mixin _$GetListCityState {
 }
 
 /// @nodoc
-abstract class $GetListCityStateCopyWith<$Res> {
-  factory $GetListCityStateCopyWith(
-          GetListCityState value, $Res Function(GetListCityState) then) =
-      _$GetListCityStateCopyWithImpl<$Res, GetListCityState>;
+abstract class $ForgotPasscodeVerifyOtpStateCopyWith<$Res> {
+  factory $ForgotPasscodeVerifyOtpStateCopyWith(
+          ForgotPasscodeVerifyOtpState value,
+          $Res Function(ForgotPasscodeVerifyOtpState) then) =
+      _$ForgotPasscodeVerifyOtpStateCopyWithImpl<$Res,
+          ForgotPasscodeVerifyOtpState>;
 }
 
 /// @nodoc
-class _$GetListCityStateCopyWithImpl<$Res, $Val extends GetListCityState>
-    implements $GetListCityStateCopyWith<$Res> {
-  _$GetListCityStateCopyWithImpl(this._value, this._then);
+class _$ForgotPasscodeVerifyOtpStateCopyWithImpl<$Res,
+        $Val extends ForgotPasscodeVerifyOtpState>
+    implements $ForgotPasscodeVerifyOtpStateCopyWith<$Res> {
+  _$ForgotPasscodeVerifyOtpStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -391,7 +407,7 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$GetListCityStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$ForgotPasscodeVerifyOtpStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
@@ -405,7 +421,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'GetListCityState.initial()';
+    return 'ForgotPasscodeVerifyOtpState.initial()';
   }
 
   @override
@@ -422,7 +438,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<DataCity> data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -433,7 +449,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<DataCity> data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -444,7 +460,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<DataCity> data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -492,7 +508,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements GetListCityState {
+abstract class _Initial implements ForgotPasscodeVerifyOtpState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -505,7 +521,7 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$GetListCityStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$ForgotPasscodeVerifyOtpStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
@@ -519,7 +535,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'GetListCityState.loading()';
+    return 'ForgotPasscodeVerifyOtpState.loading()';
   }
 
   @override
@@ -536,7 +552,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<DataCity> data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -547,7 +563,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<DataCity> data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -558,7 +574,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<DataCity> data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -606,7 +622,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements GetListCityState {
+abstract class _Loading implements ForgotPasscodeVerifyOtpState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -616,12 +632,12 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<DataCity> data});
+  $Res call({String data});
 }
 
 /// @nodoc
 class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$GetListCityStateCopyWithImpl<$Res, _$LoadedImpl>
+    extends _$ForgotPasscodeVerifyOtpStateCopyWithImpl<$Res, _$LoadedImpl>
     implements _$$LoadedImplCopyWith<$Res> {
   __$$LoadedImplCopyWithImpl(
       _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
@@ -634,9 +650,9 @@ class __$$LoadedImplCopyWithImpl<$Res>
   }) {
     return _then(_$LoadedImpl(
       null == data
-          ? _value._data
+          ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<DataCity>,
+              as String,
     ));
   }
 }
@@ -644,19 +660,14 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(final List<DataCity> data) : _data = data;
+  const _$LoadedImpl(this.data);
 
-  final List<DataCity> _data;
   @override
-  List<DataCity> get data {
-    if (_data is EqualUnmodifiableListView) return _data;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_data);
-  }
+  final String data;
 
   @override
   String toString() {
-    return 'GetListCityState.loaded(data: $data)';
+    return 'ForgotPasscodeVerifyOtpState.loaded(data: $data)';
   }
 
   @override
@@ -664,12 +675,11 @@ class _$LoadedImpl implements _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
-            const DeepCollectionEquality().equals(other._data, _data));
+            (identical(other.data, data) || other.data == data));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
+  int get hashCode => Object.hash(runtimeType, data);
 
   @JsonKey(ignore: true)
   @override
@@ -682,7 +692,7 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<DataCity> data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) {
     return loaded(data);
@@ -693,7 +703,7 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<DataCity> data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loaded?.call(data);
@@ -704,7 +714,7 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<DataCity> data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -752,10 +762,10 @@ class _$LoadedImpl implements _Loaded {
   }
 }
 
-abstract class _Loaded implements GetListCityState {
-  const factory _Loaded(final List<DataCity> data) = _$LoadedImpl;
+abstract class _Loaded implements ForgotPasscodeVerifyOtpState {
+  const factory _Loaded(final String data) = _$LoadedImpl;
 
-  List<DataCity> get data;
+  String get data;
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -772,7 +782,7 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$GetListCityStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$ForgotPasscodeVerifyOtpStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
@@ -802,7 +812,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'GetListCityState.error(message: $message)';
+    return 'ForgotPasscodeVerifyOtpState.error(message: $message)';
   }
 
   @override
@@ -827,7 +837,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<DataCity> data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -838,7 +848,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<DataCity> data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -849,7 +859,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<DataCity> data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -897,7 +907,7 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements GetListCityState {
+abstract class _Error implements ForgotPasscodeVerifyOtpState {
   const factory _Error(final String message) = _$ErrorImpl;
 
   String get message;
