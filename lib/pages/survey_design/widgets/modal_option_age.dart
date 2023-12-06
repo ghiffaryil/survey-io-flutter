@@ -1,17 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:survey_io/models/survey_design/data/demography_age_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/components/divider.dart';
 import '../../../../common/components/checkbox.dart';
 import '../../../../common/constants/colors.dart';
-import '../../../../common/constants/widgets/indicator.dart';
 import '../../../../common/constants/styles.dart';
-import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
+import '../../../../common/constants/widgets/indicator.dart';
+import '../../../../common/components/elevated_button.dart';
 
-import '../../../datasources/survey_design/data/list_demography_age.dart';
-import '../../../datasources/survey_design/repository/localRepositoryAge.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_age/survey_design_list_demography_age_bloc.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryAge.dart';
 
 class ModalOptionAge extends StatefulWidget {
   final void Function() onUpdate;
@@ -23,8 +23,6 @@ class ModalOptionAge extends StatefulWidget {
 }
 
 class _ModalOptionAgeState extends State<ModalOptionAge> {
-  final List<DemographyAgeModel> list =
-      ListDemographyAge.getDemographyAgeList();
   final ageRepository = LocalRepositoryDemographyAge();
 
   List<int> selectedId = [];
@@ -35,6 +33,9 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
   void initState() {
     super.initState();
     selectedScope = [];
+    context
+        .read<SurveyDesignListDemographyAgeBloc>()
+        .add(const SurveyDesignListDemographyAgeEvent.getListDemographyAge());
     onLoad();
   }
 
@@ -67,10 +68,11 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
-      padding: const EdgeInsets.all(20),
+      height: MediaQuery.of(context).size.height * 0.6,
+      padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(30)),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
           color: Colors.white),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,95 +97,89 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
           CustomDividers.verySmallDivider(),
           Expanded(
             child: SingleChildScrollView(
-              child: ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: list.length + 1,
-                separatorBuilder: ((context, index) {
-                  return const Divider();
-                }),
-                itemBuilder: (BuildContext context, int index) {
-                  if (index == 0) {
-                    return ListTile(
-                      dense: true,
-                      visualDensity:
-                          const VisualDensity(horizontal: 0, vertical: -4),
-                      title: Text(
-                        'Semua',
-                        style: TextStyles.large(
-                            fontWeight: FontWeight.w600,
-                            color: selectedId.isEmpty && selectedScope.isEmpty
-                                ? AppColors.black
-                                : AppColors.light.withOpacity(0.6)),
-                      ),
-                      leading: CustomCheckbox(
-                          value: selectAll,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              selectAll = value ?? false;
-                              selectedId.clear();
-                              selectedScope.clear();
-                            });
-                          }),
-                    );
-                  } else {
-                    final item = list[index - 1];
+              child: BlocBuilder<SurveyDesignListDemographyAgeBloc,
+                  SurveyDesignListDemographyAgeState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return Container();
+                    },
+                    loading: () {
+                      return Container();
+                    },
+                    error: (message) {
+                      return Text(message);
+                    },
+                    loaded: (data) {
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: data.length,
+                        separatorBuilder: ((context, index) {
+                          return const Divider(
+                            thickness: 0.3,
+                          );
+                        }),
+                        itemBuilder: (BuildContext context, int index) {
+                          final item = data[index];
+                          return ListTile(
+                              dense: true,
+                              visualDensity: const VisualDensity(
+                                  horizontal: 0, vertical: -4),
+                              title: Text(
+                                item.scope.toString(),
+                                style: TextStyles.large(
+                                    fontWeight: FontWeight.w600,
+                                    color: selectedId.contains(item.id) &&
+                                            selectedScope.contains(item.scope)
+                                        ? AppColors.black
+                                        : AppColors.light.withOpacity(0.6)),
+                              ),
+                              leading: CustomCheckbox(
+                                value: selectedId.contains(item.id),
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    if (value == true) {
+                                      selectedId.add(item.id);
+                                      selectedScope.add(item.scope);
+                                    } else {
+                                      selectedId.remove(item.id);
+                                      selectedScope.remove(item.scope);
+                                    }
+                                    selectedId.sort();
 
-                    return ListTile(
-                        dense: true,
-                        visualDensity:
-                            const VisualDensity(horizontal: 0, vertical: -4),
-                        title: Text(
-                          item.scope.toString(),
-                          style: TextStyles.large(
-                              fontWeight: FontWeight.w600,
-                              color: selectedId.contains(item.id) &&
-                                      selectedScope.contains(item.scope)
-                                  ? AppColors.black
-                                  : AppColors.light.withOpacity(0.6)),
-                        ),
-                        leading: CustomCheckbox(
-                          value: selectedId.contains(item.id),
-                          onChanged: (bool? value) {
-                            setState(() {
-                              if (value == true) {
-                                selectedId.add(item.id);
-                                selectedScope.add(item.scope);
-                              } else {
-                                selectedId.remove(item.id);
-                                selectedScope.remove(item.scope);
-                              }
-                              selectedId.sort();
+                                    selectedScope.sort((a, b) {
+                                      final indexA = data.indexWhere(
+                                          (item) => item.scope == a);
+                                      final indexB = data.indexWhere(
+                                          (item) => item.scope == b);
+                                      return selectedId.indexOf(indexA) -
+                                          selectedId.indexOf(indexB);
+                                    });
 
-                              selectedScope.sort((a, b) {
-                                final indexA =
-                                    list.indexWhere((item) => item.scope == a);
-                                final indexB =
-                                    list.indexWhere((item) => item.scope == b);
-                                return selectedId.indexOf(indexA) -
-                                    selectedId.indexOf(indexB);
-                              });
-
-                              // If All option selected
-                              if (selectedId.length == list.length) {
-                                selectAll = true;
-                                selectedId.clear();
-                                selectedScope.clear();
-                              } else if (selectedId.isEmpty) {
-                                // If no one selected
-                                selectAll = true;
-                                selectedId.clear();
-                                selectedScope.clear();
-                              } else {
-                                // If at least one option selected but not of all
-                                selectAll = false;
-                                selectedId.remove(0);
-                                selectedScope.remove('Semua');
-                              }
-                            });
-                          },
-                        ));
-                  }
+                                    // If All option selected
+                                    if (selectedId.length == data.length) {
+                                      selectAll = true;
+                                      selectedId.clear();
+                                      selectedScope.clear();
+                                    } else if (selectedId.isEmpty) {
+                                      // If no one selected
+                                      selectAll = true;
+                                      selectedId.clear();
+                                      selectedScope.clear();
+                                    } else {
+                                      // If at least one option selected but not of all
+                                      selectAll = false;
+                                      selectedId.remove(0);
+                                      selectedScope.remove('Semua');
+                                    }
+                                  });
+                                },
+                              ));
+                        },
+                      );
+                    },
+                  );
                 },
               ),
             ),

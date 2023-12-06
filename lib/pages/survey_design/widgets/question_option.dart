@@ -88,11 +88,13 @@ class _QuestionOptionState extends State<QuestionOption> {
                 labelText: 'Jumlah Pertanyaan', labelStyle: TextStyles.h3()),
           ),
           ListView.separated(
-            separatorBuilder: (context, index) {
-              return const Divider();
-            },
             shrinkWrap: true,
             itemCount: ListQuestion.getQuestionList().length,
+            separatorBuilder: ((context, index) {
+              return const Divider(
+                thickness: 0.3,
+              );
+            }),
             itemBuilder: (context, index) {
               final QuestionModel data = ListQuestion.getQuestionList()[index];
 

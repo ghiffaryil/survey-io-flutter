@@ -114,11 +114,13 @@ class _RespondentOptionState extends State<RespondentOption> {
                         },
                         loaded: (data) {
                           return ListView.separated(
-                            separatorBuilder: (context, index) {
-                              return const Divider();
-                            },
                             shrinkWrap: true,
                             itemCount: data.length,
+                            separatorBuilder: ((context, index) {
+                              return const Divider(
+                                thickness: 0.3,
+                              );
+                            }),
                             itemBuilder: (context, index) {
                               var dataRespondent = data[index];
 

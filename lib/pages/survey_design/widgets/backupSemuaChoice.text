@@ -1,0 +1,25 @@
+if (index == 0) {
+return ListTile(
+    dense: true,
+    visualDensity: const VisualDensity(
+        horizontal: 0, vertical: -4),
+    title: Text(
+    'Semua Status Pernikahan',
+    style: TextStyles.large(
+        fontWeight: FontWeight.w600,
+        color: selectedId.isEmpty &&
+                selectedScope.isEmpty
+            ? AppColors.black
+            : AppColors.light.withOpacity(0.6)),
+    ),
+    leading: CustomCheckbox(
+        value: selectAll,
+        onChanged: (bool? value) {
+        setState(() {
+            selectAll = value ?? false;
+            selectedId.clear();
+            selectedScope.clear();
+        });
+        }),
+);
+}

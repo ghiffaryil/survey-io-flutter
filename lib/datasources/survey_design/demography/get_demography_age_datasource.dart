@@ -26,6 +26,7 @@ class GetDemographyAgeDatasource {
 
       try {
         final response = await http.Client().send(request);
+        print(response.statusCode);
 
         if (response.statusCode == 200) {
           final responseBody = await response.stream.bytesToString();

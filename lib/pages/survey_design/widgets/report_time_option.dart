@@ -113,11 +113,13 @@ class _ReportTimeOptionState extends State<ReportTimeOption> {
                         },
                         loaded: (data) {
                           return ListView.separated(
-                            separatorBuilder: (context, index) {
-                              return const Divider();
-                            },
                             shrinkWrap: true,
                             itemCount: data.length,
+                            separatorBuilder: ((context, index) {
+                              return const Divider(
+                                thickness: 0.3,
+                              );
+                            }),
                             itemBuilder: (context, index) {
                               final dataReportTime = data[index];
 

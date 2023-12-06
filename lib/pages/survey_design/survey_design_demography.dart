@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:survey_io/pages/survey_design/survey_design.dart';
 import '../../../common/components/input_field_text.dart';
 import '../../../common/components/label.dart';
 import '../../../common/constants/padding.dart';
@@ -288,7 +289,8 @@ class _DemographyOptionState extends State<DemographyOption> {
     return Scaffold(
       appBar: PlainAppBar(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const SurveyDesign()));
           },
           leadingIcon: Icons.close,
           iconColor: AppColors.black),
@@ -301,7 +303,7 @@ class _DemographyOptionState extends State<DemographyOption> {
           ),
           Expanded(
               child: Container(
-            padding: CustomPadding.pdefault,
+            padding: CustomPadding.p2,
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -488,7 +490,6 @@ class _DemographyOptionState extends State<DemographyOption> {
 
   void _showModalAge(BuildContext context) async {
     await showModalBottomSheet(
-      
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -508,7 +509,6 @@ class _DemographyOptionState extends State<DemographyOption> {
 
   void _showModalGender(BuildContext context) async {
     await showModalBottomSheet(
-      backgroundColor: AppColors.white,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -528,7 +528,6 @@ class _DemographyOptionState extends State<DemographyOption> {
 
   void _showModalReligion(BuildContext context) async {
     await showModalBottomSheet(
-      backgroundColor: AppColors.white,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -548,7 +547,6 @@ class _DemographyOptionState extends State<DemographyOption> {
 
   void _showModalOccupation(BuildContext context) async {
     await showModalBottomSheet(
-      backgroundColor: AppColors.white,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -568,7 +566,6 @@ class _DemographyOptionState extends State<DemographyOption> {
 
   void _showModalMarital(BuildContext context) async {
     await showModalBottomSheet(
-      backgroundColor: AppColors.white,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -588,7 +585,6 @@ class _DemographyOptionState extends State<DemographyOption> {
 
   void _showModalChildren(BuildContext context) async {
     await showModalBottomSheet(
-      backgroundColor: AppColors.white,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -608,7 +604,6 @@ class _DemographyOptionState extends State<DemographyOption> {
 
   void _showModalRegion(BuildContext context) async {
     await showModalBottomSheet(
-      backgroundColor: AppColors.white,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -628,7 +623,6 @@ class _DemographyOptionState extends State<DemographyOption> {
 
   void _showModalIncome(BuildContext context) async {
     await showModalBottomSheet(
-      backgroundColor: AppColors.white,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -648,7 +642,6 @@ class _DemographyOptionState extends State<DemographyOption> {
 
   void _showModalOutcome(BuildContext context) async {
     await showModalBottomSheet(
-      backgroundColor: AppColors.white,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(

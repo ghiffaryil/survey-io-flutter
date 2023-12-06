@@ -19,38 +19,40 @@ mixin _$SurveyDesignListDemographyOutcomeEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() getDemographyOutcome,
+    required TResult Function() getListDemographyOutcome,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? getDemographyOutcome,
+    TResult? Function()? getListDemographyOutcome,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? getDemographyOutcome,
+    TResult Function()? getListDemographyOutcome,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetDemographyOutcome value) getDemographyOutcome,
+    required TResult Function(_GetListDemographyOutcome value)
+        getListDemographyOutcome,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetDemographyOutcome value)? getDemographyOutcome,
+    TResult? Function(_GetListDemographyOutcome value)?
+        getListDemographyOutcome,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetDemographyOutcome value)? getDemographyOutcome,
+    TResult Function(_GetListDemographyOutcome value)? getListDemographyOutcome,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -116,7 +118,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() getDemographyOutcome,
+    required TResult Function() getListDemographyOutcome,
   }) {
     return started();
   }
@@ -125,7 +127,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? getDemographyOutcome,
+    TResult? Function()? getListDemographyOutcome,
   }) {
     return started?.call();
   }
@@ -134,7 +136,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? getDemographyOutcome,
+    TResult Function()? getListDemographyOutcome,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -147,7 +149,8 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetDemographyOutcome value) getDemographyOutcome,
+    required TResult Function(_GetListDemographyOutcome value)
+        getListDemographyOutcome,
   }) {
     return started(this);
   }
@@ -156,7 +159,8 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetDemographyOutcome value)? getDemographyOutcome,
+    TResult? Function(_GetListDemographyOutcome value)?
+        getListDemographyOutcome,
   }) {
     return started?.call(this);
   }
@@ -165,7 +169,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetDemographyOutcome value)? getDemographyOutcome,
+    TResult Function(_GetListDemographyOutcome value)? getListDemographyOutcome,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -180,37 +184,39 @@ abstract class _Started implements SurveyDesignListDemographyOutcomeEvent {
 }
 
 /// @nodoc
-abstract class _$$GetDemographyOutcomeImplCopyWith<$Res> {
-  factory _$$GetDemographyOutcomeImplCopyWith(_$GetDemographyOutcomeImpl value,
-          $Res Function(_$GetDemographyOutcomeImpl) then) =
-      __$$GetDemographyOutcomeImplCopyWithImpl<$Res>;
+abstract class _$$GetListDemographyOutcomeImplCopyWith<$Res> {
+  factory _$$GetListDemographyOutcomeImplCopyWith(
+          _$GetListDemographyOutcomeImpl value,
+          $Res Function(_$GetListDemographyOutcomeImpl) then) =
+      __$$GetListDemographyOutcomeImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$GetDemographyOutcomeImplCopyWithImpl<$Res>
+class __$$GetListDemographyOutcomeImplCopyWithImpl<$Res>
     extends _$SurveyDesignListDemographyOutcomeEventCopyWithImpl<$Res,
-        _$GetDemographyOutcomeImpl>
-    implements _$$GetDemographyOutcomeImplCopyWith<$Res> {
-  __$$GetDemographyOutcomeImplCopyWithImpl(_$GetDemographyOutcomeImpl _value,
-      $Res Function(_$GetDemographyOutcomeImpl) _then)
+        _$GetListDemographyOutcomeImpl>
+    implements _$$GetListDemographyOutcomeImplCopyWith<$Res> {
+  __$$GetListDemographyOutcomeImplCopyWithImpl(
+      _$GetListDemographyOutcomeImpl _value,
+      $Res Function(_$GetListDemographyOutcomeImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$GetDemographyOutcomeImpl implements _GetDemographyOutcome {
-  const _$GetDemographyOutcomeImpl();
+class _$GetListDemographyOutcomeImpl implements _GetListDemographyOutcome {
+  const _$GetListDemographyOutcomeImpl();
 
   @override
   String toString() {
-    return 'SurveyDesignListDemographyOutcomeEvent.getDemographyOutcome()';
+    return 'SurveyDesignListDemographyOutcomeEvent.getListDemographyOutcome()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GetDemographyOutcomeImpl);
+            other is _$GetListDemographyOutcomeImpl);
   }
 
   @override
@@ -220,29 +226,29 @@ class _$GetDemographyOutcomeImpl implements _GetDemographyOutcome {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() getDemographyOutcome,
+    required TResult Function() getListDemographyOutcome,
   }) {
-    return getDemographyOutcome();
+    return getListDemographyOutcome();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? getDemographyOutcome,
+    TResult? Function()? getListDemographyOutcome,
   }) {
-    return getDemographyOutcome?.call();
+    return getListDemographyOutcome?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? getDemographyOutcome,
+    TResult Function()? getListDemographyOutcome,
     required TResult orElse(),
   }) {
-    if (getDemographyOutcome != null) {
-      return getDemographyOutcome();
+    if (getListDemographyOutcome != null) {
+      return getListDemographyOutcome();
     }
     return orElse();
   }
@@ -251,37 +257,39 @@ class _$GetDemographyOutcomeImpl implements _GetDemographyOutcome {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetDemographyOutcome value) getDemographyOutcome,
+    required TResult Function(_GetListDemographyOutcome value)
+        getListDemographyOutcome,
   }) {
-    return getDemographyOutcome(this);
+    return getListDemographyOutcome(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetDemographyOutcome value)? getDemographyOutcome,
+    TResult? Function(_GetListDemographyOutcome value)?
+        getListDemographyOutcome,
   }) {
-    return getDemographyOutcome?.call(this);
+    return getListDemographyOutcome?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetDemographyOutcome value)? getDemographyOutcome,
+    TResult Function(_GetListDemographyOutcome value)? getListDemographyOutcome,
     required TResult orElse(),
   }) {
-    if (getDemographyOutcome != null) {
-      return getDemographyOutcome(this);
+    if (getListDemographyOutcome != null) {
+      return getListDemographyOutcome(this);
     }
     return orElse();
   }
 }
 
-abstract class _GetDemographyOutcome
+abstract class _GetListDemographyOutcome
     implements SurveyDesignListDemographyOutcomeEvent {
-  const factory _GetDemographyOutcome() = _$GetDemographyOutcomeImpl;
+  const factory _GetListDemographyOutcome() = _$GetListDemographyOutcomeImpl;
 }
 
 /// @nodoc
@@ -290,7 +298,7 @@ mixin _$SurveyDesignListDemographyOutcomeState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ListDemographyOccupation> data) loaded,
+    required TResult Function(List<ListDemographyOutcome> data) loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -298,7 +306,7 @@ mixin _$SurveyDesignListDemographyOutcomeState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ListDemographyOccupation> data)? loaded,
+    TResult? Function(List<ListDemographyOutcome> data)? loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -306,7 +314,7 @@ mixin _$SurveyDesignListDemographyOutcomeState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ListDemographyOccupation> data)? loaded,
+    TResult Function(List<ListDemographyOutcome> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -399,7 +407,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ListDemographyOccupation> data) loaded,
+    required TResult Function(List<ListDemographyOutcome> data) loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -410,7 +418,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ListDemographyOccupation> data)? loaded,
+    TResult? Function(List<ListDemographyOutcome> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -421,7 +429,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ListDemographyOccupation> data)? loaded,
+    TResult Function(List<ListDemographyOutcome> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -513,7 +521,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ListDemographyOccupation> data) loaded,
+    required TResult Function(List<ListDemographyOutcome> data) loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -524,7 +532,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ListDemographyOccupation> data)? loaded,
+    TResult? Function(List<ListDemographyOutcome> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -535,7 +543,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ListDemographyOccupation> data)? loaded,
+    TResult Function(List<ListDemographyOutcome> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -593,7 +601,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<ListDemographyOccupation> data});
+  $Res call({List<ListDemographyOutcome> data});
 }
 
 /// @nodoc
@@ -613,7 +621,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
       null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<ListDemographyOccupation>,
+              as List<ListDemographyOutcome>,
     ));
   }
 }
@@ -621,11 +629,11 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(final List<ListDemographyOccupation> data) : _data = data;
+  const _$LoadedImpl(final List<ListDemographyOutcome> data) : _data = data;
 
-  final List<ListDemographyOccupation> _data;
+  final List<ListDemographyOutcome> _data;
   @override
-  List<ListDemographyOccupation> get data {
+  List<ListDemographyOutcome> get data {
     if (_data is EqualUnmodifiableListView) return _data;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_data);
@@ -659,7 +667,7 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ListDemographyOccupation> data) loaded,
+    required TResult Function(List<ListDemographyOutcome> data) loaded,
     required TResult Function(String message) error,
   }) {
     return loaded(data);
@@ -670,7 +678,7 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ListDemographyOccupation> data)? loaded,
+    TResult? Function(List<ListDemographyOutcome> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loaded?.call(data);
@@ -681,7 +689,7 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ListDemographyOccupation> data)? loaded,
+    TResult Function(List<ListDemographyOutcome> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -730,10 +738,9 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements SurveyDesignListDemographyOutcomeState {
-  const factory _Loaded(final List<ListDemographyOccupation> data) =
-      _$LoadedImpl;
+  const factory _Loaded(final List<ListDemographyOutcome> data) = _$LoadedImpl;
 
-  List<ListDemographyOccupation> get data;
+  List<ListDemographyOutcome> get data;
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -805,7 +812,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ListDemographyOccupation> data) loaded,
+    required TResult Function(List<ListDemographyOutcome> data) loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -816,7 +823,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ListDemographyOccupation> data)? loaded,
+    TResult? Function(List<ListDemographyOutcome> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -827,7 +834,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ListDemographyOccupation> data)? loaded,
+    TResult Function(List<ListDemographyOutcome> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

@@ -16,7 +16,15 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/extension/helper/currency_helper.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryAge.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryChildren.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryGender.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryIncome.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryMarital.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryOccupation.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryOutcome.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryQuestion.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryRegion.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryReligion.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryReportTime.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryRespondent.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryScreener.dart';
@@ -48,20 +56,38 @@ class _SurveyDesignState extends State<SurveyDesign> {
   dynamic reportTimeScope;
   int reportTimePrice = 0;
 
+  String valueTextDemography = 'Default : Semua Demografi';
+
   final respondentLocalRepository = LocalRepositoryRespondent();
   final questionLocalRepository = LocalRepositoryQuestion();
   final reportTimeLocalRepository = LocalRepositoryReportTime();
   final screenerLocalRepository = LocalRepositoryScreener();
+
   final demographyAgeLocalRepository = LocalRepositoryDemographyAge();
+  final demographyChildrenLocalRepository = LocalRepositoryDemographyChildren();
+  final demographyGenderLocalRepository = LocalRepositoryDemographyGender();
+  final demographyIncomeLocalRepository = LocalRepositoryDemographyIncome();
+  final demographyMaritalLocalRepository = LocalRepositoryDemographyMarital();
+  final demographyOccupationLocalRepository =
+      LocalRepositoryDemographyOccupation();
+  final demographyOutcomeLocalRepository = LocalRepositoryDemographyOutcome();
+  final demographyRegionLocalRepository = LocalRepositoryDemographyRegion();
+  final demographyReligionLocalRepository = LocalRepositoryDemographyReligion();
 
   @override
   void initState() {
     super.initState();
+    loadData();
+  }
+
+  // Load All Data
+  loadData() {
+    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
     getRespondentValue();
     getQuestionValue();
     getReportTimeValue();
     getScreenerValue();
-    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+    getDemographyValue();
   }
 
   // Get Respondent Id
@@ -88,7 +114,6 @@ class _SurveyDesignState extends State<SurveyDesign> {
         totalPrice = 0;
       });
     }
-    
   }
 
   // Get Question Option
@@ -164,6 +189,85 @@ class _SurveyDesignState extends State<SurveyDesign> {
     }
   }
 
+  // Get Demography Value
+  Future getDemographyValue() async {
+    final getDemographyAgeValue =
+        await demographyAgeLocalRepository.getOption();
+    var demographyAgeScope = getDemographyAgeValue?['scope'];
+
+    final getDemographyGenderValue =
+        await demographyGenderLocalRepository.getOption();
+    var demographyGenderScope = getDemographyGenderValue?['scope'];
+
+    final getDemographyChildrenValue =
+        await demographyChildrenLocalRepository.getOption();
+    var demographyChildrenScope = getDemographyChildrenValue?['scope'];
+
+    final getDemographyIncomeValue =
+        await demographyIncomeLocalRepository.getOption();
+    var demographyIncomeScope = getDemographyIncomeValue?['scope'];
+
+    final getDemographyMaritalValue =
+        await demographyMaritalLocalRepository.getOption();
+    var demographyMaritalScope = getDemographyMaritalValue?['scope'];
+
+    final getDemographyOccupationValue =
+        await demographyOccupationLocalRepository.getOption();
+    var demographyOccupationScope = getDemographyOccupationValue?['scope'];
+
+    final getDemographyOutcomeValue =
+        await demographyOutcomeLocalRepository.getOption();
+    var demographyOutcomeScope = getDemographyOutcomeValue?['scope'];
+
+    final getDemographyRegionValue =
+        await demographyRegionLocalRepository.getOption();
+    var demographyRegionScope = getDemographyRegionValue?['scope'];
+
+    final getDemographyReligionValue =
+        await demographyReligionLocalRepository.getOption();
+    var demographyReligionScope = getDemographyReligionValue?['scope'];
+
+    if (demographyAgeScope == [] &&
+        demographyGenderScope == [] &&
+        demographyChildrenScope == [] &&
+        demographyIncomeScope == [] &&
+        demographyMaritalScope == [] &&
+        demographyOccupationScope == [] &&
+        demographyOutcomeScope == [] &&
+        demographyRegionScope == [] &&
+        demographyReligionScope == []) {
+      setState(() {
+        valueTextDemography = 'Default : Semua Demografi';
+      });
+    } else if (demographyAgeScope == [] &&
+        demographyGenderScope == [] &&
+        demographyChildrenScope == 'Semua' &&
+        demographyIncomeScope == [] &&
+        demographyMaritalScope == [] &&
+        demographyOccupationScope == 'Semua' &&
+        demographyOutcomeScope == [] &&
+        demographyRegionScope == 'Semua' &&
+        demographyReligionScope == 'Semua') {
+      setState(() {
+        valueTextDemography = 'Default : Semua Demografi';
+      });
+    } else {
+      setState(() {
+        valueTextDemography = 'Custom';
+      });
+    }
+
+    print('Demography Age Scope => $demographyAgeScope');
+    print('Demography Gender scope => $demographyGenderScope');
+    print('Demography Children Scope => $demographyChildrenScope');
+    print('Demography Income Scope => $demographyIncomeScope');
+    print('Demography Marital Scope => $demographyMaritalScope');
+    print('Demography Occupation Scope => $demographyOccupationScope');
+    print('Demography Outcome Scope => $demographyOutcomeScope');
+    print('Demography Region Scope => $demographyRegionScope');
+    print('Demography Religion Scope => $demographyReligionScope');
+  }
+
   // Save Screener
   Future<void> setOption() async {
     var setOption = {
@@ -178,7 +282,16 @@ class _SurveyDesignState extends State<SurveyDesign> {
     await questionLocalRepository.deleteOption();
     await reportTimeLocalRepository.deleteOption();
     await screenerLocalRepository.deleteOption();
+
     await demographyAgeLocalRepository.deleteOption();
+    await demographyChildrenLocalRepository.deleteOption();
+    await demographyGenderLocalRepository.deleteOption();
+    await demographyIncomeLocalRepository.deleteOption();
+    await demographyMaritalLocalRepository.deleteOption();
+    await demographyOccupationLocalRepository.deleteOption();
+    await demographyOutcomeLocalRepository.deleteOption();
+    await demographyRegionLocalRepository.deleteOption();
+    await demographyReligionLocalRepository.deleteOption();
   }
 
   @override
@@ -431,7 +544,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
                 Padding(
                   padding: CustomPadding.px1,
                   child: Text(
-                    'Default : Semua Demografi',
+                    valueTextDemography,
                     style: TextStyles.large(
                         color: AppColors.black, fontWeight: FontWeight.bold),
                   ),

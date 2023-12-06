@@ -7,6 +7,15 @@ import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_verify_otp/forgot
 import 'package:survey_io/bloc/forgot_pasccode/update_passcode/update_passcode_bloc.dart';
 import 'package:survey_io/bloc/profile/get_list_city/get_list_city_bloc.dart';
 import 'package:survey_io/bloc/profile/get_list_province/get_list_province_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_age/survey_design_list_demography_age_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_children/survey_design_list_demography_children_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_gender/survey_design_list_demography_gender_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_income/survey_design_list_demography_income_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_marital/survey_design_list_demography_marital_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_occupation/survey_design_list_demography_occupation_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_outcome/survey_design_list_demography_outcome_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_region/survey_design_list_demography_region_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_religion/survey_design_list_demography_religion_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_list_report_time/survey_design_list_report_time_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_list_respondent/survey_design_list_respondent_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_list_scope/survey_design_list_scope_bloc.dart';
@@ -149,6 +158,33 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SurveyDesignListScopeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyAgeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyChildrenBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyGenderBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyIncomeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyOutcomeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyMaritalBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyOccupationBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyRegionBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyReligionBloc(),
         ),
       ],
       child: MaterialApp(

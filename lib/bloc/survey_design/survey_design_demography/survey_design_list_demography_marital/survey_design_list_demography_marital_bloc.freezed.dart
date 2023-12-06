@@ -19,38 +19,40 @@ mixin _$SurveyDesignListDemographyMaritalEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() getDemographyMarital,
+    required TResult Function() getListDemographyMarital,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? getDemographyMarital,
+    TResult? Function()? getListDemographyMarital,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? getDemographyMarital,
+    TResult Function()? getListDemographyMarital,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetDemographyMarital value) getDemographyMarital,
+    required TResult Function(_GetListDemographyMarital value)
+        getListDemographyMarital,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetDemographyMarital value)? getDemographyMarital,
+    TResult? Function(_GetListDemographyMarital value)?
+        getListDemographyMarital,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetDemographyMarital value)? getDemographyMarital,
+    TResult Function(_GetListDemographyMarital value)? getListDemographyMarital,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -116,7 +118,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() getDemographyMarital,
+    required TResult Function() getListDemographyMarital,
   }) {
     return started();
   }
@@ -125,7 +127,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? getDemographyMarital,
+    TResult? Function()? getListDemographyMarital,
   }) {
     return started?.call();
   }
@@ -134,7 +136,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? getDemographyMarital,
+    TResult Function()? getListDemographyMarital,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -147,7 +149,8 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetDemographyMarital value) getDemographyMarital,
+    required TResult Function(_GetListDemographyMarital value)
+        getListDemographyMarital,
   }) {
     return started(this);
   }
@@ -156,7 +159,8 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetDemographyMarital value)? getDemographyMarital,
+    TResult? Function(_GetListDemographyMarital value)?
+        getListDemographyMarital,
   }) {
     return started?.call(this);
   }
@@ -165,7 +169,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetDemographyMarital value)? getDemographyMarital,
+    TResult Function(_GetListDemographyMarital value)? getListDemographyMarital,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -180,37 +184,39 @@ abstract class _Started implements SurveyDesignListDemographyMaritalEvent {
 }
 
 /// @nodoc
-abstract class _$$GetDemographyMaritalImplCopyWith<$Res> {
-  factory _$$GetDemographyMaritalImplCopyWith(_$GetDemographyMaritalImpl value,
-          $Res Function(_$GetDemographyMaritalImpl) then) =
-      __$$GetDemographyMaritalImplCopyWithImpl<$Res>;
+abstract class _$$GetListDemographyMaritalImplCopyWith<$Res> {
+  factory _$$GetListDemographyMaritalImplCopyWith(
+          _$GetListDemographyMaritalImpl value,
+          $Res Function(_$GetListDemographyMaritalImpl) then) =
+      __$$GetListDemographyMaritalImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$GetDemographyMaritalImplCopyWithImpl<$Res>
+class __$$GetListDemographyMaritalImplCopyWithImpl<$Res>
     extends _$SurveyDesignListDemographyMaritalEventCopyWithImpl<$Res,
-        _$GetDemographyMaritalImpl>
-    implements _$$GetDemographyMaritalImplCopyWith<$Res> {
-  __$$GetDemographyMaritalImplCopyWithImpl(_$GetDemographyMaritalImpl _value,
-      $Res Function(_$GetDemographyMaritalImpl) _then)
+        _$GetListDemographyMaritalImpl>
+    implements _$$GetListDemographyMaritalImplCopyWith<$Res> {
+  __$$GetListDemographyMaritalImplCopyWithImpl(
+      _$GetListDemographyMaritalImpl _value,
+      $Res Function(_$GetListDemographyMaritalImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$GetDemographyMaritalImpl implements _GetDemographyMarital {
-  const _$GetDemographyMaritalImpl();
+class _$GetListDemographyMaritalImpl implements _GetListDemographyMarital {
+  const _$GetListDemographyMaritalImpl();
 
   @override
   String toString() {
-    return 'SurveyDesignListDemographyMaritalEvent.getDemographyMarital()';
+    return 'SurveyDesignListDemographyMaritalEvent.getListDemographyMarital()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GetDemographyMaritalImpl);
+            other is _$GetListDemographyMaritalImpl);
   }
 
   @override
@@ -220,29 +226,29 @@ class _$GetDemographyMaritalImpl implements _GetDemographyMarital {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() getDemographyMarital,
+    required TResult Function() getListDemographyMarital,
   }) {
-    return getDemographyMarital();
+    return getListDemographyMarital();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? getDemographyMarital,
+    TResult? Function()? getListDemographyMarital,
   }) {
-    return getDemographyMarital?.call();
+    return getListDemographyMarital?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? getDemographyMarital,
+    TResult Function()? getListDemographyMarital,
     required TResult orElse(),
   }) {
-    if (getDemographyMarital != null) {
-      return getDemographyMarital();
+    if (getListDemographyMarital != null) {
+      return getListDemographyMarital();
     }
     return orElse();
   }
@@ -251,37 +257,39 @@ class _$GetDemographyMaritalImpl implements _GetDemographyMarital {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetDemographyMarital value) getDemographyMarital,
+    required TResult Function(_GetListDemographyMarital value)
+        getListDemographyMarital,
   }) {
-    return getDemographyMarital(this);
+    return getListDemographyMarital(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetDemographyMarital value)? getDemographyMarital,
+    TResult? Function(_GetListDemographyMarital value)?
+        getListDemographyMarital,
   }) {
-    return getDemographyMarital?.call(this);
+    return getListDemographyMarital?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetDemographyMarital value)? getDemographyMarital,
+    TResult Function(_GetListDemographyMarital value)? getListDemographyMarital,
     required TResult orElse(),
   }) {
-    if (getDemographyMarital != null) {
-      return getDemographyMarital(this);
+    if (getListDemographyMarital != null) {
+      return getListDemographyMarital(this);
     }
     return orElse();
   }
 }
 
-abstract class _GetDemographyMarital
+abstract class _GetListDemographyMarital
     implements SurveyDesignListDemographyMaritalEvent {
-  const factory _GetDemographyMarital() = _$GetDemographyMaritalImpl;
+  const factory _GetListDemographyMarital() = _$GetListDemographyMaritalImpl;
 }
 
 /// @nodoc
