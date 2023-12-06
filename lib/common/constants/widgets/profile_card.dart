@@ -35,7 +35,7 @@ class FloatingProfileCard extends StatelessWidget {
               color: Colors.grey.withOpacity(0.3),
               spreadRadius: 1,
               blurRadius: 6,
-              offset: Offset(0, 2), // changes position of shadow
+              offset: const Offset(0, 2), // changes position of shadow
             ),
           ],
         ),

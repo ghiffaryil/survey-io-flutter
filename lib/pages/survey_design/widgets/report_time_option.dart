@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:survey_io/models/survey_design/data/report_time.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/pages/survey_design/survey_design.dart';
 import '../../../../common/components/appbar_plain.dart';
 import '../../../../common/components/divider.dart';
@@ -10,10 +10,10 @@ import '../../../../common/components/label.dart';
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/constants/padding.dart';
-import '../../../../common/extension/helper/currency_helper.dart';
 import '../../../../common/components/elevated_button.dart';
-import '../../../datasources/survey_design/data/list_report_time.dart';
-import '../../../datasources/survey_design/repository/localRepositoryReportTime.dart';
+import '../../../../common/extension/helper/currency_helper.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_list_report_time/survey_design_list_report_time_bloc.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryReportTime.dart';
 
 class ReportTimeOption extends StatefulWidget {
   const ReportTimeOption({super.key});
@@ -33,8 +33,10 @@ class _ReportTimeOptionState extends State<ReportTimeOption> {
 
   @override
   void initState() {
-    getOption(); // Load Get Choice
     super.initState();
+    getOption(); // Load Get Choice
+    context.read<SurveyDesignListReportTimeBloc>().add(
+        const SurveyDesignListReportTimeEvent.getSurveyDesignListReportTime());
   }
 
   // Get Selected Choice
@@ -92,58 +94,86 @@ class _ReportTimeOptionState extends State<ReportTimeOption> {
             child: LabelInput(
                 labelText: 'Durasi Report', labelStyle: TextStyles.h3()),
           ),
-          ListView.separated(
-            separatorBuilder: (context, index) {
-              return const Divider();
-            },
-            shrinkWrap: true,
-            itemCount: ListReportTime.getReportTimeList().length,
-            itemBuilder: (context, index) {
-              final ReportTimeModel data =
-                  ListReportTime.getReportTimeList()[index];
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  BlocBuilder<SurveyDesignListReportTimeBloc,
+                      SurveyDesignListReportTimeState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        orElse: () {
+                          return Container();
+                        },
+                        loading: () {
+                          return Container();
+                        },
+                        error: (message) {
+                          return Text(message);
+                        },
+                        loaded: (data) {
+                          return ListView.separated(
+                            separatorBuilder: (context, index) {
+                              return const Divider();
+                            },
+                            shrinkWrap: true,
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              final dataReportTime = data[index];
 
-              String? formatterRupiahPrice;
-              formatterRupiahPrice = formatCurrency(data.price.toDouble());
+                              String? formatterRupiahPrice;
+                              formatterRupiahPrice = formatCurrency(
+                                  dataReportTime.price.toDouble());
 
-              return ListTile(
-                dense: true,
-                title: Text(
-                  data.scope,
-                  style: TextStyles.medium(),
-                ),
-                leading: Radio(
-                  activeColor: AppColors.primary,
-                  value: data.id,
-                  groupValue: selectedId,
-                  onChanged: (value) {
-                    // Update Data
-                    setState(() {
-                      selectedId = value!; // Update selected id
-                      selectedScope = data.scope; // Update selected scope
-                      selectedPrice = data.price; // Update selected scope
-                      setOption(); // Save to Shared Preferences
-                    });
-                  },
-                ),
-                trailing: Text(
-                  '$formatterRupiahPrice,-', // Use formatterRupiahPrice
-                  style: TextStyles.medium(),
-                ),
-              );
-            },
+                              return ListTile(
+                                dense: true,
+                                title: Text(
+                                  dataReportTime.scope,
+                                  style: TextStyles.medium(),
+                                ),
+                                leading: Radio(
+                                  activeColor: AppColors.primary,
+                                  value: dataReportTime.id,
+                                  groupValue: selectedId,
+                                  onChanged: (value) {
+                                    // Update Data
+                                    setState(() {
+                                      selectedId = value!; // Update selected id
+                                      selectedScope = dataReportTime
+                                          .scope; // Update selected scope
+                                      selectedPrice = dataReportTime
+                                          .price; // Update selected scope
+                                      setOption(); // Save to Shared Preferences
+                                    });
+                                  },
+                                ),
+                                trailing: Text(
+                                  '$formatterRupiahPrice,-', // Use formatterRupiahPrice
+                                  style: TextStyles.medium(),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  CustomDividers.smallDivider(),
+                  Container(
+                    padding: CustomPadding.pdefault,
+                    child: ButtonFilled.primary(
+                        text: 'OK',
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SurveyDesign()));
+                        }),
+                  )
+                ],
+              ),
+            ),
           ),
-          CustomDividers.smallDivider(),
-          Container(
-            padding: CustomPadding.pdefault,
-            child: ButtonFilled.primary(
-                text: 'OK',
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SurveyDesign()));
-                }),
-          )
         ],
       ),
     );

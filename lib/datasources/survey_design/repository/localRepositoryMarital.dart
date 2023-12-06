@@ -22,7 +22,8 @@ class LocalRepositoryDemographyMarital {
   Future deleteOption() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      await prefs.clear();
+      //await prefs.clear();
+      await prefs.remove('DemographyMaritalValue');
     } catch (e) {
       print('Error deleting shared preference keys: $e');
     }

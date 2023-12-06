@@ -5,7 +5,6 @@ import 'package:survey_io/models/survey_design/data/demography_age_model.dart';
 import '../../../../common/components/divider.dart';
 import '../../../../common/components/checkbox.dart';
 import '../../../../common/constants/colors.dart';
-import '../../../../common/constants/imageSize.dart';
 import '../../../../common/constants/widgets/indicator.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
@@ -68,8 +67,11 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppHeight.imageSize(context, AppHeight.large),
-      padding: CustomPadding.p2,
+      height: MediaQuery.of(context).size.height * 0.8,
+      padding: const EdgeInsets.all(20),
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+          color: Colors.white),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -126,6 +128,7 @@ class _ModalOptionAgeState extends State<ModalOptionAge> {
                     );
                   } else {
                     final item = list[index - 1];
+
                     return ListTile(
                         dense: true,
                         visualDensity:

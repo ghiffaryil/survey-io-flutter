@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/models/survey_design/data/demography_children_model.dart';
 
 import '../../../../common/components/notice_card.dart';
@@ -68,7 +69,7 @@ class _ModalOptionChildrenState extends State<ModalOptionChildren> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: AppHeight.imageSize(context, AppHeight.extraLarge),
       padding: CustomPadding.p2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

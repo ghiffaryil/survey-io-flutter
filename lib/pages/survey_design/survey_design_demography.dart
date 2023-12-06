@@ -295,7 +295,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       body: Column(
         children: [
           Container(
-            padding: CustomPadding.p2,
+            padding: CustomPadding.px2,
             child: const LabelHeading(
                 labelText: 'Atur Demografi', labelColor: AppColors.secondary),
           ),
@@ -488,7 +488,7 @@ class _DemographyOptionState extends State<DemographyOption> {
 
   void _showModalAge(BuildContext context) async {
     await showModalBottomSheet(
-      backgroundColor: AppColors.white,
+      
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(

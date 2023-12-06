@@ -22,9 +22,8 @@ class LocalRepositoryRespondent {
   Future deleteOption() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      await prefs.remove('id');
-      await prefs.remove('scope');
-      await prefs.clear();
+      //await prefs.clear();
+      await prefs.remove('RespondentValue');
     } catch (e) {
       print('Error deleting shared preference keys: $e');
     }

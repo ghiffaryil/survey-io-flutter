@@ -22,8 +22,8 @@ class LocalRepositoryScreener {
   Future deleteOption() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      await prefs.remove('value');
-      await prefs.clear();
+      //await prefs.clear();
+      await prefs.remove('ScreenerValue');
     } catch (e) {
       print('Error deleting shared preference keys: $e');
     }

@@ -28,7 +28,7 @@ class SurveyAyoCheckDatasource {
         userToken = guestToken;
       }
 
-      final headers = {
+    final headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'authorization': userToken
@@ -41,6 +41,7 @@ class SurveyAyoCheckDatasource {
         );
         if (response.statusCode == 200) {
           print('Load Survey Ayo Check : success');
+          print(response.body);
           return Right(SurveyAyoCheckResponseModel.fromJson(response.body));
         } else {
           final errorResponse =

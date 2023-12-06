@@ -25,7 +25,7 @@ import 'package:survey_io/pages/payment/payment_method.dart';
 import 'package:survey_io/pages/survey_design/widgets/question_option.dart';
 import 'package:survey_io/pages/survey_design/widgets/report_time_option.dart';
 import 'package:survey_io/pages/survey_design/widgets/respondent_option.dart';
-import 'package:survey_io/pages/survey_design/demography_option.dart';
+import 'package:survey_io/pages/survey_design/survey_design_demography.dart';
 // import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 
 class SurveyDesign extends StatefulWidget {
@@ -88,6 +88,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
         totalPrice = 0;
       });
     }
+    
   }
 
   // Get Question Option
@@ -199,7 +200,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
           Expanded(
             child: SingleChildScrollView(
               child: Container(
-                padding: CustomPadding.pdefault,
+                padding: CustomPadding.px3,
                 child: Column(
                   children: [
                     Container(
@@ -210,227 +211,15 @@ class _SurveyDesignState extends State<SurveyDesign> {
                       ),
                     ),
                     CustomDividers.smallDivider(),
-                    LabelInput(
-                      labelText: 'Responden',
-                      labelStyle: TextStyles.medium(color: AppColors.secondary),
-                    ),
-                    CustomDividers.verySmallDivider(),
-                    GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const RespondentOption())),
-                      child: Container(
-                        height: 60,
-                        width: double.infinity,
-                        padding: CustomPadding.p1,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: AppColors.secondary, width: 1.5),
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: CustomPadding.px1,
-                              child: Text(
-                                '$respondentScope',
-                                style: TextStyles.large(
-                                    color: respondentId < 1
-                                        ? AppColors.secondary
-                                        : AppColors.black,
-                                    fontWeight: respondentId < 1
-                                        ? FontWeight.normal
-                                        : FontWeight.bold),
-                              ),
-                            ),
-                            const Padding(
-                              padding: CustomPadding.px1,
-                              child: Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: AppColors.secondary,
-                                size: 30,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    containerResponden(),
                     CustomDividers.smallDivider(),
-                    LabelInput(
-                      labelText: 'Pertanyaan',
-                      labelStyle: TextStyles.medium(color: AppColors.secondary),
-                    ),
-                    CustomDividers.verySmallDivider(),
-                    GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const QuestionOption())),
-                      child: Container(
-                        height: 60,
-                        width: double.infinity,
-                        padding: CustomPadding.p1,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: AppColors.secondary, width: 1.5),
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: CustomPadding.px1,
-                              child: Text(
-                                '$questionScope',
-                                style: TextStyles.large(
-                                    color: questionId < 1
-                                        ? AppColors.secondary
-                                        : AppColors.black,
-                                    fontWeight: questionId < 1
-                                        ? FontWeight.normal
-                                        : FontWeight.bold),
-                              ),
-                            ),
-                            const Padding(
-                              padding: CustomPadding.px1,
-                              child: Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: AppColors.secondary,
-                                size: 30,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    containerPertanyaan(),
                     CustomDividers.smallDivider(),
-                    LabelInput(
-                      labelText: 'Demografi (Optional)',
-                      labelStyle: TextStyles.medium(color: AppColors.secondary),
-                    ),
-                    CustomDividers.verySmallDivider(),
-                    GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DemographyOption())),
-                      child: Container(
-                        height: 60,
-                        width: double.infinity,
-                        padding: CustomPadding.p1,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: AppColors.secondary, width: 1.5),
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: CustomPadding.px1,
-                              child: Text(
-                                'Default : Semua Demografi',
-                                style: TextStyles.large(
-                                    color: AppColors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            const Padding(
-                              padding: CustomPadding.px1,
-                              child: Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: AppColors.secondary,
-                                size: 30,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    containerDemography(),
                     CustomDividers.smallDivider(),
-                    LabelInput(
-                      labelText: 'Kecepatan Report',
-                      labelStyle: TextStyles.medium(color: AppColors.secondary),
-                    ),
-                    CustomDividers.verySmallDivider(),
-                    GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ReportTimeOption())),
-                      child: Container(
-                        height: 60,
-                        width: double.infinity,
-                        padding: CustomPadding.p1,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: AppColors.secondary, width: 1.5),
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: CustomPadding.px1,
-                              child: Text(
-                                '$reportTimeScope',
-                                style: TextStyles.large(
-                                    color: reportTimeId < 1
-                                        ? AppColors.secondary
-                                        : AppColors.black,
-                                    fontWeight: reportTimeId < 1
-                                        ? FontWeight.normal
-                                        : FontWeight.bold),
-                              ),
-                            ),
-                            const Padding(
-                              padding: CustomPadding.px1,
-                              child: Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: AppColors.secondary,
-                                size: 30,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    containerReportTime(),
                     CustomDividers.smallDivider(),
-                    LabelInput(
-                      labelText: 'Screener',
-                      labelStyle: TextStyles.medium(color: AppColors.secondary),
-                    ),
-                    CustomDividers.verySmallDivider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                            flex: 5,
-                            child: RadioTextInput(
-                              value: 'Ya',
-                              selectedOption: screenerOptionValue,
-                              onChanged: (value) {
-                                setState(() {
-                                  screenerOptionValue = value;
-                                  setOption();
-                                });
-                              },
-                            )),
-                        Container(
-                          width: 15,
-                        ),
-                        Expanded(
-                            flex: 5,
-                            child: RadioTextInput(
-                              value: 'Tidak',
-                              selectedOption: screenerOptionValue,
-                              onChanged: (value) {
-                                setState(() {
-                                  screenerOptionValue = value;
-                                  setOption();
-                                });
-                              },
-                            )),
-                      ],
-                    ),
+                    containerScreener(),
                   ],
                 ),
               ),
@@ -511,6 +300,251 @@ class _SurveyDesignState extends State<SurveyDesign> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget containerResponden() {
+    return Column(
+      children: [
+        LabelInput(
+          labelText: 'Responden',
+          labelStyle: TextStyles.medium(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        GestureDetector(
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const RespondentOption())),
+          child: Container(
+            height: 60,
+            width: double.infinity,
+            padding: CustomPadding.p1,
+            decoration: BoxDecoration(
+                border: Border.all(color: AppColors.secondary, width: 1.5),
+                borderRadius: BorderRadius.circular(50)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: CustomPadding.px1,
+                  child: Text(
+                    '$respondentScope',
+                    style: TextStyles.large(
+                        color: respondentId < 1
+                            ? AppColors.secondary
+                            : AppColors.black,
+                        fontWeight: respondentId < 1
+                            ? FontWeight.normal
+                            : FontWeight.bold),
+                  ),
+                ),
+                const Padding(
+                  padding: CustomPadding.px1,
+                  child: Icon(
+                    Icons.keyboard_arrow_down_outlined,
+                    color: AppColors.secondary,
+                    size: 30,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget containerPertanyaan() {
+    return Column(
+      children: [
+        LabelInput(
+          labelText: 'Pertanyaan',
+          labelStyle: TextStyles.medium(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        GestureDetector(
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const QuestionOption())),
+          child: Container(
+            height: 60,
+            width: double.infinity,
+            padding: CustomPadding.p1,
+            decoration: BoxDecoration(
+                border: Border.all(color: AppColors.secondary, width: 1.5),
+                borderRadius: BorderRadius.circular(50)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: CustomPadding.px1,
+                  child: Text(
+                    '$questionScope',
+                    style: TextStyles.large(
+                        color: questionId < 1
+                            ? AppColors.secondary
+                            : AppColors.black,
+                        fontWeight: questionId < 1
+                            ? FontWeight.normal
+                            : FontWeight.bold),
+                  ),
+                ),
+                const Padding(
+                  padding: CustomPadding.px1,
+                  child: Icon(
+                    Icons.keyboard_arrow_down_outlined,
+                    color: AppColors.secondary,
+                    size: 30,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget containerDemography() {
+    return Column(
+      children: [
+        LabelInput(
+          labelText: 'Demografi (Optional)',
+          labelStyle: TextStyles.medium(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        GestureDetector(
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const DemographyOption())),
+          child: Container(
+            height: 60,
+            width: double.infinity,
+            padding: CustomPadding.p1,
+            decoration: BoxDecoration(
+                border: Border.all(color: AppColors.secondary, width: 1.5),
+                borderRadius: BorderRadius.circular(50)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: CustomPadding.px1,
+                  child: Text(
+                    'Default : Semua Demografi',
+                    style: TextStyles.large(
+                        color: AppColors.black, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const Padding(
+                  padding: CustomPadding.px1,
+                  child: Icon(
+                    Icons.keyboard_arrow_down_outlined,
+                    color: AppColors.secondary,
+                    size: 30,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget containerReportTime() {
+    return Column(
+      children: [
+        LabelInput(
+          labelText: 'Kecepatan Report',
+          labelStyle: TextStyles.medium(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        GestureDetector(
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ReportTimeOption())),
+          child: Container(
+            height: 60,
+            width: double.infinity,
+            padding: CustomPadding.p1,
+            decoration: BoxDecoration(
+                border: Border.all(color: AppColors.secondary, width: 1.5),
+                borderRadius: BorderRadius.circular(50)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: CustomPadding.px1,
+                  child: Text(
+                    '$reportTimeScope',
+                    style: TextStyles.large(
+                        color: reportTimeId < 1
+                            ? AppColors.secondary
+                            : AppColors.black,
+                        fontWeight: reportTimeId < 1
+                            ? FontWeight.normal
+                            : FontWeight.bold),
+                  ),
+                ),
+                const Padding(
+                  padding: CustomPadding.px1,
+                  child: Icon(
+                    Icons.keyboard_arrow_down_outlined,
+                    color: AppColors.secondary,
+                    size: 30,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget containerScreener() {
+    return Column(
+      children: [
+        LabelInput(
+          labelText: 'Screener',
+          labelStyle: TextStyles.medium(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+                flex: 5,
+                child: RadioTextInput(
+                  value: 'Ya',
+                  selectedOption: screenerOptionValue,
+                  onChanged: (value) {
+                    setState(() {
+                      screenerOptionValue = value;
+                      setOption();
+                    });
+                  },
+                )),
+            Container(
+              width: 15,
+            ),
+            Expanded(
+                flex: 5,
+                child: RadioTextInput(
+                  value: 'Tidak',
+                  selectedOption: screenerOptionValue,
+                  onChanged: (value) {
+                    setState(() {
+                      screenerOptionValue = value;
+                      setOption();
+                    });
+                  },
+                )),
+          ],
+        ),
+      ],
     );
   }
 

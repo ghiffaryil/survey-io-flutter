@@ -7,6 +7,9 @@ import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_verify_otp/forgot
 import 'package:survey_io/bloc/forgot_pasccode/update_passcode/update_passcode_bloc.dart';
 import 'package:survey_io/bloc/profile/get_list_city/get_list_city_bloc.dart';
 import 'package:survey_io/bloc/profile/get_list_province/get_list_province_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_list_report_time/survey_design_list_report_time_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_list_respondent/survey_design_list_respondent_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_list_scope/survey_design_list_scope_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_payment/survey_design_payment_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_submit/survey_design_submit_bloc.dart';
 import 'bloc/login/login_bloc.dart';
@@ -137,6 +140,15 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => UpdatePasscodeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListRespondentBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListReportTimeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListScopeBloc(),
         ),
       ],
       child: MaterialApp(

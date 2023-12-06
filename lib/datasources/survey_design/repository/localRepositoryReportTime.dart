@@ -22,10 +22,11 @@ class LocalRepositoryReportTime {
   Future deleteOption() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      await prefs.remove('id');
-      await prefs.remove('scope');
-      await prefs.remove('price');
-      await prefs.clear();
+      // await prefs.remove('id');
+      // await prefs.remove('scope');
+      // await prefs.remove('price');
+      //await prefs.clear();
+      await prefs.remove('ReportTimeValue');
     } catch (e) {
       print('Error deleting shared preference keys: $e');
     }

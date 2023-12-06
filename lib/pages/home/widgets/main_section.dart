@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/survey/survey_popular/survey_popular_bloc.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
-import 'package:survey_io/pages/survey/widgets/webview_survey.dart';
+// import 'package:survey_io/pages/survey/widgets/webview_survey.dart';
 
 import '../../../bloc/survey/ayo_check/survey_ayo_check_bloc.dart';
 import '../../../bloc/polling/polling_today/polling_today_bloc.dart';
@@ -36,6 +36,8 @@ class _MainSectionState extends State<MainSection> {
   bool isGuest = true;
   bool isLogged = false;
   bool _isDisposed = false;
+  String userToken = '';
+  String surveyToken = '';
 
   @override
   void dispose() {
@@ -89,6 +91,8 @@ class _MainSectionState extends State<MainSection> {
       setState(() {
         isGuest = false;
         isLogged = true;
+        userToken = token;
+        surveyToken = token.substring(7);
       });
       loadDataSource();
     }
@@ -356,17 +360,20 @@ class _MainSectionState extends State<MainSection> {
                                             fontWeight: FontWeight.normal,
                                             text: 'Ikut Survei',
                                             onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          WebviewSurvey(
-                                                              id: data
-                                                                  .survey.id,
-                                                              url: data.survey
-                                                                  .surveyLink,
-                                                              title: data.survey
-                                                                  .title)));
+                                              print(surveyToken);
+                                              print(
+                                                  '${data.survey.surveyLink}');
+                                              // Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //         builder: (context) =>
+                                              //             WebviewSurvey(
+                                              //                 id: data
+                                              //                     .survey.id,
+                                              //                 url: data.survey
+                                              //                     .surveyLink,
+                                              //                 title: data.survey
+                                              //                     .title)));
                                             }),
                                       )
                                     ],
@@ -732,7 +739,7 @@ class _MainSectionState extends State<MainSection> {
                                                                     context)
                                                                 .size
                                                                 .width *
-                                                            0.15,
+                                                            0.08,
                                                       ),
                                                       IconButton(
                                                         onPressed: () {},
@@ -759,13 +766,17 @@ class _MainSectionState extends State<MainSection> {
                                                                 text:
                                                                     'Ikut Survei',
                                                                 onPressed: () {
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                          builder: (context) => WebviewSurvey(
-                                                                              id: survey.survey.id,
-                                                                              url: survey.survey.surveyLink,
-                                                                              title: survey.survey.title)));
+                                                                  print(
+                                                                      surveyToken);
+                                                                  print(
+                                                                      '${survey.survey.surveyLink}?token=$surveyToken');
+                                                                  // Navigator.push(
+                                                                  //     context,
+                                                                  //     MaterialPageRoute(
+                                                                  //         builder: (context) => WebviewSurvey(
+                                                                  //             id: survey.survey.id,
+                                                                  //             url: survey.survey.surveyLink,
+                                                                  //             title: survey.survey.title)));
                                                                 }),
                                                       )
                                                     ],

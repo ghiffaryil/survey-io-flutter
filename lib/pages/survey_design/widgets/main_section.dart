@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_payment/survey_design_payment_bloc.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/text_button.dart';
@@ -11,11 +12,12 @@ import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/icons.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/pages/profile/edit_profile_complete.dart';
+import 'package:survey_io/pages/survey_design/survey_design.dart';
 import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 import 'package:survey_io/common/extension/helper/currency_helper.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_list/survey_design_list_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_submit/survey_design_submit_bloc.dart';
-import 'package:survey_io/pages/survey_design/survey_design_payment_webview.dart';
+import 'package:survey_io/pages/survey_design/webview_survey_design_payment.dart';
 
 class MainSectionSurveyDesign extends StatefulWidget {
   const MainSectionSurveyDesign({super.key});
@@ -35,8 +37,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Container(
-          child: BlocBuilder<SurveyDesignListBloc, SurveyDesignListState>(
+      child: BlocBuilder<SurveyDesignListBloc, SurveyDesignListState>(
         builder: (context, state) {
           return state.maybeWhen(
             orElse: () {
@@ -551,47 +552,89 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
             },
           );
         },
-      )),
+      ),
     );
   }
 
   Widget buildButtonSubmit(String mode) {
     return Container(
         child: mode == 'primary'
-            ? ButtonFilled.primary(
-                text: 'Buat Survei',
-                onPressed: () {
-                  // ignore: unnecessary_null_comparison
-                  if (ktp == null || npwp == null) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const EditProfileComplete()));
-                  } else {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const EditProfileComplete()));
-                  }
-                })
-            : TextButtonOutlined.transparent(
-                borderColor: AppColors.primary,
-                textColor: AppColors.primary,
-                text: 'Buat Survei',
-                onPressed: () {
-                  // ignore: unnecessary_null_comparison
-                  if (ktp == null || npwp == null) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const EditProfileComplete()));
-                  } else {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const EditProfileComplete()));
-                  }
-                }));
+            ? BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return ButtonFilled.primary(
+                          text: 'Buat Survei',
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EditProfileComplete()));
+                          });
+                    },
+                    loaded: (data) {
+                      return ButtonFilled.primary(
+                          text: 'Buat Survei',
+                          onPressed: () {
+                            if (data.userProfile.npwp == null &&
+                                data.userProfile.npwp == null) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EditProfileComplete()));
+                            } else {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SurveyDesign()));
+                            }
+                          });
+                    },
+                  );
+                },
+              )
+            : BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  return state.maybeWhen(orElse: () {
+                    return TextButtonOutlined.transparent(
+                        borderColor: AppColors.primary,
+                        textColor: AppColors.primary,
+                        text: 'Buat Survei',
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const EditProfileComplete()));
+                        });
+                  }, loaded: (data) {
+                    return TextButtonOutlined.transparent(
+                        borderColor: AppColors.primary,
+                        textColor: AppColors.primary,
+                        text: 'Buat Survei',
+                        onPressed: () {
+                          // ignore: unnecessary_null_comparison
+                          if (data.userProfile.ktp == null &&
+                              data.userProfile.npwp == null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EditProfileComplete()));
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SurveyDesign()));
+                          }
+                        });
+                  });
+                },
+              ));
   }
 
   void showModalSubmitConfirmation(BuildContext context, int surveyDesignId) {
@@ -599,6 +642,8 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: AppColors.white,
+          surfaceTintColor: AppColors.white,
           title: Container(
             alignment: Alignment.topRight,
             child: IconButton(
