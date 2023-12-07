@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/pages/survey_design/survey_design.dart';
 import '../../../common/components/input_field_text.dart';
 import '../../../common/components/label.dart';
@@ -6,7 +7,6 @@ import '../../../common/constants/padding.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/components/divider.dart';
 import '../../../common/constants/colors.dart';
-import '../../../common/constants/styles.dart';
 
 import '../../datasources/survey_design/repository/localRepositoryAge.dart';
 import '../../datasources/survey_design/repository/localRepositoryChildren.dart';
@@ -317,8 +317,6 @@ class _DemographyOptionState extends State<DemographyOption> {
                       editable: false,
                       hintText: 'Semua',
                       labelText: 'Usia',
-                      labelStyle: TextStyles.extraLarge(),
-                      hintStyle: TextStyles.extraLarge(color: AppColors.black),
                       keyboardType: TextInputType.text,
                       suffixIcon: Icon(
                         selectedScopeAge.isEmpty ? Icons.add : Icons.edit,
@@ -326,7 +324,7 @@ class _DemographyOptionState extends State<DemographyOption> {
                       ),
                     ),
                   ),
-                  CustomDividers.smallDivider(),
+                  CustomDividers.verySmallDivider(),
                   GestureDetector(
                     onTap: () {
                       _showModalGender(context);
@@ -336,8 +334,6 @@ class _DemographyOptionState extends State<DemographyOption> {
                       editable: false,
                       hintText: 'Semua',
                       labelText: 'Jenis Kelamin',
-                      labelStyle: TextStyles.extraLarge(),
-                      hintStyle: TextStyles.extraLarge(color: AppColors.black),
                       keyboardType: TextInputType.text,
                       suffixIcon: Icon(
                         selectedScopeGender == '' ? Icons.add : Icons.edit,
@@ -345,7 +341,7 @@ class _DemographyOptionState extends State<DemographyOption> {
                       ),
                     ),
                   ),
-                  CustomDividers.smallDivider(),
+                  CustomDividers.verySmallDivider(),
                   GestureDetector(
                     onTap: () {
                       _showModalReligion(context);
@@ -355,8 +351,6 @@ class _DemographyOptionState extends State<DemographyOption> {
                       editable: false,
                       hintText: 'Semua',
                       labelText: 'Agama',
-                      labelStyle: TextStyles.extraLarge(),
-                      hintStyle: TextStyles.extraLarge(color: AppColors.black),
                       keyboardType: TextInputType.text,
                       suffixIcon: Icon(
                         selectedScopeReligion == '' ? Icons.add : Icons.edit,
@@ -364,7 +358,7 @@ class _DemographyOptionState extends State<DemographyOption> {
                       ),
                     ),
                   ),
-                  CustomDividers.smallDivider(),
+                  CustomDividers.verySmallDivider(),
                   GestureDetector(
                     onTap: () {
                       _showModalOccupation(context);
@@ -374,8 +368,6 @@ class _DemographyOptionState extends State<DemographyOption> {
                       editable: false,
                       hintText: 'Semua',
                       labelText: 'Status Pekerjaan',
-                      labelStyle: TextStyles.extraLarge(),
-                      hintStyle: TextStyles.extraLarge(color: AppColors.black),
                       keyboardType: TextInputType.text,
                       suffixIcon: Icon(
                         selectedScopeOccupation == '' ? Icons.add : Icons.edit,
@@ -383,7 +375,7 @@ class _DemographyOptionState extends State<DemographyOption> {
                       ),
                     ),
                   ),
-                  CustomDividers.smallDivider(),
+                  CustomDividers.verySmallDivider(),
                   GestureDetector(
                     onTap: () {
                       _showModalMarital(context);
@@ -393,8 +385,6 @@ class _DemographyOptionState extends State<DemographyOption> {
                       editable: false,
                       hintText: 'Semua',
                       labelText: 'Status Pernikahan',
-                      labelStyle: TextStyles.extraLarge(),
-                      hintStyle: TextStyles.extraLarge(color: AppColors.black),
                       keyboardType: TextInputType.text,
                       suffixIcon: Icon(
                         selectedScopeMarital.isEmpty ? Icons.add : Icons.edit,
@@ -402,7 +392,7 @@ class _DemographyOptionState extends State<DemographyOption> {
                       ),
                     ),
                   ),
-                  CustomDividers.smallDivider(),
+                  CustomDividers.verySmallDivider(),
                   GestureDetector(
                     onTap: () {
                       _showModalChildren(context);
@@ -412,8 +402,6 @@ class _DemographyOptionState extends State<DemographyOption> {
                       editable: false,
                       hintText: 'Semua',
                       labelText: 'Jumlah Anak',
-                      labelStyle: TextStyles.extraLarge(),
-                      hintStyle: TextStyles.extraLarge(color: AppColors.black),
                       keyboardType: TextInputType.text,
                       suffixIcon: Icon(
                         selectedScopeChildren.isEmpty ? Icons.add : Icons.edit,
@@ -421,7 +409,7 @@ class _DemographyOptionState extends State<DemographyOption> {
                       ),
                     ),
                   ),
-                  CustomDividers.smallDivider(),
+                  CustomDividers.verySmallDivider(),
                   GestureDetector(
                     onTap: () {
                       _showModalRegion(context);
@@ -431,8 +419,6 @@ class _DemographyOptionState extends State<DemographyOption> {
                       editable: false,
                       hintText: 'Semua',
                       labelText: 'Wilayah',
-                      labelStyle: TextStyles.extraLarge(),
-                      hintStyle: TextStyles.extraLarge(color: AppColors.black),
                       keyboardType: TextInputType.text,
                       suffixIcon: Icon(
                         selectedScopeRegion == '' ? Icons.add : Icons.edit,
@@ -440,7 +426,7 @@ class _DemographyOptionState extends State<DemographyOption> {
                       ),
                     ),
                   ),
-                  CustomDividers.smallDivider(),
+                  CustomDividers.verySmallDivider(),
                   GestureDetector(
                     onTap: () {
                       _showModalIncome(context);
@@ -450,8 +436,6 @@ class _DemographyOptionState extends State<DemographyOption> {
                       editable: false,
                       hintText: 'Semua',
                       labelText: 'Pendapatan per Bulan',
-                      labelStyle: TextStyles.extraLarge(),
-                      hintStyle: TextStyles.extraLarge(color: AppColors.black),
                       keyboardType: TextInputType.text,
                       suffixIcon: Icon(
                         selectedScopeIncome.isEmpty ? Icons.add : Icons.edit,
@@ -459,7 +443,7 @@ class _DemographyOptionState extends State<DemographyOption> {
                       ),
                     ),
                   ),
-                  CustomDividers.smallDivider(),
+                  CustomDividers.verySmallDivider(),
                   GestureDetector(
                     onTap: () {
                       _showModalOutcome(context);
@@ -469,8 +453,6 @@ class _DemographyOptionState extends State<DemographyOption> {
                       editable: false,
                       hintText: 'Semua',
                       labelText: 'Pengeluaran per Bulan',
-                      labelStyle: TextStyles.extraLarge(),
-                      hintStyle: TextStyles.extraLarge(color: AppColors.black),
                       keyboardType: TextInputType.text,
                       suffixIcon: Icon(
                         selectedScopeOutcome.isEmpty ? Icons.add : Icons.edit,
@@ -478,7 +460,15 @@ class _DemographyOptionState extends State<DemographyOption> {
                       ),
                     ),
                   ),
-                  CustomDividers.mediumDivider(),
+                  CustomDividers.smallDivider(),
+                  TextButtonFilled.primary(
+                      text: 'Ok',
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SurveyDesign()));
+                      })
                 ],
               ),
             ),

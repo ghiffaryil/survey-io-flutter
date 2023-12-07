@@ -77,12 +77,13 @@ class _SurveyDesignState extends State<SurveyDesign> {
   @override
   void initState() {
     super.initState();
+    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+    deleteAllOptiondValue();
     loadData();
   }
 
   // Load All Data
   loadData() {
-    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
     getRespondentValue();
     getQuestionValue();
     getReportTimeValue();
@@ -227,21 +228,21 @@ class _SurveyDesignState extends State<SurveyDesign> {
         await demographyReligionLocalRepository.getOption();
     var demographyReligionScope = getDemographyReligionValue?['scope'];
 
-    if (demographyAgeScope == [] &&
-        demographyGenderScope == [] &&
-        demographyChildrenScope == [] &&
-        demographyIncomeScope == [] &&
-        demographyMaritalScope == [] &&
-        demographyOccupationScope == [] &&
-        demographyOutcomeScope == [] &&
-        demographyRegionScope == [] &&
-        demographyReligionScope == []) {
+    if (demographyAgeScope == null &&
+        demographyGenderScope == null &&
+        demographyChildrenScope == null &&
+        demographyIncomeScope == null &&
+        demographyMaritalScope == null &&
+        demographyOccupationScope == null &&
+        demographyOutcomeScope == null &&
+        demographyRegionScope == null &&
+        demographyReligionScope == null) {
       setState(() {
         valueTextDemography = 'Default : Semua Demografi';
       });
     } else if (demographyAgeScope == [] &&
-        demographyGenderScope == [] &&
-        demographyChildrenScope == 'Semua' &&
+        demographyGenderScope == 'Semua' &&
+        demographyChildrenScope == [] &&
         demographyIncomeScope == [] &&
         demographyMaritalScope == [] &&
         demographyOccupationScope == 'Semua' &&

@@ -23,3 +23,47 @@ return ListTile(
         }),
 );
 }
+
+// if (value == true) {
+                                    //   selectedId.add(item.id);
+                                    //   selectedScope.add(item.scope);
+                                    // } else {
+                                    //   selectedId.remove(item.id);
+                                    //   selectedScope.remove(item.scope);
+                                    // }
+                                    selectedId.sort();
+
+                                    print(selectedId);
+                                    print(selectedScope);
+
+                                    selectedScope.sort((a, b) {
+                                      final indexA = data.indexWhere(
+                                          (item) => item.scope == a);
+                                      final indexB = data.indexWhere(
+                                          (item) => item.scope == b);
+                                      return selectedId.indexOf(indexA) -
+                                          selectedId.indexOf(indexB);
+                                    });
+
+                                    // If All option selected
+                                    if (selectedId.length == data.length) {
+                                      selectAll = true;
+                                      selectedId.clear();
+                                      selectedScope.clear();
+
+                                      selectedId.add(0);
+                                      selectedScope.add('Semua');
+                                    } else if (selectedId.isEmpty) {
+                                      // If no one selected
+                                      selectAll = true;
+                                      selectedId.clear();
+                                      selectedScope.clear();
+
+                                      selectedId.add(0);
+                                      selectedScope.add('Semua');
+                                    } else {
+                                      // If at least one option selected but not of all
+                                      selectAll = false;
+                                      selectedId.remove(0);
+                                      selectedScope.remove('Semua');
+                                    }

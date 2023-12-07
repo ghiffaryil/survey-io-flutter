@@ -116,6 +116,22 @@ class _ModalOptionMaritalState extends State<ModalOptionMarital> {
                       return Text(message);
                     },
                     loaded: (data) {
+                      if (selectedId.isEmpty && selectedScope.isEmpty) {
+                        selectedId.add(0);
+                        selectedScope.add('Semua');
+                      }
+
+                      void clearSelection() {
+                        selectedId.clear();
+                        selectedScope.clear();
+                      }
+
+                      void selectAllItem() {
+                        selectAll = true;
+                        selectedId.add(0);
+                        selectedScope.add('Semua');
+                      }
+
                       return ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -144,14 +160,64 @@ class _ModalOptionMaritalState extends State<ModalOptionMarital> {
                                 value: selectedId.contains(item.id),
                                 onChanged: (bool? value) {
                                   setState(() {
+                                    // IF CHECKED
                                     if (value == true) {
                                       selectedId.add(item.id);
                                       selectedScope.add(item.scope);
                                     } else {
+                                      // IF UNCHECK
                                       selectedId.remove(item.id);
                                       selectedScope.remove(item.scope);
                                     }
+
+                                    // IF NO ONE SELECTED
+                                    if (selectedId.isEmpty) {
+                                      clearSelection();
+                                      selectAllItem();
+                                      // IF CHOOSE 'SEMUA'
+                                    } else if (item.id == 0) {
+                                      clearSelection();
+                                      selectAllItem();
+                                    } else if (selectedId.length ==
+                                            data.length - 1 &&
+                                        !selectedId.contains(0)) {
+                                      // IF ALL OPTION SELECTED
+                                      clearSelection();
+                                      selectAllItem();
+                                    } else {
+                                      // IF AT LEAST ONE OPTION SELECTED BUT NOT OF ALL
+                                      selectAll = false;
+                                      selectedId.remove(0);
+                                      selectedScope.remove('Semua');
+
+                                      int count = selectedId.length;
+                                      int firstArray = selectedId.first;
+                                      int lastArray = selectedId.last;
+
+                                      // IF CHOICE > THAN 1
+                                      if (count > 1) {
+                                        for (int i = firstArray + 1;
+                                            i <= lastArray;
+                                            i++) {
+                                          if (!selectedId.contains(i)) {
+                                            selectedId.add(i);
+                                            final correspondingScope = data
+                                                .firstWhere(
+                                                    (item) => item.id == i)
+                                                .scope;
+                                            selectedScope
+                                                .add(correspondingScope);
+                                          }
+                                        }
+                                      }
+                                    }
+
                                     selectedId.sort();
+
+                                    if (selectedId.length == data.length - 1) {
+                                      clearSelection();
+                                      selectAllItem();
+                                    }
 
                                     selectedScope.sort((a, b) {
                                       final indexA = data.indexWhere(
@@ -162,22 +228,9 @@ class _ModalOptionMaritalState extends State<ModalOptionMarital> {
                                           selectedId.indexOf(indexB);
                                     });
 
-                                    // If All option selected
-                                    if (selectedId.length == data.length) {
-                                      selectAll = true;
-                                      selectedId.clear();
-                                      selectedScope.clear();
-                                    } else if (selectedId.isEmpty) {
-                                      // If no one selected
-                                      selectAll = true;
-                                      selectedId.clear();
-                                      selectedScope.clear();
-                                    } else {
-                                      // If at least one option selected but not of all
-                                      selectAll = false;
-                                      selectedId.remove(0);
-                                      selectedScope.remove('Semua');
-                                    }
+                                    print(selectAll);
+                                    print(selectedId);
+                                    print(selectedScope);
                                   });
                                 },
                               ));
