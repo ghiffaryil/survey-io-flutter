@@ -17,7 +17,9 @@ import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryRespondent.dart';
 
 class RespondentOption extends StatefulWidget {
-  const RespondentOption({super.key});
+  final String designAction;
+
+  const RespondentOption({super.key, required this.designAction});
 
   @override
   State<RespondentOption> createState() => _RespondentOptionState();
@@ -160,7 +162,8 @@ class _RespondentOptionState extends State<RespondentOption> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SurveyDesign()));
+                                  builder: (context) => SurveyDesign(
+                                      designAction: widget.designAction)));
                         }),
                   ),
                   Container(

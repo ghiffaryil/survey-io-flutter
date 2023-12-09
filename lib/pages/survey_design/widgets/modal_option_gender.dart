@@ -25,7 +25,7 @@ class ModalOptionGender extends StatefulWidget {
 class _ModalOptionGenderState extends State<ModalOptionGender> {
   final List<DemographyGenderModel> list =
       ListDemographyGender.getDemographyGenderList();
-  final repository = LocalRepositoryDemographyGender();
+  final genderRepository = LocalRepositoryDemographyGender();
 
   // Selected Gender
   int selectedId = 0;
@@ -49,12 +49,12 @@ class _ModalOptionGenderState extends State<ModalOptionGender> {
     };
     final jsonData = jsonEncode(data);
     print(jsonData);
-    await repository.setOption(jsonData);
+    await genderRepository.setOption(jsonData);
   }
 
   // Load from Shared References
   void onLoad() async {
-    final savedData = await repository.getOption();
+    final savedData = await genderRepository.getOption();
     if (savedData != null) {
       setState(() {
         selectedId = savedData['id'];

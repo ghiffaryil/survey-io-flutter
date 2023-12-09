@@ -604,7 +604,9 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const SurveyDesign()));
+                      builder: (context) => const SurveyDesign(
+                            designAction: 'Create',
+                          )));
             },
             error: (message) {
               Fluttertoast.showToast(

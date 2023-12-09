@@ -181,8 +181,8 @@ class _InviteFriendState extends State<InviteFriend> {
                     copyTextToClipboard(data.user.refcode);
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(50)),
                         color: AppColors.primary),
@@ -190,7 +190,7 @@ class _InviteFriendState extends State<InviteFriend> {
                       children: [
                         Image.asset(
                           IconName.copyContent,
-                          width: 20,
+                          width: 17,
                         ),
                         const SizedBox(
                           width: 10,

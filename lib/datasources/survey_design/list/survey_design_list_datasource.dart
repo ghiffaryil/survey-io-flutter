@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
-import 'package:survey_io/models/survey_design/survey_design_list_response_model.dart';
+import 'package:survey_io/models/survey_design/list/survey_design_list_response_model.dart';
 
-import '../login/auth_save_local_datasource.dart';
-import '../../../common/constants/variables.dart';
+import '../../login/auth_save_local_datasource.dart';
+import '../../../../common/constants/variables.dart';
 
 class SurveyDesignListDatasource {
   Future<Either<String, SurveyDesignListResponseModel>>

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:survey_io/datasources/survey/survey_list_datasource.dart';
 
-import '../../../models/survey/survey_list_response_model.dart';
+import '../../../models/survey/list/survey_list_response_model.dart';
 
 part 'survey_list_event.dart';
 part 'survey_list_state.dart';

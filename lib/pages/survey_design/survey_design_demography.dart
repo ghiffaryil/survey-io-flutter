@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/pages/survey_design/survey_design.dart';
@@ -115,16 +117,25 @@ class _DemographyOptionState extends State<DemographyOption> {
   void loadOptionAge() async {
     final savedData = await ageRepository.getOption();
     if (savedData != null) {
-      print('Load Age Repository');
       setState(() {
         selectedIdAge = (savedData['id'] as List<dynamic>).cast<int>();
         selectedScopeAge = (savedData['scope'] as List<dynamic>).cast<String>();
         inputDemographyAge.text =
             selectedScopeAge.isEmpty ? "Semua" : selectedScopeAge.join(', ');
       });
-      print(selectedScopeAge);
+      print('Load Age Repository : $selectedScopeAge');
     } else {
       print('Age is Empty');
+      setState(() {
+        selectedIdAge.add(0);
+        selectedScopeAge.add('Semua');
+      });
+      final data = {
+        'id': selectedIdAge,
+        'scope': selectedScopeAge,
+      };
+      final jsonData = jsonEncode(data);
+      await ageRepository.setOption(jsonData);
     }
   }
 
@@ -132,7 +143,6 @@ class _DemographyOptionState extends State<DemographyOption> {
   void loadOptionGender() async {
     final savedData = await genderRepository.getOption();
     if (savedData != null) {
-      print('Load Gender Repository');
       setState(() {
         selectedIdGender = savedData['id'];
         selectedScopeGender = savedData['scope'];
@@ -142,37 +152,25 @@ class _DemographyOptionState extends State<DemographyOption> {
           inputDemographyGender.text = selectedScopeGender;
         }
       });
-      print(selectedScopeGender);
     } else {
-      print('Gender is Empty');
-    }
-  }
-
-  // Load Option Religion From Shared References
-  void loadOptionReligion() async {
-    final savedData = await religionRepository.getOption();
-    if (savedData != null) {
-      print('Load Religion Repository');
       setState(() {
-        selectedIdReligion = savedData['id'];
-        selectedScopeReligion = savedData['scope'];
-        if (selectedScopeReligion.isEmpty) {
-          inputDemographyReligion.text = "Semua";
-        } else {
-          inputDemographyReligion.text = selectedScopeReligion;
-        }
+        selectedIdGender = 0;
+        selectedScopeGender = 'Semua';
       });
-      print(selectedScopeReligion);
-    } else {
-      print('Religion is Empty');
+      final data = {
+        'id': selectedIdGender,
+        'scope': selectedScopeGender,
+      };
+      final jsonData = jsonEncode(data);
+      await genderRepository.setOption(jsonData);
     }
+    print('Load Gender Repository : $selectedScopeGender');
   }
 
   // Load Option Occupation From Shared References
   void loadOptionOccupation() async {
     final savedData = await occupationRepository.getOption();
     if (savedData != null) {
-      print('Load Occupation Repository');
       setState(() {
         selectedIdOccupation = savedData['id'];
         selectedScopeOccupation = savedData['scope'];
@@ -182,17 +180,25 @@ class _DemographyOptionState extends State<DemographyOption> {
           inputDemographyOccupation.text = selectedScopeOccupation;
         }
       });
-      print(selectedScopeOccupation);
     } else {
-      print('Occupation is Empty');
+      setState(() {
+        selectedIdOccupation = 0;
+        selectedScopeOccupation = 'Semua';
+      });
+      final data = {
+        'id': selectedIdOccupation,
+        'scope': selectedScopeOccupation,
+      };
+      final jsonData = jsonEncode(data);
+      await occupationRepository.setOption(jsonData);
     }
+    print('Load Occupation Repository : $selectedScopeOccupation');
   }
 
   // Load Option Marital From Shared References
   void loadOptionMarital() async {
     final savedData = await maritalRepository.getOption();
     if (savedData != null) {
-      print('Load Marital Repository');
       setState(() {
         selectedIdMarital = (savedData['id'] as List<dynamic>).cast<int>();
         selectedScopeMarital =
@@ -201,17 +207,25 @@ class _DemographyOptionState extends State<DemographyOption> {
             ? "Semua"
             : selectedScopeMarital.join(', ');
       });
-      print(selectedScopeMarital);
     } else {
-      print('Marital is Empty');
+      setState(() {
+        selectedIdMarital.add(0);
+        selectedScopeMarital.add('Semua');
+      });
+      final data = {
+        'id': selectedIdMarital,
+        'scope': selectedScopeMarital,
+      };
+      final jsonData = jsonEncode(data);
+      await maritalRepository.setOption(jsonData);
     }
+    print('Load Marital Repository : $selectedScopeMarital');
   }
 
   // Load Option Children From Shared References
   void loadOptionChildren() async {
     final savedData = await childrenRepository.getOption();
     if (savedData != null) {
-      print('Load Children Repository');
       setState(() {
         selectedIdChildren = (savedData['id'] as List<dynamic>).cast<int>();
         selectedScopeChildren =
@@ -220,17 +234,25 @@ class _DemographyOptionState extends State<DemographyOption> {
             ? "Semua"
             : selectedScopeChildren.join(', ');
       });
-      print(selectedScopeChildren);
     } else {
-      print('Children is Empty');
+      setState(() {
+        selectedIdChildren.add(0);
+        selectedScopeChildren.add('Semua');
+      });
+      final data = {
+        'id': selectedIdChildren,
+        'scope': selectedScopeChildren,
+      };
+      final jsonData = jsonEncode(data);
+      await childrenRepository.setOption(jsonData);
     }
+    print('Load Children Repository : $selectedScopeChildren');
   }
 
   // Load Option Region From Shared References
   void loadOptionRegion() async {
     final savedData = await regionRepository.getOption();
     if (savedData != null) {
-      print('Load Region Repository');
       setState(() {
         selectedIdRegion = savedData['id'];
         selectedScopeRegion = savedData['scope'];
@@ -240,17 +262,53 @@ class _DemographyOptionState extends State<DemographyOption> {
           inputDemographyRegion.text = selectedScopeRegion;
         }
       });
-      print(selectedScopeRegion);
     } else {
-      print('Region is Empty');
+      setState(() {
+        selectedIdRegion = 0;
+        selectedScopeRegion = 'Semua';
+      });
+      final data = {
+        'id': selectedIdRegion,
+        'scope': selectedScopeRegion,
+      };
+      final jsonData = jsonEncode(data);
+      await regionRepository.setOption(jsonData);
     }
+    print('Load Region Repository : $selectedScopeRegion');
+  }
+
+  // Load Option Religion From Shared References
+  void loadOptionReligion() async {
+    final savedData = await religionRepository.getOption();
+    if (savedData != null) {
+      setState(() {
+        selectedIdReligion = savedData['id'];
+        selectedScopeReligion = savedData['scope'];
+        if (selectedScopeReligion.isEmpty) {
+          inputDemographyReligion.text = "Semua";
+        } else {
+          inputDemographyReligion.text = selectedScopeReligion;
+        }
+      });
+    } else {
+      setState(() {
+        selectedIdReligion = 0;
+        selectedScopeReligion = 'Semua';
+      });
+      final data = {
+        'id': selectedIdReligion,
+        'scope': selectedScopeReligion,
+      };
+      final jsonData = jsonEncode(data);
+      await religionRepository.setOption(jsonData);
+    }
+    print('Load Religion Repository : $selectedScopeReligion');
   }
 
   // Load Option Income From Shared References
   void loadOptionIncome() async {
     final savedData = await incomeRepository.getOption();
     if (savedData != null) {
-      print('Load Income Repository');
       setState(() {
         selectedIdIncome = (savedData['id'] as List<dynamic>).cast<int>();
         selectedScopeIncome =
@@ -259,17 +317,25 @@ class _DemographyOptionState extends State<DemographyOption> {
             ? "Semua"
             : selectedScopeIncome.join(', ');
       });
-      print(selectedScopeIncome);
     } else {
-      print('Income is Empty');
+      setState(() {
+        selectedIdIncome.add(0);
+        selectedScopeIncome.add('Semua');
+      });
+      final data = {
+        'id': selectedIdIncome,
+        'scope': selectedScopeIncome,
+      };
+      final jsonData = jsonEncode(data);
+      await incomeRepository.setOption(jsonData);
     }
+    print('Load Income Repository : $selectedScopeIncome');
   }
 
   // Load Option Outcome From Shared References
   void loadOptionOutcome() async {
     final savedData = await outcomeRepository.getOption();
     if (savedData != null) {
-      print('Load Outcome Repository');
       setState(() {
         selectedIdOutcome = (savedData['id'] as List<dynamic>).cast<int>();
         selectedScopeOutcome =
@@ -278,10 +344,19 @@ class _DemographyOptionState extends State<DemographyOption> {
             ? "Semua"
             : selectedScopeOutcome.join(', ');
       });
-      print(selectedScopeOutcome);
     } else {
-      print('Outcome is Empty');
+      setState(() {
+        selectedIdOutcome.add(0);
+        selectedScopeOutcome.add('Semua');
+      });
+      final data = {
+        'id': selectedIdOutcome,
+        'scope': selectedScopeOutcome,
+      };
+      final jsonData = jsonEncode(data);
+      await outcomeRepository.setOption(jsonData);
     }
+    print('Load Outcome Repository : $selectedScopeOutcome');
   }
 
   @override
@@ -289,8 +364,12 @@ class _DemographyOptionState extends State<DemographyOption> {
     return Scaffold(
       appBar: PlainAppBar(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const SurveyDesign()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const SurveyDesign(
+                          designAction: 'Create',
+                        )));
           },
           leadingIcon: Icons.close,
           iconColor: AppColors.black),
@@ -467,7 +546,8 @@ class _DemographyOptionState extends State<DemographyOption> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SurveyDesign()));
+                                builder: (context) => const SurveyDesign(
+                                    designAction: 'Create')));
                       })
                 ],
               ),

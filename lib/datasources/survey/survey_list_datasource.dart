@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 
-import '../../models/survey/survey_list_response_model.dart';
+import '../../models/survey/list/survey_list_response_model.dart';
 import '../login/auth_save_local_datasource.dart';
 import '../../../common/constants/variables.dart';
 

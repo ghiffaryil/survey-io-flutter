@@ -6,7 +6,7 @@ import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 
 import '../login/auth_save_local_datasource.dart';
 import '../../../common/constants/variables.dart';
-import '../../models/survey/survey_ayocheck_response_model.dart';
+import '../../models/survey/ayo_check/survey_ayocheck_response_model.dart';
 
 class SurveyAyoCheckDatasource {
   Future<Either<String, SurveyAyoCheckResponseModel>>

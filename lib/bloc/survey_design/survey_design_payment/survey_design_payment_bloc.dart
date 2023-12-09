@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:survey_io/datasources/survey_design/survey_design_payment_link_datasource.dart';
-import 'package:survey_io/models/survey_design/survey_payment_link_response_model.dart';
+import 'package:survey_io/datasources/survey_design/payment/survey_design_payment_link_datasource.dart';
+import 'package:survey_io/models/survey_design/payment/survey_payment_link_response_model.dart';
 
 part 'survey_design_payment_event.dart';
 part 'survey_design_payment_state.dart';

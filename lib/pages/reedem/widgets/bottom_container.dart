@@ -97,8 +97,8 @@ class BottomContainer extends StatelessWidget {
                 });
           },
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.42,
-            padding: CustomPadding.pdefault,
+            height: MediaQuery.of(context).size.height * 0.45,
+            padding: CustomPadding.p2,
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 color: Colors.white),

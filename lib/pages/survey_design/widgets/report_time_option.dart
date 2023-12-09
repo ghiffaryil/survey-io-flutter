@@ -16,7 +16,9 @@ import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryReportTime.dart';
 
 class ReportTimeOption extends StatefulWidget {
-  const ReportTimeOption({super.key});
+  final String designAction;
+
+  const ReportTimeOption({super.key, required this.designAction});
 
   @override
   State<ReportTimeOption> createState() => _ReportTimeOptionState();
@@ -169,7 +171,8 @@ class _ReportTimeOptionState extends State<ReportTimeOption> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SurveyDesign()));
+                                  builder: (context) => SurveyDesign(
+                                      designAction: widget.designAction)));
                         }),
                   )
                 ],

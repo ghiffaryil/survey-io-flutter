@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:survey_io/datasources/survey/survey_ayocheck_datasource.dart';
-import 'package:survey_io/models/survey/survey_ayocheck_response_model.dart';
+import 'package:survey_io/models/survey/ayo_check/survey_ayocheck_response_model.dart';
 
 part 'survey_ayo_check_event.dart';
 part 'survey_ayo_check_state.dart';

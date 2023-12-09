@@ -16,7 +16,9 @@ import '../../../datasources/survey_design/data/list_question_value.dart';
 import '../../../datasources/survey_design/repository/localRepositoryQuestion.dart';
 
 class QuestionOption extends StatefulWidget {
-  const QuestionOption({super.key});
+  final String designAction;
+
+  const QuestionOption({super.key, required this.designAction});
 
   @override
   State<QuestionOption> createState() => _QuestionOptionState();
@@ -129,7 +131,8 @@ class _QuestionOptionState extends State<QuestionOption> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SurveyDesign()));
+                          builder: (context) =>
+                              SurveyDesign(designAction: widget.designAction)));
                 }),
           )
         ],

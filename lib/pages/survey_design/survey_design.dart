@@ -37,7 +37,9 @@ import 'package:survey_io/pages/survey_design/survey_design_demography.dart';
 // import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 
 class SurveyDesign extends StatefulWidget {
-  const SurveyDesign({super.key});
+  final String designAction;
+
+  const SurveyDesign({super.key, required this.designAction});
 
   @override
   State<SurveyDesign> createState() => _SurveyDesignState();
@@ -74,11 +76,20 @@ class _SurveyDesignState extends State<SurveyDesign> {
   final demographyRegionLocalRepository = LocalRepositoryDemographyRegion();
   final demographyReligionLocalRepository = LocalRepositoryDemographyReligion();
 
+  List demographyAgeScopeValue = [];
+  String demographyGenderScopeValue = '';
+  List demographyChildrenScopeValue = [];
+  List demographyIncomeScopeValue = [];
+  List demographyMaritalScopeValue = [];
+  String demographyOccupationScopeValue = '';
+  List demographyOutcomeScopeValue = [];
+  String demographyRegionScopeValue = '';
+  String demographyReligionScopeValue = '';
+
   @override
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
-    deleteAllOptiondValue();
     loadData();
   }
 
@@ -239,34 +250,30 @@ class _SurveyDesignState extends State<SurveyDesign> {
         demographyReligionScope == null) {
       setState(() {
         valueTextDemography = 'Default : Semua Demografi';
-      });
-    } else if (demographyAgeScope == [] &&
-        demographyGenderScope == 'Semua' &&
-        demographyChildrenScope == [] &&
-        demographyIncomeScope == [] &&
-        demographyMaritalScope == [] &&
-        demographyOccupationScope == 'Semua' &&
-        demographyOutcomeScope == [] &&
-        demographyRegionScope == 'Semua' &&
-        demographyReligionScope == 'Semua') {
-      setState(() {
-        valueTextDemography = 'Default : Semua Demografi';
+        demographyAgeScopeValue = [];
+        demographyGenderScopeValue = 'Semua';
+        demographyChildrenScopeValue = [];
+        demographyIncomeScopeValue = [];
+        demographyMaritalScopeValue = [];
+        demographyOccupationScopeValue = 'Semua';
+        demographyOutcomeScopeValue = [];
+        demographyRegionScopeValue = 'Semua';
+        demographyReligionScopeValue = 'Semua';
       });
     } else {
       setState(() {
         valueTextDemography = 'Custom';
+        demographyAgeScopeValue = demographyAgeScope;
+        demographyGenderScopeValue = demographyGenderScope;
+        demographyChildrenScopeValue = demographyChildrenScope;
+        demographyIncomeScopeValue = demographyIncomeScope;
+        demographyMaritalScopeValue = demographyMaritalScope;
+        demographyOccupationScopeValue = demographyOccupationScope;
+        demographyOutcomeScopeValue = demographyOutcomeScope;
+        demographyRegionScopeValue = demographyRegionScope;
+        demographyReligionScopeValue = demographyReligionScope;
       });
     }
-
-    print('Demography Age Scope => $demographyAgeScope');
-    print('Demography Gender scope => $demographyGenderScope');
-    print('Demography Children Scope => $demographyChildrenScope');
-    print('Demography Income Scope => $demographyIncomeScope');
-    print('Demography Marital Scope => $demographyMaritalScope');
-    print('Demography Occupation Scope => $demographyOccupationScope');
-    print('Demography Outcome Scope => $demographyOutcomeScope');
-    print('Demography Region Scope => $demographyRegionScope');
-    print('Demography Religion Scope => $demographyReligionScope');
   }
 
   // Save Screener
@@ -278,6 +285,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
     await screenerLocalRepository.setOption(setOptionJson);
   }
 
+  // DELETE ALL OPTION
   Future<void> deleteAllOptiondValue() async {
     await respondentLocalRepository.deleteOption();
     await questionLocalRepository.deleteOption();
@@ -310,32 +318,31 @@ class _SurveyDesignState extends State<SurveyDesign> {
         iconColor: AppColors.black,
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
+          Container(
+            padding: CustomPadding.px2,
             child: SingleChildScrollView(
-              child: Container(
-                padding: CustomPadding.px3,
-                child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.topCenter,
-                      child: Image.asset(
-                        Images.logoHorizontal,
-                        width: AppWidth.imageSize(context, AppWidth.large),
-                      ),
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.topCenter,
+                    child: Image.asset(
+                      Images.logoHorizontal,
+                      width: AppWidth.imageSize(context, AppWidth.large),
                     ),
-                    CustomDividers.smallDivider(),
-                    containerResponden(),
-                    CustomDividers.smallDivider(),
-                    containerPertanyaan(),
-                    CustomDividers.smallDivider(),
-                    containerDemography(),
-                    CustomDividers.smallDivider(),
-                    containerReportTime(),
-                    CustomDividers.smallDivider(),
-                    containerScreener(),
-                  ],
-                ),
+                  ),
+                  CustomDividers.smallDivider(),
+                  containerResponden(),
+                  CustomDividers.verySmallDivider(),
+                  containerPertanyaan(),
+                  CustomDividers.verySmallDivider(),
+                  containerDemography(),
+                  CustomDividers.verySmallDivider(),
+                  containerReportTime(),
+                  CustomDividers.verySmallDivider(),
+                  containerScreener(),
+                ],
               ),
             ),
           ),
@@ -392,7 +399,28 @@ class _SurveyDesignState extends State<SurveyDesign> {
                         ? TextButtonFilled.primary(
                             text: 'Bayar',
                             onPressed: () {
-                              showProceedToPaymentDialog(context);
+                              print('Option : $respondentScope');
+                              print('Option : $questionScope');
+                              print('Option : $reportTimeScope');
+                              print('Option : $screenerOptionValue');
+                              print(
+                                  'Dmography Occupation : $demographyOccupationScopeValue');
+                              print(
+                                  'Dmography Region : $demographyRegionScopeValue');
+                              print(
+                                  'Dmography Religion : $demographyReligionScopeValue');
+                              print(
+                                  'Demography Age : ${demographyAgeScopeValue.first} - ${demographyAgeScopeValue.last}');
+                              print(
+                                  'Demography Children : ${demographyChildrenScopeValue.first} - ${demographyChildrenScopeValue.last}');
+                              print(
+                                  'Demography Marital : ${demographyMaritalScopeValue.first} - ${demographyMaritalScopeValue.last}');
+                              print(
+                                  'Demography Income : ${demographyIncomeScopeValue.first} - ${demographyIncomeScopeValue.last}');
+                              print(
+                                  'Demography Outcome : ${demographyOutcomeScopeValue.first} - ${demographyOutcomeScopeValue.last}');
+
+                              // showProceedToPaymentDialog(context);
                             },
                             fontSize: 17,
                             minWidth: 20,
@@ -429,7 +457,8 @@ class _SurveyDesignState extends State<SurveyDesign> {
           onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const RespondentOption())),
+                  builder: (context) =>
+                      RespondentOption(designAction: widget.designAction))),
           child: Container(
             height: 60,
             width: double.infinity,
@@ -478,8 +507,11 @@ class _SurveyDesignState extends State<SurveyDesign> {
         ),
         CustomDividers.verySmallDivider(),
         GestureDetector(
-          onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const QuestionOption())),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      QuestionOption(designAction: widget.designAction))),
           child: Container(
             height: 60,
             width: double.infinity,
@@ -578,7 +610,9 @@ class _SurveyDesignState extends State<SurveyDesign> {
           onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const ReportTimeOption())),
+                  builder: (context) => ReportTimeOption(
+                        designAction: widget.designAction,
+                      ))),
           child: Container(
             height: 60,
             width: double.infinity,

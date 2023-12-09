@@ -589,7 +589,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const SurveyDesign()));
+                                          const SurveyDesign(designAction: 'Create',)));
                             }
                           });
                     },
@@ -629,7 +629,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const SurveyDesign()));
+                                        const SurveyDesign(designAction: 'Create',)));
                           }
                         });
                   });

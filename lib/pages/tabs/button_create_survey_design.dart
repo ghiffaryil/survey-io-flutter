@@ -58,8 +58,11 @@ class _ButtonCreateSurveyDesignState extends State<ButtonCreateSurveyDesign> {
             isLogged = true;
             isExpiredToken = false;
           });
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const SurveyDesign()));
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      const SurveyDesign(designAction: 'Create')));
         },
       );
     } else {
