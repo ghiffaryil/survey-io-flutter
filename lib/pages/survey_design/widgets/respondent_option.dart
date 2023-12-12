@@ -4,17 +4,27 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/pages/survey_design/survey_design.dart';
+import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/common/components/appbar_plain.dart';
+import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/common/components/label.dart';
+import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/styles.dart';
 
-import '../../../../common/components/elevated_button.dart';
-import '../../../../common/components/appbar_plain.dart';
-import '../../../../common/components/divider.dart';
-import '../../../../common/components/label.dart';
-import '../../../../common/constants/colors.dart';
-import '../../../../common/constants/styles.dart';
-import '../../../../common/constants/padding.dart';
-
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryPrice.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_is_calculate/survey_design_is_calculate_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_list_respondent/survey_design_list_respondent_bloc.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryRespondent.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryAge.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryChildren.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryGender.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryIncome.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryMarital.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryOccupation.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryOutcome.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryRegion.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryReligion.dart';
 
 class RespondentOption extends StatefulWidget {
   final String designAction;
@@ -32,11 +42,36 @@ class _RespondentOptionState extends State<RespondentOption> {
 
   // Get shared Preferences Class
   final _RespondentOptionRepository = LocalRepositoryRespondent();
+  final localRepositorySurceyDesignPrice = LocalRepositorySurveyDesignPrice();
+  final demographyAgeLocalRepository = LocalRepositoryDemographyAge();
+  final demographyChildrenLocalRepository = LocalRepositoryDemographyChildren();
+  final demographyGenderLocalRepository = LocalRepositoryDemographyGender();
+  final demographyIncomeLocalRepository = LocalRepositoryDemographyIncome();
+  final demographyMaritalLocalRepository = LocalRepositoryDemographyMarital();
+  final demographyOccupationLocalRepository =
+      LocalRepositoryDemographyOccupation();
+  final demographyOutcomeLocalRepository = LocalRepositoryDemographyOutcome();
+  final demographyRegionLocalRepository = LocalRepositoryDemographyRegion();
+  final demographyReligionLocalRepository = LocalRepositoryDemographyReligion();
+
+  List demographyAgeValue = [];
+  String demographyGenderValue = '';
+  List demographyChildrenValue = [];
+  List demographyIncomeValue = [];
+  List demographyMaritalValue = [];
+  String demographyOccupationValue = '';
+  List demographyOutcomeValue = [];
+  String demographyRegionValue = '';
+  String demographyReligionValue = '';
 
   @override
   void initState() {
     super.initState();
     getOption(); // Load Get Choice
+    loadData();
+  }
+
+  Future loadData() async {
     context.read<SurveyDesignListRespondentBloc>().add(
         const SurveyDesignListRespondentEvent.getSurveyDesignListRespondent());
   }
@@ -154,17 +189,55 @@ class _RespondentOptionState extends State<RespondentOption> {
                     },
                   ),
                   CustomDividers.smallDivider(),
-                  Container(
-                    padding: CustomPadding.pdefault,
-                    child: ButtonFilled.primary(
-                        text: 'OK',
-                        onPressed: () {
+                  BlocListener<SurveyDesignIsCalculateBloc,
+                      SurveyDesignIsCalculateState>(
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        orElse: () {},
+                        loaded: (data) {
+                          final setPrice = {
+                            'point': data.point,
+                            'price': data.price,
+                          };
+                          final jsonData = jsonEncode(setPrice);
+                          localRepositorySurceyDesignPrice.setOption(jsonData);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SurveyDesign(
                                       designAction: widget.designAction)));
-                        }),
+                        },
+                      );
+                    },
+                    child: Container(
+                      padding: CustomPadding.pdefault,
+                      child: BlocBuilder<SurveyDesignIsCalculateBloc,
+                          SurveyDesignIsCalculateState>(
+                        builder: (context, state) {
+                          return state.maybeWhen(
+                            orElse: () {
+                              return ButtonFilled.primary(
+                                  text: 'OK',
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SurveyDesign(
+                                                designAction:
+                                                    widget.designAction)));
+                                  });
+                            },
+                            loading: () {
+                              return ButtonFilled.primary(
+                                  text: '',
+                                  textColor: AppColors.white,
+                                  loading: true,
+                                  onPressed: () {});
+                            },
+                          );
+                        },
+                      ),
+                    ),
                   ),
                   Container(
                     padding: CustomPadding.py2,

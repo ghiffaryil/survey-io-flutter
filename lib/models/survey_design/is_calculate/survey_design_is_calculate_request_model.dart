@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class SurveyDesignCreateRequestModel {
+class SurveyDesignIsCalculateRequestModel {
   final String deviceId;
   final String type;
   final int respondent;
@@ -9,19 +9,17 @@ class SurveyDesignCreateRequestModel {
   final int totalScreener;
   final int ageStart;
   final int ageEnd;
-  final String children;
-  final String gender;
-  final String monthlyIncome;
-  final String monthlyOutcome;
-  final String marital;
-  final String occupation;
-  final String religion;
-  final String region;
-  final String province;
-  final String city;
+  final String? children;
+  final String? gender;
+  final String? monthlyIncome;
+  final String? monthlyOutcome;
+  final String? marital;
+  final String? occupation;
+  final String? religion;
+  final String? region;
   final int isCalculate;
 
-  SurveyDesignCreateRequestModel({
+  SurveyDesignIsCalculateRequestModel({
     required this.deviceId,
     required this.type,
     required this.respondent,
@@ -30,16 +28,14 @@ class SurveyDesignCreateRequestModel {
     required this.totalScreener,
     required this.ageStart,
     required this.ageEnd,
-    required this.children,
-    required this.gender,
-    required this.monthlyIncome,
-    required this.monthlyOutcome,
-    required this.marital,
-    required this.occupation,
-    required this.religion,
-    required this.region,
-    required this.province,
-    required this.city,
+    this.children,
+    this.gender,
+    this.monthlyIncome,
+    this.monthlyOutcome,
+    this.marital,
+    this.occupation,
+    this.religion,
+    this.region,
     required this.isCalculate,
   });
 
@@ -55,20 +51,19 @@ class SurveyDesignCreateRequestModel {
       "age_end": ageEnd,
       "children": children,
       "gender": gender,
-      "monthly_income": monthlyIncome,
-      "monthly_outcome": monthlyOutcome,
       "marital": marital,
       "occupation": occupation,
-      "religion": religion,
       "region": region,
-      "province": province,
-      "city": city,
+      "religion": religion,
+      "monthly_income": monthlyIncome,
+      "monthly_outcome": monthlyOutcome,
       "is_calculate": isCalculate
     };
   }
 
-  factory SurveyDesignCreateRequestModel.fromMap(Map<String, dynamic> map) {
-    return SurveyDesignCreateRequestModel(
+  factory SurveyDesignIsCalculateRequestModel.fromMap(
+      Map<String, dynamic> map) {
+    return SurveyDesignIsCalculateRequestModel(
       deviceId: map['device_id'] ?? '',
       type: map['type'] ?? '',
       respondent: map['respondent'] ?? '',
@@ -85,14 +80,12 @@ class SurveyDesignCreateRequestModel {
       occupation: map['occupation'] ?? '',
       religion: map['religion'] ?? '',
       region: map['region'] ?? '',
-      province: map['province'] ?? '',
-      city: map['city'] ?? '',
       isCalculate: map['is_calculate'] ?? '',
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory SurveyDesignCreateRequestModel.toJson(String source) =>
-      SurveyDesignCreateRequestModel.fromMap(json.decode(source));
+  factory SurveyDesignIsCalculateRequestModel.toJson(String source) =>
+      SurveyDesignIsCalculateRequestModel.fromMap(json.decode(source));
 }

@@ -189,27 +189,6 @@ class _ModalOptionMaritalState extends State<ModalOptionMarital> {
                                       selectAll = false;
                                       selectedId.remove(0);
                                       selectedScope.remove('Semua');
-
-                                      int count = selectedId.length;
-                                      int firstArray = selectedId.first;
-                                      int lastArray = selectedId.last;
-
-                                      // IF CHOICE > THAN 1
-                                      if (count > 1) {
-                                        for (int i = firstArray + 1;
-                                            i <= lastArray;
-                                            i++) {
-                                          if (!selectedId.contains(i)) {
-                                            selectedId.add(i);
-                                            final correspondingScope = data
-                                                .firstWhere(
-                                                    (item) => item.id == i)
-                                                .scope;
-                                            selectedScope
-                                                .add(correspondingScope);
-                                          }
-                                        }
-                                      }
                                     }
 
                                     selectedId.sort();
