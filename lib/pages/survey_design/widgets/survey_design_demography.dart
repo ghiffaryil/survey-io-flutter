@@ -1,53 +1,54 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/text_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/common/constants/function/get_split_strip_value.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryPrice.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryQuestion.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryReportTime.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryRespondent.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryScreener.dart';
 import 'package:survey_io/pages/survey_design/survey_design.dart';
-import '../../../common/components/input_field_text.dart';
-import '../../../common/components/label.dart';
-import '../../../common/constants/padding.dart';
-import '../../../common/components/appbar_plain.dart';
-import '../../../common/components/divider.dart';
-import '../../../common/constants/colors.dart';
+import 'package:survey_io/common/components/input_field_text.dart';
+import 'package:survey_io/common/components/label.dart';
+import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/common/components/appbar_plain.dart';
+import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_is_calculate/survey_design_is_calculate_bloc.dart';
+import 'package:survey_io/models/survey_design/is_calculate/survey_design_is_calculate_request_model.dart';
 
-import '../../datasources/survey_design/repository/localRepositoryAge.dart';
-import '../../datasources/survey_design/repository/localRepositoryChildren.dart';
-import '../../datasources/survey_design/repository/localRepositoryGender.dart';
-import '../../datasources/survey_design/repository/localRepositoryIncome.dart';
-import '../../datasources/survey_design/repository/localRepositoryOccupation.dart';
-import '../../datasources/survey_design/repository/localRepositoryOutcome.dart';
-import '../../datasources/survey_design/repository/localRepositoryRegion.dart';
-import '../../datasources/survey_design/repository/localRepositoryReligion.dart';
-import '../../datasources/survey_design/repository/localRepositoryMarital.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryAge.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryChildren.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryGender.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryIncome.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryOccupation.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryOutcome.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryRegion.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryReligion.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryMarital.dart';
 
-import 'widgets/modal_option_age.dart';
-import 'widgets/modal_option_gender.dart';
-import 'widgets/modal_option_income.dart';
-import 'widgets/modal_option_marital.dart';
-import 'widgets/modal_option_outcome.dart';
-import 'widgets/modal_option_region.dart';
-import 'widgets/modal_option_religion.dart';
-import 'widgets/modal_option_occupation.dart';
-import 'widgets/modal_option_children.dart';
+import 'modal_option_age.dart';
+import 'modal_option_gender.dart';
+import 'modal_option_income.dart';
+import 'modal_option_marital.dart';
+import 'modal_option_outcome.dart';
+import 'modal_option_region.dart';
+import 'modal_option_religion.dart';
+import 'modal_option_occupation.dart';
+import 'modal_option_children.dart';
 
 class DemographyOption extends StatefulWidget {
-  const DemographyOption({super.key});
+  final String designAction;
+
+  const DemographyOption({super.key, required this.designAction});
 
   @override
   State<DemographyOption> createState() => _DemographyOptionState();
 }
 
 class _DemographyOptionState extends State<DemographyOption> {
-  final ageRepository = LocalRepositoryDemographyAge();
-  final genderRepository = LocalRepositoryDemographyGender();
-  final religionRepository = LocalRepositoryDemographyReligion();
-  final occupationRepository = LocalRepositoryDemographyOccupation();
-  final maritalRepository = LocalRepositoryDemographyMarital();
-  final childrenRepository = LocalRepositoryDemographyChildren();
-  final regionRepository = LocalRepositoryDemographyRegion();
-  final incomeRepository = LocalRepositoryDemographyIncome();
-  final outcomeRepository = LocalRepositoryDemographyOutcome();
-
   // Text Editing
   TextEditingController inputDemographyAge = TextEditingController();
   TextEditingController inputDemographyGender = TextEditingController();
@@ -59,62 +60,195 @@ class _DemographyOptionState extends State<DemographyOption> {
   TextEditingController inputDemographyIncome = TextEditingController();
   TextEditingController inputDemographyOutcome = TextEditingController();
 
-  // Variabel
+  // Get shared Preferences Class
+  final respondentRepository = LocalRepositoryRespondent();
+  final questionRepository = LocalRepositoryQuestion();
+  final reportTimeRepository = LocalRepositoryReportTime();
+  final screenerRepository = LocalRepositoryScreener();
+  final ageRepository = LocalRepositoryDemographyAge();
+  final childrenRepository = LocalRepositoryDemographyChildren();
+  final genderRepository = LocalRepositoryDemographyGender();
+  final maritalRepository = LocalRepositoryDemographyMarital();
+  final occupationRepository = LocalRepositoryDemographyOccupation();
+  final regionRepository = LocalRepositoryDemographyRegion();
+  final religionRepository = LocalRepositoryDemographyReligion();
+  final incomeRepository = LocalRepositoryDemographyIncome();
+  final outcomeRepository = LocalRepositoryDemographyOutcome();
+  final surveyDesignPriceRepository = LocalRepositorySurveyDesignPrice();
+
+  int totalPrice = 0;
+  int respondentId = 0;
+  int respondentValue = 0;
+  int questionId = 0;
+  int totalQuestionValue = 0;
+  int reportTimeId = 0;
+  int reportTimeValue = 0;
+  int reportTimePrice = 0;
+  int totalScreener = 0;
+  int firstAgeValue = 0;
+  int lastAgeValue = 0;
+  int selectedIdGender = 0;
+  int selectedIdReligion = 0;
+  int selectedIdOccupation = 0;
+  int selectedIdRegion = 0;
+
+  dynamic respondentScope;
+  dynamic totalQuestionScope;
+  dynamic reportTimeScope;
+
   List<String> selectedScopeAge = [];
   List<int> selectedIdAge = [];
-
-  int selectedIdGender = 0;
-  String selectedScopeGender = '';
-
-  int selectedIdReligion = 0;
-  String selectedScopeReligion = '';
-
-  int selectedIdOccupation = 0;
-  String selectedScopeOccupation = '';
-
   List<String> selectedScopeMarital = [];
   List<int> selectedIdMarital = [];
-
   List<String> selectedScopeChildren = [];
   List<int> selectedIdChildren = [];
-
-  int selectedIdRegion = 0;
-  String selectedScopeRegion = '';
-
   List<String> selectedScopeIncome = [];
   List<int> selectedIdIncome = [];
-
   List<String> selectedScopeOutcome = [];
   List<int> selectedIdOutcome = [];
+
+  String formatterRupiahPrice = '';
+  String screenerOptionValue = '';
+  String selectedScopeGender = '';
+  String selectedScopeReligion = '';
+  String selectedScopeOccupation = '';
+  String selectedScopeRegion = '';
+  String firstIncomeValue = '';
+  String lastIncomeValue = '';
+  String firstOutcomeValue = '';
+  String lastOutcomeValue = '';
 
   @override
   void initState() {
     super.initState();
-    loadOptionAge();
-    loadOptionGender();
-    loadOptionReligion();
-    loadOptionOccupation();
-    loadOptionMarital();
-    loadOptionChildren();
-    loadOptionRegion();
-    loadOptionIncome();
-    loadOptionOutcome();
+    loadData();
   }
 
-  void updateState() {
-    loadOptionAge();
-    loadOptionGender();
-    loadOptionReligion();
-    loadOptionOccupation();
-    loadOptionMarital();
-    loadOptionChildren();
-    loadOptionRegion();
-    loadOptionIncome();
-    loadOptionOutcome();
+  void loadData() {
+    getRespondentOption();
+    getQuestionOption();
+    getReportTimeOption();
+    getScreenerOption();
+    getAgeOption();
+    getGenderOption();
+    getReligionOption();
+    getOccupationOption();
+    getMaritalOption();
+    getChildrenOption();
+    getRegionOption();
+    getIncomeOption();
+    getOutcomeOption();
   }
 
-  // Load Option Age From Shared References
-  void loadOptionAge() async {
+  // GET RESPONDENT OPTION
+  Future getRespondentOption() async {
+    final getOptionValue = await respondentRepository.getOption();
+
+    if (getOptionValue != null) {
+      if (getOptionValue['id'] == null || getOptionValue['scope'] == null) {
+        setState(() {
+          respondentId = 0;
+          respondentScope = 'Pilih Jumlah Responden';
+          respondentValue = 0;
+        });
+      } else {
+        setState(() {
+          respondentId = getOptionValue['id'];
+          respondentScope = getOptionValue['scope'];
+          respondentValue = getOptionValue['scope'];
+        });
+      }
+    } else {
+      setState(() {
+        respondentId = 0;
+        respondentScope = 'Pilih Jumlah Responden';
+        respondentValue = 0;
+      });
+    }
+    // print('Load Respondent Repository : $respondentScope');
+  }
+
+  // GET QUESTION OPTION
+  Future getQuestionOption() async {
+    final getOptionValue = await questionRepository.getOption();
+
+    if (getOptionValue != null) {
+      if (getOptionValue['id'] == null || getOptionValue['scope'] == null) {
+        setState(() {
+          questionId = 0;
+          totalQuestionScope = 'Pilih Jumlah Pertanyaan';
+          totalQuestionValue = 0;
+        });
+      } else {
+        setState(() {
+          questionId = getOptionValue['id'];
+          totalQuestionScope = getOptionValue['scope'];
+          totalQuestionValue = getOptionValue['scope'];
+        });
+      }
+    } else {
+      setState(() {
+        questionId = 0;
+        totalQuestionScope = 'Pilih Jumlah Pertanyaan';
+      });
+    }
+    // print('Load Question Repository : $totalQuestionScope');
+  }
+
+  // GET REPORT TIME OPTION
+  Future getReportTimeOption() async {
+    final getOptionValue = await reportTimeRepository.getOption();
+
+    if (getOptionValue != null) {
+      if (getOptionValue['id'] == null || getOptionValue['scope'] == null) {
+        setState(() {
+          reportTimeId = 0;
+          reportTimeScope = 'Pilih Durasi Report';
+          reportTimeValue = 0;
+        });
+      } else {
+        setState(() {
+          reportTimeId = getOptionValue['id'];
+          reportTimeScope = getOptionValue['scope'];
+          reportTimeValue = int.parse(reportTimeScope);
+        });
+      }
+    } else {
+      setState(() {
+        reportTimeId = 0;
+        reportTimeScope = 'Pilih Durasi Report';
+        reportTimeValue = 0;
+      });
+    }
+    // print('Load Report Time Repository : $reportTimeScope');
+  }
+
+  // GET SCREENER OPTION
+  Future getScreenerOption() async {
+    final getOptionValue = await screenerRepository.getOption();
+
+    if (getOptionValue != null) {
+      if (getOptionValue['scope'] == null) {
+        setState(() {
+          screenerOptionValue = '';
+          totalScreener = 0;
+        });
+      } else {
+        setState(() {
+          screenerOptionValue = getOptionValue['scope'];
+          totalScreener = 1;
+        });
+      }
+    } else {
+      setState(() {
+        screenerOptionValue = '';
+        totalScreener = 0;
+      });
+    }
+  }
+
+  // GET Age OPTION
+  void getAgeOption() async {
     final savedData = await ageRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -137,10 +271,33 @@ class _DemographyOptionState extends State<DemographyOption> {
       final jsonData = jsonEncode(data);
       await ageRepository.setOption(jsonData);
     }
+
+    // SET FIRST & LAST VALUE OF AGE
+    setState(() {
+      print('selectedScopeAge' + selectedScopeAge.first);
+
+      if (getFirstValue(selectedScopeAge.first) == 'Semua') {
+        firstAgeValue = 1;
+      } else if (selectedScopeAge.first == '<20') {
+        firstAgeValue = 1;
+      } else {
+        firstAgeValue = int.tryParse(getFirstValue(selectedScopeAge.first))!;
+      }
+
+      print('firstAgeValue' + firstAgeValue.toString());
+
+      if (getLastValue(selectedScopeAge.last) == 'Semua') {
+        lastAgeValue = 99;
+      } else if (selectedScopeAge.last == '<20') {
+        lastAgeValue = 99;
+      } else {
+        lastAgeValue = int.tryParse(getLastValue(selectedScopeAge.last))!;
+      }
+    });
   }
 
-  // Load Option Gender From Shared References
-  void loadOptionGender() async {
+  // GET Gender OPTION
+  void getGenderOption() async {
     final savedData = await genderRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -167,8 +324,8 @@ class _DemographyOptionState extends State<DemographyOption> {
     print('Load Gender Repository : $selectedScopeGender');
   }
 
-  // Load Option Occupation From Shared References
-  void loadOptionOccupation() async {
+  // GET Occupation OPTION
+  void getOccupationOption() async {
     final savedData = await occupationRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -195,8 +352,8 @@ class _DemographyOptionState extends State<DemographyOption> {
     print('Load Occupation Repository : $selectedScopeOccupation');
   }
 
-  // Load Option Marital From Shared References
-  void loadOptionMarital() async {
+  // GET Marital OPTION
+  void getMaritalOption() async {
     final savedData = await maritalRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -222,8 +379,8 @@ class _DemographyOptionState extends State<DemographyOption> {
     print('Load Marital Repository : $selectedScopeMarital');
   }
 
-  // Load Option Children From Shared References
-  void loadOptionChildren() async {
+  // GET Children OPTION
+  void getChildrenOption() async {
     final savedData = await childrenRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -249,8 +406,8 @@ class _DemographyOptionState extends State<DemographyOption> {
     print('Load Children Repository : $selectedScopeChildren');
   }
 
-  // Load Option Region From Shared References
-  void loadOptionRegion() async {
+  // GET Region OPTION
+  void getRegionOption() async {
     final savedData = await regionRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -277,8 +434,8 @@ class _DemographyOptionState extends State<DemographyOption> {
     print('Load Region Repository : $selectedScopeRegion');
   }
 
-  // Load Option Religion From Shared References
-  void loadOptionReligion() async {
+  // GET Religion OPTION
+  void getReligionOption() async {
     final savedData = await religionRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -305,8 +462,8 @@ class _DemographyOptionState extends State<DemographyOption> {
     print('Load Religion Repository : $selectedScopeReligion');
   }
 
-  // Load Option Income From Shared References
-  void loadOptionIncome() async {
+  // GET Income OPTION
+  void getIncomeOption() async {
     final savedData = await incomeRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -329,11 +486,15 @@ class _DemographyOptionState extends State<DemographyOption> {
       final jsonData = jsonEncode(data);
       await incomeRepository.setOption(jsonData);
     }
+    setState(() {
+      firstIncomeValue = getFirstValue(selectedScopeIncome.first);
+      lastIncomeValue = getLastValue(selectedScopeIncome.last);
+    });
     print('Load Income Repository : $selectedScopeIncome');
   }
 
-  // Load Option Outcome From Shared References
-  void loadOptionOutcome() async {
+  // GET Outcome OPTION
+  void getOutcomeOption() async {
     final savedData = await outcomeRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -356,6 +517,10 @@ class _DemographyOptionState extends State<DemographyOption> {
       final jsonData = jsonEncode(data);
       await outcomeRepository.setOption(jsonData);
     }
+    setState(() {
+      firstOutcomeValue = getFirstValue(selectedScopeOutcome.first);
+      lastOutcomeValue = getLastValue(selectedScopeOutcome.last);
+    });
     print('Load Outcome Repository : $selectedScopeOutcome');
   }
 
@@ -540,15 +705,103 @@ class _DemographyOptionState extends State<DemographyOption> {
                     ),
                   ),
                   CustomDividers.smallDivider(),
-                  TextButtonFilled.primary(
-                      text: 'Ok',
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SurveyDesign(
-                                    designAction: 'Create')));
-                      })
+                  BlocListener<SurveyDesignIsCalculateBloc,
+                      SurveyDesignIsCalculateState>(
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        orElse: () {},
+                        loaded: (data) {
+                          final setPrice = {
+                            'point': data.point,
+                            'price': data.price,
+                          };
+                          final jsonData = jsonEncode(setPrice);
+                          surveyDesignPriceRepository.setOption(jsonData);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SurveyDesign(
+                                      designAction: widget.designAction)));
+                        },
+                      );
+                    },
+                    child: BlocBuilder<SurveyDesignIsCalculateBloc,
+                        SurveyDesignIsCalculateState>(
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          orElse: () {
+                            return ButtonFilled.primary(
+                              text: 'Ok',
+                              onPressed: () {
+                                if (respondentValue > 0 &&
+                                    totalQuestionValue > 0 &&
+                                    reportTimeValue > 0) {
+                                  final requestModel = SurveyDesignIsCalculateRequestModel(
+                                      deviceId: 'xx001',
+                                      type: 'Publik',
+                                      respondent: respondentValue,
+                                      totalQuestion: totalQuestionValue,
+                                      reportTime: reportTimeValue,
+                                      totalScreener: totalScreener,
+                                      ageStart: firstAgeValue,
+                                      ageEnd: lastAgeValue,
+                                      children: selectedScopeChildren.first ==
+                                              'Semua'
+                                          ? null
+                                          : '${selectedScopeChildren.first} - ${selectedScopeChildren.last}',
+                                      gender: selectedScopeGender == 'Semua'
+                                          ? null
+                                          : selectedScopeGender,
+                                      marital: selectedScopeMarital.first ==
+                                              'Semua'
+                                          ? null
+                                          : '${selectedScopeMarital.first} - ${selectedScopeMarital.last}',
+                                      occupation:
+                                          selectedScopeOccupation == 'Semua'
+                                              ? null
+                                              : selectedScopeOccupation,
+                                      region: selectedScopeRegion == 'Semua'
+                                          ? null
+                                          : selectedScopeRegion,
+                                      religion: selectedScopeReligion == 'Semua'
+                                          ? null
+                                          : selectedScopeReligion,
+                                      monthlyIncome: firstIncomeValue == 'Semua'
+                                          ? null
+                                          : '$firstIncomeValue - $lastIncomeValue',
+                                      monthlyOutcome: firstOutcomeValue ==
+                                              'Semua'
+                                          ? null
+                                          : '$firstOutcomeValue - $lastOutcomeValue',
+                                      isCalculate: 1);
+
+                                  context
+                                      .read<SurveyDesignIsCalculateBloc>()
+                                      .add(SurveyDesignIsCalculateEvent
+                                          .isCalculate(requestModel));
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => SurveyDesign(
+                                              designAction:
+                                                  widget.designAction)));
+                                }
+                              },
+                            );
+                          },
+                          loading: () {
+                            return ButtonFilled.primary(
+                              text: '',
+                              onPressed: () {},
+                              loading: true,
+                              textColor: Colors.white,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -570,7 +823,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       builder: (BuildContext context) {
         return ModalOptionAge(
           onUpdate: () {
-            updateState();
+            loadData();
           },
         );
       },
@@ -589,7 +842,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       builder: (BuildContext context) {
         return ModalOptionGender(
           onUpdate: () {
-            updateState();
+            loadData();
           },
         );
       },
@@ -608,7 +861,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       builder: (BuildContext context) {
         return ModalOptionReligion(
           onUpdate: () {
-            updateState();
+            loadData();
           },
         );
       },
@@ -627,7 +880,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       builder: (BuildContext context) {
         return ModalOptionOccupation(
           onUpdate: () {
-            updateState();
+            loadData();
           },
         );
       },
@@ -646,7 +899,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       builder: (BuildContext context) {
         return ModalOptionMarital(
           onUpdate: () {
-            updateState();
+            loadData();
           },
         );
       },
@@ -665,7 +918,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       builder: (BuildContext context) {
         return ModalOptionChildren(
           onUpdate: () {
-            updateState();
+            loadData();
           },
         );
       },
@@ -684,7 +937,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       builder: (BuildContext context) {
         return ModalOptionRegion(
           onUpdate: () {
-            updateState();
+            loadData();
           },
         );
       },
@@ -703,7 +956,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       builder: (BuildContext context) {
         return ModalOptionIncome(
           onUpdate: () {
-            updateState();
+            loadData();
           },
         );
       },
@@ -722,7 +975,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       builder: (BuildContext context) {
         return ModalOptionOutcome(
           onUpdate: () {
-            updateState();
+            loadData();
           },
         );
       },

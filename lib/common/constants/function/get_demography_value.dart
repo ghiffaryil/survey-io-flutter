@@ -1,22 +1,8 @@
-// ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables
-
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:survey_io/bloc/survey_design/survey_design_is_calculate/survey_design_is_calculate_bloc.dart';
 import 'package:survey_io/common/constants/function/get_split_strip_value.dart';
-import 'package:survey_io/models/survey_design/is_calculate/survey_design_is_calculate_request_model.dart';
-import 'package:survey_io/pages/survey_design/survey_design.dart';
-import 'package:survey_io/common/components/appbar_plain.dart';
-import 'package:survey_io/common/components/divider.dart';
-import 'package:survey_io/common/components/label.dart';
-import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/common/constants/padding.dart';
-import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/common/extension/helper/currency_helper.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryScreener.dart';
-import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_list_report_time/survey_design_list_report_time_bloc.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryReportTime.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryQuestion.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryPrice.dart';
@@ -31,21 +17,27 @@ import 'package:survey_io/datasources/survey_design/repository/localRepositoryOu
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryRegion.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryReligion.dart';
 
-class ReportTimeOption extends StatefulWidget {
-  final String designAction;
-
-  const ReportTimeOption({super.key, required this.designAction});
+class GetDemographyValue extends StatefulWidget {
+  const GetDemographyValue({super.key});
 
   @override
-  State<ReportTimeOption> createState() => _ReportTimeOptionState();
+  State<GetDemographyValue> createState() => _GetDemographyValueState();
+
 }
 
-class _ReportTimeOptionState extends State<ReportTimeOption> {
-  int? selectedId;
-  var selectedScope;
-  int? selectedPrice;
-
-  final _ReportTimeOptionRepository = LocalRepositoryReportTime();
+class _GetDemographyValueState extends State<GetDemographyValue> {
+  // Load Data
+  Future loadData() async {
+    getRespondentOption();
+    getQuestionOption();
+    getReportTimeOption();
+    getScreenerOption();
+    getAgeOption();
+    getGenderOption();
+    getOccupationOption();
+    getMaritalOption();
+    getChildrenOption();
+  }
 
   final respondentRepository = LocalRepositoryRespondent();
   final questionRepository = LocalRepositoryQuestion();
@@ -103,28 +95,6 @@ class _ReportTimeOptionState extends State<ReportTimeOption> {
   String lastIncomeValue = '';
   String firstOutcomeValue = '';
   String lastOutcomeValue = '';
-
-  @override
-  void initState() {
-    super.initState();
-    getOption();
-    context.read<SurveyDesignListReportTimeBloc>().add(
-        const SurveyDesignListReportTimeEvent.getSurveyDesignListReportTime());
-    loadData();
-  }
-
-  // Load Data
-  Future loadData() async {
-    getRespondentOption();
-    getQuestionOption();
-    getReportTimeOption();
-    getScreenerOption();
-    getAgeOption();
-    getGenderOption();
-    getOccupationOption();
-    getMaritalOption();
-    getChildrenOption();
-  }
 
   // GET RESPONDENT OPTION
   Future getRespondentOption() async {
@@ -258,17 +228,13 @@ class _ReportTimeOptionState extends State<ReportTimeOption> {
     setState(() {
       if (getFirstValue(selectedScopeAge.first) == 'Semua') {
         firstAgeValue = 1;
-      } else if (selectedScopeAge.first == '<20') {
-        firstAgeValue = 1;
-      }  else {
+      } else {
         firstAgeValue = int.tryParse(getFirstValue(selectedScopeAge.first))!;
       }
 
       if (getLastValue(selectedScopeAge.last) == 'Semua') {
         lastAgeValue = 99;
-      } else if (selectedScopeAge.last == '<20') {
-        lastAgeValue = 99;
-      }  else {
+      } else {
         lastAgeValue = int.tryParse(getLastValue(selectedScopeAge.last))!;
       }
     });
@@ -472,237 +438,8 @@ class _ReportTimeOptionState extends State<ReportTimeOption> {
     // print('Load Outcome Repository : $selectedScopeOutcome');
   }
 
-  // LOAD OPTION
-  Future getOption() async {
-    final getOptionValue = await _ReportTimeOptionRepository.getOption();
-
-    if (getOptionValue != null) {
-      if (getOptionValue['id'] != null || getOptionValue['scope'] != null) {
-        setState(() {
-          selectedId = getOptionValue['id'];
-          selectedScope = getOptionValue['scope'];
-          selectedPrice = getOptionValue['Price'];
-        });
-      } else {
-        setState(() {
-          selectedId = 0;
-          selectedPrice = 0;
-          selectedScope = 'Pilih Durasi Report';
-        });
-      }
-    }
-  }
-
-  // SAVE OPTION
-  Future<void> setOption() async {
-    var setOptionValue = {
-      'id': selectedId,
-      'scope': selectedScope,
-      'price': selectedPrice,
-    };
-    String setOptionValueJson = jsonEncode(setOptionValue);
-
-    try {
-      await _ReportTimeOptionRepository.setOption(setOptionValueJson);
-      print('setOptionValueJson: $setOptionValueJson');
-      getReportTimeOption();
-    } catch (e) {
-      print('Error saving setOptionValue: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PlainAppBar(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          leadingIcon: Icons.close,
-          iconColor: AppColors.black),
-      body: Column(
-        children: [
-          Container(
-            padding: CustomPadding.p2,
-            child: LabelInput(
-                labelText: 'Durasi Report', labelStyle: TextStyles.h3()),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  BlocBuilder<SurveyDesignListReportTimeBloc,
-                      SurveyDesignListReportTimeState>(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        orElse: () {
-                          return Container();
-                        },
-                        loading: () {
-                          return Container();
-                        },
-                        error: (message) {
-                          return Text(message);
-                        },
-                        loaded: (data) {
-                          return ListView.separated(
-                            shrinkWrap: true,
-                            itemCount: data.length,
-                            separatorBuilder: ((context, index) {
-                              return const Divider(
-                                thickness: 0.3,
-                              );
-                            }),
-                            itemBuilder: (context, index) {
-                              final dataReportTime = data[index];
-
-                              String? formatterRupiahPrice;
-                              formatterRupiahPrice = formatCurrency(
-                                  dataReportTime.price.toDouble());
-
-                              return ListTile(
-                                dense: true,
-                                title: Text(
-                                  dataReportTime.scope,
-                                  style: TextStyles.medium(),
-                                ),
-                                leading: Radio(
-                                  activeColor: AppColors.primary,
-                                  value: dataReportTime.id,
-                                  groupValue: selectedId,
-                                  onChanged: (value) {
-                                    // Update Data
-                                    setState(() {
-                                      selectedId = value!; // Update selected id
-                                      selectedScope = dataReportTime
-                                          .scope; // Update selected scope
-                                      selectedPrice = dataReportTime
-                                          .price; // Update selected scope
-                                      setOption(); // Save to Shared Preferences
-                                    });
-                                  },
-                                ),
-                                trailing: Text(
-                                  '$formatterRupiahPrice,-', // Use formatterRupiahPrice
-                                  style: TextStyles.medium(),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  CustomDividers.smallDivider(),
-                  BlocListener<SurveyDesignIsCalculateBloc,
-                      SurveyDesignIsCalculateState>(
-                    listener: (context, state) {
-                      state.maybeWhen(
-                        orElse: () {},
-                        loaded: (data) {
-                          final setPrice = {
-                            'point': data.point,
-                            'price': data.price,
-                          };
-                          final jsonData = jsonEncode(setPrice);
-                          surveyDesignPriceRepository.setOption(jsonData);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SurveyDesign(
-                                      designAction: widget.designAction)));
-                        },
-                      );
-                    },
-                    child: Container(
-                        padding: CustomPadding.pdefault,
-                        child: BlocBuilder<SurveyDesignIsCalculateBloc,
-                            SurveyDesignIsCalculateState>(
-                          builder: (context, state) {
-                            return state.maybeWhen(
-                              orElse: () {
-                                return ButtonFilled.primary(
-                                  text: 'Ok',
-                                  onPressed: () {
-                                    if (respondentValue > 0 &&
-                                        totalQuestionValue > 0 &&
-                                        reportTimeValue > 0) {
-                                      final requestModel = SurveyDesignIsCalculateRequestModel(
-                                          deviceId: 'xx001',
-                                          type: 'Publik',
-                                          respondent: respondentValue,
-                                          totalQuestion: totalQuestionValue,
-                                          reportTime: reportTimeValue,
-                                          totalScreener: totalScreener,
-                                          ageStart: firstAgeValue,
-                                          ageEnd: lastAgeValue,
-                                          children: selectedScopeChildren
-                                                      .first ==
-                                                  'Semua'
-                                              ? null
-                                              : '${selectedScopeChildren.first} - ${selectedScopeChildren.last}',
-                                          gender: selectedScopeGender == 'Semua'
-                                              ? null
-                                              : selectedScopeGender,
-                                          marital: selectedScopeMarital.first ==
-                                                  'Semua'
-                                              ? null
-                                              : '${selectedScopeMarital.first} - ${selectedScopeMarital.last}',
-                                          occupation:
-                                              selectedScopeOccupation == 'Semua'
-                                                  ? null
-                                                  : selectedScopeOccupation,
-                                          region: selectedScopeRegion == 'Semua'
-                                              ? null
-                                              : selectedScopeRegion,
-                                          religion:
-                                              selectedScopeReligion == 'Semua'
-                                                  ? null
-                                                  : selectedScopeReligion,
-                                          monthlyIncome: firstIncomeValue ==
-                                                  'Semua'
-                                              ? null
-                                              : '$firstIncomeValue - $lastIncomeValue',
-                                          monthlyOutcome: firstOutcomeValue ==
-                                                  'Semua'
-                                              ? null
-                                              : '$firstOutcomeValue - $lastOutcomeValue',
-                                          isCalculate: 1);
-
-                                      context
-                                          .read<SurveyDesignIsCalculateBloc>()
-                                          .add(SurveyDesignIsCalculateEvent
-                                              .isCalculate(requestModel));
-                                    } else {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SurveyDesign(
-                                                      designAction: widget
-                                                          .designAction)));
-                                    }
-                                  },
-                                );
-                              },
-                              loading: () {
-                                return ButtonFilled.primary(
-                                  text: '',
-                                  onPressed: () {},
-                                  loading: true,
-                                  textColor: Colors.white,
-                                );
-                              },
-                            );
-                          },
-                        )),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    return const Placeholder();
   }
 }
