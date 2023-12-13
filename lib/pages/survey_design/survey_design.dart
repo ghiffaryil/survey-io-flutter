@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:survey_io/common/constants/function/get_split_strip_value.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_is_create/survey_design_is_create_bloc.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryPrice.dart';
-import 'package:survey_io/models/survey_design/is_calculate/survey_design_is_calculate_request_model.dart';
-import 'package:survey_io/bloc/survey_design/survey_design_is_calculate/survey_design_is_calculate_bloc.dart';
+import 'package:survey_io/common/constants/function/get_split_strip_value.dart';
 import 'package:survey_io/common/components/input_field_radio.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/appbar_plain.dart';
@@ -15,6 +14,7 @@ import 'package:survey_io/common/constants/images.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/imageSize.dart';
+import 'package:survey_io/models/survey_design/is_create/survey_design_is_create_request_model.dart';
 import 'package:survey_io/pages/payment/payment_method.dart';
 import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 import 'package:survey_io/common/extension/helper/currency_helper.dart';
@@ -47,6 +47,7 @@ class SurveyDesign extends StatefulWidget {
 
 class _SurveyDesignState extends State<SurveyDesign> {
   String valueTextDemography = 'Default : Semua Demografi';
+  // Get shared Preferences Class
   final respondentRepository = LocalRepositoryRespondent();
   final questionRepository = LocalRepositoryQuestion();
   final reportTimeRepository = LocalRepositoryReportTime();
@@ -64,15 +65,19 @@ class _SurveyDesignState extends State<SurveyDesign> {
 
   int totalPrice = 0;
   int respondentId = 0;
-  int respondentValue = 0;
+  int totalRespondentValue = 0;
+
   int questionId = 0;
   int totalQuestionValue = 0;
+
   int reportTimeId = 0;
   int reportTimeValue = 0;
-  int reportTimePrice = 0;
+
   int totalScreener = 0;
+
   int firstAgeValue = 0;
   int lastAgeValue = 0;
+
   int selectedIdGender = 0;
   int selectedIdReligion = 0;
   int selectedIdOccupation = 0;
@@ -104,29 +109,74 @@ class _SurveyDesignState extends State<SurveyDesign> {
   String firstOutcomeValue = '';
   String lastOutcomeValue = '';
 
+  bool isDemographyChecked = false;
+  bool isDataInitialized = false;
+
   @override
   void initState() {
     super.initState();
-    loadData();
+    loadDataOption();
+    initializeDataDemography();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Avoid calling initializeDataDemography here to prevent redundant calls
   }
 
   // Load All Data
-  loadData() {
+  Future<void> initializeDataDemography() async {
+    if (!isDataInitialized) {
+      await loadDataDemography();
+      // Call checkValueDemography only after all asynchronous operations are completed
+      if (!isDemographyChecked) {
+        checkValueDemography();
+        setState(() {
+          isDemographyChecked = true;
+          isDataInitialized = true;
+        });
+      }
+
+      // print('screenerOptionValue : $screenerOptionValue');
+
+      // print('Respondent : $totalRespondentValue');
+      // print('Question : $totalQuestionValue');
+      // print('Screener : $totalScreener');
+
+      // print('Gender : $selectedScopeGender');
+      // print('Age : $selectedScopeAge');
+      // print('Children : $selectedScopeChildren');
+      // print('Marital : $selectedScopeMarital');
+      // print('Occupation : $selectedScopeOccupation');
+
+      // print('Region : $selectedScopeRegion');
+      // print('Religion : $selectedScopeReligion');
+
+      // print('Income : $selectedScopeIncome');
+      // print('Outcome : $selectedScopeOutcome');
+    }
+  }
+
+  // Load All Repository
+  void loadDataOption() {
     getRespondentOption();
     getQuestionOption();
     getReportTimeOption();
     getScreenerOption();
-    getAgeOption();
-    getGenderOption();
-    getRegionOption();
-    getReligionOption();
-    getOccupationOption();
-    getMaritalOption();
-    getChildrenOption();
-    getIncomeOption();
-    getOutcomeOption();
-    checkDemographyValue();
-    getSurveyDesignPrice();
+  }
+
+  Future<void> loadDataDemography() async {
+    await getAgeOption();
+    await getGenderOption();
+    await getRegionOption();
+    await getReligionOption();
+    await getOccupationOption();
+    await getMaritalOption();
+    await getChildrenOption();
+    await getIncomeOption();
+    await getOutcomeOption();
+    await getSurveyDesignPrice();
   }
 
   // GET RESPONDENT OPTION
@@ -138,20 +188,20 @@ class _SurveyDesignState extends State<SurveyDesign> {
         setState(() {
           respondentId = 0;
           respondentScope = 'Pilih Jumlah Responden';
-          respondentValue = 0;
+          totalRespondentValue = 0;
         });
       } else {
         setState(() {
           respondentId = getOptionValue['id'];
           respondentScope = getOptionValue['scope'];
-          respondentValue = getOptionValue['scope'];
+          totalRespondentValue = getOptionValue['scope'];
         });
       }
     } else {
       setState(() {
         respondentId = 0;
         respondentScope = 'Pilih Jumlah Responden';
-        respondentValue = 0;
+        totalRespondentValue = 0;
       });
     }
     // print('Load Respondent Repository : $respondentScope');
@@ -237,6 +287,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
   }
 
   // GET Age OPTION
+  // GET Income OPTION
   Future getAgeOption() async {
     final savedData = await ageRepository.getOption();
     if (savedData != null) {
@@ -257,7 +308,6 @@ class _SurveyDesignState extends State<SurveyDesign> {
       await ageRepository.setOption(jsonData);
     }
 
-    // SET FIRST & LAST VALUE OF AGE
     setState(() {
       if (getFirstValue(selectedScopeAge.first) == 'Semua') {
         firstAgeValue = 1;
@@ -276,7 +326,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
       }
     });
 
-    // print('Load Age Repository : $selectedScopeAge');
+    // print('Load Income Repository : $selectedScopeIncome');
   }
 
   // GET Gender OPTION
@@ -440,9 +490,23 @@ class _SurveyDesignState extends State<SurveyDesign> {
       final jsonData = jsonEncode(data);
       await incomeRepository.setOption(jsonData);
     }
+
     setState(() {
-      firstIncomeValue = getFirstValue(selectedScopeIncome.first);
-      lastIncomeValue = getLastValue(selectedScopeIncome.last);
+      if (getFirstValue(selectedScopeIncome.first) == 'Semua') {
+        firstIncomeValue = '0';
+      } else if (selectedScopeIncome.first == '<1.000.000') {
+        firstIncomeValue = '0';
+      } else {
+        firstIncomeValue = getFirstValue(selectedScopeIncome.first);
+      }
+
+      if (getLastValue(selectedScopeIncome.last) == 'Semua') {
+        lastIncomeValue = '99.999.999';
+      } else if (selectedScopeIncome.last == '>10.000.000') {
+        lastIncomeValue = '99.999.999';
+      } else {
+        lastIncomeValue = getLastValue(selectedScopeIncome.last);
+      }
     });
     // print('Load Income Repository : $selectedScopeIncome');
   }
@@ -468,28 +532,25 @@ class _SurveyDesignState extends State<SurveyDesign> {
       final jsonData = jsonEncode(data);
       await outcomeRepository.setOption(jsonData);
     }
+
     setState(() {
-      firstOutcomeValue = getFirstValue(selectedScopeOutcome.first);
-      lastOutcomeValue = getLastValue(selectedScopeOutcome.last);
+      if (getFirstValue(selectedScopeOutcome.first) == 'Semua') {
+        firstOutcomeValue = '0';
+      } else if (selectedScopeOutcome.first == '<1.000.000') {
+        firstOutcomeValue = '0';
+      } else {
+        firstOutcomeValue = getFirstValue(selectedScopeOutcome.first);
+      }
+
+      if (getLastValue(selectedScopeOutcome.last) == 'Semua') {
+        lastOutcomeValue = '99.999.999';
+      } else if (selectedScopeOutcome.last == '>10.000.000') {
+        lastOutcomeValue = '99.999.999';
+      } else {
+        lastOutcomeValue = getLastValue(selectedScopeOutcome.last);
+      }
     });
     // print('Load Outcome Repository : $selectedScopeOutcome');
-  }
-
-  // CHECK DEMOGRAPHY VALUE
-  void checkDemographyValue() {
-    if (selectedScopeAge != [] ||
-        selectedScopeChildren != [] ||
-        selectedScopeGender != 'Semua' ||
-        selectedScopeMarital != [] ||
-        selectedScopeOccupation != 'Semua' ||
-        selectedScopeRegion != 'Semua' ||
-        selectedScopeReligion != 'Semua' ||
-        selectedScopeIncome != [] ||
-        selectedScopeOutcome != []) {
-      setState(() {
-        valueTextDemography = 'Custom';
-      });
-    }
   }
 
   // GET Price Value
@@ -513,13 +574,36 @@ class _SurveyDesignState extends State<SurveyDesign> {
     }
   }
 
+  void checkValueDemography() {
+    if (selectedScopeAge.first != 'Semua' ||
+        selectedScopeChildren.first != 'Semua' ||
+        selectedScopeMarital.first != 'Semua' ||
+        selectedScopeIncome.first != 'Semua' ||
+        selectedScopeOutcome.first != 'Semua' ||
+        selectedScopeGender != 'Semua' ||
+        selectedScopeOccupation != 'Semua' ||
+        selectedScopeRegion != 'Semua' ||
+        selectedScopeReligion != 'Semua') {
+      setState(() {
+        valueTextDemography = 'Custom';
+      });
+    } else {
+      setState(() {
+        valueTextDemography = 'Default : Semua Demography';
+      });
+    }
+
+    // print(valueTextDemography);
+  }
+
   // SAVE OPTION SCREENER
-  Future<void> setScreenerOption() async {
+  Future setScreenerOption() async {
     var setOption = {
       'scope': screenerOptionValue,
     };
     String setOptionJson = jsonEncode(setOption);
     await screenerRepository.setOption(setOptionJson);
+    print('Screener $screenerOptionValue');
   }
 
   // DELETE ALL OPTION
@@ -611,23 +695,24 @@ class _SurveyDesignState extends State<SurveyDesign> {
       child: Container(
           padding: const EdgeInsets.all(12),
           width: double.infinity,
-          child: BlocListener<SurveyDesignIsCalculateBloc,
-              SurveyDesignIsCalculateState>(
+          child:
+              BlocListener<SurveyDesignIsCreateBloc, SurveyDesignIsCreateState>(
             listener: (context, state) {
               state.maybeWhen(
                 orElse: () {},
-                loaded: (data) async {
-                  setState(() {
-                    selectedIdReligion = 0;
-                    selectedScopeReligion = 'Semua';
-                  });
-                  final jsonData = {
-                    'point': data.point,
-                    'price': data.price,
-                  };
-                  final jsonDataEncode = jsonEncode(jsonData);
-                  await surveyDesignPriceRepository.setOption(jsonDataEncode);
-                  loadData();
+                loaded: (data) {
+                  print('createQuestionUrl $data');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SurveyDesignListPage()));
+                },
+                error: (message) {
+                  print('message $message');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SurveyDesignListPage()));
                 },
               );
             },
@@ -660,69 +745,75 @@ class _SurveyDesignState extends State<SurveyDesign> {
                           )),
                 Expanded(
                   flex: 5,
-                  child: BlocBuilder<SurveyDesignIsCalculateBloc,
-                      SurveyDesignIsCalculateState>(
+                  child: BlocBuilder<SurveyDesignIsCreateBloc,
+                      SurveyDesignIsCreateState>(
                     builder: (context, state) {
-                      return state.maybeWhen(orElse: () {
-                        if (respondentValue == 0 &&
-                            totalQuestionValue == 0 &&
-                            reportTimeValue == 0) {
-                          return ButtonFilled.light(
-                            text: 'Bayar',
-                            onPressed: () {},
-                            fontSize: 17,
-                            minWidth: 20,
-                            height: 50,
-                          );
-                        } else {
-                          return ButtonFilled.primary(
-                            text: 'Bayar',
-                            onPressed: () {
-                              final requestModel = SurveyDesignIsCalculateRequestModel(
-                                  deviceId: 'xx001',
-                                  type: 'Publik',
-                                  respondent: respondentValue,
-                                  totalQuestion: totalQuestionValue,
-                                  reportTime: reportTimeValue,
-                                  totalScreener: totalScreener,
-                                  ageStart: firstAgeValue,
-                                  ageEnd: lastAgeValue,
-                                  children: selectedScopeChildren.first ==
-                                          'Semua'
-                                      ? null
-                                      : '${selectedScopeChildren.first} - ${selectedScopeChildren.last}',
-                                  gender: selectedScopeGender == 'Semua'
-                                      ? null
-                                      : selectedScopeGender,
-                                  marital: selectedScopeMarital.first == 'Semua'
-                                      ? null
-                                      : '${selectedScopeMarital.first} - ${selectedScopeMarital.last}',
-                                  occupation: selectedScopeOccupation == 'Semua'
-                                      ? null
-                                      : selectedScopeOccupation,
-                                  region: selectedScopeRegion == 'Semua'
-                                      ? null
-                                      : selectedScopeRegion,
-                                  religion: selectedScopeReligion == 'Semua'
-                                      ? null
-                                      : selectedScopeReligion,
-                                  monthlyIncome: firstIncomeValue == 'Semua'
-                                      ? null
-                                      : '$firstIncomeValue - $lastIncomeValue',
-                                  monthlyOutcome: firstOutcomeValue == 'Semua'
-                                      ? null
-                                      : '$firstOutcomeValue - $lastOutcomeValue',
-                                  isCalculate: 1);
-                              context.read<SurveyDesignIsCalculateBloc>().add(
-                                  SurveyDesignIsCalculateEvent.isCalculate(
-                                      requestModel));
-                            },
-                            fontSize: 17,
-                            minWidth: 20,
-                            height: 50,
-                          );
-                        }
-                      });
+                      return state.maybeWhen(
+                        orElse: () {
+                          if (totalRespondentValue == 0 ||
+                              totalQuestionValue == 0 ||
+                              reportTimeValue == 0 ||
+                              totalPrice == 0 ||
+                              screenerOptionValue == '') {
+                            return ButtonFilled.light(
+                              text: 'Bayar',
+                              onPressed: () {},
+                              fontSize: 17,
+                              minWidth: 20,
+                              height: 50,
+                            );
+                          } else {
+                            return ButtonFilled.primary(
+                              text: 'Bayar',
+                              onPressed: () {
+                                final requestModel = SurveyDesignIsCreateRequestModel(
+                                    deviceId: 'xx001',
+                                    type: 'Publik',
+                                    respondent: totalRespondentValue,
+                                    totalQuestion: totalQuestionValue,
+                                    reportTime: reportTimeValue,
+                                    totalScreener: totalScreener,
+                                    ageStart: firstAgeValue,
+                                    ageEnd: lastAgeValue,
+                                    children: selectedScopeChildren.first ==
+                                            'Semua'
+                                        ? null
+                                        : '${selectedScopeChildren.first} - ${selectedScopeChildren.last}',
+                                    gender: selectedScopeGender == 'Semua'
+                                        ? null
+                                        : selectedScopeGender,
+                                    marital: selectedScopeMarital.first ==
+                                            'Semua'
+                                        ? null
+                                        : '${selectedScopeMarital.first} - ${selectedScopeMarital.last}',
+                                    occupation:
+                                        selectedScopeOccupation == 'Semua'
+                                            ? null
+                                            : selectedScopeOccupation,
+                                    region: selectedScopeRegion == 'Semua'
+                                        ? null
+                                        : selectedScopeRegion,
+                                    religion: selectedScopeReligion == 'Semua'
+                                        ? null
+                                        : selectedScopeReligion,
+                                    monthlyIncome: firstIncomeValue == 'Semua'
+                                        ? null
+                                        : '$firstIncomeValue - $lastIncomeValue',
+                                    monthlyOutcome: firstOutcomeValue == 'Semua'
+                                        ? null
+                                        : '$firstOutcomeValue - $lastOutcomeValue',
+                                    isCalculate: 0);
+                                context.read<SurveyDesignIsCreateBloc>().add(
+                                    SurveyDesignIsCreateEvent.isCreate(
+                                        requestModel));
+                              },
+                              fontSize: 17,
+                              minWidth: 20,
+                              height: 50,
+                            );
+                          }
+                        },
+                      );
                     },
                   ),
                 ),

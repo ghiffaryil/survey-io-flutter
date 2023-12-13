@@ -165,7 +165,7 @@ class _DemographyOptionState extends State<DemographyOption> {
         respondentValue = 0;
       });
     }
-    // print('Load Respondent Repository : $respondentScope');
+    // // print('Load Respondent Repository : $respondentScope');
   }
 
   // GET QUESTION OPTION
@@ -192,7 +192,7 @@ class _DemographyOptionState extends State<DemographyOption> {
         totalQuestionScope = 'Pilih Jumlah Pertanyaan';
       });
     }
-    // print('Load Question Repository : $totalQuestionScope');
+    // // print('Load Question Repository : $totalQuestionScope');
   }
 
   // GET REPORT TIME OPTION
@@ -220,7 +220,7 @@ class _DemographyOptionState extends State<DemographyOption> {
         reportTimeValue = 0;
       });
     }
-    // print('Load Report Time Repository : $reportTimeScope');
+    // // print('Load Report Time Repository : $reportTimeScope');
   }
 
   // GET SCREENER OPTION
@@ -257,9 +257,9 @@ class _DemographyOptionState extends State<DemographyOption> {
         inputDemographyAge.text =
             selectedScopeAge.isEmpty ? "Semua" : selectedScopeAge.join(', ');
       });
-      print('Load Age Repository : $selectedScopeAge');
+      // print('Load Age Repository : $selectedScopeAge');
     } else {
-      print('Age is Empty');
+      // print('Age is Empty');
       setState(() {
         selectedIdAge.add(0);
         selectedScopeAge.add('Semua');
@@ -274,8 +274,6 @@ class _DemographyOptionState extends State<DemographyOption> {
 
     // SET FIRST & LAST VALUE OF AGE
     setState(() {
-      print('selectedScopeAge' + selectedScopeAge.first);
-
       if (getFirstValue(selectedScopeAge.first) == 'Semua') {
         firstAgeValue = 1;
       } else if (selectedScopeAge.first == '<20') {
@@ -283,8 +281,6 @@ class _DemographyOptionState extends State<DemographyOption> {
       } else {
         firstAgeValue = int.tryParse(getFirstValue(selectedScopeAge.first))!;
       }
-
-      print('firstAgeValue' + firstAgeValue.toString());
 
       if (getLastValue(selectedScopeAge.last) == 'Semua') {
         lastAgeValue = 99;
@@ -321,7 +317,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       final jsonData = jsonEncode(data);
       await genderRepository.setOption(jsonData);
     }
-    print('Load Gender Repository : $selectedScopeGender');
+    // print('Load Gender Repository : $selectedScopeGender');
   }
 
   // GET Occupation OPTION
@@ -349,7 +345,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       final jsonData = jsonEncode(data);
       await occupationRepository.setOption(jsonData);
     }
-    print('Load Occupation Repository : $selectedScopeOccupation');
+    // print('Load Occupation Repository : $selectedScopeOccupation');
   }
 
   // GET Marital OPTION
@@ -376,7 +372,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       final jsonData = jsonEncode(data);
       await maritalRepository.setOption(jsonData);
     }
-    print('Load Marital Repository : $selectedScopeMarital');
+    // print('Load Marital Repository : $selectedScopeMarital');
   }
 
   // GET Children OPTION
@@ -403,7 +399,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       final jsonData = jsonEncode(data);
       await childrenRepository.setOption(jsonData);
     }
-    print('Load Children Repository : $selectedScopeChildren');
+    // print('Load Children Repository : $selectedScopeChildren');
   }
 
   // GET Region OPTION
@@ -431,7 +427,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       final jsonData = jsonEncode(data);
       await regionRepository.setOption(jsonData);
     }
-    print('Load Region Repository : $selectedScopeRegion');
+    // print('Load Region Repository : $selectedScopeRegion');
   }
 
   // GET Religion OPTION
@@ -459,7 +455,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       final jsonData = jsonEncode(data);
       await religionRepository.setOption(jsonData);
     }
-    print('Load Religion Repository : $selectedScopeReligion');
+    // print('Load Religion Repository : $selectedScopeReligion');
   }
 
   // GET Income OPTION
@@ -490,7 +486,7 @@ class _DemographyOptionState extends State<DemographyOption> {
       firstIncomeValue = getFirstValue(selectedScopeIncome.first);
       lastIncomeValue = getLastValue(selectedScopeIncome.last);
     });
-    print('Load Income Repository : $selectedScopeIncome');
+    // print('Load Income Repository : $selectedScopeIncome');
   }
 
   // GET Outcome OPTION
@@ -521,7 +517,53 @@ class _DemographyOptionState extends State<DemographyOption> {
       firstOutcomeValue = getFirstValue(selectedScopeOutcome.first);
       lastOutcomeValue = getLastValue(selectedScopeOutcome.last);
     });
-    print('Load Outcome Repository : $selectedScopeOutcome');
+    // print('Load Outcome Repository : $selectedScopeOutcome');
+  }
+
+  // TO CLICK CALCULATE
+  void handleCalculateButtonPressed() {
+    if (respondentValue > 0 && totalQuestionValue > 0 && reportTimeValue > 0) {
+      final requestModel = SurveyDesignIsCalculateRequestModel(
+          deviceId: 'xx001',
+          type: 'Publik',
+          respondent: respondentValue,
+          totalQuestion: totalQuestionValue,
+          reportTime: reportTimeValue,
+          totalScreener: totalScreener,
+          ageStart: firstAgeValue,
+          ageEnd: lastAgeValue,
+          children: selectedScopeChildren.first == 'Semua'
+              ? null
+              : '${selectedScopeChildren.first} - ${selectedScopeChildren.last}',
+          gender: selectedScopeGender == 'Semua' ? null : selectedScopeGender,
+          marital: selectedScopeMarital.first == 'Semua'
+              ? null
+              : '${selectedScopeMarital.first} - ${selectedScopeMarital.last}',
+          occupation: selectedScopeOccupation == 'Semua'
+              ? null
+              : selectedScopeOccupation,
+          region: selectedScopeRegion == 'Semua' ? null : selectedScopeRegion,
+          religion:
+              selectedScopeReligion == 'Semua' ? null : selectedScopeReligion,
+          monthlyIncome: firstIncomeValue == 'Semua'
+              ? null
+              : '$firstIncomeValue - $lastIncomeValue',
+          monthlyOutcome: firstOutcomeValue == 'Semua'
+              ? null
+              : '$firstOutcomeValue - $lastOutcomeValue',
+          isCalculate: 1);
+
+      context
+          .read<SurveyDesignIsCalculateBloc>()
+          .add(SurveyDesignIsCalculateEvent.isCalculate(requestModel));
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SurveyDesign(
+                    designAction: widget.designAction,
+                  )));
+    }
   }
 
   @override
@@ -529,6 +571,11 @@ class _DemographyOptionState extends State<DemographyOption> {
     return Scaffold(
       appBar: PlainAppBar(
           onPressed: () {
+            if (respondentValue > 0 &&
+                totalQuestionValue > 0 &&
+                reportTimeValue > 0) {
+              handleCalculateButtonPressed();
+            }
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -731,54 +778,12 @@ class _DemographyOptionState extends State<DemographyOption> {
                         return state.maybeWhen(
                           orElse: () {
                             return ButtonFilled.primary(
-                              text: 'Ok',
+                              text: 'OK',
                               onPressed: () {
                                 if (respondentValue > 0 &&
                                     totalQuestionValue > 0 &&
                                     reportTimeValue > 0) {
-                                  final requestModel = SurveyDesignIsCalculateRequestModel(
-                                      deviceId: 'xx001',
-                                      type: 'Publik',
-                                      respondent: respondentValue,
-                                      totalQuestion: totalQuestionValue,
-                                      reportTime: reportTimeValue,
-                                      totalScreener: totalScreener,
-                                      ageStart: firstAgeValue,
-                                      ageEnd: lastAgeValue,
-                                      children: selectedScopeChildren.first ==
-                                              'Semua'
-                                          ? null
-                                          : '${selectedScopeChildren.first} - ${selectedScopeChildren.last}',
-                                      gender: selectedScopeGender == 'Semua'
-                                          ? null
-                                          : selectedScopeGender,
-                                      marital: selectedScopeMarital.first ==
-                                              'Semua'
-                                          ? null
-                                          : '${selectedScopeMarital.first} - ${selectedScopeMarital.last}',
-                                      occupation:
-                                          selectedScopeOccupation == 'Semua'
-                                              ? null
-                                              : selectedScopeOccupation,
-                                      region: selectedScopeRegion == 'Semua'
-                                          ? null
-                                          : selectedScopeRegion,
-                                      religion: selectedScopeReligion == 'Semua'
-                                          ? null
-                                          : selectedScopeReligion,
-                                      monthlyIncome: firstIncomeValue == 'Semua'
-                                          ? null
-                                          : '$firstIncomeValue - $lastIncomeValue',
-                                      monthlyOutcome: firstOutcomeValue ==
-                                              'Semua'
-                                          ? null
-                                          : '$firstOutcomeValue - $lastOutcomeValue',
-                                      isCalculate: 1);
-
-                                  context
-                                      .read<SurveyDesignIsCalculateBloc>()
-                                      .add(SurveyDesignIsCalculateEvent
-                                          .isCalculate(requestModel));
+                                  handleCalculateButtonPressed();
                                 } else {
                                   Navigator.push(
                                       context,

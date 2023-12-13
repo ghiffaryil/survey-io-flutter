@@ -45,6 +45,7 @@ class _QuestionOptionState extends State<QuestionOption> {
   var selectedScope;
   final _QuestionRepository = LocalRepositoryQuestion();
 
+  // Get shared Preferences Class
   final respondentRepository = LocalRepositoryRespondent();
   final questionRepository = LocalRepositoryQuestion();
   final reportTimeRepository = LocalRepositoryReportTime();
@@ -60,17 +61,20 @@ class _QuestionOptionState extends State<QuestionOption> {
   final outcomeRepository = LocalRepositoryDemographyOutcome();
   final surveyDesignPriceRepository = LocalRepositorySurveyDesignPrice();
 
-  int totalPrice = 0;
   int respondentId = 0;
-  int respondentValue = 0;
+  int totalRespondentValue = 0;
+
   int questionId = 0;
   int totalQuestionValue = 0;
+
   int reportTimeId = 0;
   int reportTimeValue = 0;
-  int reportTimePrice = 0;
+
   int totalScreener = 0;
+
   int firstAgeValue = 0;
   int lastAgeValue = 0;
+
   int selectedIdGender = 0;
   int selectedIdReligion = 0;
   int selectedIdOccupation = 0;
@@ -91,14 +95,15 @@ class _QuestionOptionState extends State<QuestionOption> {
   List<String> selectedScopeOutcome = [];
   List<int> selectedIdOutcome = [];
 
-  String formatterRupiahPrice = '';
   String screenerOptionValue = '';
   String selectedScopeGender = '';
   String selectedScopeReligion = '';
   String selectedScopeOccupation = '';
   String selectedScopeRegion = '';
+
   String firstIncomeValue = '';
   String lastIncomeValue = '';
+
   String firstOutcomeValue = '';
   String lastOutcomeValue = '';
 
@@ -117,9 +122,13 @@ class _QuestionOptionState extends State<QuestionOption> {
     getScreenerOption();
     getAgeOption();
     getGenderOption();
+    getRegionOption();
+    getReligionOption();
     getOccupationOption();
     getMaritalOption();
     getChildrenOption();
+    getIncomeOption();
+    getOutcomeOption();
   }
 
   // GET RESPONDENT OPTION
@@ -131,20 +140,20 @@ class _QuestionOptionState extends State<QuestionOption> {
         setState(() {
           respondentId = 0;
           respondentScope = 'Pilih Jumlah Responden';
-          respondentValue = 0;
+          totalRespondentValue = 0;
         });
       } else {
         setState(() {
           respondentId = getOptionValue['id'];
           respondentScope = getOptionValue['scope'];
-          respondentValue = getOptionValue['scope'];
+          totalRespondentValue = getOptionValue['scope'];
         });
       }
     } else {
       setState(() {
         respondentId = 0;
         respondentScope = 'Pilih Jumlah Responden';
-        respondentValue = 0;
+        totalRespondentValue = 0;
       });
     }
     // print('Load Respondent Repository : $respondentScope');
@@ -504,6 +513,54 @@ class _QuestionOptionState extends State<QuestionOption> {
     }
   }
 
+  // TO CLICK CALCULATE
+  void handleCalculateButtonPressed() {
+    if (totalRespondentValue > 0 &&
+        totalQuestionValue > 0 &&
+        reportTimeValue > 0) {
+      final requestModel = SurveyDesignIsCalculateRequestModel(
+          deviceId: 'xx001',
+          type: 'Publik',
+          respondent: totalRespondentValue,
+          totalQuestion: totalQuestionValue,
+          reportTime: reportTimeValue,
+          totalScreener: totalScreener,
+          ageStart: firstAgeValue,
+          ageEnd: lastAgeValue,
+          children: selectedScopeChildren.first == 'Semua'
+              ? null
+              : '${selectedScopeChildren.first} - ${selectedScopeChildren.last}',
+          gender: selectedScopeGender == 'Semua' ? null : selectedScopeGender,
+          marital: selectedScopeMarital.first == 'Semua'
+              ? null
+              : '${selectedScopeMarital.first} - ${selectedScopeMarital.last}',
+          occupation: selectedScopeOccupation == 'Semua'
+              ? null
+              : selectedScopeOccupation,
+          region: selectedScopeRegion == 'Semua' ? null : selectedScopeRegion,
+          religion:
+              selectedScopeReligion == 'Semua' ? null : selectedScopeReligion,
+          monthlyIncome: firstIncomeValue == 'Semua'
+              ? null
+              : '$firstIncomeValue - $lastIncomeValue',
+          monthlyOutcome: firstOutcomeValue == 'Semua'
+              ? null
+              : '$firstOutcomeValue - $lastOutcomeValue',
+          isCalculate: 1);
+
+      context
+          .read<SurveyDesignIsCalculateBloc>()
+          .add(SurveyDesignIsCalculateEvent.isCalculate(requestModel));
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SurveyDesign(
+                    designAction: widget.designAction,
+                  )));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -546,7 +603,9 @@ class _QuestionOptionState extends State<QuestionOption> {
                       selectedId = value!;
                       selectedScope = data.scope;
                       setOption();
+                      totalQuestionValue = data.scope;
                     });
+                    print(totalQuestionValue);
                   },
                 ),
               );
@@ -581,57 +640,9 @@ class _QuestionOptionState extends State<QuestionOption> {
                     return state.maybeWhen(
                       orElse: () {
                         return ButtonFilled.primary(
-                          text: 'Ok',
+                          text: 'OK',
                           onPressed: () {
-                            if (respondentValue > 0 &&
-                                totalQuestionValue > 0 &&
-                                reportTimeValue > 0) {
-                              final requestModel = SurveyDesignIsCalculateRequestModel(
-                                  deviceId: 'xx001',
-                                  type: 'Publik',
-                                  respondent: respondentValue,
-                                  totalQuestion: totalQuestionValue,
-                                  reportTime: reportTimeValue,
-                                  totalScreener: totalScreener,
-                                  ageStart: firstAgeValue,
-                                  ageEnd: lastAgeValue,
-                                  children: selectedScopeChildren.first ==
-                                          'Semua'
-                                      ? null
-                                      : '${selectedScopeChildren.first} - ${selectedScopeChildren.last}',
-                                  gender: selectedScopeGender == 'Semua'
-                                      ? null
-                                      : selectedScopeGender,
-                                  marital: selectedScopeMarital.first == 'Semua'
-                                      ? null
-                                      : '${selectedScopeMarital.first} - ${selectedScopeMarital.last}',
-                                  occupation: selectedScopeOccupation == 'Semua'
-                                      ? null
-                                      : selectedScopeOccupation,
-                                  region: selectedScopeRegion == 'Semua'
-                                      ? null
-                                      : selectedScopeRegion,
-                                  religion: selectedScopeReligion == 'Semua'
-                                      ? null
-                                      : selectedScopeReligion,
-                                  monthlyIncome: firstIncomeValue == 'Semua'
-                                      ? null
-                                      : '$firstIncomeValue - $lastIncomeValue',
-                                  monthlyOutcome: firstOutcomeValue == 'Semua'
-                                      ? null
-                                      : '$firstOutcomeValue - $lastOutcomeValue',
-                                  isCalculate: 1);
-
-                              context.read<SurveyDesignIsCalculateBloc>().add(
-                                  SurveyDesignIsCalculateEvent.isCalculate(
-                                      requestModel));
-                            } else {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SurveyDesign(
-                                          designAction: widget.designAction)));
-                            }
+                            handleCalculateButtonPressed();
                           },
                         );
                       },

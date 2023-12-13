@@ -1,23 +1,24 @@
 import 'dart:convert';
 
-class SurveyDesignCreateResponseModel {
+class SurveyDesignIsCreateResponseModel {
   final Data data;
   final String message;
   final int status;
 
-  SurveyDesignCreateResponseModel({
+  SurveyDesignIsCreateResponseModel({
     required this.data,
     required this.message,
     required this.status,
   });
 
-  factory SurveyDesignCreateResponseModel.fromJson(String str) =>
-      SurveyDesignCreateResponseModel.fromMap(json.decode(str));
+  factory SurveyDesignIsCreateResponseModel.fromJson(String str) =>
+      SurveyDesignIsCreateResponseModel.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory SurveyDesignCreateResponseModel.fromMap(Map<String, dynamic> json) =>
-      SurveyDesignCreateResponseModel(
+  factory SurveyDesignIsCreateResponseModel.fromMap(
+          Map<String, dynamic> json) =>
+      SurveyDesignIsCreateResponseModel(
         data: Data.fromMap(json["data"]),
         message: json["message"],
         status: json["status"],

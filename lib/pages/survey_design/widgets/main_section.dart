@@ -588,8 +588,9 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SurveyDesign(designAction: 'Create',)));
+                                      builder: (context) => const SurveyDesign(
+                                            designAction: 'Create',
+                                          )));
                             }
                           });
                     },
@@ -628,8 +629,9 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SurveyDesign(designAction: 'Create',)));
+                                    builder: (context) => const SurveyDesign(
+                                          designAction: 'Create',
+                                        )));
                           }
                         });
                   });
@@ -715,6 +717,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
+                                    surfaceTintColor: AppColors.white,
                                     title: Container(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
@@ -729,18 +732,15 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                           color: AppColors.secondary),
                                     ),
                                     actions: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(15.0),
-                                        child: GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text(
-                                              'Ok',
-                                              style: TextStyles.regular(
-                                                  color: AppColors.primary),
-                                            )),
-                                      )
+                                      GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text(
+                                            'Ok',
+                                            style: TextStyles.regular(
+                                                color: AppColors.primary),
+                                          ))
                                     ]);
                               });
                         },

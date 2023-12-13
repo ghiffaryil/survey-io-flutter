@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_list/survey_design_list_bloc.dart';
 import 'package:survey_io/common/constants/widgets/profile_section_survey_design.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryPrice.dart';
 import 'package:survey_io/pages/survey_design/widgets/guest_section.dart';
 import 'package:survey_io/pages/survey_design/widgets/main_section.dart';
 import 'package:survey_io/common/constants/styles.dart';
@@ -12,7 +13,6 @@ import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/appbar.dart';
 import 'package:survey_io/pages/tabs/floating_icon.dart';
 import 'package:survey_io/pages/tabs/navigation_bottom_bar.dart';
-import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 import 'package:survey_io/common/constants/widgets/red_shape_card.dart';
 import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
 
@@ -58,10 +58,13 @@ class _SurveyDesignListPageState extends State<SurveyDesignListPage> {
   final demographyRegionLocalRepository = LocalRepositoryDemographyRegion();
   final demographyReligionLocalRepository = LocalRepositoryDemographyReligion();
 
+  final surveyDesignPriceRepository = LocalRepositorySurveyDesignPrice();
+
   @override
   void initState() {
     super.initState();
     checkToken();
+    deleteAllOptiondValue();
   }
 
   @override
@@ -71,11 +74,9 @@ class _SurveyDesignListPageState extends State<SurveyDesignListPage> {
   }
 
   void loadDataSource() {
-    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
     context
         .read<SurveyDesignListBloc>()
         .add(const SurveyDesignListEvent.getSurveyDesignList());
-    deleteAllOptiondValue();
   }
 
   void checkToken() async {
@@ -86,18 +87,18 @@ class _SurveyDesignListPageState extends State<SurveyDesignListPage> {
     if (token.isEmpty) {
       // IF GUEST TOKEN NOT EMPTY
       if (guestToken.isNotEmpty) {
-        print('Guest Token => $guestToken');
+        // print('Guest Token => $guestToken');
         setState(() {
           isGuest = true;
           isLogged = false;
         });
         loadDataSource();
       } else {
-        print('No Guest Token');
+        // print('No Guest Token');
       }
     } else {
       // Have User Token
-      print('User Token : $token');
+      // print('User Token : $token');
       setState(() {
         isGuest = false;
         isLogged = true;
@@ -122,6 +123,8 @@ class _SurveyDesignListPageState extends State<SurveyDesignListPage> {
     await demographyOutcomeLocalRepository.deleteOption();
     await demographyRegionLocalRepository.deleteOption();
     await demographyReligionLocalRepository.deleteOption();
+
+    await surveyDesignPriceRepository.deleteOption();
   }
 
   @override

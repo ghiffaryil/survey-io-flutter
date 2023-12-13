@@ -61,17 +61,20 @@ class _RespondentOptionState extends State<RespondentOption> {
   final outcomeRepository = LocalRepositoryDemographyOutcome();
   final surveyDesignPriceRepository = LocalRepositorySurveyDesignPrice();
 
-  int totalPrice = 0;
   int respondentId = 0;
-  int respondentValue = 0;
+  int totalRespondentValue = 0;
+
   int questionId = 0;
   int totalQuestionValue = 0;
+
   int reportTimeId = 0;
   int reportTimeValue = 0;
-  int reportTimePrice = 0;
+
   int totalScreener = 0;
+
   int firstAgeValue = 0;
   int lastAgeValue = 0;
+
   int selectedIdGender = 0;
   int selectedIdReligion = 0;
   int selectedIdOccupation = 0;
@@ -92,14 +95,15 @@ class _RespondentOptionState extends State<RespondentOption> {
   List<String> selectedScopeOutcome = [];
   List<int> selectedIdOutcome = [];
 
-  String formatterRupiahPrice = '';
   String screenerOptionValue = '';
   String selectedScopeGender = '';
   String selectedScopeReligion = '';
   String selectedScopeOccupation = '';
   String selectedScopeRegion = '';
+
   String firstIncomeValue = '';
   String lastIncomeValue = '';
+
   String firstOutcomeValue = '';
   String lastOutcomeValue = '';
 
@@ -120,9 +124,13 @@ class _RespondentOptionState extends State<RespondentOption> {
     getScreenerOption();
     getAgeOption();
     getGenderOption();
+    getRegionOption();
+    getReligionOption();
     getOccupationOption();
     getMaritalOption();
     getChildrenOption();
+    getIncomeOption();
+    getOutcomeOption();
   }
 
   // GET RESPONDENT OPTION
@@ -134,20 +142,20 @@ class _RespondentOptionState extends State<RespondentOption> {
         setState(() {
           respondentId = 0;
           respondentScope = 'Pilih Jumlah Responden';
-          respondentValue = 0;
+          totalRespondentValue = 0;
         });
       } else {
         setState(() {
           respondentId = getOptionValue['id'];
           respondentScope = getOptionValue['scope'];
-          respondentValue = getOptionValue['scope'];
+          totalRespondentValue = getOptionValue['scope'];
         });
       }
     } else {
       setState(() {
         respondentId = 0;
         respondentScope = 'Pilih Jumlah Responden';
-        respondentValue = 0;
+        totalRespondentValue = 0;
       });
     }
     // print('Load Respondent Repository : $respondentScope');
@@ -233,14 +241,16 @@ class _RespondentOptionState extends State<RespondentOption> {
   }
 
   // GET Age OPTION
-  Future getAgeOption() async {
+  void getAgeOption() async {
     final savedData = await ageRepository.getOption();
     if (savedData != null) {
       setState(() {
         selectedIdAge = (savedData['id'] as List<dynamic>).cast<int>();
         selectedScopeAge = (savedData['scope'] as List<dynamic>).cast<String>();
       });
+      print('Load Age Repository : $selectedScopeAge');
     } else {
+      print('Age is Empty');
       setState(() {
         selectedIdAge.add(0);
         selectedScopeAge.add('Semua');
@@ -257,7 +267,7 @@ class _RespondentOptionState extends State<RespondentOption> {
     setState(() {
       if (getFirstValue(selectedScopeAge.first) == 'Semua') {
         firstAgeValue = 1;
-      }  else if (selectedScopeAge.first == '<20') {
+      } else if (selectedScopeAge.first == '<20') {
         firstAgeValue = 1;
       } else {
         firstAgeValue = int.tryParse(getFirstValue(selectedScopeAge.first))!;
@@ -267,16 +277,14 @@ class _RespondentOptionState extends State<RespondentOption> {
         lastAgeValue = 99;
       } else if (selectedScopeAge.last == '<20') {
         lastAgeValue = 99;
-      }  else {
+      } else {
         lastAgeValue = int.tryParse(getLastValue(selectedScopeAge.last))!;
       }
     });
-
-    // print('Load Age Repository : $selectedScopeAge');
   }
 
   // GET Gender OPTION
-  Future getGenderOption() async {
+  void getGenderOption() async {
     final savedData = await genderRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -295,11 +303,11 @@ class _RespondentOptionState extends State<RespondentOption> {
       final jsonData = jsonEncode(data);
       await genderRepository.setOption(jsonData);
     }
-    // print('Load Gender Repository : $selectedScopeGender');
+    print('Load Gender Repository : $selectedScopeGender');
   }
 
   // GET Occupation OPTION
-  Future getOccupationOption() async {
+  void getOccupationOption() async {
     final savedData = await occupationRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -318,11 +326,11 @@ class _RespondentOptionState extends State<RespondentOption> {
       final jsonData = jsonEncode(data);
       await occupationRepository.setOption(jsonData);
     }
-    // print('Load Occupation Repository : $selectedScopeOccupation');
+    print('Load Occupation Repository : $selectedScopeOccupation');
   }
 
   // GET Marital OPTION
-  Future getMaritalOption() async {
+  void getMaritalOption() async {
     final savedData = await maritalRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -342,11 +350,11 @@ class _RespondentOptionState extends State<RespondentOption> {
       final jsonData = jsonEncode(data);
       await maritalRepository.setOption(jsonData);
     }
-    // print('Load Marital Repository : $selectedScopeMarital');
+    print('Load Marital Repository : $selectedScopeMarital');
   }
 
   // GET Children OPTION
-  Future getChildrenOption() async {
+  void getChildrenOption() async {
     final savedData = await childrenRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -366,11 +374,11 @@ class _RespondentOptionState extends State<RespondentOption> {
       final jsonData = jsonEncode(data);
       await childrenRepository.setOption(jsonData);
     }
-    // print('Load Children Repository : $selectedScopeChildren');
+    print('Load Children Repository : $selectedScopeChildren');
   }
 
   // GET Region OPTION
-  Future getRegionOption() async {
+  void getRegionOption() async {
     final savedData = await regionRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -389,11 +397,11 @@ class _RespondentOptionState extends State<RespondentOption> {
       final jsonData = jsonEncode(data);
       await regionRepository.setOption(jsonData);
     }
-    // print('Load Region Repository : $selectedScopeRegion');
+    print('Load Region Repository : $selectedScopeRegion');
   }
 
   // GET Religion OPTION
-  Future getReligionOption() async {
+  void getReligionOption() async {
     final savedData = await religionRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -412,11 +420,11 @@ class _RespondentOptionState extends State<RespondentOption> {
       final jsonData = jsonEncode(data);
       await religionRepository.setOption(jsonData);
     }
-    // print('Load Religion Repository : $selectedScopeReligion');
+    print('Load Religion Repository : $selectedScopeReligion');
   }
 
   // GET Income OPTION
-  Future getIncomeOption() async {
+  void getIncomeOption() async {
     final savedData = await incomeRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -440,11 +448,11 @@ class _RespondentOptionState extends State<RespondentOption> {
       firstIncomeValue = getFirstValue(selectedScopeIncome.first);
       lastIncomeValue = getLastValue(selectedScopeIncome.last);
     });
-    // print('Load Income Repository : $selectedScopeIncome');
+    print('Load Income Repository : $selectedScopeIncome');
   }
 
   // GET Outcome OPTION
-  Future getOutcomeOption() async {
+  void getOutcomeOption() async {
     final savedData = await outcomeRepository.getOption();
     if (savedData != null) {
       setState(() {
@@ -468,10 +476,58 @@ class _RespondentOptionState extends State<RespondentOption> {
       firstOutcomeValue = getFirstValue(selectedScopeOutcome.first);
       lastOutcomeValue = getLastValue(selectedScopeOutcome.last);
     });
-    // print('Load Outcome Repository : $selectedScopeOutcome');
+    print('Load Outcome Repository : $selectedScopeOutcome');
   }
 
-  // Get Selected Choice
+  // TO CLICK CALCULATE
+  void handleCalculateButtonPressed() {
+    if (totalRespondentValue > 0 &&
+        totalQuestionValue > 0 &&
+        reportTimeValue > 0) {
+      final requestModel = SurveyDesignIsCalculateRequestModel(
+          deviceId: 'xx001',
+          type: 'Publik',
+          respondent: totalRespondentValue,
+          totalQuestion: totalQuestionValue,
+          reportTime: reportTimeValue,
+          totalScreener: totalScreener,
+          ageStart: firstAgeValue,
+          ageEnd: lastAgeValue,
+          children: selectedScopeChildren.first == 'Semua'
+              ? null
+              : '${selectedScopeChildren.first} - ${selectedScopeChildren.last}',
+          gender: selectedScopeGender == 'Semua' ? null : selectedScopeGender,
+          marital: selectedScopeMarital.first == 'Semua'
+              ? null
+              : '${selectedScopeMarital.first} - ${selectedScopeMarital.last}',
+          occupation: selectedScopeOccupation == 'Semua'
+              ? null
+              : selectedScopeOccupation,
+          region: selectedScopeRegion == 'Semua' ? null : selectedScopeRegion,
+          religion:
+              selectedScopeReligion == 'Semua' ? null : selectedScopeReligion,
+          monthlyIncome: firstIncomeValue == 'Semua'
+              ? null
+              : '$firstIncomeValue - $lastIncomeValue',
+          monthlyOutcome: firstOutcomeValue == 'Semua'
+              ? null
+              : '$firstOutcomeValue - $lastOutcomeValue',
+          isCalculate: 1);
+
+      context
+          .read<SurveyDesignIsCalculateBloc>()
+          .add(SurveyDesignIsCalculateEvent.isCalculate(requestModel));
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SurveyDesign(
+                    designAction: widget.designAction,
+                  )));
+    }
+  }
+
+  // LOAD OPTION
   Future getOption() async {
     final getOptionValue = await respondentRepository.getOption();
 
@@ -480,19 +536,17 @@ class _RespondentOptionState extends State<RespondentOption> {
         setState(() {
           selectedId = getOptionValue['id'];
           selectedScope = getOptionValue['scope'];
-          respondentValue = getOptionValue['scope'];
         });
       } else {
         setState(() {
           selectedId = 0;
-          selectedScope = 'Pilih Jumlah Responden';
-          respondentValue = 0;
+          selectedScope = 'Pilih Jumlah Pertanyaan';
         });
       }
     }
   }
 
-  // Save Choice
+  // SAVE OPTION
   Future<void> setOption() async {
     var setOptionValue = {
       'id': selectedId,
@@ -503,9 +557,9 @@ class _RespondentOptionState extends State<RespondentOption> {
     try {
       await respondentRepository.setOption(setOptionValueJson);
       print('Set value to JSON: $setOptionValueJson');
-      getRespondentOption();
+      getQuestionOption();
     } catch (e) {
-      print('Error saving respondentOption: $e');
+      print('Error saving setOptionValue: $e');
     }
   }
 
@@ -574,7 +628,10 @@ class _RespondentOptionState extends State<RespondentOption> {
                                       selectedId = value!;
                                       selectedScope = dataRespondent.scope;
                                       setOption();
+                                      totalRespondentValue =
+                                          dataRespondent.scope;
                                     });
+                                    print(totalRespondentValue);
                                   },
                                 ),
                               );
@@ -613,66 +670,9 @@ class _RespondentOptionState extends State<RespondentOption> {
                             return state.maybeWhen(
                               orElse: () {
                                 return ButtonFilled.primary(
-                                  text: 'Ok',
+                                  text: 'OK',
                                   onPressed: () {
-                                    if (respondentValue > 0 &&
-                                        totalQuestionValue > 0 &&
-                                        reportTimeValue > 0) {
-                                      final requestModel = SurveyDesignIsCalculateRequestModel(
-                                          deviceId: 'xx001',
-                                          type: 'Publik',
-                                          respondent: respondentValue,
-                                          totalQuestion: totalQuestionValue,
-                                          reportTime: reportTimeValue,
-                                          totalScreener: totalScreener,
-                                          ageStart: firstAgeValue,
-                                          ageEnd: lastAgeValue,
-                                          children: selectedScopeChildren
-                                                      .first ==
-                                                  'Semua'
-                                              ? null
-                                              : '${selectedScopeChildren.first} - ${selectedScopeChildren.last}',
-                                          gender: selectedScopeGender == 'Semua'
-                                              ? null
-                                              : selectedScopeGender,
-                                          marital: selectedScopeMarital.first ==
-                                                  'Semua'
-                                              ? null
-                                              : '${selectedScopeMarital.first} - ${selectedScopeMarital.last}',
-                                          occupation:
-                                              selectedScopeOccupation == 'Semua'
-                                                  ? null
-                                                  : selectedScopeOccupation,
-                                          region: selectedScopeRegion == 'Semua'
-                                              ? null
-                                              : selectedScopeRegion,
-                                          religion:
-                                              selectedScopeReligion == 'Semua'
-                                                  ? null
-                                                  : selectedScopeReligion,
-                                          monthlyIncome: firstIncomeValue ==
-                                                  'Semua'
-                                              ? null
-                                              : '$firstIncomeValue - $lastIncomeValue',
-                                          monthlyOutcome: firstOutcomeValue ==
-                                                  'Semua'
-                                              ? null
-                                              : '$firstOutcomeValue - $lastOutcomeValue',
-                                          isCalculate: 1);
-
-                                      context
-                                          .read<SurveyDesignIsCalculateBloc>()
-                                          .add(SurveyDesignIsCalculateEvent
-                                              .isCalculate(requestModel));
-                                    } else {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SurveyDesign(
-                                                      designAction: widget
-                                                          .designAction)));
-                                    }
+                                    handleCalculateButtonPressed();
                                   },
                                 );
                               },
