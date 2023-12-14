@@ -36,7 +36,6 @@ class _WebviewSurveyDesignCreateQuestionState
 
   @override
   void dispose() {
-    // close the webview here
     super.dispose();
   }
 
@@ -65,9 +64,6 @@ class _WebviewSurveyDesignCreateQuestionState
               ..setBackgroundColor(const Color(0x00000000))
               ..setNavigationDelegate(
                 NavigationDelegate(
-                  onProgress: (int progress) {
-                    // Update loading bar.
-                  },
                   onPageStarted: (String url) {},
                   onPageFinished: (String url) {},
                   onWebResourceError: (WebResourceError error) {},
@@ -75,8 +71,9 @@ class _WebviewSurveyDesignCreateQuestionState
                     if (request.url.startsWith(
                         'https://dev-app.survei.io/createsurvey/')) {
                       return NavigationDecision.prevent;
+                    } else {
+                      return NavigationDecision.navigate;
                     }
-                    return NavigationDecision.navigate;
                   },
                 ),
               )

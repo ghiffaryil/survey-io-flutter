@@ -45,10 +45,11 @@ class _SurveyDesignPaymenStatet extends State<WebviewSurveyDesignPayment> {
           height: 70,
           toolbarHeight: 70,
           onPressed: () {
+            // Navigate to a new screen and remove all previous screens
             Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const SurveyDesignListPage()));
+              context,
+              MaterialPageRoute(builder: (context) => SurveyDesignListPage()),
+            );
           },
           title: Text('Pembayaran Survey',
               style: TextStyles.h3(color: AppColors.white)),
@@ -70,11 +71,12 @@ class _SurveyDesignPaymenStatet extends State<WebviewSurveyDesignPayment> {
                   onPageFinished: (String url) {},
                   onWebResourceError: (WebResourceError error) {},
                   onNavigationRequest: (NavigationRequest request) {
-                    if (request.url.startsWith(
-                        'https://pay-stg.oyindonesia.com/status/')) {
+                    if (request.url
+                        .startsWith('https://pay-stg.oyindonesia.com/')) {
                       return NavigationDecision.prevent;
+                    } else {
+                      return NavigationDecision.navigate;
                     }
-                    return NavigationDecision.navigate;
                   },
                 ),
               )

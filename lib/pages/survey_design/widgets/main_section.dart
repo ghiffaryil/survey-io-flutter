@@ -385,6 +385,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                     state.maybeWhen(
                                                       orElse: () {},
                                                       loaded: (data) {
+                                                        print(data.url);
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
