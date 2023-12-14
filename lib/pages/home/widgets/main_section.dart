@@ -50,7 +50,6 @@ class _MainSectionState extends State<MainSection> {
   void initState() {
     super.initState();
     checkToken();
-    startCountdown();
   }
 
   void loadDataSource() {
@@ -96,6 +95,7 @@ class _MainSectionState extends State<MainSection> {
         surveyToken = token.substring(7);
       });
       loadDataSource();
+      startCountdown();
     }
   }
 
@@ -159,7 +159,7 @@ class _MainSectionState extends State<MainSection> {
           CustomDividers.verySmallDivider(),
           ayoCheckSection(),
           CustomDividers.verySmallDivider(),
-          pollingTodaySection(),
+          isGuest ? Container() : pollingTodaySection(),
           CustomDividers.verySmallDivider(),
           surveyPopularSection(),
           CustomDividers.verySmallDivider(),
@@ -611,32 +611,31 @@ class _MainSectionState extends State<MainSection> {
           ),
           CustomDividers.smallDivider(),
           SizedBox(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: 40,
-                maxHeight: MediaQuery.of(context).size.height * 0.45,
-              ),
-              child: BlocBuilder<SurveyPopularBloc, SurveyPopularState>(
-                builder: (context, state) {
-                  return state.maybeWhen(
-                    orElse: () {
-                      return Container();
-                    },
-                    loading: () {
-                      return const SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                    error: (message) {
-                      return Text(message);
-                    },
-                    loaded: (surveyList) {
-                      return ListView.builder(
-                        itemCount: surveyList.length,
+            child: BlocBuilder<SurveyPopularBloc, SurveyPopularState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () {
+                    return Container();
+                  },
+                  loading: () {
+                    return const SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                  loaded: (data) {
+                    return ConstrainedBox(
+                      constraints: BoxConstraints(
+                        // minHeight: 60,
+                        maxHeight: data.length < 2
+                            ? MediaQuery.of(context).size.height * 0.18
+                            : MediaQuery.of(context).size.height * 0.4,
+                      ),
+                      child: ListView.builder(
+                        itemCount: data.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final survey = surveyList[index];
+                          final survey = data[index];
                           final surveyTitle = survey.survey.title;
 
                           final totalSurveyQuestions = survey.totalQuestion;
@@ -732,7 +731,7 @@ class _MainSectionState extends State<MainSection> {
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .width *
-                                                              0.05,
+                                                              0.12,
                                                     ),
                                                     IconButton(
                                                       onPressed: () {},
@@ -785,11 +784,11 @@ class _MainSectionState extends State<MainSection> {
                             ],
                           );
                         },
-                      );
-                    },
-                  );
-                },
-              ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           )
         ],

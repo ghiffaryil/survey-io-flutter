@@ -61,6 +61,7 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Icon? icon;
   final double height;
   final double toolbarHeight;
+  final Color textColor;
 
   const SecondaryAppBar({
     required this.title,
@@ -70,6 +71,7 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.icon,
     this.height = 100,
     this.toolbarHeight = 100,
+    this.textColor = AppColors.white,
     Key? key,
   }) : super(key: key);
 
@@ -84,11 +86,13 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: IconButton(
         onPressed: onPressed,
         icon: icon!,
+        color: AppColors.white,
       ),
       automaticallyImplyLeading: implyLeading,
       backgroundColor: AppColors.primary,
       surfaceTintColor: AppColors.primary,
       title: title,
+      titleTextStyle: TextStyle(color: textColor, fontSize: 16),
     );
   }
 }

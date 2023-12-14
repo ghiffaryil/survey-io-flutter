@@ -24,8 +24,8 @@ class _ProfileSectionCoinState extends State<ProfileSectionCoin> {
               userFrontName: 'User',
               iconImage: Image.asset(
                 IconName.point,
-                width: 40,
-                height: 40,
+                width: 35,
+                height: 35,
               ),
               label: 'Celengan Saya',
               labelValue: '0',
@@ -37,8 +37,8 @@ class _ProfileSectionCoinState extends State<ProfileSectionCoin> {
               userFrontName: 'User',
               iconImage: Image.asset(
                 IconName.point,
-                width: 40,
-                height: 40,
+                width: 35,
+                height: 35,
               ),
               label: 'Celengan Saya',
               labelValue: '0',
@@ -52,8 +52,8 @@ class _ProfileSectionCoinState extends State<ProfileSectionCoin> {
               userFrontName: data.user.name.split(' ')[0],
               iconImage: Image.asset(
                 IconName.point,
-                width: 40,
-                height: 40,
+                width: 35,
+                height: 35,
               ),
               label: 'Celengan Saya',
               labelValue: formattedPoint,

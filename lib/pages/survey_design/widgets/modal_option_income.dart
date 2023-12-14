@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_income/survey_design_list_demography_income_bloc.dart';
-import 'package:survey_io/models/survey_design/data/demography_income_model.dart';
 
 import '../../../../common/components/notice_card.dart';
 import '../../../../common/components/divider.dart';
@@ -13,7 +11,7 @@ import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 
-import '../../../datasources/survey_design/data/list_demography_income.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_income/survey_design_list_demography_income_bloc.dart';
 import '../../../datasources/survey_design/repository/localRepositoryIncome.dart';
 
 class ModalOptionIncome extends StatefulWidget {
@@ -26,8 +24,7 @@ class ModalOptionIncome extends StatefulWidget {
 }
 
 class _ModalOptionIncomeState extends State<ModalOptionIncome> {
-  final List<DemographyIncomeModel> list =
-      ListDemographyIncome.getDemographyIncomeList();
+  
   final incomeRepository = LocalRepositoryDemographyIncome();
 
   List<int> selectedId = [];

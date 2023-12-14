@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/models/survey/list/survey_list_response_model.dart';
 import 'package:survey_io/pages/profile/profile.dart';
 import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -12,17 +11,20 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 import '../../common/components/appbar.dart';
 import '../../common/components/appbar_plain.dart';
 
-class WebviewSurveyDesignPayment extends StatefulWidget {
+class WebviewSurveyDesignCreateQuestion extends StatefulWidget {
   final String url;
+  final String title;
 
-  const WebviewSurveyDesignPayment({super.key, required this.url});
+  const WebviewSurveyDesignCreateQuestion(
+      {super.key, required this.url, required this.title});
 
   @override
-  State<WebviewSurveyDesignPayment> createState() =>
-      _SurveyDesignPaymenStatet();
+  State<WebviewSurveyDesignCreateQuestion> createState() =>
+      _WebviewSurveyDesignCreateQuestionState();
 }
 
-class _SurveyDesignPaymenStatet extends State<WebviewSurveyDesignPayment> {
+class _WebviewSurveyDesignCreateQuestionState
+    extends State<WebviewSurveyDesignCreateQuestion> {
   bool isLoading = true;
   var loadingPercentage = 0;
   late WebViewController controller;
@@ -50,8 +52,8 @@ class _SurveyDesignPaymenStatet extends State<WebviewSurveyDesignPayment> {
                 MaterialPageRoute(
                     builder: (context) => const SurveyDesignListPage()));
           },
-          title: Text('Pembayaran Survey',
-              style: TextStyles.h3(color: AppColors.white)),
+          title:
+              Text(widget.title, style: TextStyles.h3(color: AppColors.white)),
           icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.white,
@@ -71,7 +73,7 @@ class _SurveyDesignPaymenStatet extends State<WebviewSurveyDesignPayment> {
                   onWebResourceError: (WebResourceError error) {},
                   onNavigationRequest: (NavigationRequest request) {
                     if (request.url.startsWith(
-                        'https://pay-stg.oyindonesia.com/status/')) {
+                        'https://dev-app.survei.io/createsurvey/')) {
                       return NavigationDecision.prevent;
                     }
                     return NavigationDecision.navigate;

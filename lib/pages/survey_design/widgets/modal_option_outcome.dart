@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_outcome/survey_design_list_demography_outcome_bloc.dart';
-import 'package:survey_io/models/survey_design/data/demography_outcome_model.dart';
 
 import '../../../../common/components/notice_card.dart';
 import '../../../../common/components/divider.dart';
@@ -12,8 +10,9 @@ import '../../../../common/constants/widgets/indicator.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
-import '../../../datasources/survey_design/data/list_demography_outcome.dart';
-import '../../../datasources/survey_design/repository/localRepositoryOutcome.dart';
+
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryOutcome.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_outcome/survey_design_list_demography_outcome_bloc.dart';
 
 class ModalOptionOutcome extends StatefulWidget {
   final void Function() onUpdate;
@@ -25,8 +24,7 @@ class ModalOptionOutcome extends StatefulWidget {
 }
 
 class _ModalOptionOutcomeState extends State<ModalOptionOutcome> {
-  final List<DemographyOutcomeModel> list =
-      ListDemographyOutcome.getDemographyOutcomeList();
+  
   final outcomeRepository = LocalRepositoryDemographyOutcome();
 
   List<int> selectedId = [];

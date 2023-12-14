@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_children/survey_design_list_demography_children_bloc.dart';
-import 'package:survey_io/models/survey_design/data/demography_children_model.dart';
 
 import '../../../../common/components/notice_card.dart';
 import '../../../../common/components/divider.dart';
@@ -13,7 +11,7 @@ import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 
-import '../../../datasources/survey_design/data/list_demography_children.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_children/survey_design_list_demography_children_bloc.dart';
 import '../../../datasources/survey_design/repository/localRepositoryChildren.dart';
 
 class ModalOptionChildren extends StatefulWidget {
@@ -26,8 +24,7 @@ class ModalOptionChildren extends StatefulWidget {
 }
 
 class _ModalOptionChildrenState extends State<ModalOptionChildren> {
-  final List<DemographyChildrenModel> list =
-      ListDemographyChildren.getDemographyChildrenList();
+  
   final childrenRepository = LocalRepositoryDemographyChildren();
 
   List<int> selectedId = [];

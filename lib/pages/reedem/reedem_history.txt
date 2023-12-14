@@ -13,7 +13,6 @@ import '../../../common/constants/styles.dart';
 import '../../../common/extension/helper/date_helper.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/constants/icons.dart';
-import '../../datasources/reedem/list_reedem_history.dart';
 import 'widgets/item_reedem_history_card.dart';
 
 class ReedemHistoryPage extends StatefulWidget {

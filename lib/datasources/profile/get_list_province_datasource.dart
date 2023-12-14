@@ -37,7 +37,7 @@ class GetListProvinceDatasource {
           return const Left('Can\'t Load data ');
         }
       } catch (e) {
-        print('Load Polling New : Failed');
+        print('Load Province : Failed');
         return const Left('Server Error');
       }
     }

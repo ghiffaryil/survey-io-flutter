@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:survey_io/pages/reedem/reedem_history.dart';
+// import 'package:survey_io/pages/reedem/reedem_history.txt';
 
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';
@@ -90,10 +90,10 @@ class UserInformation extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5),
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ReedemHistoryPage()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const ReedemHistoryPage()));
                     },
                     child: Container(
                       height: 40,

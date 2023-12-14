@@ -12,29 +12,36 @@ class SurveyDesignListDatasource {
 
     if (token.isEmpty) {
       return const Left('No access token available');
-    }
+    } else {
+      final headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token
+      };
 
-    final headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'authorization': token
-    };
-
-    try {
-      final response = await http.get(
+      final request = http.Request(
+        'GET',
         Uri.parse('${Variables.baseURL}/survey/design/get-list'),
-        headers: headers,
       );
-      if (response.statusCode == 200) {
-        print('Load Survey Design : success');
-        return Right(SurveyDesignListResponseModel.fromJson(response.body));
-      } else {
-        print('Load Survey Design : No Data');
-        return const Left('Can\'t Load data ');
+
+      request.headers.addAll(headers);
+
+      try {
+        final response = await http.Client().send(request);
+
+        if (response.statusCode == 200) {
+          final responseBody = await response.stream.bytesToString();
+          print('List Survey Design Success');
+          print(responseBody);
+          return Right(SurveyDesignListResponseModel.fromJson(responseBody));
+        } else {
+          print('List Survey Design No Data');
+          return const Left('No data ');
+        }
+      } catch (e) {
+        print('Load Survey Design : Failed');
+        return const Left('Server Error');
       }
-    } catch (e) {
-      print('Load Survey Design : $e');
-      return const Left('Server Error');
     }
   }
 }
