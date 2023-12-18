@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 import '../../reedem/reedem_gift_card.dart';
 import '../../../bloc/polling/polling_participate/polling_participate_bloc.dart';
 import '../../../common/constants/icons.dart';
@@ -32,9 +33,13 @@ class _TabNewPollingState extends State<TabNewPolling> {
           return state.maybeWhen(orElse: () {
             return Container();
           }, loading: () {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return ListView.builder(
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return const ShimmerPolling(
+                    tab: 'New',
+                  );
+                });
           }, error: (message) {
             return Container(
                 margin: EdgeInsets.only(

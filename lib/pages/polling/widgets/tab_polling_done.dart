@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 import '../../../common/components/chart_indicator.dart';
 import '../../../common/constants/widgets/indicator.dart';
 import '../../../bloc/polling/polling_done/polling_done_bloc.dart';
@@ -37,9 +38,13 @@ class _TabPollingDoneState extends State<TabPollingDone> {
               return Container();
             },
             loading: () {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return ListView.builder(
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    return const ShimmerPolling(
+                      tab: 'Done',
+                    );
+                  });
             },
             error: (message) {
               return Container(

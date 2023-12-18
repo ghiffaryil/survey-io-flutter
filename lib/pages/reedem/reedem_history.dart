@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/reedem/reedem_history/reedem_history_bloc.dart';
 import 'package:survey_io/common/components/divider.dart';
-import 'package:survey_io/models/reedem/reedem_history_mdel.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/models/reedem/reedem_history_response_model.dart';
 import '../../../common/components/label.dart';
 import '../../../common/constants/colors.dart';
@@ -12,8 +12,6 @@ import '../../../common/constants/padding.dart';
 import '../../../common/constants/styles.dart';
 import '../../../common/extension/helper/date_helper.dart';
 import '../../../common/components/appbar_plain.dart';
-import '../../../common/constants/icons.dart';
-import 'widgets/item_reedem_history_card.dart';
 
 class ReedemHistoryPage extends StatefulWidget {
   const ReedemHistoryPage({super.key});
@@ -25,68 +23,12 @@ class ReedemHistoryPage extends StatefulWidget {
 }
 
 class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
-  List<ReedemHistoryModel> reedemHistoryData =
-      ListReedemHistory.getReedemHistory();
-
   @override
   void initState() {
     super.initState();
     context
         .read<ReedemHistoryBloc>()
         .add(const ReedemHistoryEvent.getListReedemHistory());
-  }
-
-  void markNotificationAsRead(int reedemHistoryId) {
-    setState(() {
-      for (var data in reedemHistoryData) {
-        if (data.id == reedemHistoryId) {
-          data.status = 'read';
-        }
-      }
-    });
-  }
-
-  void markNotificationAsClick(int reedemHistoryId) {
-    setState(() {
-      for (var data in reedemHistoryData) {
-        if (data.id == reedemHistoryId) {
-          data.clicked = true;
-        }
-      }
-    });
-  }
-
-  Widget buildDismissibleNotification(int index) {
-    final data = reedemHistoryData[index];
-    final reedemHistoryId = data.id;
-
-    return Dismissible(
-      onDismissed: (DismissDirection direction) {
-        setState(() {
-          markNotificationAsRead(reedemHistoryId);
-        });
-        reedemHistoryData.removeAt(index);
-      },
-      background: Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20.0),
-        color: AppColors.info,
-        child: Image.asset(
-          IconName.trash,
-          width: 25,
-        ),
-      ),
-      key: UniqueKey(),
-      direction: DismissDirection.endToStart,
-      child: InkWell(
-        onTap: () {
-          markNotificationAsClick(reedemHistoryId);
-        },
-        child: ReedemHistoryCard(
-          data: reedemHistoryData[index],
-        ),
-      ),
-    );
   }
 
   @override
@@ -116,12 +58,12 @@ class _ReedemHistoryPageState extends State<ReedemHistoryPage> {
               return state.maybeWhen(orElse: () {
                 return Container();
               }, loading: () {
-                return const Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
+                return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 8,
+                    itemBuilder: (context, index) {
+                      return const ShimmerNotification();
+                    });
               }, error: (message) {
                 return Container(
                   padding: CustomPadding.p3,

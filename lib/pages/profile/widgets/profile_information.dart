@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/icons.dart';
 import '../../../../common/constants/styles.dart';
@@ -41,34 +42,7 @@ class _UserInformationState extends State<UserInformation> {
             return state.maybeWhen(orElse: () {
               return Container();
             }, loading: () {
-              return Row(children: [
-                Image.asset(
-                  IconName.account,
-                  width: 45,
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  flex: 6,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '-',
-                        style: TextStyles.extraLarge(
-                            color: AppColors.secondary,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '-',
-                        style: TextStyles.regular(color: AppColors.secondary),
-                      )
-                    ],
-                  ),
-                ),
-              ]);
+              return const ShimmerProfileUser();
             }, error: (message) {
               return Row(children: [
                 Image.asset(

@@ -144,7 +144,6 @@ class ButtonFilled extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: CircularProgressIndicator(
                   color: textColor,
-                  strokeWidth: 3,
                 ),
               ),
             )

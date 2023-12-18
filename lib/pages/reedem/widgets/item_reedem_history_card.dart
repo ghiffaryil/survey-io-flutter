@@ -1,7 +1,7 @@
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:survey_io/models/reedem/reedem_history_mdel.dart';
+import 'package:survey_io/models/reedem/reedem_history_model.dart';
 
 class ReedemHistoryCard extends StatelessWidget {
   final ReedemHistoryModel data;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 
 // Import Component
 import 'package:survey_io/common/components/text_button.dart';
@@ -33,9 +34,11 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
   @override
   void initState() {
     super.initState();
+    checkToken();
   }
 
   void loadDataSource() {
+    print('Load Survey');
     context.read<SurveyListBloc>().add(const SurveyListEvent.getSurveyList());
   }
 
@@ -109,11 +112,16 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
               return Container();
             },
             loading: () {
-              return const SizedBox(
-                height: 40,
-                width: 40,
-                child: CircularProgressIndicator(),
-              );
+              return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: 6,
+                  itemBuilder: (BuildContext context, int index) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15.0),
+                      child: ShimmerListSurvey(),
+                    );
+                  });
             },
             error: (message) {
               return Text(message);

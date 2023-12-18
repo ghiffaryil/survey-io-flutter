@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
@@ -138,33 +139,35 @@ class _InviteFriendState extends State<InviteFriend> {
   }
 
   Widget ReferalCode() {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.07,
-      padding: const EdgeInsets.all(10),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(50)),
-        color: AppColors.primary.withOpacity(0.05),
-      ),
-      child: BlocBuilder<ProfileBloc, ProfileState>(
-        builder: (context, state) {
-          return state.maybeWhen(orElse: () {
-            return Container();
-          }, loading: () {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primary,
-              ),
-            );
-          }, error: (message) {
-            return Container(
-                alignment: Alignment.center,
-                child: Text(
-                  message,
-                  textAlign: TextAlign.center,
-                ));
-          }, loaded: (data) {
-            return Center(
+    return BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
+      return state.maybeWhen(
+        orElse: () {
+          return Container();
+        },
+        loading: () {
+          return const ShimmerInvite();
+        },
+        error: (message) {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.07,
+            padding: const EdgeInsets.all(10),
+            width: double.infinity,
+              alignment: Alignment.center,
+              child: Text(
+                message,
+                textAlign: TextAlign.center,
+              ));
+        },
+        loaded: (data) {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.07,
+            padding: const EdgeInsets.all(10),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(50)),
+              color: AppColors.primary.withOpacity(0.05),
+            ),
+            child: Center(
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -205,11 +208,11 @@ class _InviteFriendState extends State<InviteFriend> {
                   ),
                 ),
               ],
-            ));
-          });
+            )),
+          );
         },
-      ),
-    );
+      );
+    });
   }
 
   Widget TextInformationReferal() {

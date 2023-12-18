@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/bloc/survey/survey_popular/survey_popular_bloc.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
@@ -271,16 +272,15 @@ class _MainSectionState extends State<MainSection> {
                   return Container();
                 }, loading: () {
                   return Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    padding: const EdgeInsets.all(8.0),
-                    child: const SizedBox(
-                      height: 40,
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
+                      margin: const EdgeInsets.only(top: 10),
+                      child: const SizedBox(
+                        height: 100.0,
+                        child: ShimmerCardMain(),
+                      ));
                 }, error: (error) {
-                  return SizedBox(
-                      height: 40, child: Center(child: Text(error)));
+                  return const SizedBox(
+                      height: 40,
+                      child: Center(child: Text('Can\'t load data ')));
                 }, loaded: (data) {
                   return Container(
                     height: MediaQuery.of(context).size.height * 0.2,
@@ -362,8 +362,7 @@ class _MainSectionState extends State<MainSection> {
                                             text: 'Ikut Survei',
                                             onPressed: () {
                                               print(surveyToken);
-                                              print(
-                                                  '${data.survey.surveyLink}');
+                                              print(data.survey.surveyLink);
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -427,8 +426,12 @@ class _MainSectionState extends State<MainSection> {
                   return Text(message);
                 },
                 loading: () {
-                  return const SizedBox(
-                      height: 40, child: CircularProgressIndicator());
+                  return Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      child: const SizedBox(
+                        height: 100.0,
+                        child: ShimmerCardMain(),
+                      ));
                 },
                 loaded: (data) {
                   if (data.isNotEmpty) {
@@ -618,11 +621,12 @@ class _MainSectionState extends State<MainSection> {
                     return Container();
                   },
                   loading: () {
-                    return const SizedBox(
-                      height: 40,
-                      width: 40,
-                      child: CircularProgressIndicator(),
-                    );
+                    return Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        child: const SizedBox(
+                          height: 100.0,
+                          child: ShimmerCardMain(),
+                        ));
                   },
                   loaded: (data) {
                     return ConstrainedBox(

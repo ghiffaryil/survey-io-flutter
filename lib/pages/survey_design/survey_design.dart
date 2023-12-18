@@ -670,6 +670,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
           containerPrice(),
         ],
       ),
+     
     );
   }
 
