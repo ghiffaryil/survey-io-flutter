@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 import 'package:survey_io/bloc/reedem/product_prepaid_list/product_prepaid_list_bloc.dart';
 import 'package:survey_io/common/components/image_rounded.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/divider.dart';
@@ -72,9 +73,12 @@ class _ReedemPageState extends State<ReedemPage> {
                       return Container();
                     },
                     loading: () {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: 8,
+                          itemBuilder: (context, index) {
+                            return const ShimmerReedem();
+                          });
                     },
                     error: (message) {
                       return Text(message);

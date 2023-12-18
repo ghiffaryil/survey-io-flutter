@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 import '../../../common/components/divider.dart';
 import '../../../common/components/label.dart';
 import '../../../common/constants/colors.dart';
@@ -61,12 +62,12 @@ class _NotificationPageState extends State<NotificationPage> {
                   return Container();
                 },
                 loading: () {
-                  return const Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 8,
+                      itemBuilder: (context, index) {
+                        return const ShimmerNotification();
+                      });
                 },
                 error: (message) {
                   return Container(

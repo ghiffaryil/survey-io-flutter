@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-// import 'package:survey_io/pages/reedem/reedem_history.txt';
+import 'package:survey_io/pages/reedem/reedem_history.dart';
 
-import '../../../../common/constants/colors.dart';
-import '../../../../common/constants/icons.dart';
-import '../../../../common/constants/padding.dart';
-import '../../../../common/constants/styles.dart';
-import '../../../bloc/profile/get_profile/profile_bloc.dart';
+import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/icons.dart';
+import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/common/constants/styles.dart';
+import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 
 class UserInformation extends StatelessWidget {
   const UserInformation({super.key});
@@ -90,10 +90,10 @@ class UserInformation extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5),
                   child: InkWell(
                     onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const ReedemHistoryPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ReedemHistoryPage()));
                     },
                     child: Container(
                       height: 40,

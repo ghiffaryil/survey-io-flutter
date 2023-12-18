@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
-import 'package:survey_io/bloc/survey_design/survey_design_payment/survey_design_payment_bloc.dart';
 import 'package:survey_io/common/components/divider.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/common/constants/function/utils.dart';
 import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/images.dart';
@@ -18,6 +19,7 @@ import 'package:survey_io/pages/survey_design/survey_design.dart';
 import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 import 'package:survey_io/common/extension/helper/currency_helper.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_list/survey_design_list_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_payment/survey_design_payment_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_submit/survey_design_submit_bloc.dart';
 import 'package:survey_io/pages/survey_design/webview_survey_design_create_question.dart';
 import 'package:survey_io/pages/survey_design/webview_survey_design_payment.dart';
@@ -93,14 +95,54 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
               return Container();
             },
             loading: () {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.12,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                  ),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        return Container(
+                            padding: CustomPadding.p3,
+                            margin: const EdgeInsets.only(bottom: 10),
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: const Offset(0, 5),
+                                    color: AppColors.light.withOpacity(0.2),
+                                    spreadRadius: 0,
+                                    blurRadius: 5),
+                              ],
+                              color: AppColors.white,
+                            ),
+                            child: const ShimmerSurveyDesign());
+                      }),
+                  CustomDividers.smallDivider(),
+                ],
               );
             },
             error: (message) {
-              return Center(
-                child: Text(message),
-              );
+              return Column(children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                ),
+                Image.asset(
+                  Images.emptyCreateSurvey,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                ),
+                CustomDividers.smallDivider(),
+                Text(
+                  'Ups, Terjadi kesalahan',
+                  textAlign: TextAlign.center,
+                  style: TextStyles.extraLarge(color: AppColors.secondary),
+                ),
+              ]);
             },
             loaded: (data) {
               if (data.isEmpty) {
@@ -153,21 +195,21 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                         Color textColor = AppColors.white;
 
                         if (surveyDesignData.created == 0) {
-                          statusLabel = "Created"; //Created
+                          statusLabel = "Draft"; //Created
                           statusColor = AppColors.light.withOpacity(0.3);
                           textColor = const Color(0XFF5c5959);
                         } else if (surveyDesignData.created == 1) {
-                          statusLabel = "Payment"; // Menunggu Pembayaran
+                          statusLabel = "Draft"; // Menunggu Pembayaran
                           statusColor = AppColors.light.withOpacity(0.3);
                           textColor = const Color(0XFF5c5959);
                         } else if (surveyDesignData.created == 2) {
-                          statusLabel = "Draft"; //Draft
+                          statusLabel = "Draft"; //Draft //Paid
                           statusColor = AppColors.light.withOpacity(0.3);
                           textColor = const Color(0XFF5c5959);
                         } else if (surveyDesignData.created == 3) {
                           statusLabel = "Submitted"; //Submitted
-                          statusColor = AppColors.light.withOpacity(0.3);
-                          textColor = const Color(0XFF5c5959);
+                          statusColor = AppColors.info;
+                          textColor = AppColors.white;
                         } else if (surveyDesignData.created == 4) {
                           statusLabel = "Rejected";
                           statusColor = AppColors.primary;
@@ -306,40 +348,28 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                           ),
                                           Expanded(
                                             flex: 4,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Expanded(
-                                                  child: ButtonFilled.info(
-                                                      height: 40,
-                                                      text: 'Lanjutkan',
-                                                      onPressed: () {
-                                                        print(
-                                                            'Webview Create Question URL');
-                                                        String modifiedUrl =
-                                                            surveyDesignData
-                                                                .createQuestionUrl
-                                                                .replaceAll(
-                                                                    '\u0026',
-                                                                    '&');
-                                                        print(
-                                                            '$modifiedUrl&key=$surveyToken');
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        WebviewSurveyDesignCreateQuestion(
-                                                                          title:
-                                                                              surveyDesignData.title,
-                                                                          url:
-                                                                              '$modifiedUrl&key=$surveyToken',
-                                                                        )));
-                                                      }),
-                                                ),
-                                              ],
-                                            ),
+                                            child: ButtonFilled.info(
+                                                height: 40,
+                                                text: 'Lanjutkan',
+                                                onPressed: () {
+                                                  String modifiedUrl =
+                                                      replaceAmpersAnd(
+                                                          surveyDesignData
+                                                              .createQuestionUrl);
+                                                  print(
+                                                      '$modifiedUrl&key=$surveyToken');
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              WebviewSurveyDesignCreateQuestion(
+                                                                title:
+                                                                    surveyDesignData
+                                                                        .title,
+                                                                url:
+                                                                    '$modifiedUrl&key=$surveyToken',
+                                                              )));
+                                                }),
                                           )
                                         ],
                                       ),
@@ -404,6 +434,9 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                           orElse: () {
                                                         return ButtonFilled
                                                             .info(
+                                                                textColor:
+                                                                    Colors
+                                                                        .white,
                                                                 height: 40,
                                                                 text: 'Bayar',
                                                                 onPressed: () {
@@ -419,7 +452,6 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                             .info(
                                                           height: 40,
                                                           text: '',
-                                                          fontSize: 16,
                                                           textColor:
                                                               AppColors.white,
                                                           onPressed: () {},
@@ -439,73 +471,34 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                               child: Row(
                                                 children: [
                                                   Expanded(
-                                                    flex: 4,
+                                                    flex: 6,
                                                     child: Container(),
                                                   ),
                                                   Expanded(
-                                                    flex: 6,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        Expanded(
-                                                          child:
-                                                              GestureDetector(
-                                                            onTap: () {
-                                                              String
-                                                                  modifiedUrl =
+                                                    flex: 4,
+                                                    child: ButtonFilled.info(
+                                                        height: 40,
+                                                        text: 'Lanjutkan',
+                                                        onPressed: () {
+                                                          String modifiedUrl =
+                                                              replaceAmpersAnd(
                                                                   surveyDesignData
-                                                                      .createQuestionUrl
-                                                                      .replaceAll(
-                                                                          '\u0026',
-                                                                          '&');
-                                                              print(
-                                                                  '$modifiedUrl&key=$surveyToken');
-                                                              Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) =>
+                                                                      .createQuestionUrl);
+                                                          print(
+                                                              '$modifiedUrl&key=$surveyToken');
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
                                                                           WebviewSurveyDesignCreateQuestion(
                                                                             title:
                                                                                 surveyDesignData.title,
                                                                             url:
                                                                                 '$modifiedUrl&key=$surveyToken',
                                                                           )));
-                                                            },
-                                                            child: Container(
-                                                              padding:
-                                                                  CustomPadding
-                                                                      .px1,
-                                                              child: Text(
-                                                                'Edit',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    TextStyles
-                                                                        .h4(),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child:
-                                                              ButtonFilled.info(
-                                                                  height: 40,
-                                                                  text:
-                                                                      'Submit',
-                                                                  onPressed:
-                                                                      () {
-                                                                    showModalSubmitConfirmation(
-                                                                        context,
-                                                                        surveyDesignData
-                                                                            .id);
-                                                                  }),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
+                                                        }),
+                                                  ),
                                                 ],
                                               ),
                                             )

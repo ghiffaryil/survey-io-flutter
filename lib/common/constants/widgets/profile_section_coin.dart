@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/common/constants/icons.dart';
 import 'package:survey_io/common/constants/widgets/profile_card.dart';
 import 'package:survey_io/pages/reedem/reedem.dart';
@@ -20,17 +21,7 @@ class _ProfileSectionCoinState extends State<ProfileSectionCoin> {
       builder: (context, state) {
         return state.maybeWhen(
           orElse: () {
-            return FloatingProfileCard(
-              userFrontName: 'User',
-              iconImage: Image.asset(
-                IconName.point,
-                width: 35,
-                height: 35,
-              ),
-              label: 'Celengan Saya',
-              labelValue: '0',
-              onPressed: () {},
-            );
+            return Container();
           },
           error: (error) {
             return FloatingProfileCard(
@@ -44,6 +35,9 @@ class _ProfileSectionCoinState extends State<ProfileSectionCoin> {
               labelValue: '0',
               onPressed: () {},
             );
+          },
+          loading: () {
+            return const ShimmerProfileFloat();
           },
           loaded: (data) {
             String formattedPoint =

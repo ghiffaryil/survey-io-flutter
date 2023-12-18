@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/reedem/product_prepaid_list/product_prepaid_list_bloc.dart';
 import 'package:survey_io/common/components/image_rounded.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/divider.dart';
@@ -54,7 +55,7 @@ class _ReedemPageAllProductsState extends State<ReedemPageAllProducts> {
           ),
           Expanded(
             child: Container(
-              padding: CustomPadding.p2,
+              padding: CustomPadding.p1,
               child:
                   BlocBuilder<ProductPrepaidListBloc, ProductPrepaidListState>(
                 builder: (context, state) {
@@ -63,9 +64,12 @@ class _ReedemPageAllProductsState extends State<ReedemPageAllProducts> {
                       return Container();
                     },
                     loading: () {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: 8,
+                          itemBuilder: (context, index) {
+                            return const ShimmerReedem();
+                          });
                     },
                     error: (message) {
                       return Center(
@@ -111,7 +115,9 @@ class _ReedemPageAllProductsState extends State<ReedemPageAllProducts> {
                                         CrossAxisAlignment.stretch,
                                     children: [
                                       Card(
-                                        elevation: 4,
+                                        color: AppColors.white,
+                                        surfaceTintColor: AppColors.white,
+                                        elevation: 3,
                                         child: Padding(
                                           padding: const EdgeInsets.all(5.0),
                                           child: Row(
