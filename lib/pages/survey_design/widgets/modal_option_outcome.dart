@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:survey_io/models/survey_design/data/demography_outcome_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/components/notice_card.dart';
 import '../../../../common/components/divider.dart';
@@ -10,8 +10,9 @@ import '../../../../common/constants/widgets/indicator.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
-import '../../../datasources/survey_design/data/list_demography_outcome.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryOutcome.dart';
+
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryOutcome.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_outcome/survey_design_list_demography_outcome_bloc.dart';
 
 class ModalOptionOutcome extends StatefulWidget {
   final void Function() onUpdate;
@@ -23,8 +24,7 @@ class ModalOptionOutcome extends StatefulWidget {
 }
 
 class _ModalOptionOutcomeState extends State<ModalOptionOutcome> {
-  final List<DemographyOutcomeModel> list =
-      ListDemographyOutcome.getDemographyOutcomeList();
+  
   final outcomeRepository = LocalRepositoryDemographyOutcome();
 
   List<int> selectedId = [];
@@ -35,6 +35,9 @@ class _ModalOptionOutcomeState extends State<ModalOptionOutcome> {
   void initState() {
     super.initState();
     selectedScope = [];
+    context.read<SurveyDesignListDemographyOutcomeBloc>().add(
+        const SurveyDesignListDemographyOutcomeEvent
+            .getListDemographyOutcome());
     onLoad();
   }
 
@@ -67,8 +70,12 @@ class _ModalOptionOutcomeState extends State<ModalOptionOutcome> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
-      padding: CustomPadding.p2,
+      height: MediaQuery.of(context).size.height * 0.85,
+      padding: const EdgeInsets.all(10),
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+          color: Colors.white),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -92,94 +99,142 @@ class _ModalOptionOutcomeState extends State<ModalOptionOutcome> {
           CustomDividers.verySmallDivider(),
           Expanded(
             child: SingleChildScrollView(
-              child: ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: list.length + 1,
-                separatorBuilder: ((context, index) {
-                  return const Divider();
-                }),
-                itemBuilder: (BuildContext context, int index) {
-                  if (index == 0) {
-                    return ListTile(
-                      dense: true,
-                      visualDensity:
-                          const VisualDensity(horizontal: 0, vertical: -4),
-                      title: Text(
-                        'Semua pendapatan',
-                        style: TextStyles.large(
-                            fontWeight: FontWeight.w600,
-                            color: selectedId.isEmpty && selectedScope.isEmpty
-                                ? AppColors.black
-                                : AppColors.light.withOpacity(0.6)),
-                      ),
-                      leading: CustomCheckbox(
-                          value: selectAll,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              selectAll = value ?? false;
-                              selectedId.clear();
-                              selectedScope.clear();
-                            });
-                          }),
-                    );
-                  } else {
-                    final item = list[index - 1];
-                    return ListTile(
-                        dense: true,
-                        visualDensity:
-                            const VisualDensity(horizontal: 0, vertical: -4),
-                        title: Text(
-                          item.scope.toString(),
-                          style: TextStyles.large(
-                              fontWeight: FontWeight.w600,
-                              color: selectedId.contains(item.id) &&
-                                      selectedScope.contains(item.scope)
-                                  ? AppColors.black
-                                  : AppColors.light.withOpacity(0.6)),
-                        ),
-                        leading: CustomCheckbox(
-                          value: selectedId.contains(item.id),
-                          onChanged: (bool? value) {
-                            setState(() {
-                              if (value == true) {
-                                selectedId.add(item.id);
-                                selectedScope.add(item.scope);
-                              } else {
-                                selectedId.remove(item.id);
-                                selectedScope.remove(item.scope);
-                              }
-                              selectedId.sort();
+              child: BlocBuilder<SurveyDesignListDemographyOutcomeBloc,
+                  SurveyDesignListDemographyOutcomeState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return Container();
+                    },
+                    loading: () {
+                      return Container();
+                    },
+                    error: (message) {
+                      return Text(message);
+                    },
+                    loaded: (data) {
+                      if (selectedId.isEmpty && selectedScope.isEmpty) {
+                        selectedId.add(0);
+                        selectedScope.add('Semua');
+                      }
 
-                              selectedScope.sort((a, b) {
-                                final indexA =
-                                    list.indexWhere((item) => item.scope == a);
-                                final indexB =
-                                    list.indexWhere((item) => item.scope == b);
-                                return selectedId.indexOf(indexA) -
-                                    selectedId.indexOf(indexB);
-                              });
+                      void clearSelection() {
+                        selectedId.clear();
+                        selectedScope.clear();
+                      }
 
-                              // If All option selected
-                              if (selectedId.length == list.length) {
-                                selectAll = true;
-                                selectedId.clear();
-                                selectedScope.clear();
-                              } else if (selectedId.isEmpty) {
-                                // If no one selected
-                                selectAll = true;
-                                selectedId.clear();
-                                selectedScope.clear();
-                              } else {
-                                // If at least one option selected but not of all
-                                selectAll = false;
-                                selectedId.remove(0);
-                                selectedScope.remove('Semua');
-                              }
-                            });
-                          },
-                        ));
-                  }
+                      void selectAllItem() {
+                        selectAll = true;
+                        selectedId.add(0);
+                        selectedScope.add('Semua');
+                      }
+
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: data.length,
+                        separatorBuilder: ((context, index) {
+                          return const Divider(
+                            thickness: 0.3,
+                          );
+                        }),
+                        itemBuilder: (BuildContext context, int index) {
+                          final item = data[index];
+                          return ListTile(
+                              dense: true,
+                              visualDensity: const VisualDensity(
+                                  horizontal: 0, vertical: -4),
+                              title: Text(
+                                item.scope.toString(),
+                                style: TextStyles.large(
+                                    fontWeight: FontWeight.w600,
+                                    color: selectedId.contains(item.id) &&
+                                            selectedScope.contains(item.scope)
+                                        ? AppColors.black
+                                        : AppColors.light.withOpacity(0.6)),
+                              ),
+                              leading: CustomCheckbox(
+                                value: selectedId.contains(item.id),
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    // IF CHECKED
+                                    if (value == true) {
+                                      selectedId.add(item.id);
+                                      selectedScope.add(item.scope);
+                                    } else {
+                                      // IF UNCHECK
+                                      selectedId.remove(item.id);
+                                      selectedScope.remove(item.scope);
+                                    }
+
+                                    // IF NO ONE SELECTED
+                                    if (selectedId.isEmpty) {
+                                      clearSelection();
+                                      selectAllItem();
+                                      // IF CHOOSE 'SEMUA'
+                                    } else if (item.id == 0) {
+                                      clearSelection();
+                                      selectAllItem();
+                                    } else if (selectedId.length ==
+                                            data.length - 1 &&
+                                        !selectedId.contains(0)) {
+                                      // IF ALL OPTION SELECTED
+                                      clearSelection();
+                                      selectAllItem();
+                                    } else {
+                                      // IF AT LEAST ONE OPTION SELECTED BUT NOT OF ALL
+                                      selectAll = false;
+                                      selectedId.remove(0);
+                                      selectedScope.remove('Semua');
+
+                                      int count = selectedId.length;
+                                      int firstArray = selectedId.first;
+                                      int lastArray = selectedId.last;
+
+                                      // IF CHOICE > THAN 1
+                                      if (count > 1) {
+                                        for (int i = firstArray + 1;
+                                            i <= lastArray;
+                                            i++) {
+                                          if (!selectedId.contains(i)) {
+                                            selectedId.add(i);
+                                            final correspondingScope = data
+                                                .firstWhere(
+                                                    (item) => item.id == i)
+                                                .scope;
+                                            selectedScope
+                                                .add(correspondingScope);
+                                          }
+                                        }
+                                      }
+                                    }
+
+                                    selectedId.sort();
+
+                                    if (selectedId.length == data.length - 1) {
+                                      clearSelection();
+                                      selectAllItem();
+                                    }
+
+                                    selectedScope.sort((a, b) {
+                                      final indexA = data.indexWhere(
+                                          (item) => item.scope == a);
+                                      final indexB = data.indexWhere(
+                                          (item) => item.scope == b);
+                                      return selectedId.indexOf(indexA) -
+                                          selectedId.indexOf(indexB);
+                                    });
+
+                                    print(selectAll);
+                                    print(selectedId);
+                                    print(selectedScope);
+                                  });
+                                },
+                              ));
+                        },
+                      );
+                    },
+                  );
                 },
               ),
             ),
@@ -189,7 +244,7 @@ class _ModalOptionOutcomeState extends State<ModalOptionOutcome> {
                 'Jumlah responden belum tentu sama banyaknya dari setiap kategori, karena tergantung pada kecepatan responden mengambil survei.',
             textLink: 'Klik disini untuk info lanjut',
           ),
-          CustomDividers.regularDivider(),
+          CustomDividers.smallDivider(),
           ButtonFilled.primary(
               text: 'OK',
               onPressed: () {

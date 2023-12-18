@@ -2,8 +2,25 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_request_otp/forgot_passcode_request_otp_bloc.dart';
+import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_verify_otp/forgot_passcode_verify_otp_bloc.dart';
+import 'package:survey_io/bloc/forgot_pasccode/update_passcode/update_passcode_bloc.dart';
 import 'package:survey_io/bloc/profile/get_list_city/get_list_city_bloc.dart';
 import 'package:survey_io/bloc/profile/get_list_province/get_list_province_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_age/survey_design_list_demography_age_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_children/survey_design_list_demography_children_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_gender/survey_design_list_demography_gender_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_income/survey_design_list_demography_income_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_marital/survey_design_list_demography_marital_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_occupation/survey_design_list_demography_occupation_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_outcome/survey_design_list_demography_outcome_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_region/survey_design_list_demography_region_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_religion/survey_design_list_demography_religion_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_is_calculate/survey_design_is_calculate_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_is_create/survey_design_is_create_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_list_report_time/survey_design_list_report_time_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_list_respondent/survey_design_list_respondent_bloc.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_option/survey_design_list_scope/survey_design_list_scope_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_payment/survey_design_payment_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_submit/survey_design_submit_bloc.dart';
 import 'bloc/login/login_bloc.dart';
@@ -125,6 +142,57 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SurveyDesignPaymentBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ForgotPasscodeRequestOtpBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ForgotPasscodeVerifyOtpBloc(),
+        ),
+        BlocProvider(
+          create: (context) => UpdatePasscodeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListRespondentBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListReportTimeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListScopeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyAgeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyChildrenBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyGenderBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyIncomeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyOutcomeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyMaritalBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyOccupationBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyRegionBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignListDemographyReligionBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignIsCalculateBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyDesignIsCreateBloc(),
         ),
       ],
       child: MaterialApp(

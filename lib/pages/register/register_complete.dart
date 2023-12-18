@@ -261,7 +261,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   },
                 )),
             Container(
-              width: 15,
+              width: 10,
             ),
             Expanded(
                 flex: 5,

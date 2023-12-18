@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:survey_io/common/constants/images.dart';
 
 import '../constants/colors.dart';
-import '../constants/icons.dart';
 import '../constants/styles.dart';
 import 'divider.dart';
 
@@ -25,7 +25,7 @@ class NoticeCard extends StatelessWidget {
             flex: 2,
             child: Center(
                 child: Image.asset(
-              IconName.notice,
+              Images.notice,
               width: 45.0,
             )),
           ),

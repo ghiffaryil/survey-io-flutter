@@ -35,6 +35,7 @@ class PlainAppBar extends StatelessWidget implements PreferredSizeWidget {
           )),
       toolbarHeight: height,
       backgroundColor: AppColors.white,
+      surfaceTintColor: AppColors.white,
     );
   }
 }

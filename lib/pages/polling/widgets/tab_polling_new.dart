@@ -297,6 +297,8 @@ class _TabNewPollingState extends State<TabNewPolling> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
           title: Align(
             alignment: Alignment.centerRight,
             child: IconButton(
@@ -336,7 +338,7 @@ class _TabNewPollingState extends State<TabNewPolling> {
           ),
           actions: <Widget>[
             Padding(
-              padding: CustomPadding.p2,
+              padding: CustomPadding.p1,
               child: Row(
                 children: [
                   Expanded(

@@ -25,7 +25,7 @@ class FloatingProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -35,7 +35,7 @@ class FloatingProfileCard extends StatelessWidget {
               color: Colors.grey.withOpacity(0.3),
               spreadRadius: 1,
               blurRadius: 6,
-              offset: Offset(0, 2), // changes position of shadow
+              offset: const Offset(0, 2), // changes position of shadow
             ),
           ],
         ),
@@ -63,8 +63,8 @@ class FloatingProfileCard extends StatelessWidget {
                             flex: 4,
                             child: Image.asset(
                               IconName.account,
-                              width: 40,
-                              height: 40,
+                              width: 35,
+                              height: 35,
                             ),
                           ),
                           Expanded(
@@ -81,7 +81,7 @@ class FloatingProfileCard extends StatelessWidget {
                                 ),
                                 Text(
                                   'Profile Saya',
-                                  style: TextStyles.regular(
+                                  style: TextStyles.small(
                                     color: AppColors.secondary,
                                   ),
                                 ),
@@ -98,7 +98,7 @@ class FloatingProfileCard extends StatelessWidget {
                       height: double.infinity,
                       width: 1.0,
                       color: const Color(0xFFb5b5b5),
-                      margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                      // margin: const EdgeInsets.symmetric(horizontal: 10.0),
                     ),
                   ),
                   Expanded(
@@ -122,7 +122,7 @@ class FloatingProfileCard extends StatelessWidget {
                                 ),
                                 Text(
                                   label,
-                                  style: TextStyles.regular(
+                                  style: TextStyles.small(
                                     color: AppColors.secondary,
                                   ),
                                 ),

@@ -9,7 +9,7 @@ import '../../../common/constants/variables.dart';
 class EditProfileDatasource {
   Future<Either<String, String>> update(
       EditProfileRequestModel requestModel) async {
-    // GET COKEN
+    // GET TOKEN
     final token = await AuthLocalDatasource().getToken();
 
     if (token.isEmpty) {

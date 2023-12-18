@@ -20,6 +20,7 @@ import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/models/user/list_city_response_model.dart';
 import 'package:survey_io/models/user/list_province_response_model.dart';
+import 'package:survey_io/pages/survey_design/survey_design.dart';
 import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 
 class EditProfileComplete extends StatefulWidget {
@@ -333,7 +334,7 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
                   editable: false,
                 )),
             Container(
-              width: 15,
+              width: 10,
             ),
             Expanded(
                 flex: 5,
@@ -603,7 +604,9 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const SurveyDesignListPage()));
+                      builder: (context) => const SurveyDesign(
+                            designAction: 'Create',
+                          )));
             },
             error: (message) {
               Fluttertoast.showToast(

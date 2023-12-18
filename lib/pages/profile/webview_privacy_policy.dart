@@ -35,7 +35,7 @@ class _PrivacyPolicyWebviewState extends State<PrivacyPolicyWebview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SecondaryAppBar(
+        appBar: WebViewAppBar(
           height: 70,
           toolbarHeight: 70,
           onPressed: () {

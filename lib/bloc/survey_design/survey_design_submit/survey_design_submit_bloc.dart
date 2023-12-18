@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:survey_io/datasources/survey_design/survey_design_submit_datasource.dart';
+import 'package:survey_io/datasources/survey_design/submit/survey_design_submit_datasource.dart';
 
 part 'survey_design_submit_event.dart';
 part 'survey_design_submit_state.dart';

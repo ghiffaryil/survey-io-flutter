@@ -137,8 +137,16 @@ class ButtonFilled extends StatelessWidget {
       ),
       onPressed: onPressed,
       child: loading
-          ? CircularProgressIndicator(
-              color: textColor,
+          ? SizedBox(
+              height: minWidth,
+              width: minWidth,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: CircularProgressIndicator(
+                  color: textColor,
+                  strokeWidth: 3,
+                ),
+              ),
             )
           : Text(
               text,
@@ -275,6 +283,7 @@ class ButtonOutlined extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
+        surfaceTintColor: backgroundColor,
         minimumSize: Size(MediaQuery.of(context).size.width * minWidth, height),
         side: BorderSide(color: borderColor),
         shape: RoundedRectangleBorder(

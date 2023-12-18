@@ -127,7 +127,7 @@ class _ReedemTopUpPageState extends State<ReedemTopUpPage> {
                     CustomDividers.regularDivider(),
                     Text(
                       'Nomor ${widget.productName} Terdaftar',
-                      style: TextStyles.h3(),
+                      style: TextStyles.h4(),
                     ),
                     CustomDividers.smallDivider(),
                     SizedBox(

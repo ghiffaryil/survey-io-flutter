@@ -19,38 +19,38 @@ mixin _$GetListCityEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(int provinceId) letListCity,
+    required TResult Function(int provinceId) getListCity,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int provinceId)? letListCity,
+    TResult? Function(int provinceId)? getListCity,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int provinceId)? letListCity,
+    TResult Function(int provinceId)? getListCity,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetListCity value) letListCity,
+    required TResult Function(_GetListCity value) getListCity,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetListCity value)? letListCity,
+    TResult? Function(_GetListCity value)? getListCity,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetListCity value)? letListCity,
+    TResult Function(_GetListCity value)? getListCity,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -113,7 +113,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(int provinceId) letListCity,
+    required TResult Function(int provinceId) getListCity,
   }) {
     return started();
   }
@@ -122,7 +122,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int provinceId)? letListCity,
+    TResult? Function(int provinceId)? getListCity,
   }) {
     return started?.call();
   }
@@ -131,7 +131,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int provinceId)? letListCity,
+    TResult Function(int provinceId)? getListCity,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -144,7 +144,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetListCity value) letListCity,
+    required TResult Function(_GetListCity value) getListCity,
   }) {
     return started(this);
   }
@@ -153,7 +153,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetListCity value)? letListCity,
+    TResult? Function(_GetListCity value)? getListCity,
   }) {
     return started?.call(this);
   }
@@ -162,7 +162,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetListCity value)? letListCity,
+    TResult Function(_GetListCity value)? getListCity,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -217,7 +217,7 @@ class _$GetListCityImpl implements _GetListCity {
 
   @override
   String toString() {
-    return 'GetListCityEvent.letListCity(provinceId: $provinceId)';
+    return 'GetListCityEvent.getListCity(provinceId: $provinceId)';
   }
 
   @override
@@ -242,29 +242,29 @@ class _$GetListCityImpl implements _GetListCity {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(int provinceId) letListCity,
+    required TResult Function(int provinceId) getListCity,
   }) {
-    return letListCity(provinceId);
+    return getListCity(provinceId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int provinceId)? letListCity,
+    TResult? Function(int provinceId)? getListCity,
   }) {
-    return letListCity?.call(provinceId);
+    return getListCity?.call(provinceId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int provinceId)? letListCity,
+    TResult Function(int provinceId)? getListCity,
     required TResult orElse(),
   }) {
-    if (letListCity != null) {
-      return letListCity(provinceId);
+    if (getListCity != null) {
+      return getListCity(provinceId);
     }
     return orElse();
   }
@@ -273,29 +273,29 @@ class _$GetListCityImpl implements _GetListCity {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetListCity value) letListCity,
+    required TResult Function(_GetListCity value) getListCity,
   }) {
-    return letListCity(this);
+    return getListCity(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetListCity value)? letListCity,
+    TResult? Function(_GetListCity value)? getListCity,
   }) {
-    return letListCity?.call(this);
+    return getListCity?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetListCity value)? letListCity,
+    TResult Function(_GetListCity value)? getListCity,
     required TResult orElse(),
   }) {
-    if (letListCity != null) {
-      return letListCity(this);
+    if (getListCity != null) {
+      return getListCity(this);
     }
     return orElse();
   }

@@ -9,6 +9,8 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
+import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
+import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
 import 'package:survey_io/pages/survey/widgets/webview_survey.dart';
 
 import '../../bloc/survey/survey_list/survey_list_bloc.dart';
@@ -23,12 +25,52 @@ class ListSurveiPage extends StatefulWidget {
 }
 
 class _ListSurveiPageState extends State<ListSurveiPage> {
-  
+  bool isGuest = true;
+  bool isLogged = false;
+  String userToken = '';
+  String surveyToken = '';
 
   @override
   void initState() {
     super.initState();
+  }
+
+  void loadDataSource() {
     context.read<SurveyListBloc>().add(const SurveyListEvent.getSurveyList());
+  }
+
+  void checkToken() async {
+    final token = await AuthLocalDatasource().getToken();
+    final guestToken = await AuthLocalGuestDatasource().getToken();
+
+    // IF TOKEN IS EMPTY
+    if (token.isEmpty) {
+      // IF GUEST TOKEN NOT EMPTY
+      if (guestToken.isNotEmpty) {
+        print('Guest Token => $guestToken');
+        setState(() {
+          isGuest = true;
+          isLogged = false;
+        });
+        loadDataSource();
+      } else {
+        setState(() {
+          isGuest = false;
+          isLogged = false;
+        });
+        print('No Guest Token');
+      }
+    } else {
+      // Have User Token
+      print('User Token : $token');
+      setState(() {
+        isGuest = false;
+        isLogged = true;
+        userToken = token;
+        surveyToken = token.substring(7);
+      });
+      loadDataSource();
+    }
   }
 
   @override
@@ -43,19 +85,15 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
           Navigator.pop(context);
         },
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: CustomPadding.px2,
-          child: Column(
-            children: [
-              LabelInput(
-                  labelText: 'Survei',
-                  labelStyle:
-                      TextStyles.h2ExtraBold(color: AppColors.secondary)),
-              CustomDividers.verySmallDivider(),
-              sectionListSurvey(),
-            ],
-          ),
+      body: Container(
+        padding: CustomPadding.px2,
+        child: Column(
+          children: [
+            LabelInput(
+                labelText: 'Survei',
+                labelStyle: TextStyles.h2ExtraBold(color: AppColors.secondary)),
+            Expanded(child: SingleChildScrollView(child: sectionListSurvey())),
+          ],
         ),
       ),
     );
@@ -177,8 +215,8 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                                   builder: (context) =>
                                                       WebviewSurvey(
                                                         id: survey.survey.id,
-                                                        url: survey
-                                                            .survey.surveyLink,
+                                                        url:
+                                                            '${survey.survey.surveyLink}?token=$surveyToken',
                                                         title:
                                                             survey.survey.title,
                                                       )));

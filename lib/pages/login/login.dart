@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
+import 'package:survey_io/pages/forgot_passcode/forgot_passcode.dart';
 import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/bloc/login/login_bloc.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _validateForm() {
     if (phoneNumber.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Please enter your phone number',
+        msg: 'Masukkan No. Telepon kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
       return false;
     } else if (passcode.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Please enter your Passcode',
+        msg: 'Masukkan Passcode kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -90,12 +91,12 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
+        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             labelTextLogin(),
-            CustomDividers.smallDivider(),
+            CustomDividers.verySmallDivider(),
             formInputField(),
             labelTextPassword(),
             CustomDividers.extraLargeDivider(),
@@ -119,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
       alignment: Alignment.centerLeft,
       child: Text(
         'Login',
-        style: TextStyles.h2(color: AppColors.secondary),
+        style: TextStyles.h1(color: AppColors.secondary),
       ),
     );
   }
@@ -129,7 +130,12 @@ class _LoginPageState extends State<LoginPage> {
       padding: const EdgeInsets.all(10),
       alignment: Alignment.centerRight,
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
+          );
+        },
         child: Text(
           'Lupa Password?',
           style: TextStyles.regular(color: AppColors.info),
@@ -158,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
           focusNode: phoneNumberFocus,
           keyboardType: TextInputType.phone,
           controller: phoneNumber,
-          hintText: 'Masukkan Nomor telepon',
+          hintText: 'Masukkan Nomor Telepon',
         ),
         CustomDividers.smallDivider(),
         LabelInput(

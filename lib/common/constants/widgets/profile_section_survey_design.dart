@@ -4,7 +4,6 @@ import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_list/survey_design_list_bloc.dart';
 import 'package:survey_io/common/constants/icons.dart';
 import 'package:survey_io/common/constants/widgets/profile_card.dart';
-import 'package:survey_io/pages/survey/list_survey.dart';
 
 class ProfileSectionSurveyDesign extends StatefulWidget {
   const ProfileSectionSurveyDesign({super.key});
@@ -59,14 +58,7 @@ class _ProfileSectionSurveyDesignState
                     ),
                     label: 'Jumlah Survey',
                     labelValue: surveyDesignList.length.toString(),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ListSurveiPage(),
-                        ),
-                      );
-                    },
+                    onPressed: () {},
                   );
                 });
               },

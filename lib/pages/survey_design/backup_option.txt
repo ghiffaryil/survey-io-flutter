@@ -1,0 +1,61 @@
+final requestModel =
+                                          SurveyDesignIsCalculateRequestModel(
+                                        deviceId: 'xx001',
+                                        type: 'Publik',
+                                        respondent: respondentScope,
+                                        totalQuestion: questionScope,
+                                        reportTime: reportTimeScope,
+                                        totalScreener: totalScreener,
+                                        ageStart: firstAgeValue,
+                                        ageEnd: lastAgeValue,
+                                        children: selectedScopeChildren.first ==
+                                                'Semua'
+                                            ? null
+                                            : '${selectedScopeChildren.first} - ${selectedScopeChildren.last}',
+                                        gender: selectedScopeGender == 'Semua'
+                                            ? null
+                                            : selectedScopeGender,
+                                        marital: selectedScopeMarital.first ==
+                                                'Semua'
+                                            ? null
+                                            : '${selectedScopeMarital.first} - ${selectedScopeMarital.last}',
+                                        occupation:
+                                            selectedScopeOccupation == 'Semua'
+                                                ? null
+                                                : selectedScopeOccupation,
+                                        region: selectedScopeRegion == 'Semua'
+                                            ? null
+                                            : selectedScopeRegion,
+                                        religion:
+                                            selectedScopeReligion == 'Semua'
+                                                ? null
+                                                : selectedScopeReligion,
+                                        monthlyIncome: firstIncomeValue ==
+                                                'Semua'
+                                            ? null
+                                            : '$firstIncomeValue - $lastIncomeValue',
+                                        monthlyOutcome: firstOutcomeValue ==
+                                                'Semua'
+                                            ? null
+                                            : '$firstOutcomeValue - $lastOutcomeValue',
+                                        isCalculate: 1,
+                                      );
+==========
+print(respondentScope);
+print(questionScope);
+print(reportTimeScope);
+print(totalScreener);
+print(firstAgeValue);
+print(lastAgeValue);
+print(
+'${selectedScopeChildren.first} - ${selectedScopeChildren.last}');
+print(selectedScopeGender);
+print(
+'${selectedScopeMarital.first} - ${selectedScopeMarital.last}');
+print(selectedScopeOccupation);
+print(selectedScopeRegion);
+print(selectedScopeReligion);
+print(
+'monthlyIncome = $firstIncomeValue - $lastIncomeValue');
+print(
+'monthlyOutcome = $firstOutcomeValue - $lastOutcomeValue');

@@ -36,7 +36,7 @@ class _TermsAndConditionWebviewState extends State<TermsAndConditionWebview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SecondaryAppBar(
+        appBar: WebViewAppBar(
           height: 70,
           toolbarHeight: 70,
           onPressed: () {

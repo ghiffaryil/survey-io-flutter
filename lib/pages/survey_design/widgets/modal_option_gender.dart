@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:survey_io/models/survey_design/data/demography_gender_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../common/constants/imageSize.dart';
 import '../../../../common/constants/widgets/indicator.dart';
 import '../../../../common/components/divider.dart';
 import '../../../../common/constants/colors.dart';
@@ -10,8 +9,8 @@ import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
 
-import '../../../datasources/survey_design/data/list_demography_gender.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryGender.dart';
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_gender/survey_design_list_demography_gender_bloc.dart';
+import '../../../datasources/survey_design/repository/localRepositoryGender.dart';
 
 class ModalOptionGender extends StatefulWidget {
   final void Function() onUpdate;
@@ -22,9 +21,8 @@ class ModalOptionGender extends StatefulWidget {
 }
 
 class _ModalOptionGenderState extends State<ModalOptionGender> {
-  final List<DemographyGenderModel> list =
-      ListDemographyGender.getDemographyGenderList();
-  final repository = LocalRepositoryDemographyGender();
+  
+  final genderRepository = LocalRepositoryDemographyGender();
 
   // Selected Gender
   int selectedId = 0;
@@ -35,6 +33,8 @@ class _ModalOptionGenderState extends State<ModalOptionGender> {
   void initState() {
     super.initState();
     selectedScope = '';
+    context.read<SurveyDesignListDemographyGenderBloc>().add(
+        const SurveyDesignListDemographyGenderEvent.getListDemographyGender());
     onLoad();
   }
 
@@ -46,12 +46,12 @@ class _ModalOptionGenderState extends State<ModalOptionGender> {
     };
     final jsonData = jsonEncode(data);
     print(jsonData);
-    await repository.setOption(jsonData);
+    await genderRepository.setOption(jsonData);
   }
 
   // Load from Shared References
   void onLoad() async {
-    final savedData = await repository.getOption();
+    final savedData = await genderRepository.getOption();
     if (savedData != null) {
       setState(() {
         selectedId = savedData['id'];
@@ -69,8 +69,12 @@ class _ModalOptionGenderState extends State<ModalOptionGender> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppHeight.imageSize(context, AppHeight.large),
-      padding: CustomPadding.p1,
+      height: MediaQuery.of(context).size.height * 0.6,
+      padding: const EdgeInsets.all(10),
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+          color: Colors.white),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -94,35 +98,58 @@ class _ModalOptionGenderState extends State<ModalOptionGender> {
           CustomDividers.verySmallDivider(),
           Expanded(
             child: SingleChildScrollView(
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final item = list[index];
-                  return ListTile(
-                      dense: true,
-                      title: Text(
-                        item.scope,
-                        style: TextStyles.extraLarge(
-                          color: item.id == selectedId
-                              ? Colors.black
-                              : Colors.grey.withOpacity(0.6),
-                        ),
-                      ),
-                      leading: Radio(
-                        activeColor: AppColors.primary,
-                        value: item.id,
-                        groupValue: selectedId,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedId = value!;
-                            selectedScope = item.scope;
-                          });
-                          print(selectedId);
-                          print(selectedScope);
+              child: BlocBuilder<SurveyDesignListDemographyGenderBloc,
+                  SurveyDesignListDemographyGenderState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return Container();
+                    },
+                    loading: () {
+                      return Container();
+                    },
+                    error: (message) {
+                      return Text(message);
+                    },
+                    loaded: (data) {
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: data.length,
+                        separatorBuilder: ((context, index) {
+                          return const Divider(
+                            thickness: 0.3,
+                          );
+                        }),
+                        itemBuilder: (BuildContext context, int index) {
+                          final item = data[index];
+                          return ListTile(
+                              dense: true,
+                              title: Text(
+                                item.scope,
+                                style: TextStyles.extraLarge(
+                                  color: item.id == selectedId
+                                      ? Colors.black
+                                      : Colors.grey.withOpacity(0.6),
+                                ),
+                              ),
+                              leading: Radio(
+                                activeColor: AppColors.primary,
+                                value: item.id,
+                                groupValue: selectedId,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedId = value!;
+                                    selectedScope = item.scope;
+                                  });
+                                  print(selectedId);
+                                  print(selectedScope);
+                                },
+                              ));
                         },
-                      ));
+                      );
+                    },
+                  );
                 },
               ),
             ),

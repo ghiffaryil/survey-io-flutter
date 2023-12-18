@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:survey_io/common/components/appbar_plain.dart';
+import 'package:survey_io/common/components/appbar.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/pages/payment/payment_success.dart';
 import 'package:survey_io/datasources/payment/list_payment_merchant.dart';
 import 'package:survey_io/models/payment/payment_merchant_model.dart';
-import 'package:survey_io/pages/payment/payment_success.dart';
+import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 
 import '../../../common/constants/styles.dart';
 
@@ -25,12 +26,17 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PlainAppBar(
+      appBar: WebViewAppBar(
+        height: 70,
+        toolbarHeight: 70,
         onPressed: () {
-          Navigator.of(context).pop();
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const SurveyDesignListPage()));
         },
-        leadingIcon: Icons.close,
-        iconColor: AppColors.secondary,
+        title: const Text('Pusat Bantuan'),
+        icon: const Icon(Icons.arrow_back_ios),
       ),
       body: Column(
         children: [

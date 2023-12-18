@@ -1,16 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:survey_io/models/survey_design/data/demography_occupation_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../common/constants/imageSize.dart';
 import '../../../../common/constants/widgets/indicator.dart';
 import '../../../../common/components/divider.dart';
 import '../../../../common/constants/colors.dart';
 import '../../../../common/constants/styles.dart';
 import '../../../../common/components/elevated_button.dart';
 import '../../../../common/constants/padding.dart';
-import '../../../datasources/survey_design/data/list_demography_occupation.dart';
-import '../../../datasources/survey_design/repository/local/localRepositoryOccupation.dart';
+
+import 'package:survey_io/bloc/survey_design/survey_design_demography/survey_design_list_demography_occupation/survey_design_list_demography_occupation_bloc.dart';
+import 'package:survey_io/datasources/survey_design/repository/localRepositoryOccupation.dart';
 
 class ModalOptionOccupation extends StatefulWidget {
   final void Function() onUpdate;
@@ -21,8 +21,7 @@ class ModalOptionOccupation extends StatefulWidget {
 }
 
 class _ModalOptionOccupationState extends State<ModalOptionOccupation> {
-  final List<DemographyOccupationModel> list =
-      ListDemographyOccupation.getDemographyOccupationList();
+  
   final repository = LocalRepositoryDemographyOccupation();
 
   // Selected Occupation
@@ -34,6 +33,9 @@ class _ModalOptionOccupationState extends State<ModalOptionOccupation> {
   void initState() {
     super.initState();
     selectedScope = '';
+    context.read<SurveyDesignListDemographyOccupationBloc>().add(
+        const SurveyDesignListDemographyOccupationEvent
+            .getListDemographyOccupation());
     onLoad();
   }
 
@@ -68,8 +70,12 @@ class _ModalOptionOccupationState extends State<ModalOptionOccupation> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppHeight.imageSize(context, AppHeight.full),
-      padding: CustomPadding.p1,
+      height: MediaQuery.of(context).size.height * 0.8,
+      padding: const EdgeInsets.all(10),
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+          color: Colors.white),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -92,59 +98,57 @@ class _ModalOptionOccupationState extends State<ModalOptionOccupation> {
           CustomDividers.verySmallDivider(),
           Expanded(
             child: SingleChildScrollView(
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: list.length + 1,
-                itemBuilder: (BuildContext context, int index) {
-                  if (index == 0) {
-                    return ListTile(
-                        title: Text(
-                          'Semua Pekerjaan',
-                          style: TextStyles.extraLarge(
-                            color: selectedId == 0
-                                ? Colors.black
-                                : Colors.grey.withOpacity(0.6),
-                          ),
-                        ),
-                        leading: Radio(
-                          activeColor: AppColors.primary,
-                          value: 0,
-                          groupValue: selectedId,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedId = 0;
-                              selectedScope = 'Semua';
-                            });
-                            print(selectedId);
-                            print(selectedScope);
-                          },
-                        ));
-                  } else {
-                    final item = list[index - 1];
-                    return ListTile(
-                        title: Text(
-                          item.scope,
-                          style: TextStyles.extraLarge(
-                            color: item.id == selectedId
-                                ? Colors.black
-                                : Colors.grey.withOpacity(0.6),
-                          ),
-                        ),
-                        leading: Radio(
-                          activeColor: AppColors.primary,
-                          value: item.id,
-                          groupValue: selectedId,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedId = value!;
-                              selectedScope = item.scope;
-                            });
-                            print(selectedId);
-                            print(selectedScope);
-                          },
-                        ));
-                  }
+              child: BlocBuilder<SurveyDesignListDemographyOccupationBloc,
+                  SurveyDesignListDemographyOccupationState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return Container();
+                    },
+                    loading: () {
+                      return Container();
+                    },
+                    error: (message) {
+                      return Text(message);
+                    },
+                    loaded: (data) {
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: data.length,
+                        separatorBuilder: ((context, index) {
+                          return const Divider(
+                            thickness: 0.3,
+                          );
+                        }),
+                        itemBuilder: (BuildContext context, int index) {
+                          final item = data[index];
+                          return ListTile(
+                              title: Text(
+                                item.scope,
+                                style: TextStyles.extraLarge(
+                                  color: item.id == selectedId
+                                      ? Colors.black
+                                      : Colors.grey.withOpacity(0.6),
+                                ),
+                              ),
+                              leading: Radio(
+                                activeColor: AppColors.primary,
+                                value: item.id,
+                                groupValue: selectedId,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedId = value!;
+                                    selectedScope = item.scope;
+                                  });
+                                  print(selectedId);
+                                  print(selectedScope);
+                                },
+                              ));
+                        },
+                      );
+                    },
+                  );
                 },
               ),
             ),

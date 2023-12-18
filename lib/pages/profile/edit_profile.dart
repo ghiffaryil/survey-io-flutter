@@ -277,7 +277,7 @@ class _EditProfileState extends State<EditProfile> {
                   },
                 )),
             Container(
-              width: 15,
+              width: 10,
             ),
             Expanded(
                 flex: 5,

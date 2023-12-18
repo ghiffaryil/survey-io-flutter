@@ -35,6 +35,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: elevation,
       automaticallyImplyLeading: implyLeading,
       backgroundColor: AppColors.primary,
+      surfaceTintColor: AppColors.primary,
       title: title,
       actions: [
         if (badge == true)
@@ -60,8 +61,52 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Icon? icon;
   final double height;
   final double toolbarHeight;
+  final Color textColor;
 
   const SecondaryAppBar({
+    required this.title,
+    this.implyLeading = false,
+    this.elevation = 0,
+    this.onPressed,
+    this.icon,
+    this.height = 100,
+    this.toolbarHeight = 100,
+    this.textColor = AppColors.white,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Size get preferredSize => Size.fromHeight(height); // Set the desired height
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      toolbarHeight: height, // Set about size icon
+      elevation: elevation,
+      leading: IconButton(
+        onPressed: onPressed,
+        icon: icon!,
+        color: AppColors.white,
+      ),
+      automaticallyImplyLeading: implyLeading,
+      backgroundColor: AppColors.primary,
+      surfaceTintColor: AppColors.primary,
+      title: title,
+      titleTextStyle: TextStyle(color: textColor, fontSize: 16),
+    );
+  }
+}
+
+class WebViewAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final Widget title;
+  final double elevation;
+  final bool implyLeading;
+  final VoidCallback? onPressed;
+  final Icon? icon;
+  final double height;
+  final double toolbarHeight;
+
+  const WebViewAppBar({
     required this.title,
     this.implyLeading = false,
     this.elevation = 0,
@@ -83,9 +128,11 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: IconButton(
         onPressed: onPressed,
         icon: icon!,
+        color: Colors.black,
       ),
       automaticallyImplyLeading: implyLeading,
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.white,
+      surfaceTintColor: AppColors.white,
       title: title,
     );
   }
