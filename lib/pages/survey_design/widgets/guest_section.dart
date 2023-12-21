@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/constants/icons.dart';
 import 'package:survey_io/common/constants/images.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/common/constants/widgets/profile_card.dart';
 import 'package:survey_io/pages/survey_design/survey_design_auth.dart';
 
 class SurveyDesignGuestSection extends StatefulWidget {

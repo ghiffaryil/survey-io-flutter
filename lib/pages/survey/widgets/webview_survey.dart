@@ -80,7 +80,7 @@ class _WebviewSurveyState extends State<WebviewSurvey> {
                 ),
               )
               ..loadRequest(Uri.parse(
-                  '${dotenv.env['WEBVIEW_URL']}home/survey/participate/' +
+                  '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/' +
                       widget.id.toString()))));
   }
 }

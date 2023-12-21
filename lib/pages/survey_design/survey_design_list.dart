@@ -179,7 +179,7 @@ class _SurveyDesignListPageState extends State<SurveyDesignListPage> {
             flex: 4,
             child: Container(
               padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height * 0.05),
+                  bottom: MediaQuery.of(context).size.height * 0.045),
               alignment: Alignment.bottomCenter,
               child: FloatingActionButton(
                 heroTag: 'survey_design_list_tag',
@@ -198,7 +198,7 @@ class _SurveyDesignListPageState extends State<SurveyDesignListPage> {
                 ),
                 child: Image.asset(
                   IconName.rewardFocused,
-                  width: 50,
+                  width: 45,
                 ),
               ),
             ),

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_request_otp/forgot_passcode_request_otp_bloc.dart';
@@ -48,18 +47,8 @@ import 'package:survey_io/bloc/survey/survey_popular/survey_popular_bloc.dart';
 import 'package:survey_io/pages/splashscreen/splashscreen.dart';
 
 MyApp initializeApp(AppConfig config) {
-  HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   return MyApp(config: config);
-}
-
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
 }
 
 class MyApp extends StatelessWidget {
