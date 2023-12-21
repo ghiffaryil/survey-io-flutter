@@ -45,7 +45,7 @@ class _TabNewPollingState extends State<TabNewPolling> {
                 margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.1),
                 child: Text(
-                  'No polling available',
+                  'Tidak ada Polling tersedia',
                   textAlign: TextAlign.center,
                   style: TextStyles.large(),
                 ));
@@ -58,7 +58,7 @@ class _TabNewPollingState extends State<TabNewPolling> {
                   margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.1),
                   child: Text(
-                    'You have voted all polling',
+                    'Kamu telah menyelesaikan semua Polling',
                     textAlign: TextAlign.center,
                     style: TextStyles.large(),
                   ));

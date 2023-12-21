@@ -386,7 +386,7 @@ class _MainSectionState extends State<MainSection> {
                                             text: 'Ikut Survei',
                                             onPressed: () {
                                               print(
-                                                  '${data.survey.surveyLink}?id=$surveyToken');
+                                                  '${data.survey.surveyLink}?token=$surveyToken');
 
                                               isGuest
                                                   ? Navigator.push(
@@ -403,7 +403,7 @@ class _MainSectionState extends State<MainSection> {
                                                                       .survey
                                                                       .id,
                                                                   url:
-                                                                      '${data.survey.surveyLink}?id=$surveyToken',
+                                                                      '${data.survey.surveyLink}?token=$surveyToken',
                                                                   title: data
                                                                       .survey
                                                                       .title)));
@@ -484,7 +484,7 @@ class _MainSectionState extends State<MainSection> {
                       child: SizedBox(
                         height: 50,
                         child: Text(
-                          'Tidak ada Polling hari ini',
+                          'Tidak ada Polling tersedia untuk hari ini',
                           style: TextStyles.regular(color: AppColors.secondary),
                         ),
                       ),
@@ -682,7 +682,7 @@ class _MainSectionState extends State<MainSection> {
                         child: SizedBox(
                           height: 50,
                           child: Text(
-                            'Tidak ada Survei hari ini',
+                            'Tidak ada Survei tersedia untuk hari ini',
                             style:
                                 TextStyles.regular(color: AppColors.secondary),
                           ),
@@ -831,7 +831,7 @@ class _MainSectionState extends State<MainSection> {
                                                                     'Ikut Survei',
                                                                 onPressed: () {
                                                                   print(
-                                                                      '${survey.survey.surveyLink}?id=$surveyToken');
+                                                                      '${survey.survey.surveyLink}?token=$surveyToken');
                                                                   isGuest
                                                                       ? Navigator.push(
                                                                           context,
@@ -842,7 +842,7 @@ class _MainSectionState extends State<MainSection> {
                                                                           MaterialPageRoute(
                                                                               builder: (context) => WebviewSurvey(
                                                                                     id: survey.survey.id,
-                                                                                    url: '${survey.survey.surveyLink}?id=$surveyToken',
+                                                                                    url: '${survey.survey.surveyLink}?token=$surveyToken',
                                                                                     title: survey.survey.title,
                                                                                   )));
                                                                 }),

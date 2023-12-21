@@ -172,14 +172,14 @@ class _SurveyDesignListPageState extends State<SurveyDesignListPage> {
       // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(flex: 4, child: Container()),
           Expanded(
-            flex: 4,
+            flex: 6,
             child: Container(
               padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height * 0.045),
+                  left: MediaQuery.of(context).size.width * 0.25,
+                  bottom: MediaQuery.of(context).size.height * 0.043),
               alignment: Alignment.bottomCenter,
               child: FloatingActionButton(
                 heroTag: 'survey_design_list_tag',
@@ -203,55 +203,57 @@ class _SurveyDesignListPageState extends State<SurveyDesignListPage> {
               ),
             ),
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.height * 0.095,
-          ),
-          Container(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.height * 0.11, right: 25),
-            alignment: Alignment.bottomRight,
-            child: BlocBuilder<ProfileBloc, ProfileState>(
-              builder: (context, state) {
-                return state.maybeWhen(
-                  orElse: () {
-                    return FloatingActionButton(
-                      heroTag: 'survey_design_create_tag',
-                      shape: const CircleBorder(),
-                      onPressed: () {},
-                      backgroundColor: AppColors.primary,
-                      tooltip: 'Create New Survey Design',
-                      child: const Icon(Icons.add, color: Colors.white),
-                    );
-                  },
-                  loaded: (data) {
-                    return FloatingActionButton(
-                      heroTag: 'survey_design_create_tag',
-                      shape: const CircleBorder(),
-                      onPressed: () {
-                        // ignore: unnecessary_null_comparison
-                        if (data.userProfile.ktp == null &&
-                            data.userProfile.npwp == null) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const EditProfileComplete()));
-                        } else {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SurveyDesign(
-                                        designAction: 'Create',
-                                      )));
-                        }
-                      },
-                      backgroundColor: AppColors.primary,
-                      tooltip: 'Create New Survey Design',
-                      child: const Icon(Icons.add, color: Colors.white),
-                    );
-                  },
-                );
-              },
+          Expanded(
+            flex: 2,
+            child: Container(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.11, right: 25),
+              alignment: Alignment.bottomRight,
+              child: BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return isGuest
+                          ? Container()
+                          : FloatingActionButton(
+                              heroTag: 'survey_design_create_tag',
+                              shape: const CircleBorder(),
+                              onPressed: () {},
+                              backgroundColor: AppColors.primary,
+                              tooltip: 'Create New Survey Design',
+                              child: const Icon(Icons.add, color: Colors.white),
+                            );
+                    },
+                    loaded: (data) {
+                      return FloatingActionButton(
+                        heroTag: 'survey_design_create_tag',
+                        shape: const CircleBorder(),
+                        onPressed: () {
+                          // ignore: unnecessary_null_comparison
+                          if (data.userProfile.ktp == null &&
+                              data.userProfile.npwp == null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EditProfileComplete()));
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SurveyDesign(
+                                          designAction: 'Create',
+                                        )));
+                          }
+                        },
+                        backgroundColor: AppColors.primary,
+                        tooltip: 'Create New Survey Design',
+                        child: const Icon(Icons.add, color: Colors.white),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
         ],

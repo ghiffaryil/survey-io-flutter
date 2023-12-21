@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/pages/profile/profile.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -44,7 +45,7 @@ class _TermsAndConditionWebviewState extends State<TermsAndConditionWebview> {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const Profile()));
           },
-          title: const Text('Ketentuan Layanan'),
+          title: Text('Ketentuan Layanan', style: TextStyles.h3(color: AppColors.secondary),),
           icon: const Icon(Icons.arrow_back_ios),
         ),
         body: WebViewWidget(

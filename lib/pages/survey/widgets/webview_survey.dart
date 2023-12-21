@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:survey_io/common/components/appbar.dart';
 import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/pages/profile/profile.dart';
 import 'package:survey_io/pages/survey/list_survey.dart';
@@ -53,7 +54,10 @@ class _WebviewSurveyState extends State<WebviewSurvey> {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const HomePage()));
           },
-          title: Text(widget.title),
+          title: Text(
+            widget.title,
+            style: TextStyles.h3(color: AppColors.secondary),
+          ),
           icon: const Icon(Icons.arrow_back_ios),
         ),
         body: WebViewWidget(
