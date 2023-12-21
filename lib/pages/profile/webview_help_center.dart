@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import, non_constant_identifier_names, prefer_typing_uninitialized_variables, unused_field, unused_element, avoid_print, prefer_interpolation_to_compose_strings
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/pages/profile/profile.dart';
@@ -58,13 +59,13 @@ class _HelpCenterWebviewState extends State<HelpCenterWebview> {
                   onPageFinished: (String url) {},
                   onWebResourceError: (WebResourceError error) {},
                   onNavigationRequest: (NavigationRequest request) {
-                    if (request.url.startsWith('https://survei.io')) {
+                    if (request.url.startsWith('${dotenv.env['WEB_URL']}')) {
                       return NavigationDecision.prevent;
                     }
                     return NavigationDecision.navigate;
                   },
                 ),
               )
-              ..loadRequest(Uri.parse('https://survei.io/faq'))));
+              ..loadRequest(Uri.parse('${dotenv.env['WEB_URL']}/faq'))));
   }
 }

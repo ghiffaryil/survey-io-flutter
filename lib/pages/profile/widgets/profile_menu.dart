@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:survey_io/bloc/guest/guest_bloc.dart';
 import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
 import 'package:survey_io/pages/home/home.dart';
@@ -156,7 +157,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
       child: Container(
         alignment: Alignment.centerRight,
         child: Text(
-          'Ver.1.0.0-Dev',
+          'Ver.${dotenv.env['VERSION']}${dotenv.env['VERSION_SUFFIX']}',
           textAlign: TextAlign.right,
           style: TextStyles.muted(color: AppColors.secondary.withOpacity(0.3)),
         ),

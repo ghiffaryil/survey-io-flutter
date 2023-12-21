@@ -451,11 +451,10 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                         return ButtonFilled
                                                             .info(
                                                           height: 40,
-                                                          text: '',
+                                                          text: 'loading ...',
                                                           textColor:
                                                               AppColors.white,
                                                           onPressed: () {},
-                                                          loading: true,
                                                         );
                                                       });
                                                     },

@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/bloc/guest/guest_bloc.dart';
@@ -103,6 +104,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               const SizedBox(
                 height: 20,
               ),
+              Text("${dotenv.env['VERSION']}${dotenv.env['VERSION_SUFFIX']}"),
               buttonFollowSurvey(),
               buttonCreateSurvey()
             ],

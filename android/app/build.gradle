@@ -9,7 +9,7 @@ def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
-    }
+    } 
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -75,6 +75,23 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    flavorDimensions "surveyio"
+    productFlavors {
+        dev {
+            dimension "surveyio"
+            applicationIdSuffix ".dev"
+            resValue "string", "app_name", "Survei.io Dev"
+            versionNameSuffix ".dev"
+        }
+        prod {
+            dimension "surveyio"
+            // applicationIdSuffix ".prod"
+            resValue "string", "app_name", "Survei.io"
+            // versionNameSuffix ".prod"
+        }
+    }
+    
 }
 
 flutter {

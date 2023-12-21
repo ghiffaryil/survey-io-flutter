@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class Variables {
-  static const String baseURL = 'https://dev.survei.io:3000/api/casper/v1';
+  static String baseURL = "${dotenv.env['API_URL']}";
 }
