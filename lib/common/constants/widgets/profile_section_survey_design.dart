@@ -31,7 +31,8 @@ class _ProfileSectionSurveyDesignState
                   return Container();
                 }, loading: () {
                   return const ShimmerProfileFloat();
-                }, loaded: (surveyDesignList) {
+                }, 
+                loaded: (surveyDesignList) {
                   return FloatingProfileCard(
                     userFrontName: data.user.name.split(' ')[0],
                     iconImage: Image.asset(

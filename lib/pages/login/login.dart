@@ -241,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
       text: TextSpan(
         children: [
           TextSpan(
-              text: 'Belum Punya Akun ?',
+              text: 'Belum Punya Akun?',
               style: TextStyles.h4(color: AppColors.secondary)),
           TextSpan(
             text: ' Daftar di sini',

@@ -6,6 +6,7 @@ import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/bloc/survey/survey_popular/survey_popular_bloc.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
+import 'package:survey_io/pages/login/login.dart';
 import 'package:survey_io/pages/survey/widgets/webview_survey.dart';
 // import 'package:survey_io/pages/survey/widgets/webview_survey.dart';
 
@@ -74,7 +75,7 @@ class _MainSectionState extends State<MainSection> {
     if (token.isEmpty) {
       // IF GUEST TOKEN NOT EMPTY
       if (guestToken.isNotEmpty) {
-        print('Guest Token => $guestToken');
+        // print('Guest Token => $guestToken');
         setState(() {
           isGuest = true;
           isLogged = false;
@@ -85,11 +86,11 @@ class _MainSectionState extends State<MainSection> {
           isGuest = false;
           isLogged = false;
         });
-        print('No Guest Token');
+        // print('No Guest Token');
       }
     } else {
       // Have User Token
-      print('User Token : $token');
+      // print('User Token : $token');
       setState(() {
         isGuest = false;
         isLogged = true;
@@ -384,19 +385,28 @@ class _MainSectionState extends State<MainSection> {
                                             fontWeight: FontWeight.normal,
                                             text: 'Ikut Survei',
                                             onPressed: () {
-                                              print(surveyToken);
-                                              print(data.survey.surveyLink);
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          WebviewSurvey(
-                                                              id: data
-                                                                  .survey.id,
-                                                              url:
-                                                                  '${data.survey.surveyLink}?token=$surveyToken',
-                                                              title: data.survey
-                                                                  .title)));
+                                              print(
+                                                  '${data.survey.surveyLink}?id=$surveyToken');
+
+                                              isGuest
+                                                  ? Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const LoginPage()))
+                                                  : Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              WebviewSurvey(
+                                                                  id: data
+                                                                      .survey
+                                                                      .id,
+                                                                  url:
+                                                                      '${data.survey.surveyLink}?id=$surveyToken',
+                                                                  title: data
+                                                                      .survey
+                                                                      .title)));
                                             }),
                                       )
                                     ],
@@ -474,8 +484,8 @@ class _MainSectionState extends State<MainSection> {
                       child: SizedBox(
                         height: 50,
                         child: Text(
-                          'No Polling Today',
-                          style: TextStyles.h3(color: AppColors.primary),
+                          'Tidak ada Polling hari ini',
+                          style: TextStyles.regular(color: AppColors.secondary),
                         ),
                       ),
                     );
@@ -666,172 +676,192 @@ class _MainSectionState extends State<MainSection> {
                         ));
                   },
                   loaded: (data) {
-                    return ConstrainedBox(
-                      constraints: BoxConstraints(
-                        // minHeight: 60,
-                        maxHeight: data.length < 2
-                            ? MediaQuery.of(context).size.height * 0.18
-                            : MediaQuery.of(context).size.height * 0.4,
-                      ),
-                      child: ListView.builder(
-                        itemCount: data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final survey = data[index];
-                          final surveyTitle = survey.survey.title;
+                    if (data.isEmpty) {
+                      return Container(
+                        margin: const EdgeInsets.only(top: 30),
+                        child: SizedBox(
+                          height: 50,
+                          child: Text(
+                            'Tidak ada Survei hari ini',
+                            style:
+                                TextStyles.regular(color: AppColors.secondary),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return ConstrainedBox(
+                        constraints: BoxConstraints(
+                          // minHeight: 60,
+                          maxHeight: data.length < 2
+                              ? MediaQuery.of(context).size.height * 0.18
+                              : MediaQuery.of(context).size.height * 0.4,
+                        ),
+                        child: ListView.builder(
+                          itemCount: data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final survey = data[index];
+                            final surveyTitle = survey.survey.title;
 
-                          final totalSurveyQuestions = survey.totalQuestion;
+                            final totalSurveyQuestions = survey.totalQuestion;
 
-                          final surveyEnergy = survey.survey.energy.toString();
-                          final surveyImage = survey.survey.imageHomescreen;
+                            final surveyEnergy =
+                                survey.survey.energy.toString();
+                            final surveyImage = survey.survey.imageHomescreen;
 
-                          return Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Column(children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.1),
-                                          spreadRadius: 3,
-                                          blurRadius: 10,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 3,
-                                          child: Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                              child: RoundedImage(
-                                                imageType: surveyImage == ''
-                                                    ? 'asset'
-                                                    : 'network',
-                                                imageUrl: surveyImage == ''
-                                                    ? Images.emptyCreateSurvey
-                                                    : surveyImage,
-                                                borderRadius: 8.0,
-                                                fit: BoxFit.cover,
-                                                width: 100,
-                                                height: 100,
-                                              )),
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Expanded(
-                                            flex: 7,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                CustomDividers
-                                                    .verySmallDivider(),
-                                                Text(
-                                                  surveyTitle,
-                                                  style: TextStyles.h5(
-                                                      color:
-                                                          AppColors.secondary),
-                                                ),
-                                                const SizedBox(height: 5),
-                                                Text(
-                                                    '$totalSurveyQuestions Pertanyaan'),
-                                                CustomDividers.smallDivider(),
-                                                Row(
-                                                  children: [
-                                                    Image.asset(
-                                                      IconName.point,
-                                                      width: 25,
-                                                      height: 25,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Text(
-                                                      surveyEnergy,
-                                                      style: TextStyles.h6(
-                                                          color: AppColors
-                                                              .secondary),
-                                                    ),
-                                                    SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.12,
-                                                    ),
-                                                    IconButton(
-                                                      onPressed: () {
-                                                        _onShare(
-                                                            context,
-                                                            survey.survey
-                                                                .surveyLink);
-                                                      },
-                                                      icon: const Icon(
-                                                        Icons.share,
-                                                        size: 17,
-                                                        color: AppColors.info,
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: 10.0),
-                                                      child: TextButtonOutlined
-                                                          .primary(
-                                                              rounded: true,
-                                                              minWidth: 0.20,
-                                                              height: 30,
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              text:
-                                                                  'Ikut Survei',
-                                                              onPressed: () {
-                                                                print(
-                                                                    surveyToken);
-                                                                print(
-                                                                    '${survey.survey.surveyLink}?token=$surveyToken');
-                                                                Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) =>
-                                                                            WebviewSurvey(
-                                                                              id: survey.survey.id,
-                                                                              url: '${survey.survey.surveyLink}?token=$surveyToken',
-                                                                              title: survey.survey.title,
-                                                                            )));
-                                                              }),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            )),
-                                      ],
-                                    ),
+                            return Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.0),
                                   ),
-                                ]),
-                              )
-                            ],
-                          );
-                        },
-                      ),
-                    );
+                                  child: Column(children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.1),
+                                            spreadRadius: 3,
+                                            blurRadius: 10,
+                                            offset: const Offset(0, 3),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 3,
+                                            child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: RoundedImage(
+                                                  imageType: surveyImage == ''
+                                                      ? 'asset'
+                                                      : 'network',
+                                                  imageUrl: surveyImage == ''
+                                                      ? Images.emptyCreateSurvey
+                                                      : surveyImage,
+                                                  borderRadius: 8.0,
+                                                  fit: BoxFit.cover,
+                                                  width: 100,
+                                                  height: 100,
+                                                )),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                              flex: 7,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  CustomDividers
+                                                      .verySmallDivider(),
+                                                  Text(
+                                                    surveyTitle,
+                                                    style: TextStyles.h5(
+                                                        color: AppColors
+                                                            .secondary),
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  Text(
+                                                      '$totalSurveyQuestions Pertanyaan'),
+                                                  CustomDividers.smallDivider(),
+                                                  Row(
+                                                    children: [
+                                                      Image.asset(
+                                                        IconName.point,
+                                                        width: 25,
+                                                        height: 25,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Text(
+                                                        surveyEnergy,
+                                                        style: TextStyles.h6(
+                                                            color: AppColors
+                                                                .secondary),
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.12,
+                                                      ),
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          _onShare(
+                                                              context,
+                                                              survey.survey
+                                                                  .surveyLink);
+                                                        },
+                                                        icon: const Icon(
+                                                          Icons.share,
+                                                          size: 17,
+                                                          color: AppColors.info,
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                right: 10.0),
+                                                        child: TextButtonOutlined
+                                                            .primary(
+                                                                rounded: true,
+                                                                minWidth: 0.20,
+                                                                height: 30,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                text:
+                                                                    'Ikut Survei',
+                                                                onPressed: () {
+                                                                  print(
+                                                                      '${survey.survey.surveyLink}?id=$surveyToken');
+                                                                  isGuest
+                                                                      ? Navigator.push(
+                                                                          context,
+                                                                          MaterialPageRoute(
+                                                                              builder: (context) => const LoginPage()))
+                                                                      : Navigator.push(
+                                                                          context,
+                                                                          MaterialPageRoute(
+                                                                              builder: (context) => WebviewSurvey(
+                                                                                    id: survey.survey.id,
+                                                                                    url: '${survey.survey.surveyLink}?id=$surveyToken',
+                                                                                    title: survey.survey.title,
+                                                                                  )));
+                                                                }),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ]),
+                                )
+                              ],
+                            );
+                          },
+                        ),
+                      );
+                    }
                   },
                 );
               },
@@ -900,7 +930,7 @@ class _MainSectionState extends State<MainSection> {
                 CustomDividers.smallDivider(),
                 TextButtonOutlined.primary(
                     minWidth: 1,
-                    height: 40,
+                    // height: 0,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     text: 'Buat Survei',

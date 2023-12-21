@@ -164,7 +164,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                       style: TextStyles.extraLarge(color: AppColors.secondary),
                     ),
                     CustomDividers.smallDivider(),
-                    buildButtonSubmit('primary'),
+                    // buildButtonSubmit('primary'),
                     CustomDividers.smallDivider(),
                   ]),
                 );
@@ -668,9 +668,9 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                         );
                       },
                     ),
-                    Padding(
+                    const Padding(
                       padding: CustomPadding.pdefault,
-                      child: buildButtonSubmit('secondary'),
+                      // child: buildButtonSubmit('secondary'),
                     ),
                     CustomDividers.smallDivider(),
                   ],
