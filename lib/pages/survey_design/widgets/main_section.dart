@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
@@ -424,6 +425,25 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                         url: data
                                                                             .url)));
                                                       },
+                                                      error: (message) {
+                                                        Fluttertoast.showToast(
+                                                          msg:
+                                                              'Mohon maaf, sepertinya terjadi kesalahan teknis!',
+                                                          toastLength: Toast
+                                                              .LENGTH_SHORT,
+                                                          gravity: ToastGravity
+                                                              .BOTTOM,
+                                                          timeInSecForIosWeb: 1,
+                                                          backgroundColor:
+                                                              AppColors
+                                                                  .secondary
+                                                                  .withOpacity(
+                                                                      0.7),
+                                                          textColor:
+                                                              Colors.white,
+                                                          fontSize: 16.0,
+                                                        );
+                                                      },
                                                     );
                                                   },
                                                   child: BlocBuilder<
@@ -447,15 +467,6 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                           surveyDesignData
                                                                               .id));
                                                                 });
-                                                      }, loading: () {
-                                                        return ButtonFilled
-                                                            .info(
-                                                          height: 40,
-                                                          text: 'loading ...',
-                                                          textColor:
-                                                              AppColors.white,
-                                                          onPressed: () {},
-                                                        );
                                                       });
                                                     },
                                                   ),
@@ -709,6 +720,9 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                           )));
                             }
                           });
+                    },
+                    loading: () {
+                      return const ShimmerProfileUser();
                     },
                   );
                 },

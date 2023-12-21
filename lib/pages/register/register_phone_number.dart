@@ -174,7 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
       text: TextSpan(
         children: [
           TextSpan(
-              text: 'Sudah Punya Akun ?',
+              text: 'Sudah Punya Akun?',
               style: TextStyles.h5(color: AppColors.secondary)),
           TextSpan(
             text: ' Login di sini',

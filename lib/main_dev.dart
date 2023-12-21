@@ -10,6 +10,6 @@ Future main() async {
     flavor: FlavorType.dev,
   );
   await dotenv.load(fileName: ".dev.env");
-  Widget app = await initializeApp(devAppConfig);
+  Widget app = initializeApp(devAppConfig);
   runApp(app);
 }

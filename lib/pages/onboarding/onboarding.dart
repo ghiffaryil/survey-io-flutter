@@ -104,7 +104,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               const SizedBox(
                 height: 20,
               ),
-              Text("${dotenv.env['VERSION']}${dotenv.env['VERSION_SUFFIX']}"),
+              Text("${dotenv.env['API_URL']}"),
               buttonFollowSurvey(),
               buttonCreateSurvey()
             ],

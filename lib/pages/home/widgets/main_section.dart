@@ -304,10 +304,6 @@ class _MainSectionState extends State<MainSection> {
                         height: 100.0,
                         child: ShimmerCardMain(),
                       ));
-                }, error: (error) {
-                  return const SizedBox(
-                      height: 40,
-                      child: Center(child: Text('Can\'t load data ')));
                 }, loaded: (data) {
                   return Container(
                     height: MediaQuery.of(context).size.height * 0.2,
@@ -434,11 +430,25 @@ class _MainSectionState extends State<MainSection> {
                     labelStyle: TextStyles.h4(color: AppColors.secondary)),
               ),
               Expanded(
-                child: Text(
-                  timeRemaining,
-                  textAlign: TextAlign.end,
-                  style: TextStyles.regular(color: AppColors.primary),
-                ),
+                child: BlocBuilder<PollingTodayBloc, PollingTodayState>(
+                    builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return Container();
+                    },
+                    loaded: (data) {
+                      if (data.isEmpty) {
+                        return Container();
+                      } else {
+                        return Text(
+                          timeRemaining,
+                          textAlign: TextAlign.end,
+                          style: TextStyles.regular(color: AppColors.primary),
+                        );
+                      }
+                    },
+                  );
+                }),
               )
             ],
           ),
@@ -449,9 +459,6 @@ class _MainSectionState extends State<MainSection> {
                 orElse: () {
                   return Container();
                 },
-                error: (message) {
-                  return Text(message);
-                },
                 loading: () {
                   return Container(
                       margin: const EdgeInsets.only(top: 10),
@@ -461,7 +468,18 @@ class _MainSectionState extends State<MainSection> {
                       ));
                 },
                 loaded: (data) {
-                  if (data.isNotEmpty) {
+                  if (data.isEmpty) {
+                    return Container(
+                      margin: const EdgeInsets.only(top: 30),
+                      child: SizedBox(
+                        height: 50,
+                        child: Text(
+                          'No Polling Today',
+                          style: TextStyles.h3(color: AppColors.primary),
+                        ),
+                      ),
+                    );
+                  } else {
                     return Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
@@ -587,14 +605,6 @@ class _MainSectionState extends State<MainSection> {
                             );
                           },
                         ),
-                      ),
-                    );
-                  } else {
-                    return Container(
-                      margin: const EdgeInsets.only(top: 30),
-                      child: const SizedBox(
-                        height: 50,
-                        child: Text('No Polling Today'),
                       ),
                     );
                   }

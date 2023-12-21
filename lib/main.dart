@@ -7,9 +7,9 @@ import 'package:survey_io/config/flavor_type.dart';
 Future main() async {
   final prodAppConfig = AppConfig(
     appName: 'Survei.io',
-    flavor: FlavorType.dev,
+    flavor: FlavorType.prod,
   );
   await dotenv.load(fileName: ".env");
-  Widget app = await initializeApp(prodAppConfig);
+  Widget app = initializeApp(prodAppConfig);
   runApp(app);
 }
