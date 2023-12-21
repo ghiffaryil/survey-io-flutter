@@ -102,12 +102,16 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
         },
       ),
       body: Container(
-        padding: CustomPadding.px2,
+        padding: CustomPadding.px1,
         child: Column(
           children: [
-            LabelInput(
-                labelText: 'Survei',
-                labelStyle: TextStyles.h2ExtraBold(color: AppColors.secondary)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: LabelInput(
+                  labelText: 'Survei',
+                  labelStyle:
+                      TextStyles.h2ExtraBold(color: AppColors.secondary)),
+            ),
             CustomDividers.smallDivider(),
             Expanded(
                 child: RefreshIndicator(

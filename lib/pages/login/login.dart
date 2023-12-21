@@ -99,9 +99,12 @@ class _LoginPageState extends State<LoginPage> {
             CustomDividers.verySmallDivider(),
             formInputField(),
             labelTextPassword(),
-            CustomDividers.extraLargeDivider(),
-            CustomDividers.extraLargeDivider(),
-            CustomDividers.regularDivider(),
+            // CustomDividers.extraLargeDivider(),
+            // CustomDividers.extraLargeDivider(),
+            // CustomDividers.regularDivider(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.25,
+            ),
             BlocProvider(
               create: (context) => LoginBloc(),
               child: buttonSubmit(),

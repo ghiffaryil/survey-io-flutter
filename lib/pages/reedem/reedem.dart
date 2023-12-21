@@ -144,26 +144,27 @@ class _ReedemPageState extends State<ReedemPage> {
 
                                   return Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Card(
                                         color: Colors.white,
                                         surfaceTintColor: Colors.white,
-                                        elevation: 5,
+                                        elevation: 3,
                                         child: Padding(
                                           padding: const EdgeInsets.all(5.0),
                                           child: Row(
                                             children: [
                                               Expanded(
-                                                flex: 3,
+                                                flex: 4,
                                                 child: Padding(
                                                   padding: CustomPadding.p1,
                                                   child: RoundedImage(
                                                     imageType: 'network',
                                                     imageUrl:
                                                         product.categoryImage,
-                                                    height: 120,
+                                                    height: 135,
                                                     fit: BoxFit.fitWidth,
+                                                    borderRadius: 15,
                                                   ),
                                                 ),
                                               ),
@@ -185,7 +186,7 @@ class _ReedemPageState extends State<ReedemPage> {
                                                       Text(
                                                           'Get Top ${product.productName} balance up To $formattedAmount'),
                                                       CustomDividers
-                                                          .smallDivider(),
+                                                          .verySmallDivider(),
                                                       Container(
                                                           width:
                                                               double.infinity,

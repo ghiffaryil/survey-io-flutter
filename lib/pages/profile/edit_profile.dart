@@ -36,6 +36,9 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController email = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
 
+  TextEditingController inputKTP = TextEditingController();
+  TextEditingController inputNPWP = TextEditingController();
+
   TextEditingController province = TextEditingController();
   TextEditingController city = TextEditingController();
 
@@ -109,6 +112,9 @@ class _EditProfileState extends State<EditProfile> {
             userActive = data.data.user.active;
             userKTP = data.data.userProfile.ktp;
             userNPWP = data.data.userProfile.npwp;
+
+            inputKTP.text = data.data.userProfile.ktp;
+            inputNPWP.text = data.data.userProfile.npwp;
 
             provinceNameSelected = data.data.userProfile.province;
             cityNameSelected = data.data.userProfile.city;
@@ -199,7 +205,7 @@ class _EditProfileState extends State<EditProfile> {
               color: Colors.white,
               child: Text(
                 'Edit Profil',
-                style: TextStyles.h2ExtraBold(color: AppColors.secondary),
+                style: TextStyles.h3ExtraBold(color: AppColors.secondary),
               ),
             ),
             CustomDividers.verySmallDivider(),
@@ -334,6 +340,45 @@ class _EditProfileState extends State<EditProfile> {
           controller: email,
           hintText: 'Masukkan Email Kamu',
         ),
+
+        userKTP.isEmpty
+            ? Container()
+            : Column(
+                children: [
+                  CustomDividers.smallDivider(),
+                ],
+              ),
+        LabelInput(
+          labelText: 'KTP',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          keyboardType: TextInputType.text,
+          controller: inputKTP,
+          editable: false,
+          hintText: 'Masukkan KTP Kamu',
+        ),
+
+        userNPWP.isEmpty
+            ? Container()
+            : Column(
+                children: [
+                  CustomDividers.smallDivider(),
+                ],
+              ),
+        LabelInput(
+          labelText: 'NPWP',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          keyboardType: TextInputType.text,
+          controller: inputNPWP,
+          editable: false,
+          hintText: 'Masukkan NPWP Kamu',
+        ),
+
         CustomDividers.smallDivider(),
 
         // PROVINCE
@@ -361,7 +406,7 @@ class _EditProfileState extends State<EditProfile> {
               },
               loaded: (data) {
                 return Container(
-                  height: 50,
+                  height: 55,
                   width: double.infinity,
                   padding: const EdgeInsets.only(left: 15, right: 10),
                   decoration: BoxDecoration(

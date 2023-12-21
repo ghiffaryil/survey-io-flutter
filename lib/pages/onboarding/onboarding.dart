@@ -125,7 +125,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   Widget onboardingSlider() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(children: [
         CarouselSlider(
           carouselController: _carouselController,
@@ -158,7 +158,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 width: 15.0,
                 height: 15.0,
                 margin:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: _currentIndex == entry.key
@@ -260,6 +260,7 @@ class CarouselItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SvgPicture.asset(
           item.imagePath,

@@ -51,7 +51,7 @@ class _TabPollingDoneState extends State<TabPollingDone> {
                   margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.1),
                   child: Text(
-                    'You haven\'t voted on the poll yet',
+                    'Kamu belum melakukan Polling apapun',
                     textAlign: TextAlign.center,
                     style: TextStyles.large(),
                   ));
