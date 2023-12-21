@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
 
 // Import Component
@@ -38,7 +39,6 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
   }
 
   void loadDataSource() {
-    print('Load Survey');
     context.read<SurveyListBloc>().add(const SurveyListEvent.getSurveyList());
   }
 
@@ -76,6 +76,19 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
     }
   }
 
+  Future<void> refreshPage() async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    loadDataSource();
+    return;
+  }
+
+  void _onShare(BuildContext context, uri) {
+    if (uri.isNotEmpty) {
+      // Share.shareUri(Uri.parse(uri));
+      Share.share(uri, subject: 'Survey Link');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,14 +108,22 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
             LabelInput(
                 labelText: 'Survei',
                 labelStyle: TextStyles.h2ExtraBold(color: AppColors.secondary)),
-            Expanded(child: SingleChildScrollView(child: sectionListSurvey())),
+            CustomDividers.smallDivider(),
+            Expanded(
+                child: RefreshIndicator(
+                    color: AppColors.info,
+                    backgroundColor: Colors.white,
+                    onRefresh: refreshPage,
+                    child: SingleChildScrollView(
+                      child: listSurveySection(),
+                    ))),
           ],
         ),
       ),
     );
   }
 
-  Widget sectionListSurvey() {
+  Widget listSurveySection() {
     return Container(
         padding: CustomPadding.p1,
         child: BlocBuilder<SurveyListBloc, SurveyListState>(
@@ -133,17 +154,21 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                 itemCount: surveyList.length,
                 itemBuilder: (BuildContext context, int index) {
                   final survey = surveyList[index];
-
                   return Container(
-                    padding: const EdgeInsets.all(7),
+                    padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border(
+                        bottom: BorderSide(
+                          color: AppColors.light.withOpacity(0.4),
+                          width: 0.3,
+                        ),
+                      ),
                     ),
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 150,
+                          height: 100,
                           width: double.infinity,
                           child: survey.survey.imageHomescreen.isEmpty
                               ? const RoundedImage(
@@ -151,13 +176,13 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                   imageUrl:
                                       'assets/images/global/img_empty_create_survey.png',
                                   borderRadius: 8.0,
-                                  fit: BoxFit.fitWidth,
+                                  fit: BoxFit.contain,
                                 )
                               : RoundedImage(
                                   imageType: 'network',
                                   imageUrl: survey.survey.imageHomescreen,
                                   borderRadius: 8.0,
-                                  fit: BoxFit.fitWidth,
+                                  fit: BoxFit.contain,
                                 ),
                         ),
                         Container(
@@ -200,10 +225,16 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                   const Spacer(
                                     flex: 1,
                                   ),
-                                  const Icon(
-                                    Icons.share,
-                                    size: 20,
-                                    color: AppColors.info,
+                                  IconButton(
+                                    onPressed: () {
+                                      _onShare(
+                                          context, survey.survey.surveyLink);
+                                    },
+                                    icon: const Icon(
+                                      Icons.share,
+                                      size: 19,
+                                      color: AppColors.info,
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 20,
@@ -232,6 +263,9 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                   )
                                 ],
                               ),
+                              const SizedBox(
+                                width: 10,
+                              ),
                             ],
                           ),
                         ),
@@ -240,7 +274,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
-                  return const Divider(); // Replace Divider() with your custom separator widget if needed.
+                  return CustomDividers.regularDivider();
                 },
               );
             },

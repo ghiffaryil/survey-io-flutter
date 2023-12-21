@@ -79,6 +79,62 @@ class ShimmerCardMain extends StatelessWidget {
   }
 }
 
+class ShimmerIcon extends StatelessWidget {
+  const ShimmerIcon({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0, left: 10, right: 10),
+      child: Shimmer.fromColors(
+        baseColor: AppColors.light.withOpacity(0.3),
+        highlightColor: AppColors.light.withOpacity(0.2),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              flex: 3,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.light.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.light.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.light.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class ShimmerProfileFloat extends StatelessWidget {
   const ShimmerProfileFloat({super.key});
 
@@ -473,22 +529,56 @@ class ShimmerInvite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.07,
-      padding: const EdgeInsets.all(10),
-      width: double.infinity,
-      child: Center(
-        child: Shimmer.fromColors(
-          baseColor: AppColors.light.withOpacity(0.3),
-          highlightColor: AppColors.light.withOpacity(0.2),
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+    return SingleChildScrollView(
+      child: Shimmer.fromColors(
+        baseColor: AppColors.light.withOpacity(0.3),
+        highlightColor: AppColors.light.withOpacity(0.2),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            CustomDividers.regularDivider(),
+            Container(
+              height: 250,
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: AppColors.light.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(30)),
+                  borderRadius: BorderRadius.circular(15)),
             ),
-          ),
+            CustomDividers.extraLargeDivider(),
+            CustomDividers.smallDivider(),
+            Container(
+              height: 40,
+              padding: const EdgeInsets.all(0),
+              decoration: BoxDecoration(
+                  color: AppColors.light.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(15)),
+            ),
+            CustomDividers.smallDivider(),
+            Container(
+              height: 40,
+              padding: const EdgeInsets.all(0),
+              decoration: BoxDecoration(
+                  color: AppColors.light.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(15)),
+            ),
+            CustomDividers.smallDivider(),
+            Container(
+              height: 40,
+              padding: const EdgeInsets.all(0),
+              decoration: BoxDecoration(
+                  color: AppColors.light.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(15)),
+            ),
+            CustomDividers.regularDivider(),
+            Container(
+              height: 40,
+              padding: const EdgeInsets.all(0),
+              decoration: BoxDecoration(
+                  color: AppColors.light.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(15)),
+            )
+          ],
         ),
       ),
     );
@@ -797,6 +887,48 @@ class ShimmerListSurvey extends StatelessWidget {
               height: 10,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ShimmerProfileMenu extends StatelessWidget {
+  const ShimmerProfileMenu({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Shimmer.fromColors(
+        baseColor: AppColors.light.withOpacity(0.3),
+        highlightColor: AppColors.light.withOpacity(0.2),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.06,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.light.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(15)),
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                flex: 6,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.light.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(15)),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

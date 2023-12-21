@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/bloc/survey/survey_popular/survey_popular_bloc.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
@@ -138,34 +139,46 @@ class _MainSectionState extends State<MainSection> {
     });
   }
 
-  // FUNGSI REFRESH PAGE
-  Future<Null> refreshPage() async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<void> refreshPage() async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
     loadDataSource();
-    return null;
+    return;
+  }
+
+  void _onShare(BuildContext context, uri) {
+    if (uri.isNotEmpty) {
+      // Share.shareUri(Uri.parse(uri));
+      Share.share(uri, subject: 'Survey Link');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.15,
-            decoration: const BoxDecoration(
-              color: Colors.white,
+    return RefreshIndicator(
+      color: AppColors.info,
+      backgroundColor: Colors.white,
+      displacement: 150.0,
+      onRefresh: refreshPage,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.14,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
             ),
-          ),
-          iconSection(),
-          CustomDividers.verySmallDivider(),
-          ayoCheckSection(),
-          CustomDividers.verySmallDivider(),
-          isGuest ? Container() : pollingTodaySection(),
-          CustomDividers.verySmallDivider(),
-          surveyPopularSection(),
-          CustomDividers.verySmallDivider(),
-          createSurveySection(),
-        ],
+            iconSection(),
+            CustomDividers.verySmallDivider(),
+            ayoCheckSection(),
+            CustomDividers.verySmallDivider(),
+            isGuest ? Container() : pollingTodaySection(),
+            CustomDividers.verySmallDivider(),
+            surveyPopularSection(),
+            CustomDividers.verySmallDivider(),
+            createSurveySection(),
+          ],
+        ),
       ),
     );
   }
@@ -177,75 +190,89 @@ class _MainSectionState extends State<MainSection> {
       decoration: const BoxDecoration(
         color: Colors.white,
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ListSurveiPage()));
-              },
-              child: Column(
+      child: BlocBuilder<SurveyPopularBloc, SurveyPopularState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return Container();
+            },
+            loading: () {
+              return const ShimmerIcon();
+            },
+            loaded: (data) {
+              return Row(
                 children: [
-                  Image.asset(
-                    IconName.survey,
-                    width: 45,
-                    height: 45,
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ListSurveiPage()));
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            IconName.survey,
+                            width: 45,
+                            height: 45,
+                          ),
+                          CustomDividers.smallDivider(),
+                          Text('Survei',
+                              style: TextStyles.h5(color: AppColors.secondary)),
+                        ],
+                      ),
+                    ),
                   ),
-                  CustomDividers.smallDivider(),
-                  Text('Survei',
-                      style: TextStyles.h5(color: AppColors.secondary)),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const PollingPage()));
-              },
-              child: Column(
-                children: [
-                  Image.asset(
-                    IconName.polling,
-                    width: 45,
-                    height: 45,
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const PollingPage()));
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            IconName.polling,
+                            width: 45,
+                            height: 45,
+                          ),
+                          CustomDividers.smallDivider(),
+                          Text('Polling',
+                              style: TextStyles.h5(color: AppColors.secondary)),
+                        ],
+                      ),
+                    ),
                   ),
-                  CustomDividers.smallDivider(),
-                  Text('Polling',
-                      style: TextStyles.h5(color: AppColors.secondary)),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const InviteFriend()));
-              },
-              child: Column(
-                children: [
-                  Image.asset(
-                    IconName.invite,
-                    width: 45,
-                    height: 45,
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const InviteFriend()));
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            IconName.invite,
+                            width: 45,
+                            height: 45,
+                          ),
+                          CustomDividers.smallDivider(),
+                          Text('Invite',
+                              style: TextStyles.h5(color: AppColors.secondary)),
+                        ],
+                      ),
+                    ),
                   ),
-                  CustomDividers.smallDivider(),
-                  Text('Invite',
-                      style: TextStyles.h5(color: AppColors.secondary)),
                 ],
-              ),
-            ),
-          ),
-        ],
+              );
+            },
+          );
+        },
       ),
     );
   }
@@ -738,7 +765,12 @@ class _MainSectionState extends State<MainSection> {
                                                               0.12,
                                                     ),
                                                     IconButton(
-                                                      onPressed: () {},
+                                                      onPressed: () {
+                                                        _onShare(
+                                                            context,
+                                                            survey.survey
+                                                                .surveyLink);
+                                                      },
                                                       icon: const Icon(
                                                         Icons.share,
                                                         size: 17,
