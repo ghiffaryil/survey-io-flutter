@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:survey_io/bloc/profile/get_list_city/get_list_city_bloc.dart';
 import 'package:survey_io/bloc/profile/get_list_province/get_list_province_bloc.dart';
+import 'package:survey_io/datasources/profile/get_list_province_datasource.dart';
 import 'package:survey_io/datasources/profile/get_profile_datasource.dart';
 import 'package:survey_io/models/user/list_city_response_model.dart';
 import 'package:survey_io/models/user/list_province_response_model.dart';
@@ -117,10 +118,14 @@ class _EditProfileState extends State<EditProfile> {
             inputNPWP.text = data.data.userProfile.npwp;
 
             provinceNameSelected = data.data.userProfile.province;
+
             cityNameSelected = data.data.userProfile.city;
           });
 
           data.data.userProfile.province != "" ? loadProvinceList() : null;
+          data.data.userProfile.province != ""
+              ? loadProvinceListWithName('${data.data.userProfile.province}')
+              : null;
         },
       );
     } catch (e) {
@@ -133,6 +138,48 @@ class _EditProfileState extends State<EditProfile> {
     context
         .read<GetListProvinceBloc>()
         .add(const GetListProvinceEvent.getListProvince());
+  }
+
+  void loadProvinceListWithName(String provinceNameExist) async {
+    print('load province with name');
+
+    try {
+      final result = await GetListProvinceDatasource().getProvinceList();
+
+      result.fold(
+        (error) {
+          // Handle error
+          print('Error loading province list: $error');
+        },
+        (provinceList) {
+          final provinceId =
+              getProvinceIdByName(provinceList, provinceNameExist);
+          if (provinceId != -1) {
+            // Province id found, use it in the next function
+            // Call the next function with provinceId
+            // Example: nextFunction(provinceId);
+            loadCityList(provinceId);
+          } else {
+            print('Province not found');
+          }
+        },
+      );
+    } catch (e) {
+      print('Exception: $e');
+    }
+  }
+
+  // Helper function to extract province id by name
+  int getProvinceIdByName(
+      ListProvinceResponseModel provinceList, String provinceName) {
+    for (var province in provinceList.data) {
+      if (province.name == provinceName) {
+        print('province id ${province.id}');
+        return province.id;
+      }
+    }
+
+    return -1; // Return -1 if province not found
   }
 
   void loadCityList(getProvinceId) {

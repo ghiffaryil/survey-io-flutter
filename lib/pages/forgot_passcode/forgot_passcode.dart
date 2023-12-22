@@ -72,13 +72,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             CustomDividers.verySmallDivider(),
             formInputField(),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.55,
+              height: MediaQuery.of(context).size.height * 0.52,
             ),
             BlocProvider(
               create: (context) => ForgotPasscodeRequestOtpBloc(),
               child: buttonSubmit(),
             ),
-            CustomDividers.smallDivider(),
           ],
         ),
       ),

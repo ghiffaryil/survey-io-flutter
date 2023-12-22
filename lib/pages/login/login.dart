@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
             // CustomDividers.extraLargeDivider(),
             // CustomDividers.regularDivider(),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.25,
+              height: MediaQuery.of(context).size.height * 0.245,
             ),
             BlocProvider(
               create: (context) => LoginBloc(),
