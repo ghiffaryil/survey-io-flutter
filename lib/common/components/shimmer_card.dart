@@ -911,6 +911,7 @@ class ShimmerProfileMenu extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Container(
+                  margin: EdgeInsets.only(left: 10),
                   decoration: BoxDecoration(
                       color: AppColors.light.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(15)),

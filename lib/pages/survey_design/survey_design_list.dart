@@ -221,7 +221,12 @@ class _SurveyDesignListPageState extends State<SurveyDesignListPage> {
                               onPressed: () {},
                               backgroundColor: AppColors.primary,
                               tooltip: 'Create New Survey Design',
-                              child: const Icon(Icons.add, color: Colors.white),
+                              // mini: true,
+                              child: const Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: 40,
+                              ),
                             );
                     },
                     loaded: (data) {
@@ -248,7 +253,12 @@ class _SurveyDesignListPageState extends State<SurveyDesignListPage> {
                         },
                         backgroundColor: AppColors.primary,
                         tooltip: 'Create New Survey Design',
-                        child: const Icon(Icons.add, color: Colors.white),
+                        // mini: true,
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: 40,
+                        ),
                       );
                     },
                   );
