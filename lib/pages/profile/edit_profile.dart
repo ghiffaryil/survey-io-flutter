@@ -144,7 +144,7 @@ class _EditProfileState extends State<EditProfile> {
   bool _validateForm() {
     if (phoneNumber.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Harap masukkan Nomor Telepon Anda',
+        msg: 'Masukkan momor Handphone kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -155,7 +155,7 @@ class _EditProfileState extends State<EditProfile> {
       return false;
     } else if (fullName.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Harap masukkan Email Anda',
+        msg: 'Masukkan Nama Nengkap kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -166,7 +166,7 @@ class _EditProfileState extends State<EditProfile> {
       return false;
     } else if (email.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Harap masukkan Email Anda',
+        msg: 'Masukkan Email kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -316,7 +316,7 @@ class _EditProfileState extends State<EditProfile> {
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'No. Telepon',
+          labelText: 'Nomor Handphone',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
@@ -548,7 +548,9 @@ class _EditProfileState extends State<EditProfile> {
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
-              loadProfileInformation();
+              // loadProfileInformation();
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const Profile()));
             },
             error: (message) {
               Fluttertoast.showToast(
@@ -594,8 +596,11 @@ class _EditProfileState extends State<EditProfile> {
                   });
             },
             loading: () {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return ButtonFilled.primary(
+                text: '',
+                onPressed: () {},
+                textColor: AppColors.white,
+                loading: true,
               );
             },
           );

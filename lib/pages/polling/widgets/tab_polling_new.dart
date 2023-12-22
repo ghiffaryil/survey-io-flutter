@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
+import 'package:survey_io/common/constants/images.dart';
 import '../../reedem/reedem_gift_card.dart';
 import '../../../bloc/polling/polling_participate/polling_participate_bloc.dart';
 import '../../../common/constants/icons.dart';
@@ -44,10 +45,21 @@ class _TabNewPollingState extends State<TabNewPolling> {
             return Container(
                 margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.1),
-                child: Text(
-                  'Tidak ada Polling tersedia',
-                  textAlign: TextAlign.center,
-                  style: TextStyles.large(),
+                child: Column(
+                  children: [
+                    Image.asset(
+                      Images.emptyCreateSurvey,
+                      width: MediaQuery.of(context).size.width * 0.5,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                    Text(
+                      'Tidak ada Polling tersedia',
+                      textAlign: TextAlign.center,
+                      style: TextStyles.large(),
+                    ),
+                  ],
                 ));
           }, loaded: (data) {
             bool allPollingVoted =
@@ -57,10 +69,21 @@ class _TabNewPollingState extends State<TabNewPolling> {
               return Container(
                   margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.1),
-                  child: Text(
-                    'Kamu telah menyelesaikan semua Polling',
-                    textAlign: TextAlign.center,
-                    style: TextStyles.large(),
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        Images.reedemSuccess,
+                        width: MediaQuery.of(context).size.width * 0.5,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                      ),
+                      Text(
+                        'Kamu telah menyelesaikan semua Polling',
+                        textAlign: TextAlign.center,
+                        style: TextStyles.large(),
+                      ),
+                    ],
                   ));
             } else {
               return ListView.builder(

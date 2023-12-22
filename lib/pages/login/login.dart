@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _validateForm() {
     if (phoneNumber.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Masukkan No. Telepon kamu',
+        msg: 'Masukkan nomor Handphone kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -159,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'No. Telepon',
+          labelText: 'Nomor Handphone',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.smallDivider(),
@@ -167,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
           focusNode: phoneNumberFocus,
           keyboardType: TextInputType.phone,
           controller: phoneNumber,
-          hintText: 'Masukkan Nomor Telepon',
+          hintText: 'Masukkan Nomor Handphone',
         ),
         CustomDividers.smallDivider(),
         LabelInput(

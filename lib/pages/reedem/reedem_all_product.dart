@@ -132,7 +132,6 @@ class _ReedemPageAllProductsState extends State<ReedemPageAllProducts> {
                                                         product.categoryImage,
                                                     height: 135,
                                                     fit: BoxFit.fitHeight,
-                                                    borderRadius: 15,
                                                   ),
                                                 ),
                                               ),

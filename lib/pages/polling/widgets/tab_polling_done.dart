@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
+import 'package:survey_io/common/constants/images.dart';
 import '../../../common/components/chart_indicator.dart';
 import '../../../common/constants/widgets/indicator.dart';
 import '../../../bloc/polling/polling_done/polling_done_bloc.dart';
@@ -50,10 +51,21 @@ class _TabPollingDoneState extends State<TabPollingDone> {
               return Container(
                   margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.1),
-                  child: Text(
-                    'Kamu belum melakukan Polling apapun',
-                    textAlign: TextAlign.center,
-                    style: TextStyles.large(),
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        Images.emptyList,
+                        width: MediaQuery.of(context).size.width * 0.5,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                      ),
+                      Text(
+                        'Kamu belum melakukan Polling apapun',
+                        textAlign: TextAlign.center,
+                        style: TextStyles.large(),
+                      ),
+                    ],
                   ));
             },
             loaded: (data) {

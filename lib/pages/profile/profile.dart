@@ -36,6 +36,11 @@ class _ProfileState extends State<Profile> {
     checkToken();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   void navigateToLoginPage(BuildContext context) {
     Navigator.pushReplacement(
       context,
@@ -44,6 +49,10 @@ class _ProfileState extends State<Profile> {
   }
 
   void checkToken() async {
+    if (!mounted) {
+      return; // Check if the widget is still mounted before proceeding
+    }
+
     final token = await AuthLocalDatasource().getToken();
     final guestToken = await AuthLocalGuestDatasource().getToken();
 
@@ -92,9 +101,16 @@ class _ProfileState extends State<Profile> {
           }
         },
         (data) {
-          setState(() {
-            isLogged = true;
-          });
+          // setState(() {
+          //   isLogged = true;
+          // });
+
+          if (mounted) {
+            setState(() {
+              isLogged = true;
+              isGuest = false;
+            });
+          }
         },
       );
     }

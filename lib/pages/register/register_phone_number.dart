@@ -33,7 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _validateForm() {
     if (phoneNumber.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Please enter your phone number',
+        msg: 'Masukkan nomor Handphone kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
