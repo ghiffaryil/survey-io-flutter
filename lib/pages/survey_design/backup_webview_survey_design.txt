@@ -34,6 +34,7 @@ class _SurveyDesignPaymenStatet
   @override
   void initState() {
     super.initState();
+    controller = WebViewController();
   }
 
   @override
@@ -64,7 +65,7 @@ class _SurveyDesignPaymenStatet
           ),
         ),
         body: WebViewWidget(
-            controller: WebViewController()
+            controller: controller
               ..setJavaScriptMode(JavaScriptMode.unrestricted)
               ..setBackgroundColor(const Color(0x00000000))
               ..setNavigationDelegate(
@@ -72,22 +73,56 @@ class _SurveyDesignPaymenStatet
                   onProgress: (int progress) {
                     // Update loading bar.
                   },
-                  onPageStarted: (String url) {},
-                  onPageFinished: (String url) {},
+                  onPageStarted: (String url) {
+                    print('Ini Lho URL nya 1 : $url');
+                    if (url == '${dotenv.env['WEBVIEW_URL']}') {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SurveyDesignListPage()),
+                      );
+                    } else if (url
+                        .startsWith('${dotenv.env['PAYMENT_URL']}/status/')) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const SurveyDesignListPage()));
+                    }
+                  },
+                  onPageFinished: (String url) {
+                    print('Ini Lho URL nya 2 : $url');
+                    if (url == '${dotenv.env['WEBVIEW_URL']}') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SurveyDesignListPage(),
+                        ),
+                      );
+                    }
+                  },
                   onWebResourceError: (WebResourceError error) {},
                   onNavigationRequest: (NavigationRequest request) {
-                    print('Ini Lho URL nya : ' + widget.url);
+                    print('Ini Lho URL nya 3 : $request');
                     if (request.url == '${dotenv.env['WEBVIEW_URL']}') {
-                      print('URL is equal ${request.url}');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SurveyDesignListPage(),
+                        ),
+                      );
+                      return NavigationDecision.prevent;
+                    } else if (request.url
+                        .startsWith('${dotenv.env['PAYMENT_URL']}')) {
+                      return NavigationDecision.navigate;
+                    } else if (request.url
+                        .startsWith('${dotenv.env['PAYMENT_URL']}/status/')) {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
                                   const SurveyDesignListPage()));
                       return NavigationDecision.prevent;
-                    } else if (request.url
-                        .startsWith('${dotenv.env['PAYMENT_URL']}')) {
-                      return NavigationDecision.navigate;
                     } else {
                       print('URL Not Found');
                       Navigator.push(

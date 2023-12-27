@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_is_calculate/survey_design_is_calculate_bloc.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/common/constants/function/get_split_strip_value.dart';
 import 'package:survey_io/models/survey_design/is_calculate/survey_design_is_calculate_request_model.dart';
 import 'package:survey_io/pages/survey_design/survey_design.dart';
@@ -596,7 +597,12 @@ class _ReportTimeOptionState extends State<ReportTimeOption> {
                           return Container();
                         },
                         loading: () {
-                          return Container();
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: 6,
+                              itemBuilder: (context, index) {
+                                return const ShimmerProfileMenu();
+                              });
                         },
                         error: (message) {
                           return Text(message);

@@ -284,8 +284,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                                     builder: (context) =>
                                                         WebviewSurvey(
                                                           id: survey.survey.id,
-                                                          url:
-                                                              '${survey.survey.surveyLink}?token=$surveyToken',
+                                                          url:'${survey.survey.surveyLink}?token=$surveyToken',
                                                           title: survey
                                                               .survey.title,
                                                         )));

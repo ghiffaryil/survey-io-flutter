@@ -66,25 +66,32 @@ class _WebviewSurveyState extends State<WebviewSurvey> {
               ..setBackgroundColor(const Color(0x00000000))
               ..setNavigationDelegate(
                 NavigationDelegate(
-                  onProgress: (int progress) {
-                    // Update loading bar.
-                  },
+                  onProgress: (int progress) {},
                   onPageStarted: (String url) {},
                   onPageFinished: (String url) {},
                   onWebResourceError: (WebResourceError error) {},
                   onNavigationRequest: (NavigationRequest request) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ListSurveiPage(),
-                      ),
-                    );
-                    return NavigationDecision.navigate;
+                    if (request.url
+                        .startsWith('${dotenv.env['WEBVIEW_URL']}')) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomePage(),
+                        ),
+                      );
+                      return NavigationDecision.prevent;
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomePage(),
+                        ),
+                      );
+                      return NavigationDecision.navigate;
+                    }
                   },
                 ),
               )
-              ..loadRequest(Uri.parse(
-                  '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/' +
-                      widget.id.toString()))));
+              ..loadRequest(Uri.parse(widget.url))));
   }
 }

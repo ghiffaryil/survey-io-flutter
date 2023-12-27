@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/bloc/survey/survey_popular/survey_popular_bloc.dart';
@@ -402,8 +403,9 @@ class _MainSectionState extends State<MainSection> {
                                                                   id: data
                                                                       .survey
                                                                       .id,
+                                                                  // url:'${data.survey.surveyLink}?token=$surveyToken',
                                                                   url:
-                                                                      '${data.survey.surveyLink}?token=$surveyToken',
+                                                                      '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${data.survey.id}?token=$surveyToken',
                                                                   title: data
                                                                       .survey
                                                                       .title)));
@@ -784,8 +786,12 @@ class _MainSectionState extends State<MainSection> {
                                                         width: 25,
                                                         height: 25,
                                                       ),
-                                                      const SizedBox(
-                                                        width: 10,
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.01,
                                                       ),
                                                       Text(
                                                         surveyEnergy,
@@ -798,7 +804,7 @@ class _MainSectionState extends State<MainSection> {
                                                                     context)
                                                                 .size
                                                                 .width *
-                                                            0.12,
+                                                            0.1,
                                                       ),
                                                       IconButton(
                                                         onPressed: () {
@@ -843,6 +849,7 @@ class _MainSectionState extends State<MainSection> {
                                                                               builder: (context) => WebviewSurvey(
                                                                                     id: survey.survey.id,
                                                                                     url: '${survey.survey.surveyLink}?token=$surveyToken',
+                                                                                    // url: '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${survey.survey.id}?token=$surveyToken',
                                                                                     title: survey.survey.title,
                                                                                   )));
                                                                 }),

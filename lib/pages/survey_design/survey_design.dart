@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:survey_io/bloc/survey_design/survey_design_is_create/survey_design_is_create_bloc.dart';
+import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryPrice.dart';
 import 'package:survey_io/common/constants/function/get_split_strip_value.dart';
 import 'package:survey_io/common/components/input_field_radio.dart';
@@ -18,6 +19,7 @@ import 'package:survey_io/models/survey_design/is_create/survey_design_is_create
 import 'package:survey_io/pages/payment/payment_method.dart';
 import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 import 'package:survey_io/common/extension/helper/currency_helper.dart';
+import 'package:survey_io/pages/survey_design/webview_survey_design_create_question.dart';
 import 'package:survey_io/pages/survey_design/widgets/question_option.dart';
 import 'package:survey_io/pages/survey_design/widgets/report_time_option.dart';
 import 'package:survey_io/pages/survey_design/widgets/respondent_option.dart';
@@ -112,9 +114,15 @@ class _SurveyDesignState extends State<SurveyDesign> {
   bool isDemographyChecked = false;
   bool isDataInitialized = false;
 
+  bool isLogged = false;
+  bool isGuest = true;
+  String userToken = '';
+  String surveyToken = '';
+
   @override
   void initState() {
     super.initState();
+    checkToken();
     loadDataOption();
     initializeDataDemography();
   }
@@ -122,14 +130,33 @@ class _SurveyDesignState extends State<SurveyDesign> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Avoid calling initializeDataDemography here to prevent redundant calls
+  }
+
+  void checkToken() async {
+    final token = await AuthLocalDatasource().getToken();
+    // IF TOKEN IS EMPTY
+    if (token.isEmpty) {
+      setState(() {
+        isGuest = false;
+        isLogged = false;
+      });
+      print('No Token');
+    } else {
+      // Have User Token
+      print('User Token : $token');
+      setState(() {
+        isGuest = false;
+        isLogged = true;
+        userToken = token;
+        surveyToken = token.substring(7);
+      });
+    }
   }
 
   // Load All Data
   Future<void> initializeDataDemography() async {
     if (!isDataInitialized) {
       await loadDataDemography();
-      // Call checkValueDemography only after all asynchronous operations are completed
       if (!isDemographyChecked) {
         checkValueDemography();
         setState(() {
@@ -139,20 +166,16 @@ class _SurveyDesignState extends State<SurveyDesign> {
       }
 
       // print('screenerOptionValue : $screenerOptionValue');
-
       // print('Respondent : $totalRespondentValue');
       // print('Question : $totalQuestionValue');
       // print('Screener : $totalScreener');
-
       // print('Gender : $selectedScopeGender');
       // print('Age : $selectedScopeAge');
       // print('Children : $selectedScopeChildren');
       // print('Marital : $selectedScopeMarital');
       // print('Occupation : $selectedScopeOccupation');
-
       // print('Region : $selectedScopeRegion');
       // print('Religion : $selectedScopeReligion');
-
       // print('Income : $selectedScopeIncome');
       // print('Outcome : $selectedScopeOutcome');
     }
@@ -642,7 +665,7 @@ class _SurveyDesignState extends State<SurveyDesign> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            padding: CustomPadding.px2,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -670,7 +693,6 @@ class _SurveyDesignState extends State<SurveyDesign> {
           containerPrice(),
         ],
       ),
-     
     );
   }
 
@@ -702,11 +724,20 @@ class _SurveyDesignState extends State<SurveyDesign> {
               state.maybeWhen(
                 orElse: () {},
                 loaded: (data) {
-                  print('createQuestionUrl $data');
+                  print(
+                      'createQuestionUrl redirect to => $data&key=$surveyToken');
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SurveyDesignListPage()));
+                          builder: (context) =>
+                              WebviewSurveyDesignCreateQuestion(
+                                title: 'Create Question',
+                                url: '$data&key=$surveyToken',
+                              )));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const SurveyDesignListPage()));
                 },
                 error: (message) {
                   print('message $message');
