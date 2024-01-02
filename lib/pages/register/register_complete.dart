@@ -216,7 +216,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'No. Telepon',
+          labelText: 'Nomor Handphone',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),

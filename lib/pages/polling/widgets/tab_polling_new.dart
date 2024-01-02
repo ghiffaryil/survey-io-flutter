@@ -345,14 +345,14 @@ class _TabNewPollingState extends State<TabNewPolling> {
               children: [
                 TextSpan(
                     text:
-                        'Pilihan tidak dapat diubah ketika anda menekan tombol',
+                        'Pilihan tidak dapat diubah ketika Kamu menekan tombol',
                     style: TextStyles.extraLarge(color: AppColors.secondary)),
                 TextSpan(
                   text: ' Submit ',
                   style: TextStyles.extraLarge(color: AppColors.primary),
                 ),
                 TextSpan(
-                    text: ', anda yakin tetap ingin memilih',
+                    text: ', Kamu yakin tetap ingin memilih',
                     style: TextStyles.extraLarge(color: AppColors.secondary)),
                 TextSpan(
                   text: ' "$selectedItemLabel"',

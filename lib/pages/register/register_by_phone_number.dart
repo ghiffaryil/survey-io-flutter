@@ -15,14 +15,15 @@ import '../../../common/components/information_card.dart';
 import '../../../common/constants/padding.dart';
 import 'register_verification_otp.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class RegisterPhoneNumberPage extends StatefulWidget {
+  const RegisterPhoneNumberPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<RegisterPhoneNumberPage> createState() =>
+      _RegisterPhoneNumberPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPhoneNumberPageState extends State<RegisterPhoneNumberPage> {
   TextEditingController phoneNumber = TextEditingController();
   FocusNode phoneNumberFocus = FocusNode();
 
@@ -96,7 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
         Container(
           alignment: Alignment.centerLeft,
           child: Text(
-            '1. Masukkan Nomor Telepon',
+            '1. Masukkan Nomor Handphone',
             style: TextStyles.h4(color: AppColors.secondary),
           ),
         ),
@@ -116,7 +117,7 @@ class _RegisterPageState extends State<RegisterPage> {
       icon: 'assets/images/information/warning_info.svg',
       iconType: 'svg',
       information:
-          'Nomor telepon tidak dapat diubah setelah akun dibuat. Pastikan nomor telepon kamu terkoneksi dengan WhatsApp',
+          'Nomor Handphone tidak dapat diubah setelah akun dibuat. Pastikan Nomor Handphone kamu terkoneksi dengan WhatsApp',
     );
   }
 

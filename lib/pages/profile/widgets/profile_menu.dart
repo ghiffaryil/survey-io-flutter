@@ -221,7 +221,7 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
               const IndicatorModal(),
               CustomDividers.smallDivider(),
               Text(
-                'Anda yakin ingin keluar dari aplikasi ini?',
+                'Kamu yakin ingin keluar dari aplikasi ini?',
                 style: TextStyles.medium(),
               ),
               CustomDividers.smallDivider(),

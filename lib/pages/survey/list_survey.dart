@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
 
@@ -278,16 +279,33 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                           fontWeight: FontWeight.normal,
                                           text: 'Ikut Survei',
                                           onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        WebviewSurvey(
-                                                          id: survey.survey.id,
-                                                          url:'${survey.survey.surveyLink}?token=$surveyToken',
-                                                          title: survey
-                                                              .survey.title,
-                                                        )));
+                                            survey.allowed
+                                                ? Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            WebviewSurvey(
+                                                              id: survey
+                                                                  .survey.id,
+                                                              url:
+                                                                  '${survey.survey.surveyLink}?token=$surveyToken',
+                                                              title: survey
+                                                                  .survey.title,
+                                                            )))
+                                                : Fluttertoast.showToast(
+                                                    msg:
+                                                        'Kamu telah mengikuti survei ini',
+                                                    toastLength:
+                                                        Toast.LENGTH_SHORT,
+                                                    gravity:
+                                                        ToastGravity.BOTTOM,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor: AppColors
+                                                        .secondary
+                                                        .withOpacity(0.8),
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0,
+                                                  );
                                           }),
                                     )
                                   ],

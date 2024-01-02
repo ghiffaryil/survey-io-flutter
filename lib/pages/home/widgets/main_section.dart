@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/bloc/survey/survey_popular/survey_popular_bloc.dart';
@@ -45,15 +46,20 @@ class _MainSectionState extends State<MainSection> {
   String surveyToken = '';
 
   @override
+  void initState() {
+    super.initState();
+    checkToken();
+  }
+
+  @override
   void dispose() {
-    _isDisposed = true;
+    // _isDisposed = true;
     super.dispose();
   }
 
   @override
-  void initState() {
-    super.initState();
-    checkToken();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   void loadDataSource() {
@@ -149,7 +155,6 @@ class _MainSectionState extends State<MainSection> {
 
   void _onShare(BuildContext context, uri) {
     if (uri.isNotEmpty) {
-      // Share.shareUri(Uri.parse(uri));
       Share.share(uri, subject: 'Survey Link');
     }
   }
@@ -157,10 +162,10 @@ class _MainSectionState extends State<MainSection> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      onRefresh: refreshPage,
       color: AppColors.info,
       backgroundColor: Colors.white,
-      displacement: 150.0,
-      onRefresh: refreshPage,
+      displacement: 120,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -395,20 +400,37 @@ class _MainSectionState extends State<MainSection> {
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               const LoginPage()))
-                                                  : Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              WebviewSurvey(
-                                                                  id: data
-                                                                      .survey
-                                                                      .id,
-                                                                  // url:'${data.survey.surveyLink}?token=$surveyToken',
-                                                                  url:
-                                                                      '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${data.survey.id}?token=$surveyToken',
-                                                                  title: data
-                                                                      .survey
-                                                                      .title)));
+                                                  : data.allowed
+                                                      ? Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  WebviewSurvey(
+                                                                      id: data
+                                                                          .survey
+                                                                          .id,
+                                                                      url:
+                                                                          '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${data.survey.id}?token=$surveyToken',
+                                                                      title: data
+                                                                          .survey
+                                                                          .title)))
+                                                      : Fluttertoast.showToast(
+                                                          msg:
+                                                              'Kamu telah mengikuti survei ini',
+                                                          toastLength: Toast
+                                                              .LENGTH_SHORT,
+                                                          gravity: ToastGravity
+                                                              .BOTTOM,
+                                                          timeInSecForIosWeb: 1,
+                                                          backgroundColor:
+                                                              AppColors
+                                                                  .secondary
+                                                                  .withOpacity(
+                                                                      0.8),
+                                                          textColor:
+                                                              Colors.white,
+                                                          fontSize: 16.0,
+                                                        );
                                             }),
                                       )
                                     ],
@@ -843,15 +865,25 @@ class _MainSectionState extends State<MainSection> {
                                                                           context,
                                                                           MaterialPageRoute(
                                                                               builder: (context) => const LoginPage()))
-                                                                      : Navigator.push(
-                                                                          context,
-                                                                          MaterialPageRoute(
-                                                                              builder: (context) => WebviewSurvey(
-                                                                                    id: survey.survey.id,
-                                                                                    url: '${survey.survey.surveyLink}?token=$surveyToken',
-                                                                                    // url: '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${survey.survey.id}?token=$surveyToken',
-                                                                                    title: survey.survey.title,
-                                                                                  )));
+                                                                      : survey.allowed
+                                                                          ? Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(
+                                                                                  builder: (context) => WebviewSurvey(
+                                                                                        id: survey.survey.id,
+                                                                                        url: '${survey.survey.surveyLink}?token=$surveyToken',
+                                                                                        title: survey.survey.title,
+                                                                                      )))
+                                                                          : Fluttertoast.showToast(
+                                                                              msg: 'Kamu telah mengikuti survei ini',
+                                                                              toastLength: Toast.LENGTH_SHORT,
+                                                                              gravity: ToastGravity.BOTTOM,
+                                                                              timeInSecForIosWeb: 1,
+                                                                              backgroundColor: AppColors.secondary.withOpacity(0.8),
+                                                                              textColor: Colors.white,
+                                                                              fontSize: 16.0,
+                                                                            );
+                                                                  ;
                                                                 }),
                                                       )
                                                     ],

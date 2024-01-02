@@ -83,7 +83,7 @@ class _ProfileState extends State<Profile> {
                 return AlertDialog(
                   title: const Text('Token Expired'),
                   content: const Text(
-                      'Sesi anda telah habis. Silahkan login kembali.'),
+                      'Sesi Kamu telah habis. Silahkan login kembali.'),
                   actions: <Widget>[
                     TextButton(
                       child: const Text('OK'),

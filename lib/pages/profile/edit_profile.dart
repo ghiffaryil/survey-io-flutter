@@ -385,6 +385,7 @@ class _EditProfileState extends State<EditProfile> {
           focusNode: emailFocus,
           keyboardType: TextInputType.emailAddress,
           controller: email,
+          editable: false,
           hintText: 'Masukkan Email Kamu',
         ),
 

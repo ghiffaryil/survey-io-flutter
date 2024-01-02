@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_verify_otp/forgot_passcode_verify_otp_bloc.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/colors.dart';
@@ -13,6 +12,7 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/datasources/register/request_otp.dart';
 import 'package:survey_io/pages/forgot_passcode/forgot_passcod_form.dart';
+import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_verify_otp/forgot_passcode_verify_otp_bloc.dart';
 
 import 'package:survey_io/common/components/appbar_plain.dart';
 import 'package:survey_io/common/constants/padding.dart';
@@ -26,7 +26,8 @@ class ForgotPasscodeVerifyOtpPage extends StatefulWidget {
   });
 
   @override
-  State<ForgotPasscodeVerifyOtpPage> createState() => _ForgotPasscodeVeriegeState();
+  State<ForgotPasscodeVerifyOtpPage> createState() =>
+      _ForgotPasscodeVeriegeState();
 }
 
 class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {

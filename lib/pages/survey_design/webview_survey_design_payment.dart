@@ -74,8 +74,10 @@ class _SurveyDesignPaymenStatet extends State<WebviewSurveyDesignPayment> {
                   onNavigationRequest: (NavigationRequest request) {
                     if (request.url
                         .startsWith('${dotenv.env['PAYMENT_URL']}')) {
+                          WebViewController().clearCache();
                       return NavigationDecision.prevent;
                     } else {
+                      WebViewController().clearCache();
                       return NavigationDecision.navigate;
                     }
                   },

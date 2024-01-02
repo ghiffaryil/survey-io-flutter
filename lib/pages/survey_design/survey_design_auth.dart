@@ -8,7 +8,7 @@ import 'package:survey_io/common/constants/images.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/pages/register/register_phone_number.dart';
+import 'package:survey_io/pages/register/register_by_phone_number.dart';
 
 class SurveyDesignAuth extends StatefulWidget {
   const SurveyDesignAuth({super.key});
@@ -51,7 +51,7 @@ class _SurveyDesignAuthState extends State<SurveyDesignAuth> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const RegisterPage()));
+                        builder: (context) => const RegisterPhoneNumberPage()));
               },
             ),
             Row(children: <Widget>[

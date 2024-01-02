@@ -40,6 +40,11 @@ class _HomePageState extends State<HomePage> {
     checkToken();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
   void loadDataSource() {
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
   }

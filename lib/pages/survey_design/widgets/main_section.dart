@@ -76,7 +76,6 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
         print('No Guest Token');
       }
     } else {
-      // Have User Token
       print('User Token : $token');
       setState(() {
         isGuest = false;
@@ -87,31 +86,162 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
     }
   }
 
+  void loadDataSource() {
+    context
+        .read<SurveyDesignListBloc>()
+        .add(const SurveyDesignListEvent.getSurveyDesignList());
+  }
+
+  Future<void> refreshPage() async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    loadDataSource();
+    return;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: BlocBuilder<SurveyDesignListBloc, SurveyDesignListState>(
-        builder: (context, state) {
-          return state.maybeWhen(
-            orElse: () {
-              return Container();
-            },
-            loading: () {
-              return Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
+    return RefreshIndicator(
+      onRefresh: refreshPage,
+      color: AppColors.info,
+      backgroundColor: Colors.white,
+      displacement: 120,
+      child: SingleChildScrollView(
+        child: BlocBuilder<SurveyDesignListBloc, SurveyDesignListState>(
+          builder: (context, state) {
+            return state.maybeWhen(
+              orElse: () {
+                return Container();
+              },
+              loading: () {
+                return Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.12,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                      ),
                     ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          return Container(
+                              padding: CustomPadding.p3,
+                              margin: const EdgeInsets.only(bottom: 10),
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                      offset: const Offset(0, 5),
+                                      color: AppColors.light.withOpacity(0.2),
+                                      spreadRadius: 0,
+                                      blurRadius: 5),
+                                ],
+                                color: AppColors.white,
+                              ),
+                              child: const ShimmerSurveyDesign());
+                        }),
+                    CustomDividers.smallDivider(),
+                  ],
+                );
+              },
+              error: (message) {
+                return Column(children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.15,
                   ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 4,
-                      itemBuilder: (context, index) {
-                        return Container(
-                            padding: CustomPadding.p3,
+                  Image.asset(
+                    Images.emptyCreateSurvey,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                  ),
+                  CustomDividers.smallDivider(),
+                  Text(
+                    'Ups, Terjadi kesalahan',
+                    textAlign: TextAlign.center,
+                    style: TextStyles.extraLarge(color: AppColors.secondary),
+                  ),
+                ]);
+              },
+              loaded: (data) {
+                if (data.isEmpty) {
+                  return Padding(
+                    padding: CustomPadding.p3,
+                    child: Column(children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.15,
+                      ),
+                      Image.asset(
+                        Images.emptyCreateSurvey,
+                        width: MediaQuery.of(context).size.width * 0.5,
+                      ),
+                      CustomDividers.smallDivider(),
+                      Text(
+                        'Ups, kamu belum punya survei nih \n Yuk buat survei kamu sekarang!',
+                        textAlign: TextAlign.center,
+                        style:
+                            TextStyles.extraLarge(color: AppColors.secondary),
+                      ),
+                      CustomDividers.smallDivider(),
+                      // buildButtonSubmit('primary'),
+                      CustomDividers.smallDivider(),
+                    ]),
+                  );
+                } else {
+                  return Column(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.12,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          var surveyDesignData = data[index];
+
+                          // print(surveyDesignData.createQuestionUrl);
+
+                          String screener = '';
+                          surveyDesignData.totalScreener > 1
+                              ? screener = 'Ya'
+                              : screener = 'Tidak';
+
+                          String statusLabel = 'Draft';
+                          Color statusColor = AppColors.indicator;
+                          Color textColor = AppColors.white;
+
+                          if (surveyDesignData.created == 0) {
+                            statusLabel = "Draft"; //Created
+                            statusColor = AppColors.light.withOpacity(0.3);
+                            textColor = const Color(0XFF5c5959);
+                          } else if (surveyDesignData.created == 1) {
+                            statusLabel = "Draft"; // Menunggu Pembayaran
+                            statusColor = AppColors.light.withOpacity(0.3);
+                            textColor = const Color(0XFF5c5959);
+                          } else if (surveyDesignData.created == 2) {
+                            statusLabel = "Draft"; //Draft //Paid
+                            statusColor = AppColors.light.withOpacity(0.3);
+                            textColor = const Color(0XFF5c5959);
+                          } else if (surveyDesignData.created == 3) {
+                            statusLabel = "Submitted"; //Submitted
+                            statusColor = AppColors.info;
+                            textColor = AppColors.white;
+                          } else if (surveyDesignData.created == 4) {
+                            statusLabel = "Rejected";
+                            statusColor = AppColors.primary;
+                          } else if (surveyDesignData.created == 5) {
+                            statusLabel = "Approved";
+                            statusColor = AppColors.success;
+                          } else {
+                            statusLabel = "Done";
+                            statusColor = AppColors.secondary;
+                          }
+
+                          return Container(
+                            padding: CustomPadding.p2,
                             margin: const EdgeInsets.only(bottom: 10),
                             decoration: BoxDecoration(
                               boxShadow: [
@@ -123,564 +253,456 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                               ],
                               color: AppColors.white,
                             ),
-                            child: const ShimmerSurveyDesign());
-                      }),
-                  CustomDividers.smallDivider(),
-                ],
-              );
-            },
-            error: (message) {
-              return Column(children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
-                ),
-                Image.asset(
-                  Images.emptyCreateSurvey,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                ),
-                CustomDividers.smallDivider(),
-                Text(
-                  'Ups, Terjadi kesalahan',
-                  textAlign: TextAlign.center,
-                  style: TextStyles.extraLarge(color: AppColors.secondary),
-                ),
-              ]);
-            },
-            loaded: (data) {
-              if (data.isEmpty) {
-                return Padding(
-                  padding: CustomPadding.p3,
-                  child: Column(children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.15,
-                    ),
-                    Image.asset(
-                      Images.emptyCreateSurvey,
-                      width: MediaQuery.of(context).size.width * 0.5,
-                    ),
-                    CustomDividers.smallDivider(),
-                    Text(
-                      'Ups, kamu belum punya survei nih \n Yuk buat survei kamu sekarang!',
-                      textAlign: TextAlign.center,
-                      style: TextStyles.extraLarge(color: AppColors.secondary),
-                    ),
-                    CustomDividers.smallDivider(),
-                    // buildButtonSubmit('primary'),
-                    CustomDividers.smallDivider(),
-                  ]),
-                );
-              } else {
-                return Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.12,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                      ),
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        var surveyDesignData = data[index];
-
-                        // print(surveyDesignData.createQuestionUrl);
-
-                        String screener = '';
-                        surveyDesignData.totalScreener > 1
-                            ? screener = 'Ya'
-                            : screener = 'Tidak';
-
-                        String statusLabel = 'Draft';
-                        Color statusColor = AppColors.indicator;
-                        Color textColor = AppColors.white;
-
-                        if (surveyDesignData.created == 0) {
-                          statusLabel = "Draft"; //Created
-                          statusColor = AppColors.light.withOpacity(0.3);
-                          textColor = const Color(0XFF5c5959);
-                        } else if (surveyDesignData.created == 1) {
-                          statusLabel = "Draft"; // Menunggu Pembayaran
-                          statusColor = AppColors.light.withOpacity(0.3);
-                          textColor = const Color(0XFF5c5959);
-                        } else if (surveyDesignData.created == 2) {
-                          statusLabel = "Draft"; //Draft //Paid
-                          statusColor = AppColors.light.withOpacity(0.3);
-                          textColor = const Color(0XFF5c5959);
-                        } else if (surveyDesignData.created == 3) {
-                          statusLabel = "Submitted"; //Submitted
-                          statusColor = AppColors.info;
-                          textColor = AppColors.white;
-                        } else if (surveyDesignData.created == 4) {
-                          statusLabel = "Rejected";
-                          statusColor = AppColors.primary;
-                        } else if (surveyDesignData.created == 5) {
-                          statusLabel = "Approved";
-                          statusColor = AppColors.success;
-                        } else {
-                          statusLabel = "Done";
-                          statusColor = AppColors.secondary;
-                        }
-
-                        return Container(
-                          padding: CustomPadding.p2,
-                          margin: const EdgeInsets.only(bottom: 10),
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  offset: const Offset(0, 5),
-                                  color: AppColors.light.withOpacity(0.2),
-                                  spreadRadius: 0,
-                                  blurRadius: 5),
-                            ],
-                            color: AppColors.white,
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Expanded(
-                                      flex: 7,
-                                      child: Text(surveyDesignData.title,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyles.h4(
-                                              color: AppColors.secondary))),
-                                  Expanded(
-                                      flex: 3,
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Expanded(
+                                        flex: 7,
+                                        child: Text(surveyDesignData.title,
+                                            textAlign: TextAlign.left,
+                                            style: TextStyles.h4(
+                                                color: AppColors.secondary))),
+                                    Expanded(
+                                        flex: 3,
                                         child: Container(
-                                          padding: const EdgeInsets.all(5),
-                                          decoration: BoxDecoration(
-                                            color: statusColor,
-                                            borderRadius:
-                                                BorderRadius.circular(40),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5.0),
+                                          child: Container(
+                                            padding: const EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                              color: statusColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(40),
+                                            ),
+                                            child: Text(statusLabel.toString(),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: textColor)),
                                           ),
-                                          child: Text(statusLabel.toString(),
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: textColor)),
-                                        ),
-                                      )),
-                                ],
-                              ),
-                              CustomDividers.smallDivider(),
-                              Row(
-                                children: [
-                                  const Text('Cakupan Survei : '),
-                                  Text(
-                                    'Survei ${surveyDesignData.type}',
-                                    style: TextStyles.regular(
-                                        color: AppColors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Text('Responden : '),
-                                  Text(
-                                    surveyDesignData.respondent.toString(),
-                                    style: TextStyles.regular(
-                                        color: AppColors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Text('Pertanyaan : '),
-                                  Text(
-                                    surveyDesignData.totalQuestion.toString(),
-                                    style: TextStyles.regular(
-                                        color: AppColors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Text('Demografi : '),
-                                  Flexible(
-                                    child: Text(
-                                      "${surveyDesignData.ageStart}-${surveyDesignData.ageEnd}, ${surveyDesignData.gender}, ${surveyDesignData.marital}, ${surveyDesignData.province}",
+                                        )),
+                                  ],
+                                ),
+                                CustomDividers.smallDivider(),
+                                Row(
+                                  children: [
+                                    const Text('Cakupan Survei : '),
+                                    Text(
+                                      'Survei ${surveyDesignData.type}',
                                       style: TextStyles.regular(
                                           color: AppColors.black,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Text('Kecepatan Report : '),
-                                  Text(
-                                    "${surveyDesignData.reportTime.toString()} hari",
-                                    style: TextStyles.regular(
-                                        color: AppColors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Text('Screener : '),
-                                  Text(
-                                    screener,
-                                    style: TextStyles.regular(
-                                        color: AppColors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              const Divider(),
-                              surveyDesignData.created == 0
-                                  ? SizedBox(
-                                      width: double.infinity,
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 6,
-                                            child: Container(),
-                                          ),
-                                          Expanded(
-                                            flex: 4,
-                                            child: ButtonFilled.info(
-                                                height: 40,
-                                                text: 'Lanjutkan',
-                                                onPressed: () {
-                                                  String modifiedUrl =
-                                                      replaceAmpersAnd(
-                                                          surveyDesignData
-                                                              .createQuestionUrl);
-                                                  print(
-                                                      '$modifiedUrl&key=$surveyToken');
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              WebviewSurveyDesignCreateQuestion(
-                                                                title:
-                                                                    surveyDesignData
-                                                                        .title,
-                                                                url:
-                                                                    '$modifiedUrl&key=$surveyToken',
-                                                                // url:'https://dev-app.survei.io'
-                                                              )));
-                                                }),
-                                          )
-                                        ],
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Text('Responden : '),
+                                    Text(
+                                      surveyDesignData.respondent.toString(),
+                                      style: TextStyles.regular(
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Text('Pertanyaan : '),
+                                    Text(
+                                      surveyDesignData.totalQuestion.toString(),
+                                      style: TextStyles.regular(
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Text('Demografi : '),
+                                    Flexible(
+                                      child: Text(
+                                        "${surveyDesignData.ageStart}-${surveyDesignData.ageEnd}, ${surveyDesignData.gender}, ${surveyDesignData.marital}, ${surveyDesignData.province}",
+                                        style: TextStyles.regular(
+                                            color: AppColors.black,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                    )
-                                  : surveyDesignData.created == 1
-                                      ? SizedBox(
-                                          width: double.infinity,
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                flex: 7,
-                                                child: Container(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const Text(
-                                                        'Total Biaya',
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Text(
-                                                          formatCurrency(
-                                                              surveyDesignData
-                                                                  .price
-                                                                  .toDouble()),
-                                                          style:
-                                                              TextStyles.h4()),
-                                                    ],
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Text('Kecepatan Report : '),
+                                    Text(
+                                      "${surveyDesignData.reportTime.toString()} hari",
+                                      style: TextStyles.regular(
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Text('Screener : '),
+                                    Text(
+                                      screener,
+                                      style: TextStyles.regular(
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                const Divider(),
+                                surveyDesignData.created == 0
+                                    ? SizedBox(
+                                        width: double.infinity,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 6,
+                                              child: Container(),
+                                            ),
+                                            Expanded(
+                                              flex: 4,
+                                              child: ButtonFilled.info(
+                                                  height: 40,
+                                                  text: 'Lanjutkan',
+                                                  onPressed: () {
+                                                    String modifiedUrl =
+                                                        replaceAmpersAnd(
+                                                            surveyDesignData
+                                                                .createQuestionUrl);
+                                                    print(
+                                                        '$modifiedUrl&key=$surveyToken');
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                WebviewSurveyDesignCreateQuestion(
+                                                                  title:
+                                                                      surveyDesignData
+                                                                          .title,
+                                                                  url:
+                                                                      '$modifiedUrl&key=$surveyToken',
+                                                                  // url:'https://dev-app.survei.io'
+                                                                )));
+                                                  }),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    : surveyDesignData.created == 1
+                                        ? SizedBox(
+                                            width: double.infinity,
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 7,
+                                                  child: Container(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        const Text(
+                                                          'Total Biaya',
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                            formatCurrency(
+                                                                surveyDesignData
+                                                                    .price
+                                                                    .toDouble()),
+                                                            style: TextStyles
+                                                                .h4()),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Expanded(
-                                                flex: 3,
-                                                child: BlocListener<
-                                                    SurveyDesignPaymentBloc,
-                                                    SurveyDesignPaymentState>(
-                                                  listener: (context, state) {
-                                                    state.maybeWhen(
-                                                      orElse: () {},
-                                                      loaded: (data) {
-                                                        print(data.url);
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    WebviewSurveyDesignPayment(
-                                                                        url: data
-                                                                            .url)));
-                                                      },
-                                                      error: (message) {
-                                                        Fluttertoast.showToast(
-                                                          msg:
-                                                              'Mohon maaf, sepertinya terjadi kesalahan teknis!',
-                                                          toastLength: Toast
-                                                              .LENGTH_SHORT,
-                                                          gravity: ToastGravity
-                                                              .BOTTOM,
-                                                          timeInSecForIosWeb: 1,
-                                                          backgroundColor:
-                                                              AppColors
-                                                                  .secondary
-                                                                  .withOpacity(
-                                                                      0.7),
-                                                          textColor:
-                                                              Colors.white,
-                                                          fontSize: 16.0,
-                                                        );
-                                                      },
-                                                    );
-                                                  },
-                                                  child: BlocBuilder<
+                                                Expanded(
+                                                  flex: 3,
+                                                  child: BlocListener<
                                                       SurveyDesignPaymentBloc,
                                                       SurveyDesignPaymentState>(
-                                                    builder: (context, state) {
-                                                      return state.maybeWhen(
-                                                          orElse: () {
-                                                        return ButtonFilled
-                                                            .info(
-                                                                textColor:
-                                                                    Colors
-                                                                        .white,
-                                                                height: 40,
-                                                                text: 'Bayar',
-                                                                onPressed: () {
-                                                                  context
-                                                                      .read<
-                                                                          SurveyDesignPaymentBloc>()
-                                                                      .add(SurveyDesignPaymentEvent.getSurveyDesignPaymentLink(
-                                                                          surveyDesignData
-                                                                              .id));
-                                                                });
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      : surveyDesignData.created == 2
-                                          ? SizedBox(
-                                              width: double.infinity,
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 6,
-                                                    child: Container(),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 4,
-                                                    child: ButtonFilled.info(
-                                                        height: 40,
-                                                        text: 'Lanjutkan',
-                                                        onPressed: () {
-                                                          String modifiedUrl =
-                                                              replaceAmpersAnd(
-                                                                  surveyDesignData
-                                                                      .createQuestionUrl);
-                                                          print(
-                                                              '$modifiedUrl&key=$surveyToken');
+                                                    listener: (context, state) {
+                                                      state.maybeWhen(
+                                                        orElse: () {},
+                                                        loaded: (data) {
+                                                          print(data.url);
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          WebviewSurveyDesignCreateQuestion(
-                                                                            title:
-                                                                                surveyDesignData.title,
-                                                                            url:
-                                                                                '$modifiedUrl&key=$surveyToken',
-                                                                          )));
-                                                        }),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          : surveyDesignData.created == 3
-                                              ? Container(
-                                                  padding:
-                                                      const EdgeInsets.all(15),
-                                                  margin: const EdgeInsets.only(
-                                                      top: 10),
-                                                  width: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                      color: AppColors.info
-                                                          .withOpacity(0.2),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20)),
-                                                  child: Row(
-                                                    children: [
-                                                      Image.asset(
-                                                        Images.notice,
-                                                        width: 40.0,
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 20,
-                                                      ),
-                                                      Expanded(
-                                                        flex: 7,
-                                                        child: Container(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Text(
-                                                            'Admin sedang memeriksa survei kamu. Mohon tunggu 2x24 jam.',
-                                                            style: TextStyles.regular(
-                                                                color: AppColors
-                                                                    .secondary),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
+                                                                  builder: (context) =>
+                                                                      WebviewSurveyDesignPayment(
+                                                                          url: data
+                                                                              .url)));
+                                                        },
+                                                        error: (message) {
+                                                          Fluttertoast
+                                                              .showToast(
+                                                            msg:
+                                                                'Mohon maaf, sepertinya terjadi kesalahan teknis!',
+                                                            toastLength: Toast
+                                                                .LENGTH_SHORT,
+                                                            gravity:
+                                                                ToastGravity
+                                                                    .BOTTOM,
+                                                            timeInSecForIosWeb:
+                                                                1,
+                                                            backgroundColor:
+                                                                AppColors
+                                                                    .secondary
+                                                                    .withOpacity(
+                                                                        0.7),
+                                                            textColor:
+                                                                Colors.white,
+                                                            fontSize: 16.0,
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    child: BlocBuilder<
+                                                        SurveyDesignPaymentBloc,
+                                                        SurveyDesignPaymentState>(
+                                                      builder:
+                                                          (context, state) {
+                                                        return state.maybeWhen(
+                                                            orElse: () {
+                                                          return ButtonFilled
+                                                              .info(
+                                                                  textColor:
+                                                                      Colors
+                                                                          .white,
+                                                                  height: 40,
+                                                                  text: 'Bayar',
+                                                                  onPressed:
+                                                                      () {
+                                                                    context
+                                                                        .read<
+                                                                            SurveyDesignPaymentBloc>()
+                                                                        .add(SurveyDesignPaymentEvent.getSurveyDesignPaymentLink(
+                                                                            surveyDesignData.id));
+                                                                  });
+                                                        });
+                                                      },
+                                                    ),
                                                   ),
                                                 )
-                                              : surveyDesignData.created == 4
-                                                  ? SizedBox(
-                                                      width: double.infinity,
-                                                      child: Row(
-                                                        children: [
-                                                          const Expanded(
-                                                            flex: 7,
+                                              ],
+                                            ),
+                                          )
+                                        : surveyDesignData.created == 2
+                                            ? SizedBox(
+                                                width: double.infinity,
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 6,
+                                                      child: Container(),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 4,
+                                                      child: ButtonFilled.info(
+                                                          height: 40,
+                                                          text: 'Lanjutkan',
+                                                          onPressed: () {
+                                                            String modifiedUrl =
+                                                                replaceAmpersAnd(
+                                                                    surveyDesignData
+                                                                        .createQuestionUrl);
+                                                            print(
+                                                                '$modifiedUrl&key=$surveyToken');
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            WebviewSurveyDesignCreateQuestion(
+                                                                              title: surveyDesignData.title,
+                                                                              url: '$modifiedUrl&key=$surveyToken',
+                                                                            )));
+                                                          }),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            : surveyDesignData.created == 3
+                                                ? Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            15),
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
+                                                    width: double.infinity,
+                                                    decoration: BoxDecoration(
+                                                        color: AppColors.info
+                                                            .withOpacity(0.2),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20)),
+                                                    child: Row(
+                                                      children: [
+                                                        Image.asset(
+                                                          Images.notice,
+                                                          width: 40.0,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        Expanded(
+                                                          flex: 7,
+                                                          child: Container(
+                                                            alignment: Alignment
+                                                                .centerLeft,
                                                             child: Text(
-                                                                'Survei kamu butuh perbaikan, Ketuk Edit untuk melakukan perubahan.'),
-                                                          ),
-                                                          Expanded(
-                                                            flex: 3,
-                                                            child: TextButtonFilled
-                                                                .info(
-                                                                    height: 40,
-                                                                    text:
-                                                                        'Edit',
-                                                                    onPressed:
-                                                                        () {}),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : surveyDesignData.created ==
-                                                          5
-                                                      ? Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  top: 10),
-                                                          width:
-                                                              double.infinity,
-                                                          child: Row(
-                                                            children: [
-                                                              Flexible(
-                                                                flex: 2,
-                                                                child:
-                                                                    Image.asset(
-                                                                  IconName
-                                                                      .surveyCheckApproved,
+                                                              'Admin sedang memeriksa survei kamu. Mohon tunggu 2x24 jam.',
+                                                              style: TextStyles.regular(
                                                                   color: AppColors
-                                                                      .success,
-                                                                  width: 30,
-                                                                  height: 30,
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 15,
-                                                              ),
-                                                              Flexible(
-                                                                flex: 6,
-                                                                child:
-                                                                    Container(
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .centerLeft,
-                                                                  child: Text(
-                                                                    'Survei kamu sudah tayang. 5/50 Responden terpenuhi.',
-                                                                    style: TextStyles
-                                                                        .medium(
-                                                                            color:
-                                                                                AppColors.secondary),
+                                                                      .secondary),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : surveyDesignData.created == 4
+                                                    ? SizedBox(
+                                                        width: double.infinity,
+                                                        child: Row(
+                                                          children: [
+                                                            const Expanded(
+                                                              flex: 7,
+                                                              child: Text(
+                                                                  'Survei kamu butuh perbaikan, Ketuk Edit untuk melakukan perubahan.'),
+                                                            ),
+                                                            Expanded(
+                                                              flex: 3,
+                                                              child: TextButtonFilled
+                                                                  .info(
+                                                                      height:
+                                                                          40,
+                                                                      text:
+                                                                          'Edit',
+                                                                      onPressed:
+                                                                          () {}),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      )
+                                                    : surveyDesignData
+                                                                .created ==
+                                                            5
+                                                        ? Container(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    top: 10),
+                                                            width:
+                                                                double.infinity,
+                                                            child: Row(
+                                                              children: [
+                                                                Flexible(
+                                                                  flex: 2,
+                                                                  child: Image
+                                                                      .asset(
+                                                                    IconName
+                                                                        .surveyCheckApproved,
+                                                                    color: AppColors
+                                                                        .success,
+                                                                    width: 30,
+                                                                    height: 30,
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        )
-                                                      : Column(
-                                                          children: [
-                                                            const SizedBox(
-                                                              height: 10,
-                                                            ),
-                                                            Text(
-                                                              'Survei kamu telah selesai. Silakan download laporan hasil survei di bawah ini.',
-                                                              style: TextStyles
-                                                                  .medium(
-                                                                      color: AppColors
-                                                                          .light),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 20,
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                Expanded(
-                                                                    flex: 4,
-                                                                    child: TextButtonOutlined.info(
-                                                                        height:
-                                                                            40,
-                                                                        text:
-                                                                            'Format PDF',
-                                                                        onPressed:
-                                                                            () {})),
                                                                 const SizedBox(
                                                                   width: 15,
                                                                 ),
-                                                                Expanded(
-                                                                    flex: 4,
-                                                                    child: TextButtonOutlined.info(
-                                                                        height:
-                                                                            40,
-                                                                        text:
-                                                                            'Format CSV',
-                                                                        onPressed:
-                                                                            () {}))
+                                                                Flexible(
+                                                                  flex: 6,
+                                                                  child:
+                                                                      Container(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .centerLeft,
+                                                                    child: Text(
+                                                                      'Survei kamu sudah tayang. 5/50 Responden terpenuhi.',
+                                                                      style: TextStyles.medium(
+                                                                          color:
+                                                                              AppColors.secondary),
+                                                                    ),
+                                                                  ),
+                                                                ),
                                                               ],
-                                                            )
-                                                          ],
-                                                        )
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                    const Padding(
-                      padding: CustomPadding.pdefault,
-                      // child: buildButtonSubmit('secondary'),
-                    ),
-                    CustomDividers.smallDivider(),
-                  ],
-                );
-              }
-            },
-          );
-        },
+                                                            ),
+                                                          )
+                                                        : Column(
+                                                            children: [
+                                                              const SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Text(
+                                                                'Survei kamu telah selesai. Silakan download laporan hasil survei di bawah ini.',
+                                                                style: TextStyles.medium(
+                                                                    color: AppColors
+                                                                        .light),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 20,
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  Expanded(
+                                                                      flex: 4,
+                                                                      child: TextButtonOutlined.info(
+                                                                          height:
+                                                                              40,
+                                                                          text:
+                                                                              'Format PDF',
+                                                                          onPressed:
+                                                                              () {})),
+                                                                  const SizedBox(
+                                                                    width: 15,
+                                                                  ),
+                                                                  Expanded(
+                                                                      flex: 4,
+                                                                      child: TextButtonOutlined.info(
+                                                                          height:
+                                                                              40,
+                                                                          text:
+                                                                              'Format CSV',
+                                                                          onPressed:
+                                                                              () {}))
+                                                                ],
+                                                              )
+                                                            ],
+                                                          )
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      const Padding(
+                        padding: CustomPadding.pdefault,
+                        // child: buildButtonSubmit('secondary'),
+                      ),
+                      CustomDividers.smallDivider(),
+                    ],
+                  );
+                }
+              },
+            );
+          },
+        ),
       ),
     );
   }

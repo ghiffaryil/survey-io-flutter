@@ -21,7 +21,7 @@ class ListDemographyOccupation {
           price: 50000),
       DemographyOccupationModel(
           id: 9,
-          scope: "Tidak Bekerja / Penyandang Disabilitas",
+          scope: "Tidak Bekerja / PenyKamung Disabilitas",
           price: 150000),
       DemographyOccupationModel(
           id: 10, scope: "Tidak Bekerja / Pensiunan", price: 150000),

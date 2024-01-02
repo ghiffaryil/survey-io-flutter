@@ -16,7 +16,7 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/models/survey_design/list/survey_design_list_response_model.dart';
 import 'package:survey_io/pages/home/home.dart';
-import 'package:survey_io/pages/register/register_phone_number.dart';
+import 'package:survey_io/pages/register/register_by_phone_number.dart';
 import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 
 import '../../common/constants/imageSize.dart';

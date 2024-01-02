@@ -47,51 +47,48 @@ class _WebviewSurveyState extends State<WebviewSurvey> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: WebViewAppBar(
-          height: 70,
-          toolbarHeight: 70,
-          onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomePage()));
-          },
-          title: Text(
-            widget.title,
-            style: TextStyles.h3(color: AppColors.secondary),
-          ),
-          icon: const Icon(Icons.arrow_back_ios),
+      appBar: WebViewAppBar(
+        height: 70,
+        toolbarHeight: 70,
+        onPressed: () {
+          WebViewController().clearCache();
+          WebViewController().clearLocalStorage();
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const HomePage()));
+        },
+        title: Text(
+          widget.title,
+          style: TextStyles.h3(color: AppColors.secondary),
         ),
-        body: WebViewWidget(
-            controller: WebViewController()
-              ..setJavaScriptMode(JavaScriptMode.unrestricted)
-              ..setBackgroundColor(const Color(0x00000000))
-              ..setNavigationDelegate(
-                NavigationDelegate(
-                  onProgress: (int progress) {},
-                  onPageStarted: (String url) {},
-                  onPageFinished: (String url) {},
-                  onWebResourceError: (WebResourceError error) {},
-                  onNavigationRequest: (NavigationRequest request) {
-                    if (request.url
-                        .startsWith('${dotenv.env['WEBVIEW_URL']}')) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ),
-                      );
-                      return NavigationDecision.prevent;
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ),
-                      );
-                      return NavigationDecision.navigate;
-                    }
-                  },
-                ),
-              )
-              ..loadRequest(Uri.parse(widget.url))));
+        icon: const Icon(Icons.arrow_back_ios),
+      ),
+      body: WebViewWidget(
+        controller: WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setBackgroundColor(const Color(0x00000000))
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onProgress: (int progress) {},
+              onPageStarted: (String url) {},
+              onPageFinished: (String url) {},
+              onWebResourceError: (WebResourceError error) {},
+              onNavigationRequest: (NavigationRequest request) async {
+                if (request.url.startsWith('${dotenv.env['WEBVIEW_URL']}')) {
+                  print('Disini');
+                  WebViewController().clearCache();
+                  return NavigationDecision.prevent;
+                } else if (request.url.startsWith('https://surveiyo.co/')) {
+                  print('Disana');
+                  WebViewController().clearCache();
+                  return NavigationDecision.prevent;
+                }
+                WebViewController().clearCache();
+                return NavigationDecision.navigate;
+              },
+            ),
+          )
+          ..loadRequest(Uri.parse(widget.url)),
+      ),
+    );
   }
 }

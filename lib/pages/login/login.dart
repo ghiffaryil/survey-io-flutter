@@ -10,7 +10,7 @@ import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_passcode.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 import 'package:survey_io/models/auth/auth_request_model.dart';
-import 'package:survey_io/pages/register/register_phone_number.dart';
+import 'package:survey_io/pages/register/register_by_phone_number.dart';
 
 // Import Component
 import '../../common/constants/colors.dart';
@@ -254,7 +254,7 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const RegisterPage()));
+                        builder: (context) => const RegisterPhoneNumberPage()));
               },
           ),
         ],

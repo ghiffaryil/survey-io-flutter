@@ -43,7 +43,7 @@ class TopUpPrepaidDatasource {
           return Right(TopUpPrepaidResponseModel.fromJson(responseBody));
         } else if (response.statusCode == 400) {
           print('Top Up Process : Success');
-          return const Left('Point anda tidak mencukupi');
+          return const Left('Point Kamu tidak mencukupi');
         } else {
           final Map<String, dynamic> errorResponse = json.decode(responseBody);
           final errorMessage = errorResponse['error'] as String;

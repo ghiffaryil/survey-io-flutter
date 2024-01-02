@@ -87,22 +87,15 @@ class _SurveyDesignListPageState extends State<SurveyDesignListPage> {
     final token = await AuthLocalDatasource().getToken();
     final guestToken = await AuthLocalGuestDatasource().getToken();
 
-    // IF TOKEN IS EMPTY
     if (token.isEmpty) {
-      // IF GUEST TOKEN NOT EMPTY
       if (guestToken.isNotEmpty) {
-        // print('Guest Token => $guestToken');
         setState(() {
           isGuest = true;
           isLogged = false;
         });
         loadDataSource();
-      } else {
-        // print('No Guest Token');
       }
     } else {
-      // Have User Token
-      // print('User Token : $token');
       setState(() {
         isGuest = false;
         isLogged = true;

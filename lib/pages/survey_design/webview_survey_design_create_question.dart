@@ -79,6 +79,7 @@ class _SurveyDesignPaymenStatet
                     print('Ini Lho URL nya : ' + widget.url);
                     if (request.url == '${dotenv.env['WEBVIEW_URL']}') {
                       print('URL is equal ${request.url}');
+                      WebViewController().clearCache();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -90,6 +91,7 @@ class _SurveyDesignPaymenStatet
                       return NavigationDecision.navigate;
                     } else {
                       print('URL Not Found');
+                      WebViewController().clearCache();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
