@@ -95,8 +95,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
       final baseStorage = await getExternalStorageDirectory();
 
       await FlutterDownloader.enqueue(
-        url:
-            'https://www.euroschoolindia.com/blogs/wp-content/uploads/2023/08/cartoons-for-kids.jpg',
+        url: url,
         savedDir: baseStorage!.path,
         showNotification: true,
         openFileFromNotification: true,
@@ -721,8 +720,20 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                           text: 'Format PDF',
                                                                           onPressed: () {
                                                                             print(surveyDesignData.pdfLink);
-                                                                            // downloadFile(surveyDesignData.pdfLink.toString());
-                                                                            downloadFile('https://dev-app.survei.io/assets/survey/default-survey-img.svg');
+                                                                            if (surveyDesignData.pdfLink?.isEmpty ??
+                                                                                true) {
+                                                                              Fluttertoast.showToast(
+                                                                                msg: 'Mohon maaf, sepertinya survey ini tidak memiliki Report',
+                                                                                toastLength: Toast.LENGTH_SHORT,
+                                                                                gravity: ToastGravity.BOTTOM,
+                                                                                timeInSecForIosWeb: 1,
+                                                                                backgroundColor: AppColors.secondary.withOpacity(0.7),
+                                                                                textColor: Colors.white,
+                                                                                fontSize: 16.0,
+                                                                              );
+                                                                            } else {
+                                                                              downloadFile(surveyDesignData.pdfLink!);
+                                                                            }
                                                                           })),
                                                                   const SizedBox(
                                                                     width: 15,
@@ -734,8 +745,20 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                           text: 'Format CSV',
                                                                           onPressed: () {
                                                                             print(surveyDesignData.reportTime);
-                                                                            // downloadFile(surveyDesignData.pdfLink.toString());
-                                                                            downloadFile('https://dev-app.survei.io/assets/survey/default-survey-img.svg');
+                                                                            if (surveyDesignData.reportLink?.isEmpty ??
+                                                                                true) {
+                                                                              Fluttertoast.showToast(
+                                                                                msg: 'Mohon maaf, sepertinya survey ini tidak memiliki Report',
+                                                                                toastLength: Toast.LENGTH_SHORT,
+                                                                                gravity: ToastGravity.BOTTOM,
+                                                                                timeInSecForIosWeb: 1,
+                                                                                backgroundColor: AppColors.secondary.withOpacity(0.7),
+                                                                                textColor: Colors.white,
+                                                                                fontSize: 16.0,
+                                                                              );
+                                                                            } else {
+                                                                              downloadFile(surveyDesignData.reportLink!);
+                                                                            }
                                                                           }))
                                                                 ],
                                                               )
