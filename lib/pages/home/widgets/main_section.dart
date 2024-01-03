@@ -44,6 +44,7 @@ class _MainSectionState extends State<MainSection> {
   bool _isDisposed = false;
   String userToken = '';
   String surveyToken = '';
+  int userId = 0;
 
   @override
   void initState() {
@@ -52,15 +53,15 @@ class _MainSectionState extends State<MainSection> {
   }
 
   @override
+  @override
   void dispose() {
-    // _isDisposed = true;
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  // }
 
   void loadDataSource() {
     context
@@ -82,7 +83,6 @@ class _MainSectionState extends State<MainSection> {
     if (token.isEmpty) {
       // IF GUEST TOKEN NOT EMPTY
       if (guestToken.isNotEmpty) {
-        // print('Guest Token => $guestToken');
         setState(() {
           isGuest = true;
           isLogged = false;
@@ -96,14 +96,16 @@ class _MainSectionState extends State<MainSection> {
         // print('No Guest Token');
       }
     } else {
-      // Have User Token
-      // print('User Token : $token');
+      final user = await AuthLocalDatasource().getUser();
       setState(() {
         isGuest = false;
         isLogged = true;
         userToken = token;
         surveyToken = token.substring(7);
+        userId = user.id;
       });
+      // You can now use the user ID as needed
+      print('User ID: $userId');
       loadDataSource();
       startCountdown();
     }
@@ -392,7 +394,7 @@ class _MainSectionState extends State<MainSection> {
                                             text: 'Ikut Survei',
                                             onPressed: () {
                                               print(
-                                                  '${data.survey.surveyLink}?token=$surveyToken');
+                                                  '${data.survey.surveyLink}?userId=$userId&token=$surveyToken');
 
                                               isGuest
                                                   ? Navigator.push(
@@ -406,11 +408,8 @@ class _MainSectionState extends State<MainSection> {
                                                           MaterialPageRoute(
                                                               builder: (context) =>
                                                                   WebviewSurvey(
-                                                                      id: data
-                                                                          .survey
-                                                                          .id,
                                                                       url:
-                                                                          '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${data.survey.id}?token=$surveyToken',
+                                                                          '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${data.survey.id}?userId=$userId&token=$surveyToken',
                                                                       title: data
                                                                           .survey
                                                                           .title)))
@@ -802,6 +801,9 @@ class _MainSectionState extends State<MainSection> {
                                                       '$totalSurveyQuestions Pertanyaan'),
                                                   CustomDividers.smallDivider(),
                                                   Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
                                                       Image.asset(
                                                         IconName.point,
@@ -826,7 +828,7 @@ class _MainSectionState extends State<MainSection> {
                                                                     context)
                                                                 .size
                                                                 .width *
-                                                            0.1,
+                                                            0.075,
                                                       ),
                                                       IconButton(
                                                         onPressed: () {
@@ -845,7 +847,7 @@ class _MainSectionState extends State<MainSection> {
                                                         padding:
                                                             const EdgeInsets
                                                                 .only(
-                                                                right: 10.0),
+                                                                right: 12.0),
                                                         child: TextButtonOutlined
                                                             .primary(
                                                                 rounded: true,
@@ -859,7 +861,7 @@ class _MainSectionState extends State<MainSection> {
                                                                     'Ikut Survei',
                                                                 onPressed: () {
                                                                   print(
-                                                                      '${survey.survey.surveyLink}?token=$surveyToken');
+                                                                      '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${survey.survey.id}?userId=$userId&token=$surveyToken');
                                                                   isGuest
                                                                       ? Navigator.push(
                                                                           context,
@@ -870,8 +872,8 @@ class _MainSectionState extends State<MainSection> {
                                                                               context,
                                                                               MaterialPageRoute(
                                                                                   builder: (context) => WebviewSurvey(
-                                                                                        id: survey.survey.id,
-                                                                                        url: '${survey.survey.surveyLink}?token=$surveyToken',
+                                                                                        // url: '${survey.survey.surveyLink}?userId=$userId&token=$surveyToken',
+                                                                                        url: '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${survey.survey.id}?userId=$userId&token=$surveyToken',
                                                                                         title: survey.survey.title,
                                                                                       )))
                                                                           : Fluttertoast.showToast(

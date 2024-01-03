@@ -7,7 +7,17 @@ class AuthLocalDatasource {
   // SET DATA LOCAL
   Future<bool> saveAuthData(AuthResponseModel data) async {
     final prefs = await SharedPreferences.getInstance();
-    final result = await prefs.setString('auth', data.toJson());
+
+    // Save the user data including access token and user ID
+    final authMap = {
+      'access_token': data.accessToken,
+      'user': data.user.toMap(), // Save the entire user object
+    };
+
+    final jsonString = json.encode(authMap);
+    final result = await prefs.setString('auth', jsonString);
+
+    // final result = await prefs.setString('auth', data.toJson());
     return result;
   }
 
@@ -52,10 +62,52 @@ class AuthLocalDatasource {
   }
 
   // GET USER
+  // Future<User> getUser() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final jsonString = prefs.getString('auth') ?? '';
+  //   final authModel = AuthResponseModel.fromJson(jsonString);
+  //   return authModel.user;
+  // }
+
   Future<User> getUser() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonString = prefs.getString('auth') ?? '';
-    final authModel = AuthResponseModel.fromJson(jsonString);
-    return authModel.user;
+
+    if (jsonString.isEmpty) {
+      // Handle the case where there is no stored data
+      return User(
+          id: 0,
+          name: 'User',
+          email: '',
+          emailVerified: 0,
+          active: 0,
+          refcode: '',
+          ktp: '',
+          npwp: '',
+          platform: '',
+          point: 0);
+    } else {
+      final authMap = json.decode(jsonString) as Map<String, dynamic>;
+
+      if (authMap.containsKey('user')) {
+        final userMap = authMap['user'] as Map<String, dynamic>;
+        // Create a User object from the userMap
+        final user = User.fromMap(userMap);
+        return user;
+      } else {
+        // Handle the case where there is no user data
+        return User(
+            id: 0,
+            name: 'User',
+            email: '',
+            emailVerified: 0,
+            active: 0,
+            refcode: '',
+            ktp: '',
+            npwp: '',
+            platform: '',
+            point: 0);
+      }
+    }
   }
 }

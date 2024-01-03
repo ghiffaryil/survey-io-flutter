@@ -52,12 +52,14 @@ dependencies:
   flutter_dash: ^1.0.0
   fluttertoast: ^8.2.2
   webview_flutter: ^4.4.2
-  webview_flutter_android: ^3.12.1
   url_launcher: ^6.1.10
   shimmer: ^3.0.0
   share_plus: ^7.2.1
   collection: ^1.18.0
   flutter_dotenv: ^5.1.0
+  flutter_downloader: ^1.11.6
+  permission_handler: ^11.1.0
+  path_provider: ^2.1.1
 
 dev_dependencies:
   build_runner: ^2.4.6

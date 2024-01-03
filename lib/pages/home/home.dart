@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    checkToken();
   }
 
   void loadDataSource() {

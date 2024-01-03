@@ -48,6 +48,7 @@ import 'package:survey_io/pages/splashscreen/splashscreen.dart';
 
 MyApp initializeApp(AppConfig config) {
   WidgetsFlutterBinding.ensureInitialized();
+
   return MyApp(config: config);
 }
 

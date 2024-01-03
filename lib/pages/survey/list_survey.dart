@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
@@ -33,6 +34,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
   bool isLogged = false;
   String userToken = '';
   String surveyToken = '';
+  int userId = 0;
 
   @override
   void initState() {
@@ -67,13 +69,16 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
       }
     } else {
       // Have User Token
-      print('User Token : $token');
+      final user = await AuthLocalDatasource().getUser();
       setState(() {
         isGuest = false;
         isLogged = true;
         userToken = token;
         surveyToken = token.substring(7);
+        userId = user.id;
       });
+      // You can now use the user ID as needed
+      print('User ID: $userId');
       loadDataSource();
     }
   }
@@ -198,7 +203,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 100,
+                            height: 120,
                             width: double.infinity,
                             child: survey.survey.imageHomescreen.isEmpty
                                 ? const RoundedImage(
@@ -206,13 +211,13 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                     imageUrl:
                                         'assets/images/global/img_empty_create_survey.png',
                                     borderRadius: 8.0,
-                                    fit: BoxFit.contain,
+                                    fit: BoxFit.cover,
                                   )
                                 : RoundedImage(
                                     imageType: 'network',
                                     imageUrl: survey.survey.imageHomescreen,
                                     borderRadius: 8.0,
-                                    fit: BoxFit.contain,
+                                    fit: BoxFit.cover,
                                   ),
                           ),
                           Container(
@@ -232,7 +237,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                 CustomDividers.smallDivider(),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
@@ -279,16 +284,17 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                           fontWeight: FontWeight.normal,
                                           text: 'Ikut Survei',
                                           onPressed: () {
+                                            print(
+                                                '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${survey.survey.id}?userId=$userId&token=$surveyToken');
                                             survey.allowed
                                                 ? Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             WebviewSurvey(
-                                                              id: survey
-                                                                  .survey.id,
+                                                              // url:'https://0fb0-158-140-180-13.ngrok-free.app/home/survey/participate/${survey.survey.id}?userId=$userId&token=$surveyToken',
                                                               url:
-                                                                  '${survey.survey.surveyLink}?token=$surveyToken',
+                                                                  '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${survey.survey.id}?userId=$userId&token=$surveyToken',
                                                               title: survey
                                                                   .survey.title,
                                                             )))

@@ -1,7 +1,12 @@
+import 'dart:isolate';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
@@ -25,6 +30,7 @@ import 'package:survey_io/bloc/survey_design/survey_design_payment/survey_design
 import 'package:survey_io/bloc/survey_design/survey_design_submit/survey_design_submit_bloc.dart';
 import 'package:survey_io/pages/survey_design/webview_survey_design_create_question.dart';
 import 'package:survey_io/pages/survey_design/webview_survey_design_payment.dart';
+// import 'package:flutter_downloader/flutter_downloader.dart';
 
 class MainSectionSurveyDesign extends StatefulWidget {
   const MainSectionSurveyDesign({super.key});
@@ -43,16 +49,60 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
   bool isGuest = true;
   String userToken = '';
   String surveyToken = '';
+  int userId = 0;
+
+  ReceivePort _port = ReceivePort();
 
   @override
   void initState() {
     super.initState();
+
+    IsolateNameServer.registerPortWithName(
+        _port.sendPort, 'downloader_send_port');
+    _port.listen((dynamic data) {
+      // String id = data[0];
+      DownloadTaskStatus status = data[1];
+      // int progress = data[2];
+
+      if (status == DownloadTaskStatus.complete) {
+        print('Download Complete');
+      } else {
+        print('Download Failed');
+      }
+      setState(() {});
+    });
+    FlutterDownloader.registerCallback(downloadCallback);
     checkToken();
   }
 
   @override
   void dispose() {
+    IsolateNameServer.removePortNameMapping('downloader_send_port');
     super.dispose();
+  }
+
+  @pragma('vm:entry-point')
+  static void downloadCallback(String id, int status, int progress) {
+    final SendPort? send =
+        IsolateNameServer.lookupPortByName('downloader_send_port');
+    DownloadTaskStatus downloadStatus = DownloadTaskStatus.values[status];
+    send!.send([id, downloadStatus, progress]);
+  }
+
+  void downloadFile(String url) async {
+    var status = await Permission.storage.request();
+    if (status.isGranted) {
+      final baseStorage = await getExternalStorageDirectory();
+
+      await FlutterDownloader.enqueue(
+        url:
+            'https://www.euroschoolindia.com/blogs/wp-content/uploads/2023/08/cartoons-for-kids.jpg',
+        savedDir: baseStorage!.path,
+        showNotification: true,
+        openFileFromNotification: true,
+        saveInPublicStorage: true,
+      );
+    }
   }
 
   void checkToken() async {
@@ -77,12 +127,15 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
       }
     } else {
       print('User Token : $token');
+      final user = await AuthLocalDatasource().getUser();
       setState(() {
         isGuest = false;
         isLogged = true;
         userToken = token;
         surveyToken = token.substring(7);
+        userId = user.id;
       });
+      print('UserId $userId');
     }
   }
 
@@ -664,24 +717,26 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                   Expanded(
                                                                       flex: 4,
                                                                       child: TextButtonOutlined.info(
-                                                                          height:
-                                                                              40,
-                                                                          text:
-                                                                              'Format PDF',
-                                                                          onPressed:
-                                                                              () {})),
+                                                                          height: 40,
+                                                                          text: 'Format PDF',
+                                                                          onPressed: () {
+                                                                            print(surveyDesignData.pdfLink);
+                                                                            // downloadFile(surveyDesignData.pdfLink.toString());
+                                                                            downloadFile('https://dev-app.survei.io/assets/survey/default-survey-img.svg');
+                                                                          })),
                                                                   const SizedBox(
                                                                     width: 15,
                                                                   ),
                                                                   Expanded(
                                                                       flex: 4,
                                                                       child: TextButtonOutlined.info(
-                                                                          height:
-                                                                              40,
-                                                                          text:
-                                                                              'Format CSV',
-                                                                          onPressed:
-                                                                              () {}))
+                                                                          height: 40,
+                                                                          text: 'Format CSV',
+                                                                          onPressed: () {
+                                                                            print(surveyDesignData.reportTime);
+                                                                            // downloadFile(surveyDesignData.pdfLink.toString());
+                                                                            downloadFile('https://dev-app.survei.io/assets/survey/default-survey-img.svg');
+                                                                          }))
                                                                 ],
                                                               )
                                                             ],

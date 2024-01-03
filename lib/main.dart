@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:survey_io/app.dart';
 import 'package:survey_io/config/config.dart';
 import 'package:survey_io/config/flavor_type.dart';
@@ -16,13 +17,18 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-Future main() async {
+Future<void> main() async {
+  // Initialize packages and configurations
+  await dotenv.load(fileName: ".env");
+  await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
+  HttpOverrides.global = MyHttpOverrides();
+
+  // Initialize your AppConfig
   final prodAppConfig = AppConfig(
     appName: 'Survei.io',
     flavor: FlavorType.prod,
   );
-  await dotenv.load(fileName: ".env");
-  HttpOverrides.global = MyHttpOverrides();
-  Widget app = initializeApp(prodAppConfig);
-  runApp(app);
+
+  // Initialize and run the app
+  runApp(initializeApp(prodAppConfig));
 }

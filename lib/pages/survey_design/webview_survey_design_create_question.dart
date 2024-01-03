@@ -9,7 +9,6 @@ import 'package:survey_io/models/survey/list/survey_list_response_model.dart';
 import 'package:survey_io/pages/profile/profile.dart';
 import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_android/webview_flutter_android.dart';
 import '../../common/components/appbar.dart';
 import '../../common/components/appbar_plain.dart';
 
@@ -49,6 +48,14 @@ class _SurveyDesignPaymenStatet
           height: 70,
           toolbarHeight: 70,
           onPressed: () {
+            @override
+            void dispose() {
+              // close the webview here
+              super.dispose();
+            }
+
+            WebViewController().clearCache();
+
             // Navigate to a new screen and remove all previous screens
             Navigator.pushReplacement(
               context,
@@ -69,9 +76,7 @@ class _SurveyDesignPaymenStatet
               ..setBackgroundColor(const Color(0x00000000))
               ..setNavigationDelegate(
                 NavigationDelegate(
-                  onProgress: (int progress) {
-                    // Update loading bar.
-                  },
+                  onProgress: (int progress) {},
                   onPageStarted: (String url) {},
                   onPageFinished: (String url) {},
                   onWebResourceError: (WebResourceError error) {},
@@ -80,7 +85,15 @@ class _SurveyDesignPaymenStatet
                     if (request.url == '${dotenv.env['WEBVIEW_URL']}') {
                       print('URL is equal ${request.url}');
                       WebViewController().clearCache();
-                      Navigator.push(
+                      @override
+                      void dispose() {
+                        // close the webview here
+                        super.dispose();
+                      }
+
+                      WebViewController().clearCache();
+
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
@@ -91,8 +104,15 @@ class _SurveyDesignPaymenStatet
                       return NavigationDecision.navigate;
                     } else {
                       print('URL Not Found');
+                      @override
+                      void dispose() {
+                        // close the webview here
+                        super.dispose();
+                      }
+
                       WebViewController().clearCache();
-                      Navigator.push(
+
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
