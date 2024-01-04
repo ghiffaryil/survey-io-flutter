@@ -27,6 +27,9 @@ class RequestOtpDatasource {
       final response = await http.Client().send(request);
       final responseBody = await response.stream.bytesToString();
 
+      print('Status : ${response.statusCode}');
+      print('Body : $responseBody');
+
       if (response.statusCode == 200) {
         print('Request OTP : Success');
         return const Right('Request OTP Success');

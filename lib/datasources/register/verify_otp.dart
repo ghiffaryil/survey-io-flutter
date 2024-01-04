@@ -29,6 +29,9 @@ class VerifyOtpDatasource {
       final response = await http.Client().send(request);
       final responseBody = await response.stream.bytesToString();
 
+      print('Status ${response.statusCode}');
+      print('Body $responseBody');
+
       if (response.statusCode == 200) {
         print('Verify OTP: Success');
         return Right(VerificationOtpResponseModel.fromJson(responseBody));

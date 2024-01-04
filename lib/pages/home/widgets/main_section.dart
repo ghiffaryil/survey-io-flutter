@@ -58,10 +58,10 @@ class _MainSectionState extends State<MainSection> {
     super.dispose();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  // }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
 
   void loadDataSource() {
     context

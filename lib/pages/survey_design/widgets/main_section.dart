@@ -65,9 +65,9 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
       // int progress = data[2];
 
       if (status == DownloadTaskStatus.complete) {
-        print('Download Complete');
+        showToast('Download selesai');
       } else {
-        print('Download Failed');
+        showToast('Download Failed');
       }
       setState(() {});
     });
@@ -102,6 +102,18 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
         saveInPublicStorage: true,
       );
     }
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: AppColors.secondary.withOpacity(0.7),
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   void checkToken() async {
@@ -723,7 +735,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                             if (surveyDesignData.pdfLink?.isEmpty ??
                                                                                 true) {
                                                                               Fluttertoast.showToast(
-                                                                                msg: 'Mohon maaf, sepertinya survey ini tidak memiliki Report',
+                                                                                msg: 'Mohon maaf, sepertinya survey ini tidak memiliki Report dalam format PDF',
                                                                                 toastLength: Toast.LENGTH_SHORT,
                                                                                 gravity: ToastGravity.BOTTOM,
                                                                                 timeInSecForIosWeb: 1,
@@ -732,6 +744,15 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                                 fontSize: 16.0,
                                                                               );
                                                                             } else {
+                                                                              Fluttertoast.showToast(
+                                                                                msg: 'Mulai mengunduh file PDF',
+                                                                                toastLength: Toast.LENGTH_SHORT,
+                                                                                gravity: ToastGravity.BOTTOM,
+                                                                                timeInSecForIosWeb: 1,
+                                                                                backgroundColor: AppColors.secondary.withOpacity(0.7),
+                                                                                textColor: Colors.white,
+                                                                                fontSize: 16.0,
+                                                                              );
                                                                               downloadFile(surveyDesignData.pdfLink!);
                                                                             }
                                                                           })),
@@ -744,11 +765,11 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                           height: 40,
                                                                           text: 'Format CSV',
                                                                           onPressed: () {
-                                                                            print(surveyDesignData.reportTime);
+                                                                            print(surveyDesignData.reportLink);
                                                                             if (surveyDesignData.reportLink?.isEmpty ??
                                                                                 true) {
                                                                               Fluttertoast.showToast(
-                                                                                msg: 'Mohon maaf, sepertinya survey ini tidak memiliki Report',
+                                                                                msg: 'Mohon maaf, sepertinya survey ini tidak memiliki Report dalam format CSV',
                                                                                 toastLength: Toast.LENGTH_SHORT,
                                                                                 gravity: ToastGravity.BOTTOM,
                                                                                 timeInSecForIosWeb: 1,
@@ -757,6 +778,15 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                                 fontSize: 16.0,
                                                                               );
                                                                             } else {
+                                                                              Fluttertoast.showToast(
+                                                                                msg: 'Mulai mengunduh file CSV',
+                                                                                toastLength: Toast.LENGTH_SHORT,
+                                                                                gravity: ToastGravity.BOTTOM,
+                                                                                timeInSecForIosWeb: 1,
+                                                                                backgroundColor: AppColors.secondary.withOpacity(0.7),
+                                                                                textColor: Colors.white,
+                                                                                fontSize: 16.0,
+                                                                              );
                                                                               downloadFile(surveyDesignData.reportLink!);
                                                                             }
                                                                           }))

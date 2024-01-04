@@ -258,10 +258,24 @@ class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {
             return ButtonFilled.primary(
                 text: 'Verifikasi',
                 onPressed: () {
-                  print(mergedOtpValue);
-                  context.read<ForgotPasscodeVerifyOtpBloc>().add(
-                      ForgotPasscodeVerifyOtpEvent.verifyOtp(
-                          widget.phoneNumber, mergedOtpValue));
+                  if (_otpInputControllers
+                      .any((controller) => controller.text.isEmpty)) {
+                    // Show FlutterToast indicating that OTP input is empty
+                    Fluttertoast.showToast(
+                      msg: 'Harap masukkan kode OTP',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: AppColors.secondary.withOpacity(0.8),
+                      textColor: Colors.white,
+                      fontSize: 16.0,
+                    );
+                  } else {
+                    print(mergedOtpValue);
+                    context.read<ForgotPasscodeVerifyOtpBloc>().add(
+                        ForgotPasscodeVerifyOtpEvent.verifyOtp(
+                            widget.phoneNumber, mergedOtpValue));
+                  }
                 });
           }, loading: () {
             return ButtonFilled.primary(
