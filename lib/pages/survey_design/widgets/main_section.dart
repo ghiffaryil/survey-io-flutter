@@ -1,6 +1,7 @@
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,6 +13,7 @@ import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
+import 'package:survey_io/common/components/toast.dart';
 import 'package:survey_io/common/constants/function/utils.dart';
 import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/common/constants/styles.dart';
@@ -19,6 +21,7 @@ import 'package:survey_io/common/constants/images.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/icons.dart';
 import 'package:survey_io/common/constants/padding.dart';
+import 'package:survey_io/config/flavor_type.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
 import 'package:survey_io/pages/profile/edit_profile_complete.dart';
@@ -51,7 +54,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
   String surveyToken = '';
   int userId = 0;
 
-  ReceivePort _port = ReceivePort();
+  final ReceivePort _port = ReceivePort();
 
   @override
   void initState() {
@@ -60,14 +63,16 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
     IsolateNameServer.registerPortWithName(
         _port.sendPort, 'downloader_send_port');
     _port.listen((dynamic data) {
-      // String id = data[0];
+      // ignore: unused_local_variable
+      String id = data[0];
       DownloadTaskStatus status = data[1];
-      // int progress = data[2];
+      // ignore: unused_local_variable
+      int progress = data[2];
 
       if (status == DownloadTaskStatus.complete) {
-        showToast('Download selesai');
+        ToastComponent.showToast('Download selesai');
       } else {
-        showToast('Download Failed');
+        ToastComponent.showToast('Download Failed');
       }
       setState(() {});
     });
@@ -90,30 +95,36 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
   }
 
   void downloadFile(String url) async {
-    var status = await Permission.storage.request();
-    if (status.isGranted) {
-      final baseStorage = await getExternalStorageDirectory();
+    final plugin = DeviceInfoPlugin();
+    final android = await plugin.androidInfo;
 
+    final storageStatus = android.version.sdkInt < 33
+        ? await Permission.storage.request()
+        : PermissionStatus.granted;
+
+    print('status granted $storageStatus');
+
+    if (storageStatus.isGranted) {
+      final baseStorage = await getExternalStorageDirectory();
+      ToastComponent.showToast('Mulai mengunduh file');
       await FlutterDownloader.enqueue(
         url: url,
         savedDir: baseStorage!.path,
         showNotification: true,
         openFileFromNotification: true,
         saveInPublicStorage: true,
+        allowCellular: true,
       );
+      ToastComponent.showToast('Download file berhasil');
+    } else {
+      ToastComponent.showToast('Harap aktifkan izin akses File Handphone anda');
+      // Request permission and wait for the user's response
+      print('GRANT!!!');
+      if (storageStatus.isDenied || storageStatus.isPermanentlyDenied) {
+        openAppSettings();
+      }
+      print('storageStatus granted $storageStatus');
     }
-  }
-
-  void showToast(String message) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: AppColors.secondary.withOpacity(0.7),
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
   }
 
   void checkToken() async {
@@ -548,11 +559,44 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                   text: 'Bayar',
                                                                   onPressed:
                                                                       () {
-                                                                    context
-                                                                        .read<
-                                                                            SurveyDesignPaymentBloc>()
-                                                                        .add(SurveyDesignPaymentEvent.getSurveyDesignPaymentLink(
-                                                                            surveyDesignData.id));
+                                                                    if (FlavorType
+                                                                            .dev ==
+                                                                        true) {
+                                                                      context
+                                                                          .read<
+                                                                              SurveyDesignPaymentBloc>()
+                                                                          .add(SurveyDesignPaymentEvent.getSurveyDesignPaymentLink(
+                                                                              surveyDesignData.id));
+                                                                    } else {
+                                                                      showDialog(
+                                                                          context:
+                                                                              context,
+                                                                          builder:
+                                                                              (BuildContext context) {
+                                                                            return AlertDialog(
+                                                                              surfaceTintColor: Colors.white,
+                                                                              title: Text(
+                                                                                'Oops..!',
+                                                                                style: TextStyles.h2(color: AppColors.primary),
+                                                                              ),
+                                                                              content: Text(
+                                                                                'Mohon maaf, kamu belum dapat melanjutkan fitur pembuatan survey ini',
+                                                                                style: TextStyles.large(color: AppColors.secondary),
+                                                                              ),
+                                                                              actions: [
+                                                                                TextButton(
+                                                                                  onPressed: () {
+                                                                                    Navigator.pop(context);
+                                                                                  },
+                                                                                  child: Text(
+                                                                                    'Ok',
+                                                                                    style: TextStyles.h4(color: AppColors.primary),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            );
+                                                                          });
+                                                                    }
                                                                   });
                                                         });
                                                       },
@@ -647,6 +691,8 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                               child: Text(
                                                                   'Survei kamu butuh perbaikan, Ketuk Edit untuk melakukan perubahan.'),
                                                             ),
+                                                            const SizedBox(
+                                                                width: 15),
                                                             Expanded(
                                                               flex: 3,
                                                               child: TextButtonFilled
@@ -656,7 +702,20 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                       text:
                                                                           'Edit',
                                                                       onPressed:
-                                                                          () {}),
+                                                                          () {
+                                                                        String
+                                                                            modifiedUrl =
+                                                                            replaceAmpersAnd(surveyDesignData.createQuestionUrl);
+                                                                        print(
+                                                                            '$modifiedUrl&key=$surveyToken');
+                                                                        Navigator.push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                                builder: (context) => WebviewSurveyDesignCreateQuestion(
+                                                                                      title: surveyDesignData.title,
+                                                                                      url: '$modifiedUrl&key=$surveyToken',
+                                                                                    )));
+                                                                      }),
                                                             )
                                                           ],
                                                         ),
@@ -711,54 +770,34 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                               const SizedBox(
                                                                 height: 10,
                                                               ),
-                                                              Text(
-                                                                'Survei kamu telah selesai. Silakan download laporan hasil survei di bawah ini.',
-                                                                style: TextStyles.medium(
-                                                                    color: AppColors
-                                                                        .light),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        5.0),
+                                                                child: Text(
+                                                                  'Survei kamu telah selesai. Silakan download laporan hasil survei di bawah ini.',
+                                                                  style: TextStyles.large(
+                                                                      color: AppColors
+                                                                          .light),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                ),
                                                               ),
                                                               const SizedBox(
-                                                                height: 20,
+                                                                height: 10,
+                                                              ),
+                                                              const Divider(),
+                                                              const SizedBox(
+                                                                height: 10,
                                                               ),
                                                               Row(
                                                                 children: [
                                                                   Expanded(
                                                                       flex: 4,
-                                                                      child: TextButtonOutlined.info(
-                                                                          height: 40,
-                                                                          text: 'Format PDF',
-                                                                          onPressed: () {
-                                                                            print(surveyDesignData.pdfLink);
-                                                                            if (surveyDesignData.pdfLink?.isEmpty ??
-                                                                                true) {
-                                                                              Fluttertoast.showToast(
-                                                                                msg: 'Mohon maaf, sepertinya survey ini tidak memiliki Report dalam format PDF',
-                                                                                toastLength: Toast.LENGTH_SHORT,
-                                                                                gravity: ToastGravity.BOTTOM,
-                                                                                timeInSecForIosWeb: 1,
-                                                                                backgroundColor: AppColors.secondary.withOpacity(0.7),
-                                                                                textColor: Colors.white,
-                                                                                fontSize: 16.0,
-                                                                              );
-                                                                            } else {
-                                                                              Fluttertoast.showToast(
-                                                                                msg: 'Mulai mengunduh file PDF',
-                                                                                toastLength: Toast.LENGTH_SHORT,
-                                                                                gravity: ToastGravity.BOTTOM,
-                                                                                timeInSecForIosWeb: 1,
-                                                                                backgroundColor: AppColors.secondary.withOpacity(0.7),
-                                                                                textColor: Colors.white,
-                                                                                fontSize: 16.0,
-                                                                              );
-                                                                              downloadFile(surveyDesignData.pdfLink!);
-                                                                            }
-                                                                          })),
-                                                                  const SizedBox(
-                                                                    width: 15,
-                                                                  ),
+                                                                      child:
+                                                                          Container()),
                                                                   Expanded(
                                                                       flex: 4,
                                                                       child: TextButtonOutlined.info(
@@ -768,25 +807,8 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                             print(surveyDesignData.reportLink);
                                                                             if (surveyDesignData.reportLink?.isEmpty ??
                                                                                 true) {
-                                                                              Fluttertoast.showToast(
-                                                                                msg: 'Mohon maaf, sepertinya survey ini tidak memiliki Report dalam format CSV',
-                                                                                toastLength: Toast.LENGTH_SHORT,
-                                                                                gravity: ToastGravity.BOTTOM,
-                                                                                timeInSecForIosWeb: 1,
-                                                                                backgroundColor: AppColors.secondary.withOpacity(0.7),
-                                                                                textColor: Colors.white,
-                                                                                fontSize: 16.0,
-                                                                              );
+                                                                              ToastComponent.showToast('Mohon maaf, sepertinya survey ini tidak memiliki Report CSV');
                                                                             } else {
-                                                                              Fluttertoast.showToast(
-                                                                                msg: 'Mulai mengunduh file CSV',
-                                                                                toastLength: Toast.LENGTH_SHORT,
-                                                                                gravity: ToastGravity.BOTTOM,
-                                                                                timeInSecForIosWeb: 1,
-                                                                                backgroundColor: AppColors.secondary.withOpacity(0.7),
-                                                                                textColor: Colors.white,
-                                                                                fontSize: 16.0,
-                                                                              );
                                                                               downloadFile(surveyDesignData.reportLink!);
                                                                             }
                                                                           }))

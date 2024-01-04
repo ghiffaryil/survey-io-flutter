@@ -92,7 +92,6 @@ class _SurveyDesignPaymenStatet
                       }
 
                       WebViewController().clearCache();
-
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -111,7 +110,6 @@ class _SurveyDesignPaymenStatet
                       }
 
                       WebViewController().clearCache();
-
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

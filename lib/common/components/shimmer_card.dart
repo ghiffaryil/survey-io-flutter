@@ -296,6 +296,7 @@ class ShimmerProfileUser extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(width: 15),
         Expanded(
           flex: 8,
           child: Column(
@@ -911,7 +912,7 @@ class ShimmerProfileMenu extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Container(
-                  margin: EdgeInsets.only(left: 10),
+                  margin: const EdgeInsets.only(left: 10),
                   decoration: BoxDecoration(
                       color: AppColors.light.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(15)),
