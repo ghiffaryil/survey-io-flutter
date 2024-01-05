@@ -33,7 +33,6 @@ import 'package:survey_io/bloc/survey_design/survey_design_payment/survey_design
 import 'package:survey_io/bloc/survey_design/survey_design_submit/survey_design_submit_bloc.dart';
 import 'package:survey_io/pages/survey_design/webview_survey_design_create_question.dart';
 import 'package:survey_io/pages/survey_design/webview_survey_design_payment.dart';
-// import 'package:flutter_downloader/flutter_downloader.dart';
 
 class MainSectionSurveyDesign extends StatefulWidget {
   const MainSectionSurveyDesign({super.key});
@@ -118,8 +117,6 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
       ToastComponent.showToast('Download file berhasil');
     } else {
       ToastComponent.showToast('Harap aktifkan izin akses File Handphone anda');
-      // Request permission and wait for the user's response
-      print('GRANT!!!');
       if (storageStatus.isDenied || storageStatus.isPermanentlyDenied) {
         openAppSettings();
       }
@@ -755,7 +752,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                         Alignment
                                                                             .centerLeft,
                                                                     child: Text(
-                                                                      'Survei kamu sudah tayang. 5/50 Responden terpenuhi.',
+                                                                      'Survei kamu sudah tayang. ${surveyDesignData.respondentProgress} Responden terpenuhi.',
                                                                       style: TextStyles.medium(
                                                                           color:
                                                                               AppColors.secondary),
