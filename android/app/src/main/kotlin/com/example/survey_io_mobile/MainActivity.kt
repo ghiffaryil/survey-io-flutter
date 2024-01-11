@@ -1,4 +1,4 @@
-package com.idec.surveyio
+package io.survei.android
 
 import io.flutter.embedding.android.FlutterActivity
 
