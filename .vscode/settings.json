@@ -1,5 +1,5 @@
 {
     "cmake.sourceDirectory": "D:/Work/IDEC/Flutter/survey-io-flutter/linux",
-    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.configuration.updateBuildConfiguration": "disabled",
     "cmake.configureOnOpen": true
 }
