@@ -20,7 +20,7 @@ class MyHttpOverrides extends HttpOverrides {
 
 Future<void> main() async {
   // LOAD ENV
-  await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: ".dev.env");
 
   // LOAD FLUTTER DOWNLOADER
   await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
@@ -34,11 +34,11 @@ Future<void> main() async {
   flutterLocalNotificationsPlugin.initialize(initSettings);
 
   // Initialize your AppConfig
-  final prodAppConfig = AppConfig(
+  final devAppConfig = AppConfig(
     appName: 'Survei.io',
-    flavor: FlavorType.prod,
+    flavor: FlavorType.dev,
   );
 
   // Initialize and run the app
-  runApp(initializeApp(prodAppConfig));
+  runApp(initializeApp(devAppConfig));
 }

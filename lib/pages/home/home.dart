@@ -2,9 +2,11 @@
 
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/images.dart';
@@ -37,11 +39,38 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    getPermission();
     checkToken();
   }
 
-  void loadDataSource() {
-    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    checkToken();
+  }
+
+  void getPermission() async {
+    final plugin = DeviceInfoPlugin();
+    final android = await plugin.androidInfo;
+
+    // final storagePermissionStatus =
+    android.version.sdkInt < 33
+        ? await Permission.storage.isDenied.then((value) {
+            if (value) {
+              Permission.storage.request();
+            }
+          })
+        : PermissionStatus.granted;
+
+    // final notificationPermissionStatus =
+    await Permission.notification.isDenied.then((value) {
+      if (value) {
+        Permission.notification.request();
+      }
+    });
+
+    // print('Storage Permission : $storagePermissionStatus');
+    // print('Notification Permission : $notificationPermissionStatus');
   }
 
   void checkToken() async {
@@ -71,6 +100,11 @@ class _HomePageState extends State<HomePage> {
       });
       loadDataSource();
     }
+    // LOAD GET PERMISSION FUNCTION
+  }
+
+  void loadDataSource() {
+    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
   }
 
   @override

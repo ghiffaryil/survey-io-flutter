@@ -10,7 +10,7 @@ import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_passcode.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 import 'package:survey_io/models/auth/auth_request_model.dart';
-import 'package:survey_io/pages/register/register_phone_number.dart';
+import 'package:survey_io/pages/register/register_by_phone_number.dart';
 
 // Import Component
 import '../../common/constants/colors.dart';
@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _validateForm() {
     if (phoneNumber.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Masukkan No. Telepon kamu',
+        msg: 'Masukkan nomor Handphone kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -99,9 +99,12 @@ class _LoginPageState extends State<LoginPage> {
             CustomDividers.verySmallDivider(),
             formInputField(),
             labelTextPassword(),
-            CustomDividers.extraLargeDivider(),
-            CustomDividers.extraLargeDivider(),
-            CustomDividers.regularDivider(),
+            // CustomDividers.extraLargeDivider(),
+            // CustomDividers.extraLargeDivider(),
+            // CustomDividers.regularDivider(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.245,
+            ),
             BlocProvider(
               create: (context) => LoginBloc(),
               child: buttonSubmit(),
@@ -156,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'No. Telepon',
+          labelText: 'Nomor Handphone',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.smallDivider(),
@@ -164,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
           focusNode: phoneNumberFocus,
           keyboardType: TextInputType.phone,
           controller: phoneNumber,
-          hintText: 'Masukkan Nomor Telepon',
+          hintText: 'Masukkan Nomor Handphone',
         ),
         CustomDividers.smallDivider(),
         LabelInput(
@@ -241,7 +244,7 @@ class _LoginPageState extends State<LoginPage> {
       text: TextSpan(
         children: [
           TextSpan(
-              text: 'Belum Punya Akun ?',
+              text: 'Belum Punya Akun?',
               style: TextStyles.h4(color: AppColors.secondary)),
           TextSpan(
             text: ' Daftar di sini',
@@ -251,7 +254,7 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const RegisterPage()));
+                        builder: (context) => const RegisterPhoneNumberPage()));
               },
           ),
         ],

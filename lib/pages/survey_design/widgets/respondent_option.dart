@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/common/constants/function/get_split_strip_value.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryQuestion.dart';
 import 'package:survey_io/datasources/survey_design/repository/localRepositoryReportTime.dart';
@@ -593,7 +594,12 @@ class _RespondentOptionState extends State<RespondentOption> {
                           return Container();
                         },
                         loading: () {
-                          return Container();
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: 6,
+                              itemBuilder: (context, index) {
+                                return const ShimmerProfileMenu();
+                              });
                         },
                         error: (message) {
                           return Container(

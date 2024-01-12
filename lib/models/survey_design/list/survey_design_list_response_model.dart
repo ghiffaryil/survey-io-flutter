@@ -57,6 +57,7 @@ class SurveyDesignList {
   final DateTime? datetimeCompleted;
   final int surveyId;
   final String? pdfLink;
+  final String? reportLink;
   final String respondentProgress;
   final String title;
 
@@ -90,6 +91,7 @@ class SurveyDesignList {
     required this.datetimeCompleted,
     required this.surveyId,
     required this.pdfLink,
+    required this.reportLink,
     required this.respondentProgress,
     required this.title,
   });
@@ -132,6 +134,7 @@ class SurveyDesignList {
             : DateTime.parse(json["datetime_completed"]),
         surveyId: json["survey_id"],
         pdfLink: json["pdf_link"],
+        reportLink: json["report_link"],
         respondentProgress: json["respondent_progress"],
         title: json["title"].isEmpty ? 'Survey Kamu' : json["title"],
       );
@@ -166,6 +169,7 @@ class SurveyDesignList {
         "datetime_completed": datetimeCompleted?.toIso8601String(),
         "survey_id": surveyId,
         "pdf_link": pdfLink,
+        "report_link": reportLink,
         "respondent_progress": respondentProgress,
         "title": title,
       };

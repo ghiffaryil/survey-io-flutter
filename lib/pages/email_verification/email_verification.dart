@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
-import 'package:survey_io/pages/forgot_passcode/forgot_passcode_otp.dart';
 import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_request_otp/forgot_passcode_request_otp_bloc.dart';
 
 // Import Component
@@ -13,16 +12,16 @@ import '../../common/components/divider.dart';
 import '../../common/components/label.dart';
 import '../../common/components/appbar_plain.dart';
 
-class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({super.key});
+class EmailVerificationPage extends StatefulWidget {
+  const EmailVerificationPage({super.key});
 
   @override
-  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+  State<EmailVerificationPage> createState() => _EmailVerificationPageState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
-  TextEditingController phoneNumber = TextEditingController();
-  FocusNode phoneNumberFocus = FocusNode();
+class _EmailVerificationPageState extends State<EmailVerificationPage> {
+  TextEditingController inputEmail = TextEditingController();
+  FocusNode inputEmailFocus = FocusNode();
 
   bool isLogged = false;
   bool isExpiredToken = false;
@@ -33,13 +32,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   void unfocusAll() {
-    phoneNumberFocus.unfocus();
+    inputEmailFocus.unfocus();
   }
 
   bool _validateForm() {
-    if (phoneNumber.text.isEmpty) {
+    if (inputEmail.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Masukkan Nomor Handphone kamu',
+        msg: 'Masukkan Email kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -88,7 +87,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Container(
       alignment: Alignment.centerLeft,
       child: Text(
-        'Lupa Password',
+        'Verifikasi Email',
         style: TextStyles.h2(color: AppColors.secondary),
       ),
     );
@@ -106,15 +105,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'Nomor Handphone',
+          labelText: 'Email',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.smallDivider(),
         TextInputField(
-          focusNode: phoneNumberFocus,
+          focusNode: inputEmailFocus,
           keyboardType: TextInputType.phone,
-          controller: phoneNumber,
-          hintText: 'Masukkan Nomor Handphone',
+          controller: inputEmail,
+          hintText: 'Masukkan Email',
         ),
       ],
     );
@@ -127,12 +126,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) {
-                return ForgotPasscodeVerifyOtpPage(
-                  phoneNumber: phoneNumber.text,
-                );
-              }));
+              // Navigator.pushReplacement(context,
+              //     MaterialPageRoute(builder: (context) {
+              //   return ForgotPasscodeVerifyOtpPage(
+              //     inputEmail: inputEmail.text,
+              //   );
+              // }));
             },
             error: (message) {
               Fluttertoast.showToast(
@@ -150,12 +149,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         builder: (context, state) {
           return state.maybeWhen(orElse: () {
             return ButtonFilled.primary(
-              text: 'Kirim OTP',
+              text: 'Kirim OTP ke Email',
               onPressed: () {
                 if (_validateForm()) {
                   context.read<ForgotPasscodeRequestOtpBloc>().add(
                       ForgotPasscodeRequestOtpEvent.requestOtp(
-                          phoneNumber.text));
+                          inputEmail.text));
                 }
               },
             );

@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/bloc/guest/guest_bloc.dart';
@@ -15,7 +16,7 @@ import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/models/survey_design/list/survey_design_list_response_model.dart';
 import 'package:survey_io/pages/home/home.dart';
-import 'package:survey_io/pages/register/register_phone_number.dart';
+import 'package:survey_io/pages/register/register_by_phone_number.dart';
 import 'package:survey_io/pages/survey_design/survey_design_list.dart';
 
 import '../../common/constants/imageSize.dart';
@@ -124,7 +125,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   Widget onboardingSlider() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(children: [
         CarouselSlider(
           carouselController: _carouselController,
@@ -157,7 +158,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 width: 15.0,
                 height: 15.0,
                 margin:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: _currentIndex == entry.key
@@ -259,6 +260,7 @@ class CarouselItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SvgPicture.asset(
           item.imagePath,

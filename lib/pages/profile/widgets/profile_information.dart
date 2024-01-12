@@ -73,6 +73,16 @@ class _UserInformationState extends State<UserInformation> {
                 ),
               ]);
             }, loaded: (data) {
+              String userName = data.user.name;
+
+              List<String> nameParts = userName.split(" ");
+
+              String firstName = nameParts.isNotEmpty ? nameParts[0] : "";
+              String secondName = nameParts.length > 1 ? nameParts[1] : "";
+              String thirdName = nameParts.length > 2
+                  ? nameParts.sublist(2).map((e) => e[0]).join("")
+                  : "";
+
               return Row(
                 children: [
                   Image.asset(
@@ -89,7 +99,7 @@ class _UserInformationState extends State<UserInformation> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          data.user.name,
+                          '$firstName $secondName $thirdName',
                           style: TextStyles.extraLarge(
                               color: AppColors.secondary,
                               fontWeight: FontWeight.bold),

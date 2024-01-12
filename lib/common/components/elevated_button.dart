@@ -138,8 +138,6 @@ class ButtonFilled extends StatelessWidget {
       onPressed: onPressed,
       child: loading
           ? SizedBox(
-              height: minWidth,
-              width: minWidth,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: CircularProgressIndicator(

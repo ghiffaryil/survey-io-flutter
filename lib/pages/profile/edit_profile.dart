@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:survey_io/bloc/profile/get_list_city/get_list_city_bloc.dart';
 import 'package:survey_io/bloc/profile/get_list_province/get_list_province_bloc.dart';
+import 'package:survey_io/datasources/profile/get_list_province_datasource.dart';
 import 'package:survey_io/datasources/profile/get_profile_datasource.dart';
 import 'package:survey_io/models/user/list_city_response_model.dart';
 import 'package:survey_io/models/user/list_province_response_model.dart';
@@ -35,6 +36,9 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController dateOfBirth = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
+
+  TextEditingController inputKTP = TextEditingController();
+  TextEditingController inputNPWP = TextEditingController();
 
   TextEditingController province = TextEditingController();
   TextEditingController city = TextEditingController();
@@ -110,11 +114,18 @@ class _EditProfileState extends State<EditProfile> {
             userKTP = data.data.userProfile.ktp;
             userNPWP = data.data.userProfile.npwp;
 
+            inputKTP.text = data.data.userProfile.ktp;
+            inputNPWP.text = data.data.userProfile.npwp;
+
             provinceNameSelected = data.data.userProfile.province;
+
             cityNameSelected = data.data.userProfile.city;
           });
 
           data.data.userProfile.province != "" ? loadProvinceList() : null;
+          data.data.userProfile.province != ""
+              ? loadProvinceListWithName('${data.data.userProfile.province}')
+              : null;
         },
       );
     } catch (e) {
@@ -129,6 +140,48 @@ class _EditProfileState extends State<EditProfile> {
         .add(const GetListProvinceEvent.getListProvince());
   }
 
+  void loadProvinceListWithName(String provinceNameExist) async {
+    print('load province with name');
+
+    try {
+      final result = await GetListProvinceDatasource().getProvinceList();
+
+      result.fold(
+        (error) {
+          // Handle error
+          print('Error loading province list: $error');
+        },
+        (provinceList) {
+          final provinceId =
+              getProvinceIdByName(provinceList, provinceNameExist);
+          if (provinceId != -1) {
+            // Province id found, use it in the next function
+            // Call the next function with provinceId
+            // Example: nextFunction(provinceId);
+            loadCityList(provinceId);
+          } else {
+            print('Province not found');
+          }
+        },
+      );
+    } catch (e) {
+      print('Exception: $e');
+    }
+  }
+
+  // Helper function to extract province id by name
+  int getProvinceIdByName(
+      ListProvinceResponseModel provinceList, String provinceName) {
+    for (var province in provinceList.data) {
+      if (province.name == provinceName) {
+        print('province id ${province.id}');
+        return province.id;
+      }
+    }
+
+    return -1; // Return -1 if province not found
+  }
+
   void loadCityList(getProvinceId) {
     context
         .read<GetListCityBloc>()
@@ -138,7 +191,7 @@ class _EditProfileState extends State<EditProfile> {
   bool _validateForm() {
     if (phoneNumber.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Harap masukkan Nomor Telepon Anda',
+        msg: 'Masukkan momor Handphone kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -149,7 +202,7 @@ class _EditProfileState extends State<EditProfile> {
       return false;
     } else if (fullName.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Harap masukkan Email Anda',
+        msg: 'Masukkan Nama Nengkap kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -160,7 +213,7 @@ class _EditProfileState extends State<EditProfile> {
       return false;
     } else if (email.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Harap masukkan Email Anda',
+        msg: 'Masukkan Email kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -199,7 +252,7 @@ class _EditProfileState extends State<EditProfile> {
               color: Colors.white,
               child: Text(
                 'Edit Profil',
-                style: TextStyles.h2ExtraBold(color: AppColors.secondary),
+                style: TextStyles.h3ExtraBold(color: AppColors.secondary),
               ),
             ),
             CustomDividers.verySmallDivider(),
@@ -310,7 +363,7 @@ class _EditProfileState extends State<EditProfile> {
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'No. Telepon',
+          labelText: 'Nomor Handphone',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
@@ -332,8 +385,48 @@ class _EditProfileState extends State<EditProfile> {
           focusNode: emailFocus,
           keyboardType: TextInputType.emailAddress,
           controller: email,
+          editable: false,
           hintText: 'Masukkan Email Kamu',
         ),
+
+        userKTP.isEmpty
+            ? Container()
+            : Column(
+                children: [
+                  CustomDividers.smallDivider(),
+                ],
+              ),
+        LabelInput(
+          labelText: 'KTP',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          keyboardType: TextInputType.text,
+          controller: inputKTP,
+          editable: false,
+          hintText: 'Masukkan KTP Kamu',
+        ),
+
+        userNPWP.isEmpty
+            ? Container()
+            : Column(
+                children: [
+                  CustomDividers.smallDivider(),
+                ],
+              ),
+        LabelInput(
+          labelText: 'NPWP',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          keyboardType: TextInputType.text,
+          controller: inputNPWP,
+          editable: false,
+          hintText: 'Masukkan NPWP Kamu',
+        ),
+
         CustomDividers.smallDivider(),
 
         // PROVINCE
@@ -361,7 +454,7 @@ class _EditProfileState extends State<EditProfile> {
               },
               loaded: (data) {
                 return Container(
-                  height: 50,
+                  height: 55,
                   width: double.infinity,
                   padding: const EdgeInsets.only(left: 15, right: 10),
                   decoration: BoxDecoration(
@@ -503,7 +596,9 @@ class _EditProfileState extends State<EditProfile> {
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
-              loadProfileInformation();
+              // loadProfileInformation();
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const Profile()));
             },
             error: (message) {
               Fluttertoast.showToast(
@@ -549,8 +644,11 @@ class _EditProfileState extends State<EditProfile> {
                   });
             },
             loading: () {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return ButtonFilled.primary(
+                text: '',
+                onPressed: () {},
+                textColor: AppColors.white,
+                loading: true,
               );
             },
           );

@@ -76,14 +76,12 @@ class _NotificationPageState extends State<NotificationPage> {
                       children: [
                         Image.asset(
                           Images.notice,
-                          width: AppWidth.imageSize(context, AppWidth.large),
+                          width: MediaQuery.of(context).size.width * 0.5,
                         ),
-                        CustomDividers.regularDivider(),
                         Text(
-                          'Oops, Data tidak ditemukan',
+                          'Oops, Tidak ada notifikasi',
                           textAlign: TextAlign.center,
-                          style:
-                              TextStyles.extraLarge(color: AppColors.secondary),
+                          style: TextStyles.h3(color: AppColors.secondary),
                         )
                       ],
                     ),

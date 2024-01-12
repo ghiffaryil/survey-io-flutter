@@ -123,15 +123,15 @@ class _ReedemPageAllProductsState extends State<ReedemPageAllProducts> {
                                           child: Row(
                                             children: [
                                               Expanded(
-                                                flex: 3,
+                                                flex: 4,
                                                 child: Padding(
                                                   padding: CustomPadding.p1,
                                                   child: RoundedImage(
                                                     imageType: 'network',
                                                     imageUrl:
                                                         product.categoryImage,
-                                                    height: 120,
-                                                    fit: BoxFit.fitWidth,
+                                                    height: 135,
+                                                    fit: BoxFit.fitHeight,
                                                   ),
                                                 ),
                                               ),
@@ -153,7 +153,7 @@ class _ReedemPageAllProductsState extends State<ReedemPageAllProducts> {
                                                       Text(
                                                           'Get Top ${product.productName} balance up To ${product.amount}'),
                                                       CustomDividers
-                                                          .smallDivider(),
+                                                          .verySmallDivider(),
                                                       Container(
                                                           width:
                                                               double.infinity,

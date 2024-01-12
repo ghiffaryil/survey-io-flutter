@@ -146,7 +146,7 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
   bool _validateForm() {
     if (fullName.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Harap masukkan Nama Lengkap Anda',
+        msg: 'Harap masukkan Nama Lengkap Kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -157,7 +157,7 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
       return false;
     } else if (email.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Harap masukkan Email Anda',
+        msg: 'Harap masukkan Email Kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -168,7 +168,7 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
       return false;
     } else if (dateOfBirth.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Harap masukkan Tanggal Lahir Anda',
+        msg: 'Harap masukkan Tanggal Lahir Kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -179,7 +179,7 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
       return false;
     } else if (phoneNumber.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Harap masukkan Nomor Telepon Anda',
+        msg: 'Harap masukkan Nomor Handphone Kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -190,7 +190,7 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
       return false;
     } else if (inputKtpNumber.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Harap masukkan Nomor KTP Anda',
+        msg: 'Harap masukkan Nomor KTP Kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -201,7 +201,7 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
       return false;
     } else if (inputNpwpNumber.text.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Harap masukkan Nomor NPWP Anda',
+        msg: 'Harap masukkan Nomor NPWP Kamu',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -361,7 +361,7 @@ class _EditProfileCompleteState extends State<EditProfileComplete> {
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'No. Telepon',
+          labelText: 'Nomor Handphone',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),

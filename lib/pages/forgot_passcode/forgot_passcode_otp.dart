@@ -4,7 +4,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:survey_io/bloc/register/verify_otp/verify_otp_bloc.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 
 // Import Component
@@ -12,24 +11,26 @@ import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/datasources/register/request_otp.dart';
+import 'package:survey_io/pages/forgot_passcode/forgot_passcod_form.dart';
+import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_verify_otp/forgot_passcode_verify_otp_bloc.dart';
 
-import '../../../common/components/appbar_plain.dart';
-import '../../../common/constants/padding.dart';
-import 'register_complete.dart';
+import 'package:survey_io/common/components/appbar_plain.dart';
+import 'package:survey_io/common/constants/padding.dart';
 
-class VerificationOtpPage extends StatefulWidget {
+class ForgotPasscodeVerifyOtpPage extends StatefulWidget {
   final String phoneNumber;
 
-  const VerificationOtpPage({
+  const ForgotPasscodeVerifyOtpPage({
     super.key,
     required this.phoneNumber,
   });
 
   @override
-  State<VerificationOtpPage> createState() => _VerificationOtpPageState();
+  State<ForgotPasscodeVerifyOtpPage> createState() =>
+      _ForgotPasscodeVeriegeState();
 }
 
-class _VerificationOtpPageState extends State<VerificationOtpPage> {
+class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {
   String otpCode = '';
 
   final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
@@ -184,8 +185,6 @@ class _VerificationOtpPageState extends State<VerificationOtpPage> {
               TextSpan(
                 recognizer: _timerActive ? null : TapGestureRecognizer()
                   ?..onTap = () async {
-                    // If Want to Send Point Manual
-
                     final datasource = RequestOtpDatasource();
                     final result =
                         await datasource.requestOtp(widget.phoneNumber);
@@ -223,20 +222,16 @@ class _VerificationOtpPageState extends State<VerificationOtpPage> {
   }
 
   Widget buildButtonVerification() {
-    return BlocListener<VerifyOtpBloc, VerifyOtpState>(
+    return BlocListener<ForgotPasscodeVerifyOtpBloc,
+        ForgotPasscodeVerifyOtpState>(
       listener: (context, state) {
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
-              String otpCode = data.otpCode;
-              int otpId = data.id;
-
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) {
-                return CompleteProfile(
+                return ForgotPasscodeFormPage(
                   sendPhoneNumber: widget.phoneNumber,
-                  otpCode: otpCode,
-                  otpId: otpId,
                 );
               }));
             },
@@ -251,7 +246,8 @@ class _VerificationOtpPageState extends State<VerificationOtpPage> {
                   fontSize: 16.0);
             });
       },
-      child: BlocBuilder<VerifyOtpBloc, VerifyOtpState>(
+      child: BlocBuilder<ForgotPasscodeVerifyOtpBloc,
+          ForgotPasscodeVerifyOtpState>(
         builder: (context, state) {
           String mergedOtpValue = _otpInputControllers.sublist(0, 4).fold('',
               (String previousValue, TextEditingController controller) {
@@ -262,7 +258,6 @@ class _VerificationOtpPageState extends State<VerificationOtpPage> {
             return ButtonFilled.primary(
                 text: 'Verifikasi',
                 onPressed: () {
-                  // Check if any OTP input field is empty
                   if (_otpInputControllers
                       .any((controller) => controller.text.isEmpty)) {
                     // Show FlutterToast indicating that OTP input is empty
@@ -277,8 +272,9 @@ class _VerificationOtpPageState extends State<VerificationOtpPage> {
                     );
                   } else {
                     print(mergedOtpValue);
-                    context.read<VerifyOtpBloc>().add(VerifyOtpEvent.verifyOtp(
-                        widget.phoneNumber, mergedOtpValue));
+                    context.read<ForgotPasscodeVerifyOtpBloc>().add(
+                        ForgotPasscodeVerifyOtpEvent.verifyOtp(
+                            widget.phoneNumber, mergedOtpValue));
                   }
                 });
           }, loading: () {

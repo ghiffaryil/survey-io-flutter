@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
 
 // Import Component
 import 'package:survey_io/common/components/text_button.dart';
 import 'package:survey_io/common/components/image_rounded.dart';
+import 'package:survey_io/common/constants/images.dart';
 import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
@@ -30,6 +34,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
   bool isLogged = false;
   String userToken = '';
   String surveyToken = '';
+  int userId = 0;
 
   @override
   void initState() {
@@ -38,7 +43,6 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
   }
 
   void loadDataSource() {
-    print('Load Survey');
     context.read<SurveyListBloc>().add(const SurveyListEvent.getSurveyList());
   }
 
@@ -65,14 +69,30 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
       }
     } else {
       // Have User Token
-      print('User Token : $token');
+      final user = await AuthLocalDatasource().getUser();
       setState(() {
         isGuest = false;
         isLogged = true;
         userToken = token;
         surveyToken = token.substring(7);
+        userId = user.id;
       });
+      // You can now use the user ID as needed
+      print('User ID: $userId');
       loadDataSource();
+    }
+  }
+
+  Future<void> refreshPage() async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    loadDataSource();
+    return;
+  }
+
+  void _onShare(BuildContext context, uri) {
+    if (uri.isNotEmpty) {
+      // Share.shareUri(Uri.parse(uri));
+      Share.share(uri, subject: 'Survey Link');
     }
   }
 
@@ -89,20 +109,32 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
         },
       ),
       body: Container(
-        padding: CustomPadding.px2,
+        padding: CustomPadding.px1,
         child: Column(
           children: [
-            LabelInput(
-                labelText: 'Survei',
-                labelStyle: TextStyles.h2ExtraBold(color: AppColors.secondary)),
-            Expanded(child: SingleChildScrollView(child: sectionListSurvey())),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: LabelInput(
+                  labelText: 'Survei',
+                  labelStyle:
+                      TextStyles.h2ExtraBold(color: AppColors.secondary)),
+            ),
+            CustomDividers.smallDivider(),
+            Expanded(
+                child: RefreshIndicator(
+                    color: AppColors.info,
+                    backgroundColor: Colors.white,
+                    onRefresh: refreshPage,
+                    child: SingleChildScrollView(
+                      child: listSurveySection(),
+                    ))),
           ],
         ),
       ),
     );
   }
 
-  Widget sectionListSurvey() {
+  Widget listSurveySection() {
     return Container(
         padding: CustomPadding.p1,
         child: BlocBuilder<SurveyListBloc, SurveyListState>(
@@ -127,122 +159,178 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
               return Text(message);
             },
             loaded: (surveyList) {
-              return ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: surveyList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final survey = surveyList[index];
-
-                  return Container(
-                    padding: const EdgeInsets.all(7),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 150,
-                          width: double.infinity,
-                          child: survey.survey.imageHomescreen.isEmpty
-                              ? const RoundedImage(
-                                  imageType: 'asset',
-                                  imageUrl:
-                                      'assets/images/global/img_empty_create_survey.png',
-                                  borderRadius: 8.0,
-                                  fit: BoxFit.fitWidth,
-                                )
-                              : RoundedImage(
-                                  imageType: 'network',
-                                  imageUrl: survey.survey.imageHomescreen,
-                                  borderRadius: 8.0,
-                                  fit: BoxFit.fitWidth,
-                                ),
+              if (surveyList.isEmpty) {
+                return Container(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        Images.emptyList,
+                        width: MediaQuery.of(context).size.width * 0.5,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          'Oops, Sepertinya sedang tidak ada Survey!',
+                          textAlign: TextAlign.center,
+                          style: TextStyles.h3(color: AppColors.secondary),
                         ),
-                        Container(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomDividers.verySmallDivider(),
-                              Text(
-                                survey.survey.title,
-                                style:
-                                    TextStyles.h5(color: AppColors.secondary),
-                              ),
-                              const SizedBox(height: 5),
-                              Text('${survey.totalQuestion} Pertanyaan'),
-                              CustomDividers.smallDivider(),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        IconName.point,
-                                        width: 25,
-                                        height: 25,
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        survey.survey.energy.toString(),
-                                        style: TextStyles.large(
-                                            fontWeight: FontWeight.bold,
-                                            color: AppColors.secondary),
-                                      ),
-                                    ],
-                                  ),
-                                  const Spacer(
-                                    flex: 1,
-                                  ),
-                                  const Icon(
-                                    Icons.share,
-                                    size: 20,
-                                    color: AppColors.info,
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
-                                    child: TextButtonFilled.primary(
-                                        minWidth: 0.20,
-                                        height: 30,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                        text: 'Ikut Survei',
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      WebviewSurvey(
-                                                        id: survey.survey.id,
-                                                        url:
-                                                            '${survey.survey.surveyLink}?token=$surveyToken',
-                                                        title:
-                                                            survey.survey.title,
-                                                      )));
-                                        }),
-                                  )
-                                ],
-                              ),
-                            ],
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: surveyList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final survey = surveyList[index];
+                    return Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          bottom: BorderSide(
+                            color: AppColors.light.withOpacity(0.4),
+                            width: 0.3,
                           ),
                         ),
-                      ],
-                    ),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Divider(); // Replace Divider() with your custom separator widget if needed.
-                },
-              );
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 120,
+                            width: double.infinity,
+                            child: survey.survey.imageHomescreen.isEmpty
+                                ? const RoundedImage(
+                                    imageType: 'asset',
+                                    imageUrl:
+                                        'assets/images/global/img_empty_create_survey.png',
+                                    borderRadius: 8.0,
+                                    fit: BoxFit.cover,
+                                  )
+                                : RoundedImage(
+                                    imageType: 'network',
+                                    imageUrl: survey.survey.imageHomescreen,
+                                    borderRadius: 8.0,
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomDividers.verySmallDivider(),
+                                Text(
+                                  survey.survey.title,
+                                  style:
+                                      TextStyles.h5(color: AppColors.secondary),
+                                ),
+                                const SizedBox(height: 5),
+                                Text('${survey.totalQuestion} Pertanyaan'),
+                                CustomDividers.smallDivider(),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          IconName.point,
+                                          width: 25,
+                                          height: 25,
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          survey.survey.energy.toString(),
+                                          style: TextStyles.large(
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.secondary),
+                                        ),
+                                      ],
+                                    ),
+                                    const Spacer(
+                                      flex: 1,
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        _onShare(
+                                            context, survey.survey.surveyLink);
+                                      },
+                                      icon: const Icon(
+                                        Icons.share,
+                                        size: 19,
+                                        color: AppColors.info,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 10.0),
+                                      child: TextButtonFilled.primary(
+                                          minWidth: 0.20,
+                                          height: 30,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                          text: 'Ikut Survei',
+                                          onPressed: () {
+                                            print(
+                                                '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${survey.survey.id}?userId=$userId&token=$surveyToken');
+                                            survey.allowed
+                                                ? Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            WebviewSurvey(
+                                                              // url:'https://0fb0-158-140-180-13.ngrok-free.app/home/survey/participate/${survey.survey.id}?userId=$userId&token=$surveyToken',
+                                                              url:
+                                                                  '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${survey.survey.id}?userId=$userId&token=$surveyToken',
+                                                              title: survey
+                                                                  .survey.title,
+                                                            )))
+                                                : Fluttertoast.showToast(
+                                                    msg:
+                                                        'Kamu telah mengikuti survei ini',
+                                                    toastLength:
+                                                        Toast.LENGTH_SHORT,
+                                                    gravity:
+                                                        ToastGravity.BOTTOM,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor: AppColors
+                                                        .secondary
+                                                        .withOpacity(0.8),
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0,
+                                                  );
+                                          }),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return CustomDividers.regularDivider();
+                  },
+                );
+              }
             },
           );
         }));

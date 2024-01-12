@@ -1,8 +1,10 @@
 // ignore_for_file: unused_import, non_constant_identifier_names, prefer_typing_uninitialized_variables, unused_field, unused_element, avoid_print, prefer_interpolation_to_compose_strings
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/pages/profile/profile.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -43,7 +45,7 @@ class _TermsAndConditionWebviewState extends State<TermsAndConditionWebview> {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const Profile()));
           },
-          title: const Text('Ketentuan Layanan'),
+          title: Text('Ketentuan Layanan', style: TextStyles.h3(color: AppColors.secondary),),
           icon: const Icon(Icons.arrow_back_ios),
         ),
         body: WebViewWidget(
@@ -59,7 +61,7 @@ class _TermsAndConditionWebviewState extends State<TermsAndConditionWebview> {
                   onPageFinished: (String url) {},
                   onWebResourceError: (WebResourceError error) {},
                   onNavigationRequest: (NavigationRequest request) {
-                    if (request.url.startsWith('https://survei.io')) {
+                    if (request.url.startsWith('${dotenv.env['WEB_URL']}')) {
                       return NavigationDecision.prevent;
                     }
                     return NavigationDecision.navigate;
@@ -67,6 +69,6 @@ class _TermsAndConditionWebviewState extends State<TermsAndConditionWebview> {
                 ),
               )
               ..loadRequest(
-                  Uri.parse('https://survei.io/terms-and-condition'))));
+                  Uri.parse('${dotenv.env['WEB_URL']}/terms-and-condition'))));
   }
 }
