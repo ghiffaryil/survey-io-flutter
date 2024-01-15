@@ -8,6 +8,8 @@ import 'package:survey_io/common/components/elevated_button.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/function/merge_value_otp.dart';
+import 'package:survey_io/common/constants/function/validate_form_otp.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/datasources/register/request_otp.dart';
@@ -249,28 +251,13 @@ class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {
       child: BlocBuilder<ForgotPasscodeVerifyOtpBloc,
           ForgotPasscodeVerifyOtpState>(
         builder: (context, state) {
-          String mergedOtpValue = _otpInputControllers.sublist(0, 4).fold('',
-              (String previousValue, TextEditingController controller) {
-            return previousValue + controller.text;
-          });
-
           return state.maybeWhen(orElse: () {
             return ButtonFilled.primary(
                 text: 'Verifikasi',
                 onPressed: () {
-                  if (_otpInputControllers
-                      .any((controller) => controller.text.isEmpty)) {
-                    // Show FlutterToast indicating that OTP input is empty
-                    Fluttertoast.showToast(
-                      msg: 'Harap masukkan kode OTP',
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: AppColors.secondary.withOpacity(0.8),
-                      textColor: Colors.white,
-                      fontSize: 16.0,
-                    );
-                  } else {
+                  // Check if any OTP input field is Not Empty
+                  if (validateOtpForm(_otpInputControllers)) {
+                    String mergedOtpValue = mergeOtpValue(_otpInputControllers);
                     print(mergedOtpValue);
                     context.read<ForgotPasscodeVerifyOtpBloc>().add(
                         ForgotPasscodeVerifyOtpEvent.verifyOtp(

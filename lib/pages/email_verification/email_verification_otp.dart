@@ -8,21 +8,22 @@ import 'package:survey_io/common/components/elevated_button.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/function/merge_value_otp.dart';
+import 'package:survey_io/common/constants/function/validate_form_otp.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/datasources/register/request_otp.dart';
-import 'package:survey_io/pages/forgot_passcode/forgot_passcod_form.dart';
 import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_verify_otp/forgot_passcode_verify_otp_bloc.dart';
 
 import 'package:survey_io/common/components/appbar_plain.dart';
 import 'package:survey_io/common/constants/padding.dart';
 
 class EmailVerificationOtpPage extends StatefulWidget {
-  final String phoneNumber;
+  final String inputEmail;
 
   const EmailVerificationOtpPage({
     super.key,
-    required this.phoneNumber,
+    required this.inputEmail,
   });
 
   @override
@@ -187,7 +188,7 @@ class _ForgotPasscodeVeriegeState extends State<EmailVerificationOtpPage> {
                   ?..onTap = () async {
                     final datasource = RequestOtpDatasource();
                     final result =
-                        await datasource.requestOtp(widget.phoneNumber);
+                        await datasource.requestOtp(widget.inputEmail);
                     if (result.isRight()) {
                       setState(() {
                         _otpInputControllers[0].text = '';
@@ -228,12 +229,12 @@ class _ForgotPasscodeVeriegeState extends State<EmailVerificationOtpPage> {
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) {
-                return ForgotPasscodeFormPage(
-                  sendPhoneNumber: widget.phoneNumber,
-                );
-              }));
+              // Navigator.pushReplacement(context,
+              //     MaterialPageRoute(builder: (context) {
+              //   // return ForgotPasscodeFormPage(
+              //   //   sendinputEmail: widget.inputEmail,
+              //   // );
+              // }));
             },
             error: (message) {
               Fluttertoast.showToast(
@@ -249,19 +250,18 @@ class _ForgotPasscodeVeriegeState extends State<EmailVerificationOtpPage> {
       child: BlocBuilder<ForgotPasscodeVerifyOtpBloc,
           ForgotPasscodeVerifyOtpState>(
         builder: (context, state) {
-          String mergedOtpValue = _otpInputControllers.sublist(0, 4).fold('',
-              (String previousValue, TextEditingController controller) {
-            return previousValue + controller.text;
-          });
-
           return state.maybeWhen(orElse: () {
             return ButtonFilled.primary(
                 text: 'Verifikasi',
                 onPressed: () {
-                  print(mergedOtpValue);
-                  context.read<ForgotPasscodeVerifyOtpBloc>().add(
-                      ForgotPasscodeVerifyOtpEvent.verifyOtp(
-                          widget.phoneNumber, mergedOtpValue));
+                  // Check if any OTP input field is Not Empty
+                  if (validateOtpForm(_otpInputControllers)) {
+                    String mergedOtpValue = mergeOtpValue(_otpInputControllers);
+                    print(mergedOtpValue);
+                    context.read<ForgotPasscodeVerifyOtpBloc>().add(
+                        ForgotPasscodeVerifyOtpEvent.verifyOtp(
+                            widget.inputEmail, mergedOtpValue));
+                  }
                 });
           }, loading: () {
             return ButtonFilled.primary(

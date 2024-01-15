@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/bloc/register/request_otp/request_otp_bloc.dart';
+import 'package:survey_io/common/constants/function/validate_form_email.dart';
+import 'package:survey_io/pages/email_verification/email_verification_otp.dart';
 import 'package:survey_io/pages/login/login.dart';
 
 import '../../../common/components/elevated_button.dart';
@@ -13,7 +15,6 @@ import '../../../common/components/divider.dart';
 import '../../../common/components/appbar_plain.dart';
 import '../../../common/components/information_card.dart';
 import '../../../common/constants/padding.dart';
-import 'register_verification_otp.dart';
 
 class RegisterByEmailPage extends StatefulWidget {
   const RegisterByEmailPage({super.key});
@@ -23,27 +24,16 @@ class RegisterByEmailPage extends StatefulWidget {
 }
 
 class _RegisterByEmailPageState extends State<RegisterByEmailPage> {
-  TextEditingController phoneNumber = TextEditingController();
-  FocusNode phoneNumberFocus = FocusNode();
+  TextEditingController inputEmail = TextEditingController();
+  FocusNode inputEmailFocus = FocusNode();
 
   void unfocusAll() {
-    phoneNumberFocus.unfocus();
+    inputEmailFocus.unfocus();
   }
 
   bool _validateForm() {
-    if (phoneNumber.text.isEmpty) {
-      Fluttertoast.showToast(
-        msg: 'Masukkan Email kamu',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.secondary.withOpacity(0.8),
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-      return false;
-    }
-    return true;
+    String email = inputEmail.text;
+    return validateEmailForm(email);
   }
 
   @override
@@ -102,9 +92,9 @@ class _RegisterByEmailPageState extends State<RegisterByEmailPage> {
         ),
         CustomDividers.smallDivider(),
         TextInputField(
-          focusNode: phoneNumberFocus,
-          keyboardType: TextInputType.phone,
-          controller: phoneNumber,
+          focusNode: inputEmailFocus,
+          keyboardType: TextInputType.emailAddress,
+          controller: inputEmail,
           hintText: 'email@gmail.com',
         ),
       ],
@@ -128,7 +118,7 @@ class _RegisterByEmailPageState extends State<RegisterByEmailPage> {
             loaded: (data) {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) {
-                return VerificationOtpPage(phoneNumber: phoneNumber.text);
+                return EmailVerificationOtpPage(inputEmail: inputEmail.text);
               }));
             },
             error: (message) {
@@ -152,7 +142,7 @@ class _RegisterByEmailPageState extends State<RegisterByEmailPage> {
                     if (_validateForm()) {
                       context
                           .read<RequestOtpBloc>()
-                          .add(RequestOtpEvent.requestOtp(phoneNumber.text));
+                          .add(RequestOtpEvent.requestOtp(inputEmail.text));
                     }
                   });
             },

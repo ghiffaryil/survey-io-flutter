@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
-import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_request_otp/forgot_passcode_request_otp_bloc.dart';
 import 'package:survey_io/common/constants/function/validate_form_email.dart';
+import 'package:survey_io/pages/forgot_passcode/forgot_passcode_otp.dart';
+import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_request_otp/forgot_passcode_request_otp_bloc.dart';
 
 // Import Component
 import '../../common/constants/colors.dart';
@@ -13,14 +14,14 @@ import '../../common/components/divider.dart';
 import '../../common/components/label.dart';
 import '../../common/components/appbar_plain.dart';
 
-class EmailVerificationPage extends StatefulWidget {
-  const EmailVerificationPage({super.key});
+class ForgotPasscodeByEmail extends StatefulWidget {
+  const ForgotPasscodeByEmail({super.key});
 
   @override
-  State<EmailVerificationPage> createState() => _EmailVerificationPageState();
+  State<ForgotPasscodeByEmail> createState() => _ForgotPasscodeByEmailState();
 }
 
-class _EmailVerificationPageState extends State<EmailVerificationPage> {
+class _ForgotPasscodeByEmailState extends State<ForgotPasscodeByEmail> {
   TextEditingController inputEmail = TextEditingController();
   FocusNode inputEmailFocus = FocusNode();
 
@@ -77,7 +78,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     return Container(
       alignment: Alignment.centerLeft,
       child: Text(
-        'Verifikasi Email',
+        'Lupa Password',
         style: TextStyles.h2(color: AppColors.secondary),
       ),
     );
@@ -95,15 +96,15 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'Email',
+          labelText: 'Nomor Email',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.smallDivider(),
         TextInputField(
           focusNode: inputEmailFocus,
-          keyboardType: TextInputType.phone,
+          keyboardType: TextInputType.emailAddress,
           controller: inputEmail,
-          hintText: 'Masukkan Email',
+          hintText: 'email@email.com',
         ),
       ],
     );
@@ -116,12 +117,12 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
-              // Navigator.pushReplacement(context,
-              //     MaterialPageRoute(builder: (context) {
-              //   return ForgotPasscodeVerifyOtpPage(
-              //     inputEmail: inputEmail.text,
-              //   );
-              // }));
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return ForgotPasscodeVerifyOtpPage(
+                  phoneNumber: inputEmail.text,
+                );
+              }));
             },
             error: (message) {
               Fluttertoast.showToast(
@@ -139,7 +140,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         builder: (context, state) {
           return state.maybeWhen(orElse: () {
             return ButtonFilled.primary(
-              text: 'Kirim OTP ke Email',
+              text: 'Kirim OTP',
               onPressed: () {
                 if (_validateForm()) {
                   context.read<ForgotPasscodeRequestOtpBloc>().add(
