@@ -13,14 +13,14 @@ import '../../common/components/divider.dart';
 import '../../common/components/label.dart';
 import '../../common/components/appbar_plain.dart';
 
-class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({super.key});
+class ForgotPasscodePage extends StatefulWidget {
+  const ForgotPasscodePage({super.key});
 
   @override
-  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+  State<ForgotPasscodePage> createState() => _ForgotPasscodePageState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+class _ForgotPasscodePageState extends State<ForgotPasscodePage> {
   TextEditingController phoneNumber = TextEditingController();
   FocusNode phoneNumberFocus = FocusNode();
 

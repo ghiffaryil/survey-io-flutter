@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 import 'package:survey_io/common/constants/function/validate_form_email.dart';
+import 'package:survey_io/pages/email_verification/email_verification_otp.dart';
 import 'package:survey_io/pages/forgot_passcode/forgot_passcode_otp.dart';
 import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_request_otp/forgot_passcode_request_otp_bloc.dart';
 
@@ -143,9 +144,14 @@ class _ForgotPasscodeByEmailState extends State<ForgotPasscodeByEmail> {
               text: 'Kirim OTP',
               onPressed: () {
                 if (_validateForm()) {
-                  context.read<ForgotPasscodeRequestOtpBloc>().add(
-                      ForgotPasscodeRequestOtpEvent.requestOtp(
-                          inputEmail.text));
+                  // context.read<ForgotPasscodeRequestOtpBloc>().add(
+                  //     ForgotPasscodeRequestOtpEvent.requestOtp(
+                  //         inputEmail.text));
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) {
+                    return EmailVerificationOtpPage(
+                        inputEmail: inputEmail.text);
+                  }));
                 }
               },
             );

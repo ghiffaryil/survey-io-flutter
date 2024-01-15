@@ -3,38 +3,43 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
-import 'package:survey_io/pages/forgot_passcode/forgot_passcode.dart';
+import 'package:survey_io/pages/forgot_passcode/forgot_passcode_by_email.dart';
 import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/bloc/login/login_bloc.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_passcode.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 import 'package:survey_io/models/auth/auth_request_model.dart';
-import 'package:survey_io/pages/register/register_by_phone_number.dart';
+import 'package:survey_io/pages/register/register_by_email.dart';
 
-// Import Component
 import '../../common/constants/colors.dart';
 import '../../common/constants/styles.dart';
 import '../../common/components/divider.dart';
 import '../../common/components/label.dart';
 import '../../common/components/appbar_plain.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginMultiplePage extends StatefulWidget {
+  const LoginMultiplePage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginMultiplePage> createState() => _LoginMultiplePageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  TextEditingController phoneNumber = TextEditingController();
-  FocusNode phoneNumberFocus = FocusNode();
+class _LoginMultiplePageState extends State<LoginMultiplePage> {
+  TextEditingController inputPhoneNumber = TextEditingController();
+  FocusNode inputPhoneNumberFocus = FocusNode();
+
+  TextEditingController inputEmail = TextEditingController();
+  FocusNode inputEmailFocus = FocusNode();
+
   TextEditingController passcode = TextEditingController();
   FocusNode passcodeFocus = FocusNode();
 
   bool _hidePasscode = true;
   bool isLogged = false;
   bool isExpiredToken = false;
+
+  String _loginTypeValue = 'Email';
 
   @override
   void initState() {
@@ -48,12 +53,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void unfocusAll() {
-    phoneNumberFocus.unfocus();
+    inputPhoneNumberFocus.unfocus();
     passcodeFocus.unfocus();
   }
 
   bool _validateForm() {
-    if (phoneNumber.text.isEmpty) {
+    if (inputPhoneNumber.text.isEmpty) {
       Fluttertoast.showToast(
         msg: 'Masukkan nomor Handphone kamu',
         toastLength: Toast.LENGTH_SHORT,
@@ -90,20 +95,26 @@ class _LoginPageState extends State<LoginPage> {
         },
       ),
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
+        // physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             labelTextLogin(),
             CustomDividers.verySmallDivider(),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Selamat datang kembali di Survei.io',
+                style: TextStyles.h4(color: AppColors.secondary),
+              ),
+            ),
+            CustomDividers.verySmallDivider(),
+            animatedToggle(),
             formInputField(),
-            labelTextPassword(),
-            // CustomDividers.extraLargeDivider(),
-            // CustomDividers.extraLargeDivider(),
-            // CustomDividers.regularDivider(),
+            labelTextPasscode(),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.245,
+              height: MediaQuery.of(context).size.height * 0.17,
             ),
             BlocProvider(
               create: (context) => LoginBloc(),
@@ -111,7 +122,6 @@ class _LoginPageState extends State<LoginPage> {
             ),
             CustomDividers.smallDivider(),
             textSignUpHere(),
-            CustomDividers.regularDivider(),
           ],
         ),
       ),
@@ -128,47 +138,42 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget labelTextPassword() {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      alignment: Alignment.centerRight,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const ForgotPasscodePage()),
-          );
-        },
-        child: Text(
-          'Lupa Password?',
-          style: TextStyles.regular(color: AppColors.info),
-        ),
-      ),
-    );
-  }
-
   Widget formInputField() {
     return Column(
       children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Selamat datang kembali di Survei.io',
-            style: TextStyles.h4(color: AppColors.secondary),
-          ),
-        ),
-        CustomDividers.smallDivider(),
-        LabelInput(
-          labelText: 'Nomor Handphone',
-          labelStyle: TextStyles.h4(color: AppColors.secondary),
-        ),
-        CustomDividers.smallDivider(),
-        TextInputField(
-          focusNode: phoneNumberFocus,
-          keyboardType: TextInputType.phone,
-          controller: phoneNumber,
-          hintText: 'Masukkan Nomor Handphone',
-        ),
+        _loginTypeValue == "Email"
+            ? Column(
+                children: [
+                  // LOGIN BY EMAIL
+                  LabelInput(
+                    labelText: 'Email',
+                    labelStyle: TextStyles.h4(color: AppColors.secondary),
+                  ),
+                  CustomDividers.smallDivider(),
+                  TextInputField(
+                    focusNode: inputPhoneNumberFocus,
+                    keyboardType: TextInputType.emailAddress,
+                    controller: inputPhoneNumber,
+                    hintText: 'Masukkan Email Kamu',
+                  ),
+                ],
+              )
+            : Column(
+                //  LOGIN BY PHONE
+                children: [
+                  LabelInput(
+                    labelText: 'Nomor Handphone',
+                    labelStyle: TextStyles.h4(color: AppColors.secondary),
+                  ),
+                  CustomDividers.smallDivider(),
+                  TextInputField(
+                    focusNode: inputPhoneNumberFocus,
+                    keyboardType: TextInputType.phone,
+                    controller: inputPhoneNumber,
+                    hintText: 'Masukkan Nomor Handphone',
+                  ),
+                ],
+              ),
         CustomDividers.smallDivider(),
         LabelInput(
           labelText: 'Passcode',
@@ -183,6 +188,26 @@ class _LoginPageState extends State<LoginPage> {
           onPasswordVisibilityToggle: _showHidePasscodeTogle,
         ),
       ],
+    );
+  }
+
+  Widget labelTextPasscode() {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      alignment: Alignment.centerRight,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const ForgotPasscodeByEmail()),
+          );
+        },
+        child: Text(
+          'Lupa Password?',
+          style: TextStyles.regular(color: AppColors.info),
+        ),
+      ),
     );
   }
 
@@ -217,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   if (_validateForm()) {
                     final requestModel = AuthRequestModel(
-                        phoneNumber: phoneNumber.text,
+                        phoneNumber: inputPhoneNumber.text,
                         pin: passcode.text,
                         firebaseToken: '32jr982jd9137asd2',
                         platform: 'android',
@@ -254,8 +279,85 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const RegisterPhoneNumberPage()));
+                        builder: (context) => const RegisterByEmailPage()));
               },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget animatedToggle() {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.55,
+      height: MediaQuery.of(context).size.width * 0.10,
+      margin: const EdgeInsets.all(20),
+      child: Stack(
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              if (_loginTypeValue == "Phone") {
+                setState(() {
+                  _loginTypeValue = 'Email';
+                });
+              } else if (_loginTypeValue == "Email") {
+                setState(() {
+                  _loginTypeValue = 'Phone';
+                });
+              }
+              print(_loginTypeValue);
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.55,
+              height: MediaQuery.of(context).size.width * 0.10,
+              decoration: ShapeDecoration(
+                color: AppColors.secondary.withOpacity(0.3),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.width * 0.1),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(
+                  2,
+                  (index) => Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.03),
+                    child: Text(_loginTypeValue == "Phone" ? 'Email' : 'Phone',
+                        textAlign: TextAlign.center,
+                        style: TextStyles.medium(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          AnimatedAlign(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.decelerate,
+            alignment: _loginTypeValue == "Email"
+                ? Alignment.centerLeft
+                : Alignment.centerRight,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.30,
+              height: MediaQuery.of(context).size.width * 0.10,
+              decoration: ShapeDecoration(
+                color: AppColors.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.width * 0.1),
+                ),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                _loginTypeValue,
+                textAlign: TextAlign.center,
+                style: TextStyles.medium(
+                    color: AppColors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
         ],
       ),

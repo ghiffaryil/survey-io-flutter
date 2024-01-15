@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/bloc/register/request_otp/request_otp_bloc.dart';
 import 'package:survey_io/common/constants/function/validate_form_email.dart';
 import 'package:survey_io/pages/email_verification/email_verification_otp.dart';
-import 'package:survey_io/pages/login/login.dart';
+import 'package:survey_io/pages/login/login2.dart';
 
 import '../../../common/components/elevated_button.dart';
 import '../../../common/components/input_field_text.dart';
@@ -171,8 +171,10 @@ class _RegisterByEmailPageState extends State<RegisterByEmailPage> {
             style: TextStyles.h5(color: AppColors.primary),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginMultiplePage()));
               },
           ),
         ],

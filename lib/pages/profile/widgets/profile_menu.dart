@@ -6,6 +6,7 @@ import 'package:survey_io/bloc/guest/guest_bloc.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
 import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
+import 'package:survey_io/pages/email_verification/email_verification.dart';
 import 'package:survey_io/pages/forgot_passcode/forgot_passcode_by_email.dart';
 import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/pages/register/register_by_email.dart';
@@ -184,7 +185,21 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
                 ),
                 HorizontalMenu(
                   imageAsset: IconName.helper,
-                  text: 'Register by Email',
+                  text: 'Active Account By Email',
+                  icon: Icons.arrow_forward_ios,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const EmailVerificationPage()));
+                  },
+                  iconColor: AppColors.light,
+                  textColor: AppColors.light,
+                ),
+                HorizontalMenu(
+                  imageAsset: IconName.helper,
+                  text: 'Forgot Passcode by Email',
                   icon: Icons.arrow_forward_ios,
                   onPressed: () {
                     Navigator.push(

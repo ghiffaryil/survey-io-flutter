@@ -5,6 +5,7 @@ import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_request_otp/forgot_passcode_request_otp_bloc.dart';
 import 'package:survey_io/common/constants/function/validate_form_email.dart';
+import 'package:survey_io/pages/email_verification/email_verification_otp.dart';
 
 // Import Component
 import '../../common/constants/colors.dart';
@@ -101,7 +102,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         CustomDividers.smallDivider(),
         TextInputField(
           focusNode: inputEmailFocus,
-          keyboardType: TextInputType.phone,
+          keyboardType: TextInputType.emailAddress,
           controller: inputEmail,
           hintText: 'Masukkan Email',
         ),
@@ -142,9 +143,14 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
               text: 'Kirim OTP ke Email',
               onPressed: () {
                 if (_validateForm()) {
-                  context.read<ForgotPasscodeRequestOtpBloc>().add(
-                      ForgotPasscodeRequestOtpEvent.requestOtp(
-                          inputEmail.text));
+                  // context.read<ForgotPasscodeRequestOtpBloc>().add(
+                  //     ForgotPasscodeRequestOtpEvent.requestOtp(
+                  //         inputEmail.text));
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) {
+                    return EmailVerificationOtpPage(
+                        inputEmail: inputEmail.text);
+                  }));
                 }
               },
             );
