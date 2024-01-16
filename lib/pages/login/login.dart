@@ -2,6 +2,9 @@ import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:survey_io/common/constants/function/validate_form.dart';
+import 'package:survey_io/common/constants/function/validate_form_passcode.dart';
+import 'package:survey_io/common/constants/function/validate_form_phone_number.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 import 'package:survey_io/pages/forgot_passcode/forgot_passcode.dart';
 import 'package:survey_io/pages/home/home.dart';
@@ -27,8 +30,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController phoneNumber = TextEditingController();
-  FocusNode phoneNumberFocus = FocusNode();
+  TextEditingController inputPhoneNumber = TextEditingController();
+  FocusNode inputPhoneNumberFocus = FocusNode();
   TextEditingController passcode = TextEditingController();
   FocusNode passcodeFocus = FocusNode();
 
@@ -48,35 +51,26 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void unfocusAll() {
-    phoneNumberFocus.unfocus();
+    inputPhoneNumberFocus.unfocus();
     passcodeFocus.unfocus();
   }
 
-  bool _validateForm() {
-    if (phoneNumber.text.isEmpty) {
-      Fluttertoast.showToast(
-        msg: 'Masukkan nomor Handphone kamu',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.secondary.withOpacity(0.8),
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-      return false;
-    } else if (passcode.text.isEmpty) {
-      Fluttertoast.showToast(
-        msg: 'Masukkan Passcode kamu',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.secondary.withOpacity(0.8),
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-      return false;
-    }
-    return true;
+  bool _validateFormPhoneNumber() {
+    return validateForm(
+      inputPhoneNumber.text,
+      validatePhoneNumberForm,
+      'Masukkan Nomor Handphone kamu',
+      isPhone: true,
+    );
+  }
+
+  bool _validatePasscodeForm() {
+    return validateForm(
+      passcode.text,
+      validatePasscodeForm,
+      'Masukkan Passcode kamu',
+      isPhone: true,
+    );
   }
 
   @override
@@ -164,9 +158,9 @@ class _LoginPageState extends State<LoginPage> {
         ),
         CustomDividers.smallDivider(),
         TextInputField(
-          focusNode: phoneNumberFocus,
+          focusNode: inputPhoneNumberFocus,
           keyboardType: TextInputType.phone,
-          controller: phoneNumber,
+          controller: inputPhoneNumber,
           hintText: 'Masukkan Nomor Handphone',
         ),
         CustomDividers.smallDivider(),
@@ -215,9 +209,9 @@ class _LoginPageState extends State<LoginPage> {
             return ButtonFilled.primary(
                 text: 'Login',
                 onPressed: () {
-                  if (_validateForm()) {
+                  if (_validateFormPhoneNumber() && _validatePasscodeForm()) {
                     final requestModel = AuthRequestModel(
-                        phoneNumber: phoneNumber.text,
+                        phoneNumber: inputPhoneNumber.text,
                         pin: passcode.text,
                         firebaseToken: '32jr982jd9137asd2',
                         platform: 'android',

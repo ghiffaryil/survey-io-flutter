@@ -255,7 +255,6 @@ class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {
             return ButtonFilled.primary(
                 text: 'Verifikasi',
                 onPressed: () {
-                  // Check if any OTP input field is Not Empty
                   if (validateOtpForm(_otpInputControllers)) {
                     String mergedOtpValue = mergeOtpValue(_otpInputControllers);
                     print(mergedOtpValue);

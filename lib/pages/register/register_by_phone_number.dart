@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/bloc/register/request_otp/request_otp_bloc.dart';
+import 'package:survey_io/common/constants/function/validate_form.dart';
+import 'package:survey_io/common/constants/function/validate_form_phone_number.dart';
 import 'package:survey_io/pages/login/login.dart';
 
 import '../../../common/components/elevated_button.dart';
@@ -24,27 +26,20 @@ class RegisterPhoneNumberPage extends StatefulWidget {
 }
 
 class _RegisterPhoneNumberPageState extends State<RegisterPhoneNumberPage> {
-  TextEditingController phoneNumber = TextEditingController();
-  FocusNode phoneNumberFocus = FocusNode();
+  TextEditingController inputPhoneNumber = TextEditingController();
+  FocusNode inputPhoneNumberFocus = FocusNode();
 
   void unfocusAll() {
-    phoneNumberFocus.unfocus();
+    inputPhoneNumberFocus.unfocus();
   }
 
-  bool _validateForm() {
-    if (phoneNumber.text.isEmpty) {
-      Fluttertoast.showToast(
-        msg: 'Masukkan nomor Handphone kamu',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.secondary.withOpacity(0.8),
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-      return false;
-    }
-    return true;
+  bool _validateFormPhoneNumber() {
+    return validateForm(
+      inputPhoneNumber.text,
+      validatePhoneNumberForm,
+      'Masukkan Nomor Handphone kamu',
+      isPhone: true,
+    );
   }
 
   @override
@@ -103,9 +98,9 @@ class _RegisterPhoneNumberPageState extends State<RegisterPhoneNumberPage> {
         ),
         CustomDividers.smallDivider(),
         TextInputField(
-          focusNode: phoneNumberFocus,
+          focusNode: inputPhoneNumberFocus,
           keyboardType: TextInputType.phone,
-          controller: phoneNumber,
+          controller: inputPhoneNumber,
           hintText: '0812345678910',
         ),
       ],
@@ -129,7 +124,7 @@ class _RegisterPhoneNumberPageState extends State<RegisterPhoneNumberPage> {
             loaded: (data) {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) {
-                return VerificationOtpPage(phoneNumber: phoneNumber.text);
+                return VerificationOtpPage(phoneNumber: inputPhoneNumber.text);
               }));
             },
             error: (message) {
@@ -150,10 +145,9 @@ class _RegisterPhoneNumberPageState extends State<RegisterPhoneNumberPage> {
               return ButtonFilled.primary(
                   text: 'Daftar',
                   onPressed: () {
-                    if (_validateForm()) {
-                      context
-                          .read<RequestOtpBloc>()
-                          .add(RequestOtpEvent.requestOtp(phoneNumber.text));
+                    if (_validateFormPhoneNumber()) {
+                      context.read<RequestOtpBloc>().add(
+                          RequestOtpEvent.requestOtp(inputPhoneNumber.text));
                     }
                   });
             },

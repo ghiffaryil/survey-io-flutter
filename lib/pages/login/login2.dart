@@ -2,6 +2,9 @@ import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:survey_io/common/constants/function/validate_form.dart';
+import 'package:survey_io/common/constants/function/validate_form_passcode.dart';
+import 'package:survey_io/common/constants/function/validate_form_phone_number.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 import 'package:survey_io/pages/forgot_passcode/forgot_passcode_by_email.dart';
 import 'package:survey_io/pages/home/home.dart';
@@ -57,31 +60,32 @@ class _LoginMultiplePageState extends State<LoginMultiplePage> {
     passcodeFocus.unfocus();
   }
 
-  bool _validateForm() {
-    if (inputPhoneNumber.text.isEmpty) {
-      Fluttertoast.showToast(
-        msg: 'Masukkan nomor Handphone kamu',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.secondary.withOpacity(0.8),
-        textColor: Colors.white,
-        fontSize: 16.0,
+  bool validateLoginTypeForm(String loginTypeValue) {
+    if (loginTypeValue == "Email") {
+      return validateForm(
+        inputEmail.text,
+        (value) => true,
+        'Masukkan Email kamu',
+        isEmail: true,
       );
-      return false;
-    } else if (passcode.text.isEmpty) {
-      Fluttertoast.showToast(
-        msg: 'Masukkan Passcode kamu',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.secondary.withOpacity(0.8),
-        textColor: Colors.white,
-        fontSize: 16.0,
+    } else if (loginTypeValue == "Phone") {
+      return validateForm(
+        inputPhoneNumber.text,
+        validatePhoneNumberForm,
+        isPhone: true,
+        'Masukkan Nomor Handphone kamu',
       );
-      return false;
     }
-    return true;
+
+    return false; // Add additional cases as needed
+  }
+
+  bool _validatePasscodeForm() {
+    return validateForm(
+      passcode.text,
+      validatePasscodeForm,
+      'Masukkan Passcode kamu',
+    );
   }
 
   @override
@@ -151,9 +155,9 @@ class _LoginMultiplePageState extends State<LoginMultiplePage> {
                   ),
                   CustomDividers.smallDivider(),
                   TextInputField(
-                    focusNode: inputPhoneNumberFocus,
+                    focusNode: inputEmailFocus,
                     keyboardType: TextInputType.emailAddress,
-                    controller: inputPhoneNumber,
+                    controller: inputEmail,
                     hintText: 'Masukkan Email Kamu',
                   ),
                 ],
@@ -240,7 +244,9 @@ class _LoginMultiplePageState extends State<LoginMultiplePage> {
             return ButtonFilled.primary(
                 text: 'Login',
                 onPressed: () {
-                  if (_validateForm()) {
+                  print('Login by $_loginTypeValue');
+                  if (validateLoginTypeForm(_loginTypeValue) &&
+                      _validatePasscodeForm()) {
                     final requestModel = AuthRequestModel(
                         phoneNumber: inputPhoneNumber.text,
                         pin: passcode.text,
@@ -299,10 +305,12 @@ class _LoginMultiplePageState extends State<LoginMultiplePage> {
               if (_loginTypeValue == "Phone") {
                 setState(() {
                   _loginTypeValue = 'Email';
+                  inputEmail.text = "";
                 });
               } else if (_loginTypeValue == "Email") {
                 setState(() {
                   _loginTypeValue = 'Phone';
+                  inputPhoneNumber.text = "";
                 });
               }
               print(_loginTypeValue);

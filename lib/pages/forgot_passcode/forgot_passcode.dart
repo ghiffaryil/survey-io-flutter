@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
+import 'package:survey_io/common/constants/function/validate_form.dart';
+import 'package:survey_io/common/constants/function/validate_form_phone_number.dart';
 import 'package:survey_io/pages/forgot_passcode/forgot_passcode_otp.dart';
 import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_request_otp/forgot_passcode_request_otp_bloc.dart';
 
@@ -21,8 +23,8 @@ class ForgotPasscodePage extends StatefulWidget {
 }
 
 class _ForgotPasscodePageState extends State<ForgotPasscodePage> {
-  TextEditingController phoneNumber = TextEditingController();
-  FocusNode phoneNumberFocus = FocusNode();
+  TextEditingController inputPhoneNumber = TextEditingController();
+  FocusNode inputPhoneNumberFocus = FocusNode();
 
   bool isLogged = false;
   bool isExpiredToken = false;
@@ -33,23 +35,16 @@ class _ForgotPasscodePageState extends State<ForgotPasscodePage> {
   }
 
   void unfocusAll() {
-    phoneNumberFocus.unfocus();
+    inputPhoneNumberFocus.unfocus();
   }
 
-  bool _validateForm() {
-    if (phoneNumber.text.isEmpty) {
-      Fluttertoast.showToast(
-        msg: 'Masukkan Nomor Handphone kamu',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.secondary.withOpacity(0.8),
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-      return false;
-    }
-    return true;
+  bool _validateFormPhoneNumber() {
+    return validateForm(
+      inputPhoneNumber.text,
+      validatePhoneNumberForm,
+      'Masukkan Nomor Handphone kamu',
+      isPhone: true,
+    );
   }
 
   @override
@@ -111,9 +106,9 @@ class _ForgotPasscodePageState extends State<ForgotPasscodePage> {
         ),
         CustomDividers.smallDivider(),
         TextInputField(
-          focusNode: phoneNumberFocus,
+          focusNode: inputPhoneNumberFocus,
           keyboardType: TextInputType.phone,
-          controller: phoneNumber,
+          controller: inputPhoneNumber,
           hintText: 'Masukkan Nomor Handphone',
         ),
       ],
@@ -130,7 +125,7 @@ class _ForgotPasscodePageState extends State<ForgotPasscodePage> {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) {
                 return ForgotPasscodeVerifyOtpPage(
-                  phoneNumber: phoneNumber.text,
+                  phoneNumber: inputPhoneNumber.text,
                 );
               }));
             },
@@ -152,10 +147,10 @@ class _ForgotPasscodePageState extends State<ForgotPasscodePage> {
             return ButtonFilled.primary(
               text: 'Kirim OTP',
               onPressed: () {
-                if (_validateForm()) {
+                if (_validateFormPhoneNumber()) {
                   context.read<ForgotPasscodeRequestOtpBloc>().add(
                       ForgotPasscodeRequestOtpEvent.requestOtp(
-                          phoneNumber.text));
+                          inputPhoneNumber.text));
                 }
               },
             );

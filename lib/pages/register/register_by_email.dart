@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/bloc/register/request_otp/request_otp_bloc.dart';
-import 'package:survey_io/common/constants/function/validate_form_email.dart';
+import 'package:survey_io/common/constants/function/validate_form.dart';
 import 'package:survey_io/pages/email_verification/email_verification_otp.dart';
 import 'package:survey_io/pages/login/login2.dart';
+import 'package:survey_io/pages/profile/profile.dart';
 
 import '../../../common/components/elevated_button.dart';
 import '../../../common/components/input_field_text.dart';
@@ -31,9 +32,13 @@ class _RegisterByEmailPageState extends State<RegisterByEmailPage> {
     inputEmailFocus.unfocus();
   }
 
-  bool _validateForm() {
-    String email = inputEmail.text;
-    return validateEmailForm(email);
+  bool _validateFormEmail() {
+    return validateForm(
+      inputEmail.text,
+      (value) => true,
+      'Masukkan Email kamu',
+      isEmail: true,
+    );
   }
 
   @override
@@ -43,7 +48,9 @@ class _RegisterByEmailPageState extends State<RegisterByEmailPage> {
         leadingIcon: Icons.arrow_back_ios,
         iconColor: AppColors.secondary,
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const Profile();
+          }));
         },
       ),
       body: SingleChildScrollView(
@@ -95,7 +102,7 @@ class _RegisterByEmailPageState extends State<RegisterByEmailPage> {
           focusNode: inputEmailFocus,
           keyboardType: TextInputType.emailAddress,
           controller: inputEmail,
-          hintText: 'email@gmail.com',
+          hintText: 'email@email.com',
         ),
       ],
     );
@@ -139,7 +146,7 @@ class _RegisterByEmailPageState extends State<RegisterByEmailPage> {
               return ButtonFilled.primary(
                   text: 'Daftar',
                   onPressed: () {
-                    if (_validateForm()) {
+                    if (_validateFormEmail()) {
                       context
                           .read<RequestOtpBloc>()
                           .add(RequestOtpEvent.requestOtp(inputEmail.text));

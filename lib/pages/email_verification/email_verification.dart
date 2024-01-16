@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_request_otp/forgot_passcode_request_otp_bloc.dart';
-import 'package:survey_io/common/constants/function/validate_form_email.dart';
+import 'package:survey_io/common/constants/function/validate_form.dart';
 import 'package:survey_io/pages/email_verification/email_verification_otp.dart';
 
 // Import Component
@@ -37,9 +37,13 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     inputEmailFocus.unfocus();
   }
 
-  bool _validateForm() {
-    String email = inputEmail.text;
-    return validateEmailForm(email);
+  bool _validateFormEmail() {
+    return validateForm(
+      inputEmail.text,
+      (value) => true,
+      'Masukkan Email kamu',
+      isEmail: true,
+    );
   }
 
   @override
@@ -104,7 +108,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
           focusNode: inputEmailFocus,
           keyboardType: TextInputType.emailAddress,
           controller: inputEmail,
-          hintText: 'Masukkan Email',
+          hintText: 'email@email.com',
         ),
       ],
     );
@@ -142,7 +146,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
             return ButtonFilled.primary(
               text: 'Kirim OTP ke Email',
               onPressed: () {
-                if (_validateForm()) {
+                if (_validateFormEmail()) {
                   // context.read<ForgotPasscodeRequestOtpBloc>().add(
                   //     ForgotPasscodeRequestOtpEvent.requestOtp(
                   //         inputEmail.text));
