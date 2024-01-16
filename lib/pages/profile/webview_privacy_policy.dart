@@ -7,7 +7,6 @@ import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/pages/profile/profile.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_android/webview_flutter_android.dart';
 import '../../common/components/appbar.dart';
 import '../../common/components/appbar_plain.dart';
 
@@ -44,7 +43,10 @@ class _PrivacyPolicyWebviewState extends State<PrivacyPolicyWebview> {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const Profile()));
           },
-        title: Text('Kebijakan Privasi', style: TextStyles.h3(color: AppColors.secondary),),
+          title: Text(
+            'Kebijakan Privasi',
+            style: TextStyles.h3(color: AppColors.secondary),
+          ),
           icon: const Icon(Icons.arrow_back_ios),
         ),
         body: WebViewWidget(
@@ -67,6 +69,7 @@ class _PrivacyPolicyWebviewState extends State<PrivacyPolicyWebview> {
                   },
                 ),
               )
-              ..loadRequest(Uri.parse('${dotenv.env['WEB_URL']}/privacy-policy'))));
+              ..loadRequest(Uri.parse(
+                  '${dotenv.env['WEB_URL']}/privacy-policy?type=webview'))));
   }
 }

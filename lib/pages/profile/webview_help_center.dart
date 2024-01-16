@@ -70,6 +70,7 @@ class _HelpCenterWebviewState extends State<HelpCenterWebview> {
                   },
                 ),
               )
-              ..loadRequest(Uri.parse('${dotenv.env['WEB_URL']}/faq'))));
+              ..loadRequest(
+                  Uri.parse('${dotenv.env['WEB_URL']}/faq?type=webview'))));
   }
 }

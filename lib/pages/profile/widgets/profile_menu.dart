@@ -163,55 +163,67 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
                   iconColor: AppColors.light,
                   textColor: AppColors.light,
                 ),
-                CustomDividers.smallDivider(),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: LabelInput(
-                      labelText: 'Additional Menu (Dev-Mode)',
-                      labelStyle: TextStyles.h4(color: AppColors.secondary)),
-                ),
-                HorizontalMenu(
-                  imageAsset: IconName.helper,
-                  text: 'Register by Email',
-                  icon: Icons.arrow_forward_ios,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RegisterByEmailPage()));
-                  },
-                  iconColor: AppColors.light,
-                  textColor: AppColors.light,
-                ),
-                HorizontalMenu(
-                  imageAsset: IconName.helper,
-                  text: 'Active Account By Email',
-                  icon: Icons.arrow_forward_ios,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const EmailVerificationPage()));
-                  },
-                  iconColor: AppColors.light,
-                  textColor: AppColors.light,
-                ),
-                HorizontalMenu(
-                  imageAsset: IconName.helper,
-                  text: 'Forgot Passcode by Email',
-                  icon: Icons.arrow_forward_ios,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const ForgotPasscodeByEmail()));
-                  },
-                  iconColor: AppColors.light,
-                  textColor: AppColors.light,
-                ),
-                CustomDividers.smallDivider(),
+
+                // ONLY FOR DEV
+                dotenv.env['MODE'] == "dev"
+                    ? Column(
+                        children: [
+                          CustomDividers.smallDivider(),
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: LabelInput(
+                                labelText: 'Additional Menu (Dev-Mode)',
+                                labelStyle:
+                                    TextStyles.h4(color: AppColors.secondary)),
+                          ),
+                          HorizontalMenu(
+                            imageAsset: IconName.helper,
+                            text: 'Register by Email',
+                            icon: Icons.arrow_forward_ios,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RegisterByEmailPage()));
+                            },
+                            iconColor: AppColors.light,
+                            textColor: AppColors.light,
+                          ),
+                          HorizontalMenu(
+                            imageAsset: IconName.helper,
+                            text: 'Active Account By Email',
+                            icon: Icons.arrow_forward_ios,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EmailVerificationPage()));
+                            },
+                            iconColor: AppColors.light,
+                            textColor: AppColors.light,
+                          ),
+                          HorizontalMenu(
+                            imageAsset: IconName.helper,
+                            text: 'Forgot Passcode by Email',
+                            icon: Icons.arrow_forward_ios,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ForgotPasscodeByEmail()));
+                            },
+                            iconColor: AppColors.light,
+                            textColor: AppColors.light,
+                          ),
+                          CustomDividers.smallDivider(),
+                        ],
+                      )
+                    : CustomDividers.smallDivider(),
+                // ONLY FOR DEV
+
                 versionInformation(),
                 CustomDividers.smallDivider(),
                 buttonLogout(),
