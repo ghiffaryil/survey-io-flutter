@@ -577,7 +577,7 @@ class _MainSectionSurveyDesignState extends State<MainSectionSurveyDesign> {
                                                                                 style: TextStyles.h2(color: AppColors.primary),
                                                                               ),
                                                                               content: Text(
-                                                                                'Mohon maaf, kamu belum dapat melanjutkan fitur pembuatan survey ini',
+                                                                                'Mohon maaf, kamu belum dapat melanjutkan fitur ini',
                                                                                 style: TextStyles.large(color: AppColors.secondary),
                                                                               ),
                                                                               actions: [

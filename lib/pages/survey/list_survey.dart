@@ -158,8 +158,8 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
             error: (message) {
               return Text(message);
             },
-            loaded: (surveyList) {
-              if (surveyList.isEmpty) {
+            loaded: (data) {
+              if (data.isEmpty) {
                 return Container(
                   padding: const EdgeInsets.all(20),
                   child: Column(
@@ -186,9 +186,16 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                 return ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: surveyList.length,
+                  itemCount: data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final survey = surveyList[index];
+                    final survey = data[index];
+                    final surveyId = survey.survey.id;
+                    final surveyTitle = survey.survey.title;
+                    final surveyTotalQuestion = survey.totalQuestion;
+                    final surveyPoint = survey.survey.point.toString();
+                    final surveyLink = survey.survey.surveyLink;
+                    final surveyImageHomescreen = survey.survey.imageHomescreen;
+                    final surveyType = survey.survey.type;
                     return Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
@@ -205,7 +212,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                           SizedBox(
                             height: 120,
                             width: double.infinity,
-                            child: survey.survey.imageHomescreen.isEmpty
+                            child: surveyImageHomescreen.isEmpty
                                 ? const RoundedImage(
                                     imageType: 'asset',
                                     imageUrl:
@@ -215,7 +222,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                   )
                                 : RoundedImage(
                                     imageType: 'network',
-                                    imageUrl: survey.survey.imageHomescreen,
+                                    imageUrl: surveyImageHomescreen,
                                     borderRadius: 8.0,
                                     fit: BoxFit.cover,
                                   ),
@@ -228,12 +235,14 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                               children: [
                                 CustomDividers.verySmallDivider(),
                                 Text(
-                                  survey.survey.title,
+                                  surveyTitle,
                                   style:
                                       TextStyles.h5(color: AppColors.secondary),
                                 ),
                                 const SizedBox(height: 5),
-                                Text('${survey.totalQuestion} Pertanyaan'),
+                                surveyType == "external"
+                                    ? Container()
+                                    : Text('$surveyTotalQuestion Pertanyaan'),
                                 CustomDividers.smallDivider(),
                                 Row(
                                   mainAxisAlignment:
@@ -250,7 +259,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                           width: 10,
                                         ),
                                         Text(
-                                          survey.survey.energy.toString(),
+                                          surveyPoint,
                                           style: TextStyles.large(
                                               fontWeight: FontWeight.bold,
                                               color: AppColors.secondary),
@@ -262,12 +271,11 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                     ),
                                     IconButton(
                                       onPressed: () {
-                                        _onShare(
-                                            context, survey.survey.surveyLink);
+                                        _onShare(context, surveyLink);
                                       },
                                       icon: const Icon(
                                         Icons.share,
-                                        size: 19,
+                                        size: 23,
                                         color: AppColors.info,
                                       ),
                                     ),
@@ -284,20 +292,51 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                           fontWeight: FontWeight.normal,
                                           text: 'Ikut Survei',
                                           onPressed: () {
-                                            print(
-                                                '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${survey.survey.id}?userId=$userId&token=$surveyToken');
                                             survey.allowed
-                                                ? Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            WebviewSurvey(
-                                                              // url:'https://0fb0-158-140-180-13.ngrok-free.app/home/survey/participate/${survey.survey.id}?userId=$userId&token=$surveyToken',
-                                                              url:
-                                                                  '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${survey.survey.id}?userId=$userId&token=$surveyToken',
-                                                              title: survey
-                                                                  .survey.title,
-                                                            )))
+                                                ? surveyType == "external"
+                                                    ? Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                WebviewSurvey(
+                                                                  url:
+                                                                      surveyLink,
+                                                                  title:
+                                                                      surveyTitle,
+                                                                )))
+                                                    : surveyTotalQuestion == 0
+                                                        ? Fluttertoast
+                                                            .showToast(
+                                                            msg:
+                                                                'Mohon Maaf, Survey ini belum dapat diakses!',
+                                                            toastLength: Toast
+                                                                .LENGTH_SHORT,
+                                                            gravity:
+                                                                ToastGravity
+                                                                    .BOTTOM,
+                                                            timeInSecForIosWeb:
+                                                                1,
+                                                            backgroundColor:
+                                                                AppColors
+                                                                    .secondary
+                                                                    .withOpacity(
+                                                                        0.8),
+                                                            textColor:
+                                                                Colors.white,
+                                                            fontSize: 16.0,
+                                                          )
+                                                        : Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        WebviewSurvey(
+                                                                          url:
+                                                                              '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/$surveyId?userId=$userId&token=$surveyToken',
+                                                                          title: survey
+                                                                              .survey
+                                                                              .title,
+                                                                        )))
                                                 : Fluttertoast.showToast(
                                                     msg:
                                                         'Kamu telah mengikuti survei ini',

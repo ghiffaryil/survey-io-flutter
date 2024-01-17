@@ -312,6 +312,14 @@ class _MainSectionState extends State<MainSection> {
                         child: ShimmerCardMain(),
                       ));
                 }, loaded: (data) {
+                  final surveyId = data.survey.id;
+                  final surveyTitle = data.survey.title;
+                  final surveyTotalQuestion = data.totalQuestion;
+                  final surveyPoint = data.survey.point.toString();
+                  final surveyLink = data.survey.surveyLink;
+                  final surveyImageContent = data.survey.imageContent;
+                  final surveyType = data.survey.type;
+
                   return Container(
                     height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
@@ -334,12 +342,12 @@ class _MainSectionState extends State<MainSection> {
                           child: Container(
                               padding: const EdgeInsets.all(10),
                               child: RoundedImage(
-                                imageType: data.survey.imageContent == ""
+                                imageType: surveyImageContent == ""
                                     ? 'asset'
                                     : 'network',
-                                imageUrl: data.survey.imageContent == ""
+                                imageUrl: surveyImageContent == ""
                                     ? Images.emptyCreateSurvey
-                                    : data.survey.imageContent.toString(),
+                                    : surveyImageContent.toString(),
                                 borderRadius: 8.0,
                               )),
                         ),
@@ -353,12 +361,13 @@ class _MainSectionState extends State<MainSection> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    data.survey.title,
+                                    surveyTitle,
                                     style: TextStyles.h5(
                                         color: AppColors.secondary),
                                   ),
-                                  Text(
-                                      '${data.totalQuestion.toString()} Pertanyaan'),
+                                  surveyType == "external"
+                                      ? Container()
+                                      : Text('$surveyTotalQuestion Pertanyaan'),
                                   CustomDividers.verySmallDivider(),
                                   Row(
                                     mainAxisAlignment:
@@ -368,18 +377,32 @@ class _MainSectionState extends State<MainSection> {
                                         children: [
                                           Image.asset(
                                             IconName.point,
-                                            width: 25,
-                                            height: 25,
+                                            width: 22,
+                                            height: 22,
                                           ),
                                           const SizedBox(
                                             width: 10,
                                           ),
                                           Text(
-                                            data.survey.energy.toString(),
-                                            style: TextStyles.h6(
+                                            surveyPoint,
+                                            style: TextStyles.medium(
+                                                fontWeight: FontWeight.bold,
                                                 color: AppColors.secondary),
                                           ),
                                         ],
+                                      ),
+                                      const Spacer(
+                                        flex: 1,
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          _onShare(context, surveyLink);
+                                        },
+                                        icon: const Icon(
+                                          Icons.share,
+                                          size: 19,
+                                          color: AppColors.info,
+                                        ),
                                       ),
                                       Padding(
                                         padding:
@@ -391,9 +414,7 @@ class _MainSectionState extends State<MainSection> {
                                             fontWeight: FontWeight.normal,
                                             text: 'Ikut Survei',
                                             onPressed: () {
-                                              print(
-                                                  '${data.survey.surveyLink}?userId=$userId&token=$surveyToken');
-
+                                              // print('$surveyLink?userId=$userId&token=$surveyToken');
                                               isGuest
                                                   ? Navigator.push(
                                                       context,
@@ -401,16 +422,49 @@ class _MainSectionState extends State<MainSection> {
                                                           builder: (context) =>
                                                               const LoginPage()))
                                                   : data.allowed
-                                                      ? Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  WebviewSurvey(
-                                                                      url:
-                                                                          '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${data.survey.id}?userId=$userId&token=$surveyToken',
-                                                                      title: data
-                                                                          .survey
-                                                                          .title)))
+                                                      ? surveyType == "external"
+                                                          ? Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          WebviewSurvey(
+                                                                            url:
+                                                                                surveyLink,
+                                                                            title:
+                                                                                surveyTitle,
+                                                                          )))
+                                                          : surveyTotalQuestion ==
+                                                                  0
+                                                              ? Fluttertoast
+                                                                  .showToast(
+                                                                  msg:
+                                                                      'Mohon Maaf, Survey ini belum dapat diakses!',
+                                                                  toastLength: Toast
+                                                                      .LENGTH_SHORT,
+                                                                  gravity:
+                                                                      ToastGravity
+                                                                          .BOTTOM,
+                                                                  timeInSecForIosWeb:
+                                                                      1,
+                                                                  backgroundColor: AppColors
+                                                                      .secondary
+                                                                      .withOpacity(
+                                                                          0.8),
+                                                                  textColor:
+                                                                      Colors
+                                                                          .white,
+                                                                  fontSize:
+                                                                      16.0,
+                                                                )
+                                                              : Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) => WebviewSurvey(
+                                                                          url:
+                                                                              '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/$surveyId?userId=$userId&token=$surveyToken',
+                                                                          title:
+                                                                              surveyTitle)))
                                                       : Fluttertoast.showToast(
                                                           msg:
                                                               'Kamu telah mengikuti survei ini',
@@ -533,8 +587,13 @@ class _MainSectionState extends State<MainSection> {
                           },
                           itemCount: data.length,
                           itemBuilder: (context, index) {
-                            final pollingTodayData = data[index].polling;
-                            final pollingText = pollingTodayData.title;
+                            final pollingToday = data[index];
+
+                            final pollingTitle = pollingToday.polling.title;
+                            final pollingPoint =
+                                pollingToday.polling.point.toString();
+                            final pollingTotalVote =
+                                pollingToday.totalVote.toString();
 
                             return Padding(
                               padding:
@@ -565,7 +624,7 @@ class _MainSectionState extends State<MainSection> {
                                           Expanded(
                                             flex: 7,
                                             child: Text(
-                                              pollingText,
+                                              pollingTitle,
                                               style: TextStyles.h4(
                                                   color: AppColors.secondary),
                                             ),
@@ -581,7 +640,7 @@ class _MainSectionState extends State<MainSection> {
                                                   right: 10),
                                               alignment: Alignment.centerRight,
                                               child: Image.asset(
-                                                data[index].allowed
+                                                pollingToday.allowed
                                                     ? IconName.pollingCheck
                                                     : IconName
                                                         .pollingCheckSuccess,
@@ -611,8 +670,7 @@ class _MainSectionState extends State<MainSection> {
                                                   width: 10,
                                                 ),
                                                 Text(
-                                                  pollingTodayData.point
-                                                      .toString(),
+                                                  pollingPoint.toString(),
                                                   style: TextStyles.h6(
                                                       color:
                                                           AppColors.secondary),
@@ -625,7 +683,7 @@ class _MainSectionState extends State<MainSection> {
                                                   color: AppColors.info),
                                             ),
                                       Text(
-                                        '${data[index].totalVote.toString()} vote',
+                                        '$pollingTotalVote vote',
                                         style: TextStyles.small(
                                             color: AppColors.secondary),
                                       )
@@ -721,13 +779,14 @@ class _MainSectionState extends State<MainSection> {
                           itemCount: data.length,
                           itemBuilder: (BuildContext context, int index) {
                             final survey = data[index];
+                            final surveyId = survey.survey.id;
                             final surveyTitle = survey.survey.title;
-
-                            final totalSurveyQuestions = survey.totalQuestion;
-
-                            final surveyEnergy =
-                                survey.survey.energy.toString();
-                            final surveyImage = survey.survey.imageHomescreen;
+                            final surveyTotalQuestion = survey.totalQuestion;
+                            final surveyPoint = survey.survey.point.toString();
+                            final surveyLink = survey.survey.surveyLink;
+                            final surveyImageContent =
+                                survey.survey.imageContent;
+                            final surveyType = survey.survey.type;
 
                             return Column(
                               children: [
@@ -762,12 +821,15 @@ class _MainSectionState extends State<MainSection> {
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 10),
                                                 child: RoundedImage(
-                                                  imageType: surveyImage == ''
-                                                      ? 'asset'
-                                                      : 'network',
-                                                  imageUrl: surveyImage == ''
-                                                      ? Images.emptyCreateSurvey
-                                                      : surveyImage,
+                                                  imageType:
+                                                      surveyImageContent == ''
+                                                          ? 'asset'
+                                                          : 'network',
+                                                  imageUrl:
+                                                      surveyImageContent == ''
+                                                          ? Images
+                                                              .emptyCreateSurvey
+                                                          : surveyImageContent,
                                                   borderRadius: 8.0,
                                                   fit: BoxFit.cover,
                                                   width: 100,
@@ -795,45 +857,44 @@ class _MainSectionState extends State<MainSection> {
                                                             .secondary),
                                                   ),
                                                   const SizedBox(height: 5),
-                                                  Text(
-                                                      '$totalSurveyQuestions Pertanyaan'),
+                                                  surveyType == "external"
+                                                      ? Container()
+                                                      : Text(
+                                                          '$surveyTotalQuestion Pertanyaan'),
                                                   CustomDividers.smallDivider(),
                                                   Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      Image.asset(
-                                                        IconName.point,
-                                                        width: 25,
-                                                        height: 25,
+                                                      Row(
+                                                        children: [
+                                                          Image.asset(
+                                                            IconName.point,
+                                                            width: 22,
+                                                            height: 22,
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Text(
+                                                            surveyPoint,
+                                                            style: TextStyles.medium(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: AppColors
+                                                                    .secondary),
+                                                          ),
+                                                        ],
                                                       ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.01,
-                                                      ),
-                                                      Text(
-                                                        surveyEnergy,
-                                                        style: TextStyles.h6(
-                                                            color: AppColors
-                                                                .secondary),
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.075,
+                                                      const Spacer(
+                                                        flex: 1,
                                                       ),
                                                       IconButton(
                                                         onPressed: () {
-                                                          _onShare(
-                                                              context,
-                                                              survey.survey
-                                                                  .surveyLink);
+                                                          _onShare(context,
+                                                              surveyLink);
                                                         },
                                                         icon: const Icon(
                                                           Icons.share,
@@ -858,22 +919,37 @@ class _MainSectionState extends State<MainSection> {
                                                                 text:
                                                                     'Ikut Survei',
                                                                 onPressed: () {
-                                                                  print(
-                                                                      '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${survey.survey.id}?userId=$userId&token=$surveyToken');
                                                                   isGuest
                                                                       ? Navigator.push(
                                                                           context,
                                                                           MaterialPageRoute(
                                                                               builder: (context) => const LoginPage()))
                                                                       : survey.allowed
-                                                                          ? Navigator.push(
-                                                                              context,
-                                                                              MaterialPageRoute(
-                                                                                  builder: (context) => WebviewSurvey(
-                                                                                        // url: '${survey.survey.surveyLink}?userId=$userId&token=$surveyToken',
-                                                                                        url: '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/${survey.survey.id}?userId=$userId&token=$surveyToken',
-                                                                                        title: survey.survey.title,
-                                                                                      )))
+                                                                          ? surveyType == "external"
+                                                                              ? Navigator.push(
+                                                                                  context,
+                                                                                  MaterialPageRoute(
+                                                                                      builder: (context) => WebviewSurvey(
+                                                                                            url: surveyLink,
+                                                                                            title: surveyTitle,
+                                                                                          )))
+                                                                              : surveyTotalQuestion == 0
+                                                                                  ? Fluttertoast.showToast(
+                                                                                      msg: 'Mohon Maaf, Survey ini belum dapat diakses!',
+                                                                                      toastLength: Toast.LENGTH_SHORT,
+                                                                                      gravity: ToastGravity.BOTTOM,
+                                                                                      timeInSecForIosWeb: 1,
+                                                                                      backgroundColor: AppColors.secondary.withOpacity(0.8),
+                                                                                      textColor: Colors.white,
+                                                                                      fontSize: 16.0,
+                                                                                    )
+                                                                                  : Navigator.push(
+                                                                                      context,
+                                                                                      MaterialPageRoute(
+                                                                                          builder: (context) => WebviewSurvey(
+                                                                                                url: '${dotenv.env['WEBVIEW_URL']}/home/survey/participate/$surveyId?userId=$userId&token=$surveyToken',
+                                                                                                title: surveyTitle,
+                                                                                              )))
                                                                           : Fluttertoast.showToast(
                                                                               msg: 'Kamu telah mengikuti survei ini',
                                                                               toastLength: Toast.LENGTH_SHORT,
