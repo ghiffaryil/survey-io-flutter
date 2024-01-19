@@ -3,20 +3,21 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:survey_io/bloc/verify_otp/verify_otp_bloc.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/function/merge_value_otp.dart';
+import 'package:survey_io/common/constants/function/show_toast.dart';
 import 'package:survey_io/common/constants/function/validate_form_otp.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/divider.dart';
-import 'package:survey_io/datasources/register/request_otp.dart';
-import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_verify_otp/forgot_passcode_verify_otp_bloc.dart';
+import 'package:survey_io/datasources/otp/request_otp_email.dart';
+import 'package:survey_io/pages/login/login.dart';
 
-import 'package:survey_io/common/components/appbar_plain.dart';
-import 'package:survey_io/common/constants/padding.dart';
+import '../../../common/components/appbar_plain.dart';
+import '../../../common/constants/padding.dart';
 
 class EmailVerificationOtpPage extends StatefulWidget {
   final String inputEmail;
@@ -28,15 +29,15 @@ class EmailVerificationOtpPage extends StatefulWidget {
 
   @override
   State<EmailVerificationOtpPage> createState() =>
-      _ForgotPasscodeVeriegeState();
+      _EmailVerificationOtpPageState();
 }
 
-class _ForgotPasscodeVeriegeState extends State<EmailVerificationOtpPage> {
+class _EmailVerificationOtpPageState extends State<EmailVerificationOtpPage> {
   String otpCode = '';
 
-  final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
+  final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
   final List<TextEditingController> _otpInputControllers =
-      List.generate(4, (_) => TextEditingController());
+      List.generate(6, (_) => TextEditingController());
 
   int _secondsRemaining = 59; // Initial value for the countdown timer
   bool _timerActive = true;
@@ -51,7 +52,7 @@ class _ForgotPasscodeVeriegeState extends State<EmailVerificationOtpPage> {
   @override
   void dispose() {
     _timer.cancel();
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 6; i++) {
       _focusNodes[i].dispose();
       _otpInputControllers[i].dispose();
     }
@@ -83,90 +84,99 @@ class _ForgotPasscodeVeriegeState extends State<EmailVerificationOtpPage> {
       ),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
-        child: Container(
-          padding: CustomPadding.pdefault,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              buildLabelText(),
-              CustomDividers.smallDivider(),
-              buildFormInputOTP(),
-              CustomDividers.smallDivider(),
-              buildFormResetOTP(),
-              CustomDividers.smallDivider(),
-              CustomDividers.smallDivider(),
-              buildButtonVerification(),
-              CustomDividers.smallDivider(),
-            ],
-          ),
+        child: Column(
+          children: [
+            Container(
+              padding: CustomPadding.px2,
+              child: labelText(),
+            ),
+            Container(
+              padding: CustomPadding.p2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  formInputOTP(),
+                  CustomDividers.smallDivider(),
+                  formResetOTP(),
+                  CustomDividers.smallDivider(),
+                  CustomDividers.smallDivider(),
+                  buildButtonVerification(),
+                  CustomDividers.smallDivider(),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget buildLabelText() {
+  Widget labelText() {
     return Container(
       alignment: Alignment.centerLeft,
       child: Text(
-        'Verifikasi',
+        'Verifikasi OTP',
         style: TextStyles.h2(color: AppColors.secondary),
       ),
     );
   }
 
-  Widget buildFormInputOTP() {
+  Widget formInputOTP() {
     return Column(
       children: [
         Container(
           alignment: Alignment.centerLeft,
           child: Text(
-            '2. Masukkan 4 digit angka OTP dari Email kamu',
+            '2. Masukkan 6 digit angka OTP dari Email kamu',
             style: TextStyles.h4(color: AppColors.secondary),
           ),
         ),
         CustomDividers.smallDivider(),
         CustomDividers.smallDivider(),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 35),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(4, (index) {
-              return SizedBox(
-                width: 60.0,
-                height: 60.0,
-                child: TextFormField(
-                  style: TextStyles.h4(color: AppColors.secondary),
-                  controller: _otpInputControllers[index],
-                  focusNode: _focusNodes[index],
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  maxLength: 1,
-                  onChanged: (value) {
-                    if (value.isNotEmpty) {
-                      if (index < 3) {
-                        FocusScope.of(context)
-                            .requestFocus(_focusNodes[index + 1]);
-                      } else {
-                        FocusScope.of(context).unfocus();
-                      }
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: List.generate(6, (index) {
+            return Container(
+              width: 55.0,
+              height: 65.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                    color: AppColors.secondary,
+                    width: 1.0), // Add your border color
+              ),
+              child: TextFormField(
+                style: TextStyles.h3(color: AppColors.secondary),
+                controller: _otpInputControllers[index],
+                focusNode: _focusNodes[index],
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                maxLength: 1,
+                onChanged: (value) {
+                  if (value.isNotEmpty) {
+                    if (index < 5) {
+                      FocusScope.of(context)
+                          .requestFocus(_focusNodes[index + 1]);
+                    } else {
+                      FocusScope.of(context).unfocus();
                     }
-                  },
-                  decoration: InputDecoration(
-                    counterText: '',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                  ),
+                  }
+                },
+                decoration: const InputDecoration(
+                  counterText: '',
+                  focusedBorder: InputBorder.none, // Remove border when focused
+                  enabledBorder:
+                      InputBorder.none, // Remove border when not focused
                 ),
-              );
-            }),
-          ),
+              ),
+            );
+          }),
         ),
       ],
     );
   }
 
-  Widget buildFormResetOTP() {
+  Widget formResetOTP() {
     String timerText =
         _timerActive ? '(${_secondsRemaining.toString().padLeft(2, '0')})' : '';
 
@@ -186,16 +196,20 @@ class _ForgotPasscodeVeriegeState extends State<EmailVerificationOtpPage> {
               TextSpan(
                 recognizer: _timerActive ? null : TapGestureRecognizer()
                   ?..onTap = () async {
-                    final datasource = RequestOtpDatasource();
+                    final datasource = RequestOtpEmailDatasource();
                     final result =
                         await datasource.requestOtp(widget.inputEmail);
                     if (result.isRight()) {
+                      print(widget.inputEmail);
+
                       setState(() {
                         _otpInputControllers[0].text = '';
                         _otpInputControllers[1].text = '';
                         _otpInputControllers[2].text = '';
                         _otpInputControllers[3].text = '';
-                        _secondsRemaining = 59;
+                        _otpInputControllers[4].text = '';
+                        _otpInputControllers[5].text = '';
+                        _secondsRemaining = 300;
                         _timerActive = true;
                         _startTimer();
                       });
@@ -223,53 +237,45 @@ class _ForgotPasscodeVeriegeState extends State<EmailVerificationOtpPage> {
   }
 
   Widget buildButtonVerification() {
-    return BlocListener<ForgotPasscodeVerifyOtpBloc,
-        ForgotPasscodeVerifyOtpState>(
+    return BlocListener<VerifyOtpBloc, VerifyOtpState>(
       listener: (context, state) {
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
-              // Navigator.pushReplacement(context,
-              //     MaterialPageRoute(builder: (context) {
-              //   // return ForgotPasscodeFormPage(
-              //   //   sendinputEmail: widget.inputEmail,
-              //   // );
-              // }));
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return const LoginPage();
+              }));
             },
-            error: (message) {
-              Fluttertoast.showToast(
-                  msg: message,
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: AppColors.secondary.withOpacity(0.8),
-                  textColor: Colors.white,
-                  fontSize: 16.0);
+            error: (msg) {
+              showToast(message: msg);
             });
       },
-      child: BlocBuilder<ForgotPasscodeVerifyOtpBloc,
-          ForgotPasscodeVerifyOtpState>(
+      child: BlocBuilder<VerifyOtpBloc, VerifyOtpState>(
         builder: (context, state) {
-          return state.maybeWhen(orElse: () {
-            return ButtonFilled.primary(
-                text: 'Verifikasi',
-                onPressed: () {
-                  // Check if any OTP input field is Not Empty
-                  if (validateOtpForm(_otpInputControllers)) {
-                    String mergedOtpValue = mergeOtpValue(_otpInputControllers);
-                    print(mergedOtpValue);
-                    context.read<ForgotPasscodeVerifyOtpBloc>().add(
-                        ForgotPasscodeVerifyOtpEvent.verifyOtp(
-                            widget.inputEmail, mergedOtpValue));
-                  }
-                });
-          }, loading: () {
-            return ButtonFilled.primary(
-                textColor: AppColors.white,
+          return state.maybeWhen(
+            orElse: () {
+              return ButtonFilled.primary(
+                  text: 'Verifikasi',
+                  onPressed: () {
+                    if (validateOtpForm(_otpInputControllers)) {
+                      String mergedOtpValue =
+                          mergeOtpValue(_otpInputControllers);
+                      context.read<VerifyOtpBloc>().add(
+                          VerifyOtpEvent.verifyOtp(
+                              widget.inputEmail, mergedOtpValue));
+                    }
+                  });
+            },
+            loading: () {
+              return ButtonFilled.primary(
                 text: '',
                 loading: true,
-                onPressed: () {});
-          });
+                onPressed: () {},
+                textColor: AppColors.white,
+              );
+            },
+          );
         },
       ),
     );

@@ -4,5 +4,5 @@ part of 'forgot_passcode_verify_otp_bloc.dart';
 class ForgotPasscodeVerifyOtpEvent with _$ForgotPasscodeVerifyOtpEvent {
   const factory ForgotPasscodeVerifyOtpEvent.started() = _Started;
   const factory ForgotPasscodeVerifyOtpEvent.verifyOtp(
-      String phoneNumber, String otpCode) = _VerifyOtp;
+      String email, String otpCode) = _VerifyOtp;
 }

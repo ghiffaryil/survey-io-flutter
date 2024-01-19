@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
-import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_request_otp/forgot_passcode_request_otp_bloc.dart';
+import 'package:survey_io/common/constants/function/show_toast.dart';
 import 'package:survey_io/common/constants/function/validate_form.dart';
+import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_request_otp/forgot_passcode_request_otp_bloc.dart';
 import 'package:survey_io/pages/email_verification/email_verification_otp.dart';
 
 // Import Component
@@ -121,22 +121,15 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
-              // Navigator.pushReplacement(context,
-              //     MaterialPageRoute(builder: (context) {
-              //   return ForgotPasscodeVerifyOtpPage(
-              //     inputEmail: inputEmail.text,
-              //   );
-              // }));
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return EmailVerificationOtpPage(
+                  inputEmail: inputEmail.text,
+                );
+              }));
             },
-            error: (message) {
-              Fluttertoast.showToast(
-                  msg: message,
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: AppColors.secondary.withOpacity(0.8),
-                  textColor: Colors.white,
-                  fontSize: 16.0);
+            error: (msg) {
+              showToast(message: msg);
             });
       },
       child: BlocBuilder<ForgotPasscodeRequestOtpBloc,

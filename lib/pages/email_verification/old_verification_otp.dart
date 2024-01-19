@@ -3,41 +3,41 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:survey_io/bloc/verify_otp/verify_otp_bloc.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 
 // Import Component
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/function/merge_value_otp.dart';
+import 'package:survey_io/common/constants/function/show_toast.dart';
 import 'package:survey_io/common/constants/function/validate_form_otp.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/divider.dart';
-import 'package:survey_io/datasources/register/request_otp.dart';
-import 'package:survey_io/pages/forgot_passcode/forgot_passcod_form.dart';
-import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_verify_otp/forgot_passcode_verify_otp_bloc.dart';
+import 'package:survey_io/datasources/otp/request_otp.dart';
 
-import 'package:survey_io/common/components/appbar_plain.dart';
-import 'package:survey_io/common/constants/padding.dart';
+import '../../../common/components/appbar_plain.dart';
+import '../../../common/constants/padding.dart';
 
-class ForgotPasscodeVerifyOtpPage extends StatefulWidget {
-  final String phoneNumber;
+class RegisterVerificationOtpPage extends StatefulWidget {
+  final String inputEmail;
 
-  const ForgotPasscodeVerifyOtpPage({
+  const RegisterVerificationOtpPage({
     super.key,
-    required this.phoneNumber,
+    required this.inputEmail,
   });
 
   @override
-  State<ForgotPasscodeVerifyOtpPage> createState() =>
-      _ForgotPasscodeVeriegeState();
+  State<RegisterVerificationOtpPage> createState() =>
+      _RegisterVerificationOtpPageState();
 }
 
-class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {
+class _RegisterVerificationOtpPageState
+    extends State<RegisterVerificationOtpPage> {
   String otpCode = '';
 
-  final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
+  final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
   final List<TextEditingController> _otpInputControllers =
-      List.generate(4, (_) => TextEditingController());
+      List.generate(6, (_) => TextEditingController());
 
   int _secondsRemaining = 59; // Initial value for the countdown timer
   bool _timerActive = true;
@@ -52,7 +52,7 @@ class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {
   @override
   void dispose() {
     _timer.cancel();
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 6; i++) {
       _focusNodes[i].dispose();
       _otpInputControllers[i].dispose();
     }
@@ -84,28 +84,34 @@ class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {
       ),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
-        child: Container(
-          padding: CustomPadding.pdefault,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              buildLabelText(),
-              CustomDividers.smallDivider(),
-              buildFormInputOTP(),
-              CustomDividers.smallDivider(),
-              buildFormResetOTP(),
-              CustomDividers.smallDivider(),
-              CustomDividers.smallDivider(),
-              buildButtonVerification(),
-              CustomDividers.smallDivider(),
-            ],
-          ),
+        child: Column(
+          children: [
+            Container(
+              padding: CustomPadding.px2,
+              child: labelText(),
+            ),
+            Container(
+              padding: CustomPadding.p2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  formInputOTP(),
+                  CustomDividers.smallDivider(),
+                  formResetOTP(),
+                  CustomDividers.smallDivider(),
+                  CustomDividers.smallDivider(),
+                  buildButtonVerification(),
+                  CustomDividers.smallDivider(),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget buildLabelText() {
+  Widget labelText() {
     return Container(
       alignment: Alignment.centerLeft,
       child: Text(
@@ -115,13 +121,13 @@ class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {
     );
   }
 
-  Widget buildFormInputOTP() {
+  Widget formInputOTP() {
     return Column(
       children: [
         Container(
           alignment: Alignment.centerLeft,
           child: Text(
-            '2. Masukkan 4 digit WhatsApp OTP',
+            '2. Masukkan 6 digit angka OTP dari Email kamu',
             style: TextStyles.h4(color: AppColors.secondary),
           ),
         ),
@@ -131,10 +137,10 @@ class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {
           padding: const EdgeInsets.symmetric(horizontal: 35),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(4, (index) {
+            children: List.generate(6, (index) {
               return SizedBox(
-                width: 60.0,
-                height: 60.0,
+                width: 50.0,
+                height: 50.0,
                 child: TextFormField(
                   style: TextStyles.h4(color: AppColors.secondary),
                   controller: _otpInputControllers[index],
@@ -144,7 +150,7 @@ class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {
                   maxLength: 1,
                   onChanged: (value) {
                     if (value.isNotEmpty) {
-                      if (index < 3) {
+                      if (index < 5) {
                         FocusScope.of(context)
                             .requestFocus(_focusNodes[index + 1]);
                       } else {
@@ -167,7 +173,7 @@ class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {
     );
   }
 
-  Widget buildFormResetOTP() {
+  Widget formResetOTP() {
     String timerText =
         _timerActive ? '(${_secondsRemaining.toString().padLeft(2, '0')})' : '';
 
@@ -189,14 +195,16 @@ class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {
                   ?..onTap = () async {
                     final datasource = RequestOtpDatasource();
                     final result =
-                        await datasource.requestOtp(widget.phoneNumber);
+                        await datasource.requestOtp(widget.inputEmail);
                     if (result.isRight()) {
                       setState(() {
                         _otpInputControllers[0].text = '';
                         _otpInputControllers[1].text = '';
                         _otpInputControllers[2].text = '';
                         _otpInputControllers[3].text = '';
-                        _secondsRemaining = 59;
+                        _otpInputControllers[4].text = '';
+                        _otpInputControllers[5].text = '';
+                        _secondsRemaining = 240;
                         _timerActive = true;
                         _startTimer();
                       });
@@ -224,43 +232,39 @@ class _ForgotPasscodeVeriegeState extends State<ForgotPasscodeVerifyOtpPage> {
   }
 
   Widget buildButtonVerification() {
-    return BlocListener<ForgotPasscodeVerifyOtpBloc,
-        ForgotPasscodeVerifyOtpState>(
+    return BlocListener<VerifyOtpBloc, VerifyOtpState>(
       listener: (context, state) {
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) {
-                return ForgotPasscodeFormPage(
-                  sendPhoneNumber: widget.phoneNumber,
-                );
-              }));
+              // String otpCode = data.otpCode;
+              // int otpId = data.id;
+
+              // Navigator.pushReplacement(context,
+              //     MaterialPageRoute(builder: (context) {
+              //   return RegisterCompleteProfilePage(
+              //     email: widget.inputEmail,
+              //     otpCode: otpCode,
+              //     otpId: otpId,
+              //   );
+              // }));
             },
-            error: (message) {
-              Fluttertoast.showToast(
-                  msg: message,
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: AppColors.secondary.withOpacity(0.8),
-                  textColor: Colors.white,
-                  fontSize: 16.0);
+            error: (msg) {
+              showToast(message: msg);
             });
       },
-      child: BlocBuilder<ForgotPasscodeVerifyOtpBloc,
-          ForgotPasscodeVerifyOtpState>(
+      child: BlocBuilder<VerifyOtpBloc, VerifyOtpState>(
         builder: (context, state) {
           return state.maybeWhen(orElse: () {
             return ButtonFilled.primary(
                 text: 'Verifikasi',
                 onPressed: () {
+                  // Check if any OTP input field is Not Empty
                   if (validateOtpForm(_otpInputControllers)) {
                     String mergedOtpValue = mergeOtpValue(_otpInputControllers);
                     print(mergedOtpValue);
-                    context.read<ForgotPasscodeVerifyOtpBloc>().add(
-                        ForgotPasscodeVerifyOtpEvent.verifyOtp(
-                            widget.phoneNumber, mergedOtpValue));
+                    context.read<VerifyOtpBloc>().add(VerifyOtpEvent.verifyOtp(
+                        widget.inputEmail, mergedOtpValue));
                   }
                 });
           }, loading: () {

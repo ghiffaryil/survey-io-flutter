@@ -11,9 +11,10 @@ class DateInputField extends StatefulWidget {
   final DateTime lastDate;
   final bool showSuffixIcon;
   final bool showPrefixIcon;
+  final DateTime? initialDate;
 
   const DateInputField({
-    super.key,
+    Key? key,
     required this.focusNode,
     required this.controller,
     required this.hintText,
@@ -21,7 +22,8 @@ class DateInputField extends StatefulWidget {
     required this.lastDate,
     this.showSuffixIcon = false,
     this.showPrefixIcon = false,
-  });
+    this.initialDate,
+  }) : super(key: key);
 
   @override
   DateInputFieldState createState() => DateInputFieldState();
@@ -29,6 +31,15 @@ class DateInputField extends StatefulWidget {
 
 class DateInputFieldState extends State<DateInputField> {
   DateTime? _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = widget.initialDate;
+    if (_selectedDate != null) {
+      widget.controller.text = DateFormat('dd-MM-yyyy').format(_selectedDate!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +73,7 @@ class DateInputFieldState extends State<DateInputField> {
       onTap: () async {
         DateTime? selectedDate = await showDatePicker(
           context: context,
-          initialDate: DateTime.now(),
+          initialDate: _selectedDate ?? DateTime.now(),
           firstDate: widget.firstDate,
           lastDate: widget.lastDate,
         );

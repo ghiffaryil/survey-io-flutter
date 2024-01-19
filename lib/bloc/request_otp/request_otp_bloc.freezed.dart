@@ -19,19 +19,19 @@ mixin _$RequestOtpEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String phoneNumber) requestOtp,
+    required TResult Function(String email) requestOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String phoneNumber)? requestOtp,
+    TResult? Function(String email)? requestOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String phoneNumber)? requestOtp,
+    TResult Function(String email)? requestOtp,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -113,7 +113,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String phoneNumber) requestOtp,
+    required TResult Function(String email) requestOtp,
   }) {
     return started();
   }
@@ -122,7 +122,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String phoneNumber)? requestOtp,
+    TResult? Function(String email)? requestOtp,
   }) {
     return started?.call();
   }
@@ -131,7 +131,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String phoneNumber)? requestOtp,
+    TResult Function(String email)? requestOtp,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -182,7 +182,7 @@ abstract class _$$RequestOtpImplCopyWith<$Res> {
           _$RequestOtpImpl value, $Res Function(_$RequestOtpImpl) then) =
       __$$RequestOtpImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String phoneNumber});
+  $Res call({String email});
 }
 
 /// @nodoc
@@ -196,12 +196,12 @@ class __$$RequestOtpImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? phoneNumber = null,
+    Object? email = null,
   }) {
     return _then(_$RequestOtpImpl(
-      null == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
+      null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -210,14 +210,14 @@ class __$$RequestOtpImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$RequestOtpImpl implements _RequestOtp {
-  const _$RequestOtpImpl(this.phoneNumber);
+  const _$RequestOtpImpl(this.email);
 
   @override
-  final String phoneNumber;
+  final String email;
 
   @override
   String toString() {
-    return 'RequestOtpEvent.requestOtp(phoneNumber: $phoneNumber)';
+    return 'RequestOtpEvent.requestOtp(email: $email)';
   }
 
   @override
@@ -225,12 +225,11 @@ class _$RequestOtpImpl implements _RequestOtp {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RequestOtpImpl &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                other.phoneNumber == phoneNumber));
+            (identical(other.email, email) || other.email == email));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, phoneNumber);
+  int get hashCode => Object.hash(runtimeType, email);
 
   @JsonKey(ignore: true)
   @override
@@ -242,29 +241,29 @@ class _$RequestOtpImpl implements _RequestOtp {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String phoneNumber) requestOtp,
+    required TResult Function(String email) requestOtp,
   }) {
-    return requestOtp(phoneNumber);
+    return requestOtp(email);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String phoneNumber)? requestOtp,
+    TResult? Function(String email)? requestOtp,
   }) {
-    return requestOtp?.call(phoneNumber);
+    return requestOtp?.call(email);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String phoneNumber)? requestOtp,
+    TResult Function(String email)? requestOtp,
     required TResult orElse(),
   }) {
     if (requestOtp != null) {
-      return requestOtp(phoneNumber);
+      return requestOtp(email);
     }
     return orElse();
   }
@@ -302,9 +301,9 @@ class _$RequestOtpImpl implements _RequestOtp {
 }
 
 abstract class _RequestOtp implements RequestOtpEvent {
-  const factory _RequestOtp(final String phoneNumber) = _$RequestOtpImpl;
+  const factory _RequestOtp(final String email) = _$RequestOtpImpl;
 
-  String get phoneNumber;
+  String get email;
   @JsonKey(ignore: true)
   _$$RequestOtpImplCopyWith<_$RequestOtpImpl> get copyWith =>
       throw _privateConstructorUsedError;

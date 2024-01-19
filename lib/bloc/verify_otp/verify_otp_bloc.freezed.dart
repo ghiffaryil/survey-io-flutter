@@ -19,19 +19,19 @@ mixin _$VerifyOtpEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String phoneNumber, String otpCode) verifyOtp,
+    required TResult Function(String email, String otpCode) verifyOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String phoneNumber, String otpCode)? verifyOtp,
+    TResult? Function(String email, String otpCode)? verifyOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String phoneNumber, String otpCode)? verifyOtp,
+    TResult Function(String email, String otpCode)? verifyOtp,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -113,7 +113,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String phoneNumber, String otpCode) verifyOtp,
+    required TResult Function(String email, String otpCode) verifyOtp,
   }) {
     return started();
   }
@@ -122,7 +122,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String phoneNumber, String otpCode)? verifyOtp,
+    TResult? Function(String email, String otpCode)? verifyOtp,
   }) {
     return started?.call();
   }
@@ -131,7 +131,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String phoneNumber, String otpCode)? verifyOtp,
+    TResult Function(String email, String otpCode)? verifyOtp,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -182,7 +182,7 @@ abstract class _$$VerifyOtpImplCopyWith<$Res> {
           _$VerifyOtpImpl value, $Res Function(_$VerifyOtpImpl) then) =
       __$$VerifyOtpImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String phoneNumber, String otpCode});
+  $Res call({String email, String otpCode});
 }
 
 /// @nodoc
@@ -196,13 +196,13 @@ class __$$VerifyOtpImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? phoneNumber = null,
+    Object? email = null,
     Object? otpCode = null,
   }) {
     return _then(_$VerifyOtpImpl(
-      null == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
+      null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       null == otpCode
           ? _value.otpCode
@@ -215,16 +215,16 @@ class __$$VerifyOtpImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$VerifyOtpImpl implements _VerifyOtp {
-  const _$VerifyOtpImpl(this.phoneNumber, this.otpCode);
+  const _$VerifyOtpImpl(this.email, this.otpCode);
 
   @override
-  final String phoneNumber;
+  final String email;
   @override
   final String otpCode;
 
   @override
   String toString() {
-    return 'VerifyOtpEvent.verifyOtp(phoneNumber: $phoneNumber, otpCode: $otpCode)';
+    return 'VerifyOtpEvent.verifyOtp(email: $email, otpCode: $otpCode)';
   }
 
   @override
@@ -232,13 +232,12 @@ class _$VerifyOtpImpl implements _VerifyOtp {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$VerifyOtpImpl &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                other.phoneNumber == phoneNumber) &&
+            (identical(other.email, email) || other.email == email) &&
             (identical(other.otpCode, otpCode) || other.otpCode == otpCode));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, phoneNumber, otpCode);
+  int get hashCode => Object.hash(runtimeType, email, otpCode);
 
   @JsonKey(ignore: true)
   @override
@@ -250,29 +249,29 @@ class _$VerifyOtpImpl implements _VerifyOtp {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String phoneNumber, String otpCode) verifyOtp,
+    required TResult Function(String email, String otpCode) verifyOtp,
   }) {
-    return verifyOtp(phoneNumber, otpCode);
+    return verifyOtp(email, otpCode);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String phoneNumber, String otpCode)? verifyOtp,
+    TResult? Function(String email, String otpCode)? verifyOtp,
   }) {
-    return verifyOtp?.call(phoneNumber, otpCode);
+    return verifyOtp?.call(email, otpCode);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String phoneNumber, String otpCode)? verifyOtp,
+    TResult Function(String email, String otpCode)? verifyOtp,
     required TResult orElse(),
   }) {
     if (verifyOtp != null) {
-      return verifyOtp(phoneNumber, otpCode);
+      return verifyOtp(email, otpCode);
     }
     return orElse();
   }
@@ -310,10 +309,10 @@ class _$VerifyOtpImpl implements _VerifyOtp {
 }
 
 abstract class _VerifyOtp implements VerifyOtpEvent {
-  const factory _VerifyOtp(final String phoneNumber, final String otpCode) =
+  const factory _VerifyOtp(final String email, final String otpCode) =
       _$VerifyOtpImpl;
 
-  String get phoneNumber;
+  String get email;
   String get otpCode;
   @JsonKey(ignore: true)
   _$$VerifyOtpImplCopyWith<_$VerifyOtpImpl> get copyWith =>
@@ -326,7 +325,7 @@ mixin _$VerifyOtpState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Data data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -334,7 +333,7 @@ mixin _$VerifyOtpState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Data data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -342,7 +341,7 @@ mixin _$VerifyOtpState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Data data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -432,7 +431,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Data data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -443,7 +442,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Data data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -454,7 +453,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Data data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -546,7 +545,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Data data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -557,7 +556,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Data data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -568,7 +567,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Data data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -626,7 +625,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({Data data});
+  $Res call({String data});
 }
 
 /// @nodoc
@@ -646,7 +645,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
       null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Data,
+              as String,
     ));
   }
 }
@@ -657,7 +656,7 @@ class _$LoadedImpl implements _Loaded {
   const _$LoadedImpl(this.data);
 
   @override
-  final Data data;
+  final String data;
 
   @override
   String toString() {
@@ -686,7 +685,7 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Data data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) {
     return loaded(data);
@@ -697,7 +696,7 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Data data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loaded?.call(data);
@@ -708,7 +707,7 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Data data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -757,9 +756,9 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements VerifyOtpState {
-  const factory _Loaded(final Data data) = _$LoadedImpl;
+  const factory _Loaded(final String data) = _$LoadedImpl;
 
-  Data get data;
+  String get data;
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -831,7 +830,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Data data) loaded,
+    required TResult Function(String data) loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -842,7 +841,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Data data)? loaded,
+    TResult? Function(String data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -853,7 +852,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Data data)? loaded,
+    TResult Function(String data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

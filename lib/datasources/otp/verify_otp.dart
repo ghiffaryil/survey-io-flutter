@@ -6,20 +6,20 @@ import '../../../common/constants/variables.dart';
 
 class VerifyOtpDatasource {
   Future<Either<String, VerificationOtpResponseModel>> verifyOtp(
-      String phoneNumber, String otpCode) async {
+      String email, String otpCode) async {
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
 
     final body = {
-      "phone_number": phoneNumber,
+      "email": email,
       "otp_code": otpCode,
     };
 
     final request = http.Request(
       'POST',
-      Uri.parse('${Variables.baseURL}/user/verify-otp'),
+      Uri.parse('${Variables.baseURL}/user/verify-otp-email'),
     );
 
     request.headers.addAll(headers);

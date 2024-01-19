@@ -105,7 +105,7 @@ class _UserInformationState extends State<UserInformation> {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          data.user.phoneNumber,
+                          data.user.email,
                           style: TextStyles.regular(color: AppColors.secondary),
                         )
                       ],

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 String mergeOtpValue(List<TextEditingController> controllers) {
-  return controllers.sublist(0, 4).fold('',
+  return controllers.sublist(0, 6).fold('',
       (String previousValue, TextEditingController controller) {
     return previousValue + controller.text;
   });

@@ -15,9 +15,9 @@ import 'package:survey_io/common/components/appbar_plain.dart';
 import 'package:survey_io/pages/login/login.dart';
 
 class ForgotPasscodeFormPage extends StatefulWidget {
-  final String sendPhoneNumber;
+  final String inputEmail;
 
-  const ForgotPasscodeFormPage({super.key, required this.sendPhoneNumber});
+  const ForgotPasscodeFormPage({super.key, required this.inputEmail});
 
   @override
   State<ForgotPasscodeFormPage> createState() => _ForgotPasscodeFormPageState();
@@ -198,7 +198,7 @@ class _ForgotPasscodeFormPageState extends State<ForgotPasscodeFormPage> {
                   if (_validateForm()) {
                     context.read<UpdatePasscodeBloc>().add(
                         UpdatePasscodeEvent.updatePasscode(
-                            widget.sendPhoneNumber, passcodeField.text));
+                            widget.inputEmail, passcodeField.text));
                   }
                 });
           }, loading: () {

@@ -1,20 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/function/show_toast.dart';
 
 bool validateEmailForm(String email) {
   email = email.trim();
 
   if (email.isEmpty) {
-    Fluttertoast.showToast(
-      msg: 'Masukkan Email kamu',
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: AppColors.secondary.withOpacity(0.8),
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
+    showToast(message: 'Masukkan Email kamu');
     return false;
   }
 
@@ -24,15 +14,7 @@ bool validateEmailForm(String email) {
   );
 
   if (!emailRegExp.hasMatch(email)) {
-    Fluttertoast.showToast(
-      msg: 'Masukkan Email yang valid',
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: AppColors.secondary.withOpacity(0.8),
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
+    showToast(message: 'Masukkan Email yang valid');
     return false;
   }
 

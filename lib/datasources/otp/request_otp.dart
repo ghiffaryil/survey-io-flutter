@@ -1,10 +1,11 @@
 import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
-import 'package:survey_io/common/constants/variables.dart';
+import '../../../common/constants/variables.dart';
 
-class ForgotPasscodeVerifyOtpDatasource {
-  Future<Either<String, String>> verifyOtp(String email, String otpCode) async {
+class RequestOtpDatasource {
+  Future<Either<String, String>> requestOtp(String email) async {
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -12,12 +13,11 @@ class ForgotPasscodeVerifyOtpDatasource {
 
     final body = {
       "email": email,
-      "otp_code": otpCode,
     };
 
     final request = http.Request(
       'POST',
-      Uri.parse('${Variables.baseURL}/user/forget/verify'),
+      Uri.parse('${Variables.baseURL}/user/send-email-otp'),
     );
 
     request.headers.addAll(headers);
@@ -27,12 +27,12 @@ class ForgotPasscodeVerifyOtpDatasource {
       final response = await http.Client().send(request);
       final responseBody = await response.stream.bytesToString();
 
-      print('Status ${response.statusCode}');
-      print('Body $responseBody');
+      print('Status : ${response.statusCode}');
+      print('Body : $responseBody');
 
       if (response.statusCode == 200) {
-        print('Verify OTP : Success');
-        return const Right('Verify OTP : Success');
+        print('Request OTP : Success');
+        return const Right('Request OTP Success');
       } else {
         final Map<String, dynamic> errorResponse = json.decode(responseBody);
         final errorMessage = errorResponse['error'] as String;
@@ -40,7 +40,7 @@ class ForgotPasscodeVerifyOtpDatasource {
         return Left(errorMessage);
       }
     } catch (e) {
-      print('Verify OTP : Failed');
+      print('Request OTP : Failed');
       return Left(e.toString());
     }
   }

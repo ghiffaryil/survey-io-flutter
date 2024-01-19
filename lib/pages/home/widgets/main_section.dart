@@ -317,7 +317,7 @@ class _MainSectionState extends State<MainSection> {
                   final surveyTotalQuestion = data.totalQuestion;
                   final surveyPoint = data.survey.point.toString();
                   final surveyLink = data.survey.surveyLink;
-                  final surveyImageContent = data.survey.imageContent;
+                  final surveyImage = data.survey.imageHomescreen;
                   final surveyType = data.survey.type;
 
                   return Container(
@@ -342,12 +342,11 @@ class _MainSectionState extends State<MainSection> {
                           child: Container(
                               padding: const EdgeInsets.all(10),
                               child: RoundedImage(
-                                imageType: surveyImageContent == ""
-                                    ? 'asset'
-                                    : 'network',
-                                imageUrl: surveyImageContent == ""
+                                imageType:
+                                    surveyImage == "" ? 'asset' : 'network',
+                                imageUrl: surveyImage == ""
                                     ? Images.emptyCreateSurvey
-                                    : surveyImageContent.toString(),
+                                    : surveyImage.toString(),
                                 borderRadius: 8.0,
                               )),
                         ),
@@ -784,8 +783,7 @@ class _MainSectionState extends State<MainSection> {
                             final surveyTotalQuestion = survey.totalQuestion;
                             final surveyPoint = survey.survey.point.toString();
                             final surveyLink = survey.survey.surveyLink;
-                            final surveyImageContent =
-                                survey.survey.imageContent;
+                            final surveyImage = survey.survey.imageHomescreen;
                             final surveyType = survey.survey.type;
 
                             return Column(
@@ -821,15 +819,12 @@ class _MainSectionState extends State<MainSection> {
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 10),
                                                 child: RoundedImage(
-                                                  imageType:
-                                                      surveyImageContent == ''
-                                                          ? 'asset'
-                                                          : 'network',
-                                                  imageUrl:
-                                                      surveyImageContent == ''
-                                                          ? Images
-                                                              .emptyCreateSurvey
-                                                          : surveyImageContent,
+                                                  imageType: surveyImage == ''
+                                                      ? 'asset'
+                                                      : 'network',
+                                                  imageUrl: surveyImage == ''
+                                                      ? Images.emptyCreateSurvey
+                                                      : surveyImage,
                                                   borderRadius: 8.0,
                                                   fit: BoxFit.cover,
                                                   width: 100,

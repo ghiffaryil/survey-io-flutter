@@ -50,6 +50,7 @@ class _EditProfileState extends State<EditProfile> {
 
   int userId = 0;
   int userActive = 0;
+  int emailVerified = 0;
   String userCreatedTime = '';
   String userProvince = '';
   String userCity = '';
@@ -97,7 +98,13 @@ class _EditProfileState extends State<EditProfile> {
             userId = data.data.user.id;
             fullName.text = data.data.user.name;
             email.text = data.data.user.email;
-            phoneNumber.text = data.data.user.phoneNumber;
+
+            if (data.data.user.phoneNumber == "null") {
+              phoneNumber.text = '';
+            } else {
+              phoneNumber.text = data.data.user.phoneNumber;
+            }
+
             DateTime localDob = data.data.userProfile.dob.toLocal();
             String formattedDob = DateFormat('dd-MM-yyyy').format(localDob);
             dateOfBirth.text = formattedDob;
@@ -110,7 +117,10 @@ class _EditProfileState extends State<EditProfile> {
               genderSelected = "Perempuan";
               userGender = "female";
             }
+
             userActive = data.data.user.active;
+            emailVerified = data.data.user.emailVerified;
+
             userKTP = data.data.userProfile.ktp;
             userNPWP = data.data.userProfile.npwp;
 
@@ -298,7 +308,21 @@ class _EditProfileState extends State<EditProfile> {
     return Column(
       children: [
         LabelInput(
-          labelText: 'Nama Lengkap',
+          labelText: 'Email*',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          focusNode: emailFocus,
+          keyboardType: TextInputType.emailAddress,
+          controller: email,
+          editable: false,
+          hintText: 'Masukkan Email',
+          suffixIconPNG: emailVerified == 1 ? IconName.pollingCheckInfo : null,
+        ),
+        CustomDividers.smallDivider(),
+        LabelInput(
+          labelText: 'Nama Lengkap*',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
@@ -306,11 +330,11 @@ class _EditProfileState extends State<EditProfile> {
           focusNode: fullNameFocus,
           keyboardType: TextInputType.text,
           controller: fullName,
-          hintText: 'Nama Lengkap',
+          hintText: 'Masukkan Nama Lengkap',
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'Jenis Kelamin',
+          labelText: 'Jenis Kelamin*',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
@@ -348,14 +372,14 @@ class _EditProfileState extends State<EditProfile> {
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'Tanggal Lahir',
+          labelText: 'Tanggal Lahir*',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
         DateInputField(
           focusNode: dateOfBirthFocus,
           controller: dateOfBirth,
-          hintText: '01-01-1991',
+          hintText: 'dd-mm-yyyy',
           firstDate: DateTime(1980),
           lastDate: DateTime.now(),
           showPrefixIcon: false,
@@ -371,63 +395,46 @@ class _EditProfileState extends State<EditProfile> {
           focusNode: phoneNumberFocus,
           keyboardType: TextInputType.phone,
           controller: phoneNumber,
-          hintText: '081234567890',
-          editable: false,
-          suffixIconPNG: userActive == 1 ? IconName.pollingCheckInfo : null,
+          hintText: 'Mauskkan Nomor Handphone',
         ),
         CustomDividers.smallDivider(),
-        LabelInput(
-          labelText: 'Email',
-          labelStyle: TextStyles.h4(color: AppColors.secondary),
-        ),
-        CustomDividers.verySmallDivider(),
-        TextInputField(
-          focusNode: emailFocus,
-          keyboardType: TextInputType.emailAddress,
-          controller: email,
-          editable: false,
-          hintText: 'Masukkan Email Kamu',
-        ),
-
         userKTP.isEmpty
             ? Container()
             : Column(
                 children: [
+                  LabelInput(
+                    labelText: 'KTP',
+                    labelStyle: TextStyles.h4(color: AppColors.secondary),
+                  ),
+                  CustomDividers.verySmallDivider(),
+                  TextInputField(
+                    keyboardType: TextInputType.text,
+                    controller: inputKTP,
+                    editable: false,
+                    hintText: 'Masukkan KTP Kamu',
+                  ),
                   CustomDividers.smallDivider(),
                 ],
               ),
-        LabelInput(
-          labelText: 'KTP',
-          labelStyle: TextStyles.h4(color: AppColors.secondary),
-        ),
-        CustomDividers.verySmallDivider(),
-        TextInputField(
-          keyboardType: TextInputType.text,
-          controller: inputKTP,
-          editable: false,
-          hintText: 'Masukkan KTP Kamu',
-        ),
 
         userNPWP.isEmpty
             ? Container()
             : Column(
                 children: [
+                  LabelInput(
+                    labelText: 'NPWP',
+                    labelStyle: TextStyles.h4(color: AppColors.secondary),
+                  ),
+                  CustomDividers.verySmallDivider(),
+                  TextInputField(
+                    keyboardType: TextInputType.text,
+                    controller: inputNPWP,
+                    editable: false,
+                    hintText: 'Masukkan NPWP Kamu',
+                  ),
                   CustomDividers.smallDivider(),
                 ],
               ),
-        LabelInput(
-          labelText: 'NPWP',
-          labelStyle: TextStyles.h4(color: AppColors.secondary),
-        ),
-        CustomDividers.verySmallDivider(),
-        TextInputField(
-          keyboardType: TextInputType.text,
-          controller: inputNPWP,
-          editable: false,
-          hintText: 'Masukkan NPWP Kamu',
-        ),
-
-        CustomDividers.smallDivider(),
 
         // PROVINCE
         LabelInput(
@@ -449,6 +456,7 @@ class _EditProfileState extends State<EditProfile> {
                     editable: false,
                     controller: province,
                     hintText: 'Pilih Provinsi',
+                    suffixIcon: const Icon(Icons.arrow_drop_down),
                   ),
                 );
               },
@@ -524,6 +532,7 @@ class _EditProfileState extends State<EditProfile> {
                     editable: false,
                     controller: city,
                     hintText: 'Pilih Kota',
+                    suffixIcon: const Icon(Icons.arrow_drop_down),
                   ),
                 );
               },

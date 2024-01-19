@@ -5,14 +5,14 @@ import 'package:http/http.dart' as http;
 import 'package:survey_io/common/constants/variables.dart';
 
 class ForgotPasscodeRequestOtpDatasource {
-  Future<Either<String, String>> requestOtp(String phoneNumber) async {
+  Future<Either<String, String>> requestOtp(String email) async {
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
 
     final body = {
-      "phone_number": phoneNumber,
+      "email": email,
     };
 
     final request = http.Request(

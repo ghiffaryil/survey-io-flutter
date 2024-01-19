@@ -9,16 +9,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/bloc/guest/guest_bloc.dart';
+import 'package:survey_io/common/constants/function/show_toast.dart';
 
 // Import Component
+import 'package:survey_io/pages/home/home.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
-import 'package:survey_io/models/survey_design/list/survey_design_list_response_model.dart';
-import 'package:survey_io/pages/home/home.dart';
-import 'package:survey_io/pages/register/register_by_phone_number.dart';
-import 'package:survey_io/pages/survey_design/survey_design_list.dart';
-
+import 'package:survey_io/pages/login/login.dart';
 import '../../common/constants/imageSize.dart';
 import '../../common/constants/images.dart';
 
@@ -183,15 +181,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 return const HomePage();
               }));
             },
-            error: (message) {
-              Fluttertoast.showToast(
-                  msg: message,
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: AppColors.secondary.withOpacity(0.8),
-                  textColor: Colors.white,
-                  fontSize: 16.0);
+            error: (msg) {
+              showToast(message: msg);
             });
       },
       child: BlocBuilder<GuestBloc, GuestState>(
@@ -200,6 +191,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
             return ButtonFilled.primary(
                 text: 'Ikut Survei',
                 onPressed: () {
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  //   return const LoginPage();
+                  // }));
                   context
                       .read<GuestBloc>()
                       .add(const GuestEvent.getGuestToken());
@@ -221,15 +215,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 return const HomePage();
               }));
             },
-            error: (message) {
-              Fluttertoast.showToast(
-                  msg: message,
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: AppColors.secondary.withOpacity(0.8),
-                  textColor: Colors.white,
-                  fontSize: 16.0);
+            error: (msg) {
+              showToast(message: msg);
             });
       },
       child: BlocBuilder<GuestBloc, GuestState>(
@@ -239,6 +226,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
               return ButtonOutlined.primary(
                 text: 'Buat Survei',
                 onPressed: () {
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  //   return const LoginPage();
+                  // }));
                   context
                       .read<GuestBloc>()
                       .add(const GuestEvent.getGuestToken());

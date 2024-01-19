@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:survey_io/common/constants/colors.dart';
+import 'package:survey_io/common/constants/function/show_toast.dart';
 
 bool validateForm(
   String input,
@@ -12,15 +10,7 @@ bool validateForm(
   input = input.trim();
 
   if (input.isEmpty) {
-    Fluttertoast.showToast(
-      msg: errorMessage,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: AppColors.secondary.withOpacity(0.8),
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
+    showToast(message: errorMessage);
     return false;
   }
 
@@ -31,15 +21,7 @@ bool validateForm(
     );
 
     if (!emailRegExp.hasMatch(input)) {
-      Fluttertoast.showToast(
-        msg: 'Masukkan Email yang valid',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.secondary.withOpacity(0.8),
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+      showToast(message: 'Masukkan Email yang valid');
       return false;
     }
   }
@@ -51,15 +33,7 @@ bool validateForm(
     );
 
     if (!phoneRegExp.hasMatch(input)) {
-      Fluttertoast.showToast(
-        msg: 'Masukkan Nomor yang valid',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.secondary.withOpacity(0.8),
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+      showToast(message: 'Masukkan Nomor handphone yang valid');
       return false;
     }
   }

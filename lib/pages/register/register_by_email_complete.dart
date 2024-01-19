@@ -10,35 +10,26 @@ import 'package:survey_io/common/components/input_field_radio.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 import 'package:survey_io/common/constants/function/show_toast.dart';
 import 'package:survey_io/common/constants/function/validate_form.dart';
-import 'package:survey_io/common/constants/function/validate_form_passcode.dart';
-import 'package:survey_io/common/constants/function/validate_form_phone_number.dart';
 import 'package:survey_io/common/constants/function/validate_form_text.dart';
+import 'package:survey_io/common/constants/function/validate_form_passcode.dart';
 import 'package:survey_io/common/constants/styles.dart';
-import 'package:survey_io/pages/login/login.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/label.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/models/register/register_request_model.dart';
 import 'package:survey_io/common/components/input_field_passcode.dart';
+import 'package:survey_io/pages/email_verification/email_verification_otp.dart';
 
-class RegisterCompleteProfilePage extends StatefulWidget {
-  final String email;
-  final String otpCode;
-  final int otpId;
-
-  const RegisterCompleteProfilePage(
-      {super.key,
-      required this.email,
-      required this.otpCode,
-      required this.otpId});
+class RegisterByEmailCompletePage extends StatefulWidget {
+  const RegisterByEmailCompletePage({super.key});
 
   @override
-  State<RegisterCompleteProfilePage> createState() =>
-      _RegisterCompleteProfilePageState();
+  State<RegisterByEmailCompletePage> createState() =>
+      _RegisterByEmailCompletePageState();
 }
 
-class _RegisterCompleteProfilePageState
-    extends State<RegisterCompleteProfilePage> {
+class _RegisterByEmailCompletePageState
+    extends State<RegisterByEmailCompletePage> {
   TextEditingController fullName = TextEditingController();
   TextEditingController dob = TextEditingController();
 
@@ -66,7 +57,6 @@ class _RegisterCompleteProfilePageState
   void initState() {
     super.initState();
     unfocusAll();
-    phoneNumber.text = widget.email;
   }
 
   void _showHidePasscodeTogle() {
@@ -102,13 +92,6 @@ class _RegisterCompleteProfilePageState
         validateTextForm,
         'Masukkan Tanggal lahir kamu',
       );
-    } else if (phoneNumber.text.isEmpty) {
-      return validateForm(
-        phoneNumber.text,
-        validatePhoneNumberForm,
-        isPhone: true,
-        'Masukkan Nomor handphone kamu',
-      );
     } else if (passcode.text.isEmpty) {
       return validateForm(
         passcode.text,
@@ -127,10 +110,12 @@ class _RegisterCompleteProfilePageState
       },
       child: Scaffold(
         appBar: PlainAppBar(
-            height: 20,
-            onPressed: () {},
-            leadingIcon: null,
-            iconColor: AppColors.white),
+          leadingIcon: Icons.arrow_back_ios,
+          iconColor: AppColors.secondary,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         body: Column(
           children: [
             Container(
@@ -166,19 +151,10 @@ class _RegisterCompleteProfilePageState
         Container(
           alignment: Alignment.centerLeft,
           child: Text(
-            'Sedikit Lagi....',
+            '1. Daftar',
             style: TextStyles.h2(color: AppColors.secondary),
           ),
         ),
-        CustomDividers.smallDivider(),
-        Container(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            '3. Lengkapi Profil Kamu',
-            style: TextStyles.h4(color: AppColors.secondary),
-          ),
-        ),
-        CustomDividers.smallDivider(),
       ],
     );
   }
@@ -187,32 +163,7 @@ class _RegisterCompleteProfilePageState
     return Column(
       children: [
         LabelInput(
-          labelText: 'Nama Lengkap',
-          labelStyle: TextStyles.h4(color: AppColors.secondary),
-        ),
-        CustomDividers.verySmallDivider(),
-        TextInputField(
-          focusNode: fullNameFocus,
-          keyboardType: TextInputType.text,
-          controller: fullName,
-          hintText: 'Nama Lengkap',
-        ),
-        CustomDividers.smallDivider(),
-        LabelInput(
-          labelText: 'Nomor Handphone',
-          labelStyle: TextStyles.h4(color: AppColors.secondary),
-        ),
-        CustomDividers.verySmallDivider(),
-        TextInputField(
-          focusNode: phoneNumberFocus,
-          keyboardType: TextInputType.text,
-          controller: phoneNumber,
-          hintText: '08123456789',
-          editable: false,
-        ),
-        CustomDividers.smallDivider(),
-        LabelInput(
-          labelText: 'Email',
+          labelText: 'Email*',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
@@ -220,12 +171,23 @@ class _RegisterCompleteProfilePageState
           focusNode: emailFocus,
           keyboardType: TextInputType.emailAddress,
           controller: email,
-          hintText: 'email@email.com',
-          editable: false,
+          hintText: 'Masukkan Email',
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'Jenis Kelamin',
+          labelText: 'Nama Lengkap*',
+          labelStyle: TextStyles.h4(color: AppColors.secondary),
+        ),
+        CustomDividers.verySmallDivider(),
+        TextInputField(
+          focusNode: fullNameFocus,
+          keyboardType: TextInputType.text,
+          controller: fullName,
+          hintText: 'Masukkan Nama Lengkap',
+        ),
+        CustomDividers.smallDivider(),
+        LabelInput(
+          labelText: 'Jenis Kelamin*',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
@@ -263,22 +225,23 @@ class _RegisterCompleteProfilePageState
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'Tanggal Lahir',
+          labelText: 'Tanggal Lahir*',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
         DateInputField(
           focusNode: dobFocus,
           controller: dob,
-          hintText: '01-01-1991',
-          firstDate: DateTime(1970),
+          hintText: 'dd-mm-yyyy',
+          firstDate: DateTime(1980),
           lastDate: DateTime.now(),
+          initialDate: dob.text.isNotEmpty ? DateTime.parse(dob.text) : null,
           showPrefixIcon: false,
           showSuffixIcon: true,
         ),
         CustomDividers.smallDivider(),
         LabelInput(
-          labelText: 'Passcode',
+          labelText: 'Passcode*',
           labelStyle: TextStyles.h4(color: AppColors.secondary),
         ),
         CustomDividers.verySmallDivider(),
@@ -299,7 +262,7 @@ class _RegisterCompleteProfilePageState
           keyboardType: TextInputType.text,
           controller: referalCode,
           hintText: 'Masukkan Kode (Jika Ada)',
-          prefixIcon: const Icon(Icons.security_sharp), // Set prefix icon
+          // prefixIcon: const Icon(Icons.mail_rounded), // Set prefix icon
           // suffixIcon: Icon(Icons.person), // Set suffix icon
         ),
       ],
@@ -312,20 +275,14 @@ class _RegisterCompleteProfilePageState
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
-              // Navigate to Login Page
+              // NAVIGATE TO VERIFY OTP
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) {
-                return const LoginPage();
+                return EmailVerificationOtpPage(inputEmail: email.text);
               }));
             },
             error: (message) {
-              // Show Toast
               showToast(message: message);
-              // Navigation
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) {
-                return const LoginPage();
-              }));
             });
       },
       child: BlocBuilder<RegisterBloc, RegisterState>(
@@ -339,12 +296,11 @@ class _RegisterCompleteProfilePageState
                       DateFormat('dd-MM-yyyy').parse(dob.text);
                   String formattedDate =
                       DateFormat('yyyy-MM-dd').format(parsedDate);
-
                   if (_validateForm()) {
                     final requestModel = RegisterRequestModel(
                       name: fullName.text,
                       // phoneNumber: phoneNumber.text,
-                      phoneNumber: 'null',
+                      phoneNumber: "null",
                       email: email.text,
                       gender: gender,
                       dob: formattedDate,
@@ -354,7 +310,7 @@ class _RegisterCompleteProfilePageState
                       firebaseToken: '32jr982jd9137asd2',
                       platform: 'android',
                       deviceId: 'xxx01',
-                      otpId: widget.otpId,
+                      otpId: 18,
                       referalCode: referalCode.text,
                     );
                     context

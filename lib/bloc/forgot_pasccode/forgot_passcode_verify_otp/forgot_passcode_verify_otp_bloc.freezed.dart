@@ -19,19 +19,19 @@ mixin _$ForgotPasscodeVerifyOtpEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String phoneNumber, String otpCode) verifyOtp,
+    required TResult Function(String email, String otpCode) verifyOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String phoneNumber, String otpCode)? verifyOtp,
+    TResult? Function(String email, String otpCode)? verifyOtp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String phoneNumber, String otpCode)? verifyOtp,
+    TResult Function(String email, String otpCode)? verifyOtp,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -116,7 +116,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String phoneNumber, String otpCode) verifyOtp,
+    required TResult Function(String email, String otpCode) verifyOtp,
   }) {
     return started();
   }
@@ -125,7 +125,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String phoneNumber, String otpCode)? verifyOtp,
+    TResult? Function(String email, String otpCode)? verifyOtp,
   }) {
     return started?.call();
   }
@@ -134,7 +134,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String phoneNumber, String otpCode)? verifyOtp,
+    TResult Function(String email, String otpCode)? verifyOtp,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -185,7 +185,7 @@ abstract class _$$VerifyOtpImplCopyWith<$Res> {
           _$VerifyOtpImpl value, $Res Function(_$VerifyOtpImpl) then) =
       __$$VerifyOtpImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String phoneNumber, String otpCode});
+  $Res call({String email, String otpCode});
 }
 
 /// @nodoc
@@ -199,13 +199,13 @@ class __$$VerifyOtpImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? phoneNumber = null,
+    Object? email = null,
     Object? otpCode = null,
   }) {
     return _then(_$VerifyOtpImpl(
-      null == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
+      null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       null == otpCode
           ? _value.otpCode
@@ -218,16 +218,16 @@ class __$$VerifyOtpImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$VerifyOtpImpl implements _VerifyOtp {
-  const _$VerifyOtpImpl(this.phoneNumber, this.otpCode);
+  const _$VerifyOtpImpl(this.email, this.otpCode);
 
   @override
-  final String phoneNumber;
+  final String email;
   @override
   final String otpCode;
 
   @override
   String toString() {
-    return 'ForgotPasscodeVerifyOtpEvent.verifyOtp(phoneNumber: $phoneNumber, otpCode: $otpCode)';
+    return 'ForgotPasscodeVerifyOtpEvent.verifyOtp(email: $email, otpCode: $otpCode)';
   }
 
   @override
@@ -235,13 +235,12 @@ class _$VerifyOtpImpl implements _VerifyOtp {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$VerifyOtpImpl &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                other.phoneNumber == phoneNumber) &&
+            (identical(other.email, email) || other.email == email) &&
             (identical(other.otpCode, otpCode) || other.otpCode == otpCode));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, phoneNumber, otpCode);
+  int get hashCode => Object.hash(runtimeType, email, otpCode);
 
   @JsonKey(ignore: true)
   @override
@@ -253,29 +252,29 @@ class _$VerifyOtpImpl implements _VerifyOtp {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String phoneNumber, String otpCode) verifyOtp,
+    required TResult Function(String email, String otpCode) verifyOtp,
   }) {
-    return verifyOtp(phoneNumber, otpCode);
+    return verifyOtp(email, otpCode);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String phoneNumber, String otpCode)? verifyOtp,
+    TResult? Function(String email, String otpCode)? verifyOtp,
   }) {
-    return verifyOtp?.call(phoneNumber, otpCode);
+    return verifyOtp?.call(email, otpCode);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String phoneNumber, String otpCode)? verifyOtp,
+    TResult Function(String email, String otpCode)? verifyOtp,
     required TResult orElse(),
   }) {
     if (verifyOtp != null) {
-      return verifyOtp(phoneNumber, otpCode);
+      return verifyOtp(email, otpCode);
     }
     return orElse();
   }
@@ -313,10 +312,10 @@ class _$VerifyOtpImpl implements _VerifyOtp {
 }
 
 abstract class _VerifyOtp implements ForgotPasscodeVerifyOtpEvent {
-  const factory _VerifyOtp(final String phoneNumber, final String otpCode) =
+  const factory _VerifyOtp(final String email, final String otpCode) =
       _$VerifyOtpImpl;
 
-  String get phoneNumber;
+  String get email;
   String get otpCode;
   @JsonKey(ignore: true)
   _$$VerifyOtpImplCopyWith<_$VerifyOtpImpl> get copyWith =>

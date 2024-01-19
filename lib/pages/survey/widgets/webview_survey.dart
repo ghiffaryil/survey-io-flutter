@@ -41,80 +41,81 @@ class _SurveyDesignPaymenStatet extends State<WebviewSurvey> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SecondaryAppBar(
-          height: 70,
-          toolbarHeight: 70,
-          onPressed: () {
-            WebViewController().clearCache();
-            @override
-            void dispose() {
-              // close the webview here
-              super.dispose();
-            }
+      appBar: SecondaryAppBar(
+        height: 70,
+        toolbarHeight: 70,
+        onPressed: () {
+          WebViewController().clearCache();
+          @override
+          void dispose() {
+            // close the webview here
+            super.dispose();
+          }
 
-            WebViewController().clearCache();
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-          },
-          title: Text('Survey Participate',
-              style: TextStyles.h3(color: AppColors.white)),
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
+          WebViewController().clearCache();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        },
+        title: Text('Survey Participate',
+            style: TextStyles.h3(color: AppColors.white)),
+        icon: const Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
         ),
-        body: WebViewWidget(
-            controller: WebViewController()
-              ..setJavaScriptMode(JavaScriptMode.unrestricted)
-              ..setBackgroundColor(const Color(0x00000000))
-              ..setNavigationDelegate(
-                NavigationDelegate(
-                  onPageStarted: (String url) {
-                    WebViewController().clearCache();
-                    print('Page Started ' + widget.url);
-                  },
-                  onProgress: (int progress) {},
-                  onPageFinished: (String url) {
-                    WebViewController().clearCache();
-                    print('Page Finished ' + widget.url);
-                  },
-                  onWebResourceError: (WebResourceError error) {},
-                  onNavigationRequest: (NavigationRequest request) {
-                    print('Page Navigation Request ' + widget.url);
-                    if (request.url == '${dotenv.env['WEBVIEW_URL']}') {
-                      print('URL is equal ${request.url}');
-                      @override
-                      void dispose() {
-                        // close the webview here
-                        super.dispose();
-                      }
-
-                      WebViewController().clearCache();
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
-                      return NavigationDecision.prevent;
-                    } else {
-                      print('URL Not Found BROW!!!!' + request.url);
-                      @override
-                      void dispose() {
-                        // close the webview here
-                        super.dispose();
-                      }
-
-                      WebViewController().clearCache();
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
-                      return NavigationDecision.prevent;
+      ),
+      body: WebViewWidget(
+          controller: WebViewController()
+            ..setJavaScriptMode(JavaScriptMode.unrestricted)
+            ..setBackgroundColor(const Color(0x00000000))
+            ..setNavigationDelegate(
+              NavigationDelegate(
+                onPageStarted: (String url) {
+                  WebViewController().clearCache();
+                  print('Page Started ' + widget.url);
+                },
+                onProgress: (int progress) {},
+                onPageFinished: (String url) {
+                  WebViewController().clearCache();
+                  print('Page Finished ' + widget.url);
+                },
+                onWebResourceError: (WebResourceError error) {},
+                onNavigationRequest: (NavigationRequest request) {
+                  print('Page Navigation Request ' + widget.url);
+                  if (request.url == '${dotenv.env['WEBVIEW_URL']}') {
+                    print('URL is equal ${request.url}');
+                    @override
+                    void dispose() {
+                      // close the webview here
+                      super.dispose();
                     }
-                  },
-                ),
-              )
-              ..loadRequest(Uri.parse(widget.url))));
+
+                    WebViewController().clearCache();
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()));
+                    return NavigationDecision.prevent;
+                  } else {
+                    print('URL Not Found BROW!!!!' + request.url);
+                    @override
+                    void dispose() {
+                      // close the webview here
+                      super.dispose();
+                    }
+
+                    WebViewController().clearCache();
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()));
+                    return NavigationDecision.prevent;
+                  }
+                },
+              ),
+            )
+            ..loadRequest(Uri.parse(widget.url))),
+    );
   }
 }

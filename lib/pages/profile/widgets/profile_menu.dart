@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:survey_io/bloc/guest/guest_bloc.dart';
+import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
 import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 import 'package:survey_io/common/components/shimmer_card.dart';
-import 'package:survey_io/datasources/login/auth_save_local_datasource.dart';
-import 'package:survey_io/pages/email_verification/email_verification.dart';
-import 'package:survey_io/pages/forgot_passcode/forgot_passcode_by_email.dart';
 import 'package:survey_io/pages/home/home.dart';
-import 'package:survey_io/pages/register/register_by_email.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:survey_io/pages/profile/webview_help_center.dart';
 import 'package:survey_io/pages/profile/webview_privacy_policy.dart';
@@ -163,67 +160,6 @@ class _ListMenuProfileState extends State<ListMenuProfile> {
                   iconColor: AppColors.light,
                   textColor: AppColors.light,
                 ),
-
-                // ONLY FOR DEV
-                dotenv.env['MODE'] == "dev"
-                    ? Column(
-                        children: [
-                          CustomDividers.smallDivider(),
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: LabelInput(
-                                labelText: 'Additional Menu (Dev-Mode)',
-                                labelStyle:
-                                    TextStyles.h4(color: AppColors.secondary)),
-                          ),
-                          HorizontalMenu(
-                            imageAsset: IconName.helper,
-                            text: 'Register by Email',
-                            icon: Icons.arrow_forward_ios,
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegisterByEmailPage()));
-                            },
-                            iconColor: AppColors.light,
-                            textColor: AppColors.light,
-                          ),
-                          HorizontalMenu(
-                            imageAsset: IconName.helper,
-                            text: 'Active Account By Email',
-                            icon: Icons.arrow_forward_ios,
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const EmailVerificationPage()));
-                            },
-                            iconColor: AppColors.light,
-                            textColor: AppColors.light,
-                          ),
-                          HorizontalMenu(
-                            imageAsset: IconName.helper,
-                            text: 'Forgot Passcode by Email',
-                            icon: Icons.arrow_forward_ios,
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ForgotPasscodeByEmail()));
-                            },
-                            iconColor: AppColors.light,
-                            textColor: AppColors.light,
-                          ),
-                          CustomDividers.smallDivider(),
-                        ],
-                      )
-                    : CustomDividers.smallDivider(),
-                // ONLY FOR DEV
-
                 versionInformation(),
                 CustomDividers.smallDivider(),
                 buttonLogout(),

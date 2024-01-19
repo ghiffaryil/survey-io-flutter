@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class RegisterRequestModel {
   final String name;
-  final String phoneNumber;
+  final String? phoneNumber;
   final String email;
   final String dob;
   final String gender;
@@ -17,7 +17,7 @@ class RegisterRequestModel {
 
   RegisterRequestModel({
     required this.name,
-    required this.phoneNumber,
+    this.phoneNumber,
     required this.email,
     required this.dob,
     required this.gender,
@@ -32,8 +32,7 @@ class RegisterRequestModel {
   });
 
   Map<String, dynamic> toMap() {
-    return {
-      "phone_number": phoneNumber,
+    Map<String, dynamic> map = {
       "name": name,
       "email": email,
       "dob": dob,
@@ -47,6 +46,12 @@ class RegisterRequestModel {
       "device_id": deviceId,
       "referal_code": referalCode,
     };
+
+    if (phoneNumber != null) {
+      map["phone_number"] = phoneNumber;
+    }
+
+    return map;
   }
 
   factory RegisterRequestModel.fromMap(Map<String, dynamic> map) {
@@ -69,6 +74,6 @@ class RegisterRequestModel {
 
   String toJson() => json.encode(toMap());
 
-  factory RegisterRequestModel.toJson(String source) =>
+  factory RegisterRequestModel.fromJson(String source) =>
       RegisterRequestModel.fromMap(json.decode(source));
 }

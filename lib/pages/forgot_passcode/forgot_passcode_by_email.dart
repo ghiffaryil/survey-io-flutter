@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
+import 'package:survey_io/common/constants/function/show_toast.dart';
 import 'package:survey_io/common/constants/function/validate_form.dart';
-import 'package:survey_io/pages/forgot_passcode/forgot_passcode_otp.dart';
 import 'package:survey_io/pages/email_verification/email_verification_otp.dart';
 import 'package:survey_io/bloc/forgot_pasccode/forgot_passcode_request_otp/forgot_passcode_request_otp_bloc.dart';
+import 'package:survey_io/pages/login/login.dart';
 
 // Import Component
 import '../../common/constants/colors.dart';
@@ -54,7 +54,10 @@ class _ForgotPasscodeByEmailState extends State<ForgotPasscodeByEmail> {
         leadingIcon: Icons.arrow_back_ios,
         iconColor: AppColors.secondary,
         onPressed: () {
-          Navigator.of(context).pop();
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) {
+            return const LoginPage();
+          }));
         },
       ),
       body: SingleChildScrollView(
@@ -109,7 +112,7 @@ class _ForgotPasscodeByEmailState extends State<ForgotPasscodeByEmail> {
           focusNode: inputEmailFocus,
           keyboardType: TextInputType.emailAddress,
           controller: inputEmail,
-          hintText: 'email@email.com',
+          hintText: 'Masukkan Email',
         ),
       ],
     );
@@ -124,20 +127,11 @@ class _ForgotPasscodeByEmailState extends State<ForgotPasscodeByEmail> {
             loaded: (data) {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) {
-                return ForgotPasscodeVerifyOtpPage(
-                  phoneNumber: inputEmail.text,
-                );
+                return EmailVerificationOtpPage(inputEmail: inputEmail.text);
               }));
             },
-            error: (message) {
-              Fluttertoast.showToast(
-                  msg: message,
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: AppColors.secondary.withOpacity(0.8),
-                  textColor: Colors.white,
-                  fontSize: 16.0);
+            error: (msg) {
+              showToast(message: msg);
             });
       },
       child: BlocBuilder<ForgotPasscodeRequestOtpBloc,
@@ -148,14 +142,9 @@ class _ForgotPasscodeByEmailState extends State<ForgotPasscodeByEmail> {
               text: 'Kirim OTP',
               onPressed: () {
                 if (_validateFormEmail()) {
-                  // context.read<ForgotPasscodeRequestOtpBloc>().add(
-                  //     ForgotPasscodeRequestOtpEvent.requestOtp(
-                  //         inputEmail.text));
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) {
-                    return EmailVerificationOtpPage(
-                        inputEmail: inputEmail.text);
-                  }));
+                  context.read<ForgotPasscodeRequestOtpBloc>().add(
+                      ForgotPasscodeRequestOtpEvent.requestOtp(
+                          inputEmail.text));
                 }
               },
             );

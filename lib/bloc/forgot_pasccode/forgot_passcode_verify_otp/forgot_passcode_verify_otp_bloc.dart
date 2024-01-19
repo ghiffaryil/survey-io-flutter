@@ -12,7 +12,7 @@ class ForgotPasscodeVerifyOtpBloc
     on<_VerifyOtp>((event, emit) async {
       emit(const _Loading());
       final response = await ForgotPasscodeVerifyOtpDatasource()
-          .verifyOtp(event.phoneNumber, event.otpCode);
+          .verifyOtp(event.email, event.otpCode);
       response.fold(
         (l) => emit(_Error(l)),
         (r) => emit(_Loaded(r)),

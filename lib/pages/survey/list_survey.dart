@@ -194,7 +194,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                     final surveyTotalQuestion = survey.totalQuestion;
                     final surveyPoint = survey.survey.point.toString();
                     final surveyLink = survey.survey.surveyLink;
-                    final surveyImageHomescreen = survey.survey.imageHomescreen;
+                    final surveyImage = survey.survey.imageContent;
                     final surveyType = survey.survey.type;
                     return Container(
                       padding: const EdgeInsets.all(5),
@@ -212,7 +212,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                           SizedBox(
                             height: 120,
                             width: double.infinity,
-                            child: surveyImageHomescreen.isEmpty
+                            child: surveyImage.isEmpty
                                 ? const RoundedImage(
                                     imageType: 'asset',
                                     imageUrl:
@@ -222,7 +222,7 @@ class _ListSurveiPageState extends State<ListSurveiPage> {
                                   )
                                 : RoundedImage(
                                     imageType: 'network',
-                                    imageUrl: surveyImageHomescreen,
+                                    imageUrl: surveyImage,
                                     borderRadius: 8.0,
                                     fit: BoxFit.cover,
                                   ),

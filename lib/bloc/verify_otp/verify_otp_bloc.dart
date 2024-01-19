@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:survey_io/datasources/register/verify_otp.dart';
-import 'package:survey_io/models/register/verification_otp_response_model.dart';
+import 'package:survey_io/datasources/otp/verify_otp_email.dart';
 
 part 'verify_otp_event.dart';
 part 'verify_otp_state.dart';
@@ -11,11 +10,11 @@ class VerifyOtpBloc extends Bloc<VerifyOtpEvent, VerifyOtpState> {
   VerifyOtpBloc() : super(const _Initial()) {
     on<_VerifyOtp>((event, emit) async {
       emit(const _Loading());
-      final response = await VerifyOtpDatasource()
-          .verifyOtp(event.phoneNumber, event.otpCode);
+      final response = await VerifyOtpEmailDatasource()
+          .verifyOtp(event.email, event.otpCode);
       response.fold(
         (l) => emit(_Error(l)),
-        (r) => emit(_Loaded(r.data)),
+        (r) => emit(_Loaded(r)),
       );
     });
   }

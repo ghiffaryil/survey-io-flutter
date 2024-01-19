@@ -9,10 +9,10 @@ import 'package:survey_io/pages/login/login.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/constants/colors.dart';
 import 'package:survey_io/common/components/divider.dart';
-import 'package:survey_io/pages/register/register_by_phone_number.dart';
 
 import 'package:survey_io/common/constants/imageSize.dart';
 import 'package:survey_io/common/constants/images.dart';
+import 'package:survey_io/pages/register/register_by_email_complete.dart';
 
 class ProfileNotFound extends StatefulWidget {
   const ProfileNotFound({super.key});
@@ -58,8 +58,10 @@ class _ProfileNotFoundState extends State<ProfileNotFound> {
     return ButtonFilled.primary(
         text: 'Daftar',
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const RegisterPhoneNumberPage()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const RegisterByEmailCompletePage()));
         });
   }
 
