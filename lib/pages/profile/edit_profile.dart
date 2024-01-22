@@ -10,14 +10,12 @@ import 'package:survey_io/models/user/list_city_response_model.dart';
 import 'package:survey_io/models/user/list_province_response_model.dart';
 import 'package:survey_io/pages/profile/profile.dart';
 import 'package:survey_io/bloc/profile/edit_profile/edit_profile_bloc.dart';
-import 'package:survey_io/bloc/profile/get_profile/profile_bloc.dart';
 import 'package:survey_io/models/user/edit_profile_request_model.dart';
 import 'package:survey_io/common/components/elevated_button.dart';
 import 'package:survey_io/common/components/input_field_date.dart';
 import 'package:survey_io/common/components/input_field_radio.dart';
 import 'package:survey_io/common/components/input_field_text.dart';
 import 'package:survey_io/common/constants/colors.dart';
-import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/common/constants/styles.dart';
 import 'package:survey_io/common/components/divider.dart';
 import 'package:survey_io/common/components/label.dart';
@@ -62,6 +60,10 @@ class _EditProfileState extends State<EditProfile> {
   String userNPWP = '';
   int userAge = 0;
 
+  bool isLoadedProvince = false;
+  bool isLoadedCity = false;
+  bool isHavePhoneNumber = false;
+
   String genderSelected = '';
 
   int provinceIdSelected = 0;
@@ -89,53 +91,53 @@ class _EditProfileState extends State<EditProfile> {
   void loadProfileInformation() async {
     try {
       final result = await ProfileRemoteDatasource().getProfile();
+
       result.fold(
-        (error) {
-          print('Error: $error');
-        },
+        (error) => print('Error: $error'),
         (data) {
+          final userProfile = data.data.userProfile;
+          final user = data.data.user;
+
           setState(() {
-            userId = data.data.user.id;
-            fullName.text = data.data.user.name;
-            email.text = data.data.user.email;
+            userId = user.id;
+            fullName.text = user.name;
+            email.text = user.email;
 
-            if (data.data.user.phoneNumber == "null") {
-              phoneNumber.text = '';
-            } else {
-              phoneNumber.text = data.data.user.phoneNumber;
-            }
+            isHavePhoneNumber = user.phoneNumber != "null";
+            phoneNumber.text = isHavePhoneNumber ? user.phoneNumber : '';
 
-            DateTime localDob = data.data.userProfile.dob.toLocal();
-            String formattedDob = DateFormat('dd-MM-yyyy').format(localDob);
-            dateOfBirth.text = formattedDob;
-            if (data.data.userProfile.gender == "man" ||
-                data.data.userProfile.gender == "male" ||
-                genderSelected == "Laki-laki") {
-              genderSelected = "Laki-laki";
-              userGender = "male";
-            } else {
-              genderSelected = "Perempuan";
-              userGender = "female";
-            }
+            DateTime localDob = userProfile.dob.toLocal();
+            dateOfBirth.text = DateFormat('dd-MM-yyyy').format(localDob);
 
-            userActive = data.data.user.active;
-            emailVerified = data.data.user.emailVerified;
+            genderSelected =
+                userProfile.gender == "man" || userProfile.gender == "male"
+                    ? "Laki-laki"
+                    : "Perempuan";
+            userGender =
+                userProfile.gender == "man" || userProfile.gender == "male"
+                    ? "male"
+                    : "female";
 
-            userKTP = data.data.userProfile.ktp;
-            userNPWP = data.data.userProfile.npwp;
+            userActive = user.active;
+            emailVerified = user.emailVerified;
 
-            inputKTP.text = data.data.userProfile.ktp;
-            inputNPWP.text = data.data.userProfile.npwp;
+            userKTP = userProfile.ktp;
+            userNPWP = userProfile.npwp;
 
-            provinceNameSelected = data.data.userProfile.province;
+            inputKTP.text = userProfile.ktp;
+            inputNPWP.text = userProfile.npwp;
 
-            cityNameSelected = data.data.userProfile.city;
+            provinceNameSelected = userProfile.province;
+            cityNameSelected = userProfile.city;
+
+            isLoadedProvince = userProfile.province.isNotEmpty;
+            isLoadedCity = userProfile.city.isNotEmpty;
           });
 
-          data.data.userProfile.province != "" ? loadProvinceList() : null;
-          data.data.userProfile.province != ""
-              ? loadProvinceListWithName('${data.data.userProfile.province}')
-              : null;
+          if (userProfile.province.isNotEmpty) {
+            loadProvinceList();
+            loadProvinceListWithName(userProfile.province);
+          }
         },
       );
     } catch (e) {
@@ -268,35 +270,10 @@ class _EditProfileState extends State<EditProfile> {
             CustomDividers.verySmallDivider(),
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom,
-                ),
-                child: Container(
-                  padding: CustomPadding.p2,
-                  child: BlocBuilder<ProfileBloc, ProfileState>(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        orElse: () {
-                          return Container();
-                        },
-                        loading: () {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
-                        error: (message) {
-                          return Center(
-                            child: Text(message),
-                          );
-                        },
-                        loaded: (data) {
-                          return formInputSection();
-                        },
-                      );
-                    },
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
                   ),
-                ),
-              ),
+                  child: formInputSection()),
             ),
           ],
         ),
@@ -305,151 +282,158 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Widget formInputSection() {
-    return Column(
-      children: [
-        LabelInput(
-          labelText: 'Email*',
-          labelStyle: TextStyles.h4(color: AppColors.secondary),
-        ),
-        CustomDividers.verySmallDivider(),
-        TextInputField(
-          focusNode: emailFocus,
-          keyboardType: TextInputType.emailAddress,
-          controller: email,
-          editable: false,
-          hintText: 'Masukkan Email',
-          suffixIconPNG: emailVerified == 1 ? IconName.pollingCheckInfo : null,
-        ),
-        CustomDividers.smallDivider(),
-        LabelInput(
-          labelText: 'Nama Lengkap*',
-          labelStyle: TextStyles.h4(color: AppColors.secondary),
-        ),
-        CustomDividers.verySmallDivider(),
-        TextInputField(
-          focusNode: fullNameFocus,
-          keyboardType: TextInputType.text,
-          controller: fullName,
-          hintText: 'Masukkan Nama Lengkap',
-        ),
-        CustomDividers.smallDivider(),
-        LabelInput(
-          labelText: 'Jenis Kelamin*',
-          labelStyle: TextStyles.h4(color: AppColors.secondary),
-        ),
-        CustomDividers.verySmallDivider(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-                flex: 5,
-                child: RadioTextInput(
-                  value: 'Laki-laki',
-                  selectedOption: genderSelected,
-                  onChanged: (value) {
-                    setState(() {
-                      genderSelected = value;
-                      userGender = 'male';
-                    });
-                  },
-                )),
-            Container(
-              width: 10,
-            ),
-            Expanded(
-                flex: 5,
-                child: RadioTextInput(
-                  value: 'Perempuan',
-                  selectedOption: genderSelected,
-                  onChanged: (value) {
-                    setState(() {
-                      genderSelected = value;
-                      userGender = 'female';
-                    });
-                  },
-                )),
-          ],
-        ),
-        CustomDividers.smallDivider(),
-        LabelInput(
-          labelText: 'Tanggal Lahir*',
-          labelStyle: TextStyles.h4(color: AppColors.secondary),
-        ),
-        CustomDividers.verySmallDivider(),
-        DateInputField(
-          focusNode: dateOfBirthFocus,
-          controller: dateOfBirth,
-          hintText: 'dd-mm-yyyy',
-          firstDate: DateTime(1980),
-          lastDate: DateTime.now(),
-          showPrefixIcon: false,
-          showSuffixIcon: true,
-        ),
-        CustomDividers.smallDivider(),
-        LabelInput(
-          labelText: 'Nomor Handphone',
-          labelStyle: TextStyles.h4(color: AppColors.secondary),
-        ),
-        CustomDividers.verySmallDivider(),
-        TextInputField(
-          focusNode: phoneNumberFocus,
-          keyboardType: TextInputType.phone,
-          controller: phoneNumber,
-          hintText: 'Mauskkan Nomor Handphone',
-        ),
-        CustomDividers.smallDivider(),
-        userKTP.isEmpty
-            ? Container()
-            : Column(
-                children: [
-                  LabelInput(
-                    labelText: 'KTP',
-                    labelStyle: TextStyles.h4(color: AppColors.secondary),
-                  ),
-                  CustomDividers.verySmallDivider(),
-                  TextInputField(
-                    keyboardType: TextInputType.text,
-                    controller: inputKTP,
-                    editable: false,
-                    hintText: 'Masukkan KTP Kamu',
-                  ),
-                  CustomDividers.smallDivider(),
-                ],
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          LabelInput(
+            labelText: 'Nama Lengkap*',
+            labelStyle: TextStyles.h4(color: AppColors.secondary),
+          ),
+          CustomDividers.verySmallDivider(),
+          TextInputField(
+            focusNode: fullNameFocus,
+            keyboardType: TextInputType.text,
+            controller: fullName,
+            hintText: 'Masukkan Nama Lengkap',
+          ),
+          CustomDividers.smallDivider(),
+          LabelInput(
+            labelText: 'Jenis Kelamin*',
+            labelStyle: TextStyles.h4(color: AppColors.secondary),
+          ),
+          CustomDividers.verySmallDivider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                  flex: 5,
+                  child: RadioTextInput(
+                    value: 'Laki-laki',
+                    selectedOption: genderSelected,
+                    onChanged: (value) {
+                      setState(() {
+                        genderSelected = value;
+                        userGender = 'male';
+                      });
+                    },
+                  )),
+              Container(
+                width: 10,
               ),
+              Expanded(
+                  flex: 5,
+                  child: RadioTextInput(
+                    value: 'Perempuan',
+                    selectedOption: genderSelected,
+                    onChanged: (value) {
+                      setState(() {
+                        genderSelected = value;
+                        userGender = 'female';
+                      });
+                    },
+                  )),
+            ],
+          ),
+          CustomDividers.smallDivider(),
+          LabelInput(
+            labelText: 'Tanggal Lahir*',
+            labelStyle: TextStyles.h4(color: AppColors.secondary),
+          ),
+          CustomDividers.verySmallDivider(),
+          DateInputField(
+            focusNode: dateOfBirthFocus,
+            controller: dateOfBirth,
+            hintText: 'dd-mm-yyyy',
+            firstDate: DateTime(1980),
+            lastDate: DateTime.now(),
+            showPrefixIcon: false,
+            showSuffixIcon: true,
+          ),
 
-        userNPWP.isEmpty
-            ? Container()
-            : Column(
-                children: [
-                  LabelInput(
-                    labelText: 'NPWP',
-                    labelStyle: TextStyles.h4(color: AppColors.secondary),
-                  ),
-                  CustomDividers.verySmallDivider(),
-                  TextInputField(
-                    keyboardType: TextInputType.text,
-                    controller: inputNPWP,
-                    editable: false,
-                    hintText: 'Masukkan NPWP Kamu',
-                  ),
-                  CustomDividers.smallDivider(),
-                ],
-              ),
+          CustomDividers.smallDivider(),
+          LabelInput(
+            labelText: 'Email*',
+            labelStyle: TextStyles.h4(color: AppColors.secondary),
+          ),
+          CustomDividers.verySmallDivider(),
+          TextInputField(
+            focusNode: emailFocus,
+            keyboardType: TextInputType.emailAddress,
+            controller: email,
+            editable: false,
+            hintText: 'Masukkan Email',
+            suffixIconPNG:
+                emailVerified == 1 ? IconName.pollingCheckInfo : null,
+          ),
+          CustomDividers.smallDivider(),
+          LabelInput(
+            labelText: 'Nomor Handphone',
+            labelStyle: TextStyles.h4(color: AppColors.secondary),
+          ),
+          CustomDividers.verySmallDivider(),
 
-        // PROVINCE
-        LabelInput(
-          labelText: 'Provinsi',
-          labelStyle: TextStyles.h4(color: AppColors.secondary),
-        ),
-        CustomDividers.verySmallDivider(),
+          TextInputField(
+            focusNode: phoneNumberFocus,
+            keyboardType: TextInputType.phone,
+            controller: phoneNumber,
+            hintText: 'Mauskkan Nomor Handphone',
+            editable: isHavePhoneNumber && emailVerified == 1 ? false : true,
+          ),
+          CustomDividers.smallDivider(),
+          userKTP.isEmpty
+              ? Container()
+              : Column(
+                  children: [
+                    LabelInput(
+                      labelText: 'KTP',
+                      labelStyle: TextStyles.h4(color: AppColors.secondary),
+                    ),
+                    CustomDividers.verySmallDivider(),
+                    TextInputField(
+                      keyboardType: TextInputType.text,
+                      controller: inputKTP,
+                      editable: false,
+                      hintText: 'Masukkan KTP Kamu',
+                    ),
+                    CustomDividers.smallDivider(),
+                  ],
+                ),
 
-        BlocBuilder<GetListProvinceBloc, GetListProvinceState>(
-          builder: (context, state) {
-            return state.maybeWhen(
-              orElse: () {
-                return GestureDetector(
+          userNPWP.isEmpty
+              ? Container()
+              : Column(
+                  children: [
+                    LabelInput(
+                      labelText: 'NPWP',
+                      labelStyle: TextStyles.h4(color: AppColors.secondary),
+                    ),
+                    CustomDividers.verySmallDivider(),
+                    TextInputField(
+                      keyboardType: TextInputType.text,
+                      controller: inputNPWP,
+                      editable: false,
+                      hintText: 'Masukkan NPWP Kamu',
+                    ),
+                    CustomDividers.smallDivider(),
+                  ],
+                ),
+
+          // PROVINCE
+          LabelInput(
+            labelText: 'Provinsi',
+            labelStyle: TextStyles.h4(color: AppColors.secondary),
+          ),
+          CustomDividers.verySmallDivider(),
+
+          isLoadedProvince
+              ? widgetListProvince()
+              : GestureDetector(
                   onTap: () {
                     loadProvinceList();
+                    setState(() {
+                      isLoadedProvince = true;
+                    });
                   },
                   child: TextInputField(
                     keyboardType: TextInputType.text,
@@ -458,75 +442,26 @@ class _EditProfileState extends State<EditProfile> {
                     hintText: 'Pilih Provinsi',
                     suffixIcon: const Icon(Icons.arrow_drop_down),
                   ),
-                );
-              },
-              loaded: (data) {
-                return Container(
-                  height: 55,
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(left: 15, right: 10),
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1.0, color: AppColors.light),
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: DropdownButton<DataProvince>(
-                          items: data.map((dataProvince) {
-                            return DropdownMenuItem<DataProvince>(
-                              value: dataProvince,
-                              child: Text(dataProvince.name),
-                            );
-                          }).toList(),
-                          underline: Container(height: 0),
-                          onChanged: (DataProvince? value) {
-                            if (value != null) {
-                              setState(() {
-                                cityIdSelected = 0;
-                                cityNameSelected = '';
-                                provinceIdSelected = value.id;
-                                provinceNameSelected = value.name;
-                              });
-                              loadCityList(provinceIdSelected);
-                              print(
-                                  '$provinceIdSelected / $provinceNameSelected');
-                            }
-                          },
-                          // ignore: unnecessary_null_comparison
-                          value: provinceNameSelected != null
-                              ? data.firstWhere(
-                                  (dataProvince) =>
-                                      dataProvince.name == provinceNameSelected,
-                                  orElse: () => data.first,
-                                )
-                              : null,
-                          isExpanded: true, // Set to true for full width
-                          icon: const Icon(Icons.arrow_drop_down),
-                        ),
-                      ),
-                      // Add additional space or padding if needed
-                    ],
-                  ),
-                );
-              },
-            );
-          },
-        ),
+                ),
 
-        // CITY
-        CustomDividers.smallDivider(),
-        LabelInput(
-          labelText: 'Kota/Kabupaten',
-          labelStyle: TextStyles.h4(color: AppColors.secondary),
-        ),
-        CustomDividers.verySmallDivider(),
-        BlocBuilder<GetListCityBloc, GetListCityState>(
-          builder: (context, state) {
-            return state.maybeWhen(
-              orElse: () {
-                return GestureDetector(
-                  onTap: () => loadCityList(provinceIdSelected),
+          // CITY
+          CustomDividers.smallDivider(),
+          LabelInput(
+            labelText: 'Kota/Kabupaten',
+            labelStyle: TextStyles.h4(color: AppColors.secondary),
+          ),
+          CustomDividers.verySmallDivider(),
+
+          isLoadedCity
+              ? widgetListCity()
+              : GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isLoadedProvince = true;
+                      isLoadedCity = true;
+                    });
+                    loadCityList(provinceIdSelected);
+                  },
                   child: TextInputField(
                     keyboardType: TextInputType.text,
                     editable: false,
@@ -534,68 +469,142 @@ class _EditProfileState extends State<EditProfile> {
                     hintText: 'Pilih Kota',
                     suffixIcon: const Icon(Icons.arrow_drop_down),
                   ),
-                );
-              },
-              loaded: (data) {
-                if (cityIdSelected == 0 && cityNameSelected == '') {
-                  // Set initial values based on the first item in the loaded data
-                  cityIdSelected = data.first.id;
-                  cityNameSelected = data.first.name;
-                  print('$cityIdSelected / $cityNameSelected');
-                }
-                return Container(
-                  height: 60,
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(left: 15, right: 10),
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1.0, color: AppColors.light),
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: DropdownButton<DataCity>(
-                          items: data.map((dataCity) {
-                            return DropdownMenuItem<DataCity>(
-                              value: dataCity,
-                              child: Text(dataCity.name),
-                            );
-                          }).toList(),
-                          underline: Container(height: 0),
-                          onChanged: (DataCity? value) {
-                            if (value != null) {
-                              setState(() {
-                                cityIdSelected = value.id;
-                                cityNameSelected = value.name;
-                              });
-                              print('$cityIdSelected / $cityNameSelected');
-                            }
-                          },
-                          // ignore: unnecessary_null_comparison
-                          value: cityNameSelected != null
-                              ? data.firstWhere(
-                                  (dataCity) =>
-                                      dataCity.name == cityNameSelected,
-                                  orElse: () => data.first,
-                                )
-                              : null,
-                          isExpanded: true, // Set to true for full width
-                          icon: const Icon(Icons.arrow_drop_down),
-                        ),
-                      ),
-                      // Add additional space or padding if needed
-                    ],
-                  ),
-                );
-              },
-            );
-          },
-        ),
+                ),
 
-        CustomDividers.regularDivider(),
-        submitButton(),
-        CustomDividers.smallDivider(),
-      ],
+          CustomDividers.regularDivider(),
+          submitButton(),
+          CustomDividers.smallDivider(),
+        ],
+      ),
+    );
+  }
+
+  Widget widgetListProvince() {
+    return Container(
+      height: 55,
+      width: double.infinity,
+      padding: const EdgeInsets.only(left: 15, right: 10),
+      decoration: BoxDecoration(
+        border: Border.all(width: 1.0, color: AppColors.light),
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+      child: BlocBuilder<GetListProvinceBloc, GetListProvinceState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return Container();
+            },
+            loading: () {
+              return const Center(child: Text('Load data ...'));
+            },
+            loaded: (data) {
+              return Row(
+                children: [
+                  Expanded(
+                    child: DropdownButton<DataProvince>(
+                      items: data.map((dataProvince) {
+                        return DropdownMenuItem<DataProvince>(
+                          value: dataProvince,
+                          child: Text(dataProvince.name),
+                        );
+                      }).toList(),
+                      underline: Container(height: 0),
+                      onChanged: (DataProvince? value) {
+                        if (value != null) {
+                          setState(() {
+                            cityIdSelected = 0;
+                            cityNameSelected = '';
+                            provinceIdSelected = value.id;
+                            provinceNameSelected = value.name;
+                          });
+                          loadCityList(provinceIdSelected);
+                          print('$provinceIdSelected / $provinceNameSelected');
+                        }
+                      },
+                      // ignore: unnecessary_null_comparison
+                      value: provinceNameSelected != null
+                          ? data.firstWhere(
+                              (dataProvince) =>
+                                  dataProvince.name == provinceNameSelected,
+                              orElse: () => data.first)
+                          : null,
+                      isExpanded: true, // Set to true for full width
+                      icon: const Icon(Icons.arrow_drop_down),
+                    ),
+                  ),
+                  // Add additional space or padding if needed
+                ],
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Widget widgetListCity() {
+    return Container(
+      height: 60,
+      width: double.infinity,
+      padding: const EdgeInsets.only(left: 15, right: 10),
+      decoration: BoxDecoration(
+        border: Border.all(width: 1.0, color: AppColors.light),
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+      child: BlocBuilder<GetListCityBloc, GetListCityState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return Container();
+            },
+            loading: () {
+              return const Center(child: Text('Load data ...'));
+            },
+            loaded: (data) {
+              if (cityIdSelected == 0 && cityNameSelected == '') {
+                // Set initial values based on the first item in the loaded data
+                cityIdSelected = data.first.id;
+                cityNameSelected = data.first.name;
+                print('$cityIdSelected / $cityNameSelected');
+              }
+              return Row(
+                children: [
+                  Expanded(
+                    child: DropdownButton<DataCity>(
+                      items: data.map((dataCity) {
+                        return DropdownMenuItem<DataCity>(
+                          value: dataCity,
+                          child: Text(dataCity.name),
+                        );
+                      }).toList(),
+                      underline: Container(height: 0),
+                      onChanged: (DataCity? value) {
+                        if (value != null) {
+                          setState(() {
+                            cityIdSelected = value.id;
+                            cityNameSelected = value.name;
+                          });
+                          print('$cityIdSelected / $cityNameSelected');
+                        }
+                      },
+                      // ignore: unnecessary_null_comparison
+                      value: cityNameSelected != null
+                          ? data.firstWhere(
+                              (dataCity) => dataCity.name == cityNameSelected,
+                              orElse: () => data.first,
+                            )
+                          : null,
+                      isExpanded: true, // Set to true for full width
+                      icon: const Icon(Icons.arrow_drop_down),
+                    ),
+                  ),
+                  // Add additional space or padding if needed
+                ],
+              );
+            },
+          );
+        },
+      ),
     );
   }
 

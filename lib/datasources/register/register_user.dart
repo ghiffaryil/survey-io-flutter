@@ -22,6 +22,7 @@ class RegisterUserDatasource {
     try {
       print(response.body);
       if (response.statusCode == 200) {
+        print(response.body);
         return Right(RegisterResponseModel.fromJson(response.body));
       } else {
         final errorResponse =

@@ -29,14 +29,18 @@ class VerifyOtpEmailDatasource {
     print('Status ${response.statusCode}');
     print('Body $responseBody');
 
-    if (response.statusCode == 200) {
-      print('Verify OTP: Success');
-      // return Right(VerificationOtpResponseModel.fromJson(responseBody));
-      return Right('Success');
-    } else {
-      final Map<String, dynamic> errorResponse = json.decode(responseBody);
-      final errorMessage = errorResponse['error'] as String;
-      return Left(errorMessage);
+    try {
+      if (response.statusCode == 200) {
+        print('Verify OTP: Success');
+        // return Right(VerificationOtpResponseModel.fromJson(responseBody));
+        return const Right('Success');
+      } else {
+        final Map<String, dynamic> errorResponse = json.decode(responseBody);
+        final errorMessage = errorResponse['error'] as String;
+        return Left(errorMessage);
+      }
+    } catch (e) {
+      return const Left('Failed');
     }
   }
 }

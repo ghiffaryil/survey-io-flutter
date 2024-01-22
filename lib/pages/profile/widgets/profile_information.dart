@@ -79,9 +79,12 @@ class _UserInformationState extends State<UserInformation> {
 
               String firstName = nameParts.isNotEmpty ? nameParts[0] : "";
               String secondName = nameParts.length > 1 ? nameParts[1] : "";
-              String thirdName = nameParts.length > 2
-                  ? nameParts.sublist(2).map((e) => e[0]).join("")
-                  : "";
+
+              // Limit the displayed name to first 17 characters
+              String displayedName =
+                  firstName.length + secondName.length + 1 > 18
+                      ? '$firstName $secondName'.substring(0, 17)
+                      : '$firstName $secondName';
 
               return Row(
                 children: [
@@ -99,7 +102,7 @@ class _UserInformationState extends State<UserInformation> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '$firstName $secondName $thirdName',
+                          displayedName,
                           style: TextStyles.extraLarge(
                               color: AppColors.secondary,
                               fontWeight: FontWeight.bold),

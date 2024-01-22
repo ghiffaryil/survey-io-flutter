@@ -242,6 +242,7 @@ class _EmailVerificationOtpPageState extends State<EmailVerificationOtpPage> {
         state.maybeWhen(
             orElse: () {},
             loaded: (data) {
+              showToast(message: 'Verifikasi berhasil, Silahkan login kembali');
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) {
                 return const LoginPage();
@@ -267,14 +268,14 @@ class _EmailVerificationOtpPageState extends State<EmailVerificationOtpPage> {
                     }
                   });
             },
-            loading: () {
-              return ButtonFilled.primary(
-                text: '',
-                loading: true,
-                onPressed: () {},
-                textColor: AppColors.white,
-              );
-            },
+            // loading: () {
+            //   return ButtonFilled.primary(
+            //     text: '',
+            //     loading: true,
+            //     onPressed: () {},
+            //     textColor: AppColors.white,
+            //   );
+            // },
           );
         },
       ),

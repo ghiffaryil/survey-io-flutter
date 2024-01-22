@@ -235,7 +235,7 @@ class _RegisterByEmailCompletePageState
           hintText: 'dd-mm-yyyy',
           firstDate: DateTime(1980),
           lastDate: DateTime.now(),
-          initialDate: dob.text.isNotEmpty ? DateTime.parse(dob.text) : null,
+          // initialDate: DateTime.now(),
           showPrefixIcon: false,
           showSuffixIcon: true,
         ),
