@@ -140,7 +140,7 @@ class _EmailVerificationOtpPageState extends State<EmailVerificationOtpPage> {
               width: 55.0,
               height: 65.0,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                     color: AppColors.secondary,
                     width: 1.0), // Add your border color

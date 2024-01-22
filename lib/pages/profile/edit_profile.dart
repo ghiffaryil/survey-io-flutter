@@ -435,14 +435,26 @@ class _EditProfileState extends State<EditProfile> {
                       isLoadedProvince = true;
                     });
                   },
-                  child: TextInputField(
-                    keyboardType: TextInputType.text,
-                    editable: false,
-                    controller: province,
-                    hintText: 'Pilih Provinsi',
-                    suffixIcon: const Icon(Icons.arrow_drop_down),
-                  ),
-                ),
+                  child: Container(
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1.0, color: AppColors.light),
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Pilih Provinsi',
+                          style: TextStyles.h5(color: AppColors.secondary),
+                        ),
+                        const Icon(
+                          Icons.arrow_drop_down,
+                          color: AppColors.secondary,
+                        )
+                      ],
+                    ),
+                  )),
 
           // CITY
           CustomDividers.smallDivider(),
@@ -462,12 +474,25 @@ class _EditProfileState extends State<EditProfile> {
                     });
                     loadCityList(provinceIdSelected);
                   },
-                  child: TextInputField(
-                    keyboardType: TextInputType.text,
-                    editable: false,
-                    controller: city,
-                    hintText: 'Pilih Kota',
-                    suffixIcon: const Icon(Icons.arrow_drop_down),
+                  child: Container(
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1.0, color: AppColors.light),
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Pilih Provinsi',
+                          style: TextStyles.h5(color: AppColors.secondary),
+                        ),
+                        const Icon(
+                          Icons.arrow_drop_down,
+                          color: AppColors.secondary,
+                        )
+                      ],
+                    ),
                   ),
                 ),
 
