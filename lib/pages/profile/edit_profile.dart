@@ -372,7 +372,6 @@ class _EditProfileState extends State<EditProfile> {
             labelStyle: TextStyles.h4(color: AppColors.secondary),
           ),
           CustomDividers.verySmallDivider(),
-
           TextInputField(
             focusNode: phoneNumberFocus,
             keyboardType: TextInputType.phone,

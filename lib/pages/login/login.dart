@@ -118,9 +118,9 @@ class _LoginPageState extends State<LoginPage> {
             CustomDividers.verySmallDivider(),
             animatedToggle(),
             formInputField(),
-            labelTextPasscode(),
+            // labelTextPasscode(),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.17,
+              height: MediaQuery.of(context).size.height * 0.23,
             ),
             BlocProvider(
               create: (context) => LoginBloc(),

@@ -86,6 +86,10 @@ class _UserInformationState extends State<UserInformation> {
                       ? '$firstName $secondName'.substring(0, 17)
                       : '$firstName $secondName';
 
+              String displayPhoneNumber = data.user.phoneNumber == 'null'
+                  ? data.user.email
+                  : data.user.phoneNumber;
+
               return Row(
                 children: [
                   Image.asset(
@@ -108,8 +112,8 @@ class _UserInformationState extends State<UserInformation> {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          data.user.email,
-                          style: TextStyles.regular(color: AppColors.secondary),
+                          displayPhoneNumber,
+                          style: TextStyles.small(color: AppColors.secondary),
                         )
                       ],
                     ),
