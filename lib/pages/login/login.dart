@@ -6,6 +6,7 @@ import 'package:survey_io/common/constants/function/show_toast.dart';
 import 'package:survey_io/common/constants/function/validate_form.dart';
 import 'package:survey_io/common/constants/function/validate_form_passcode.dart';
 import 'package:survey_io/common/constants/function/validate_form_phone_number.dart';
+import 'package:survey_io/common/constants/padding.dart';
 import 'package:survey_io/datasources/guest/auth_local_guest_datasource.dart';
 import 'package:survey_io/pages/email_verification/email_verification_otp.dart';
 import 'package:survey_io/pages/forgot_passcode/forgot_passcode_by_email.dart';
@@ -230,7 +231,6 @@ class _LoginPageState extends State<LoginPage> {
             },
             error: (msg) {
               if (msg == "email not verified") {
-                // showDialogEmailVerification(inputEmail.text);
                 // Show email verification dialog
                 showDialog(
                   context: context,
@@ -238,6 +238,8 @@ class _LoginPageState extends State<LoginPage> {
                     return showDialogEmailVerification(inputEmail.text);
                   },
                 );
+              } else if (msg == "record not found") {
+                showToast(message: 'Silahkan login menggunakan Email');
               } else {
                 showToast(message: msg);
               }
@@ -329,13 +331,30 @@ class _LoginPageState extends State<LoginPage> {
                 actions: [
                   GestureDetector(
                     onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Batal',
+                      style: TextStyles.regular(color: AppColors.primary),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
                       context
                           .read<RequestOtpBloc>()
                           .add(RequestOtpEvent.requestOtp(inputEmail.text));
                     },
-                    child: Text(
-                      'Verifikasi Sekarang',
-                      style: TextStyles.regular(color: AppColors.primary),
+                    child: Container(
+                      padding: CustomPadding.p1,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30.0),
+                          color: AppColors.primary),
+                      child: Text(
+                        'Verifikasi Sekarang',
+                        style: TextStyles.regular(
+                          color: AppColors.white,
+                        ),
+                      ),
                     ),
                   )
                 ],
