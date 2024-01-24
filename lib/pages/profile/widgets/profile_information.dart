@@ -113,7 +113,7 @@ class _UserInformationState extends State<UserInformation> {
                         ),
                         Text(
                           displayPhoneNumber,
-                          style: TextStyles.small(color: AppColors.secondary),
+                          style: TextStyles.regular(color: AppColors.secondary),
                         )
                       ],
                     ),

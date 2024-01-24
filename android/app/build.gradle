@@ -49,10 +49,10 @@ android {
 
     defaultConfig {
         applicationId "io.survei.android"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
-        // minSdkVersion 33
-        // targetSdkVersion 33
+        // minSdkVersion flutter.minSdkVersion
+        // targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 33
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
